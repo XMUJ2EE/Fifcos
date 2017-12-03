@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import java.util.Arrays;
+
 public class ClassGroup {
 	private User leader;
 	private User members[];
@@ -19,6 +21,11 @@ public class ClassGroup {
 	}
 	public void setMembers(User[] members) {
 		this.members = members;
+	}
+	@Override
+	public String toString() {
+		return "ClassGroup [leader=" + leader + ", members=" + 
+				Arrays.toString(members) + "]";
 	}
 	
 }

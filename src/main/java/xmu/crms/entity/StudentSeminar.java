@@ -79,6 +79,14 @@ public class StudentSeminar {
 	public void setAreTopicSelected(boolean areTopicSelected) {
 		this.areTopicSelected = areTopicSelected;
 	}
+	@Override
+	public String toString() {
+		return "StudentSeminar [id=" + id + ", name=" + name + 
+				", groupingMethod=" + groupingMethod + ", courseName=" + 
+				courseName + ", startTime=" + startTime + ", endTime=" + 
+				endTime + ", classCalling=" + classCalling + ", isLeader=" + 
+				isLeader + ", areTopicSelected=" + areTopicSelected + "]";
+	}
 	
 	
 }

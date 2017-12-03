@@ -8,7 +8,8 @@ public class CourseClass {
 	private String site;
 	private String courseName;
 	private String courseTeacher;
-	public CourseClass(int id, String name, int numStudent, String time, String site, String courseName,
+	public CourseClass(int id, String name, int numStudent, 
+			String time, String site, String courseName,
 			String courseTeacher) {
 		super();
 		this.id = id;
@@ -60,6 +61,12 @@ public class CourseClass {
 	}
 	public void setCourseTeacher(String courseTeacher) {
 		this.courseTeacher = courseTeacher;
+	}
+	@Override
+	public String toString() {
+		return "CourseClass [id=" + id + ", name=" + name + 
+				", numStudent=" + numStudent + ", time=" + time + ", site=" + 
+				site + ", courseName=" + courseName + ", courseTeacher=" + courseTeacher + "]";
 	}
 	
 }

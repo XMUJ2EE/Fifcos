@@ -44,6 +44,12 @@ public class Proportions {
 	public void setA(int a) {
 		this.a = a;
 	}
+	@Override
+	public String toString() {
+		return "Proportions [report=" + report + 
+				", presentation=" + presentation + 
+				", c=" + c + ", b=" + b + ", a=" + a + "]";
+	}
 	
 	
 }

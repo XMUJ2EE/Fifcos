@@ -70,6 +70,13 @@ public class Class {
 	public void setProportions(Proportions proportions) {
 		this.proportions = proportions;
 	}
+	@Override
+	public String toString() {
+		return "Class [id=" + id + ", name=" + name + ", numStudent=" + 
+				numStudent + ", time=" + time + ", site=" + site
+				+ ", calling=" + calling + ", roster=" + roster + 
+				", proportions=" + proportions + "]";
+	}
 	
 	
 	

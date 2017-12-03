@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import java.util.Arrays;
+
 public class SeminarClasses {
 	private int id;
 	private String name;
@@ -7,7 +9,9 @@ public class SeminarClasses {
 	private String startTime;
 	private String endTime;
 	private Class classes[];
-	public SeminarClasses(int id, String name, String courseName, String startTime, String endTime, Class[] classes) {
+	public SeminarClasses(int id, String name, 
+			String courseName, String startTime, 
+			String endTime, Class[] classes) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -51,6 +55,13 @@ public class SeminarClasses {
 	}
 	public void setClasses(Class[] classes) {
 		this.classes = classes;
+	}
+	@Override
+	public String toString() {
+		return "SeminarClasses [id=" + id + ", name=" + 
+				name + ", courseName=" + courseName + ", startTime=" + 
+				startTime + ", endTime=" + endTime + 
+				", classes=" + Arrays.toString(classes) + "]";
 	}
 	
 }

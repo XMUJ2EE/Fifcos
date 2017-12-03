@@ -14,7 +14,9 @@ public class Course {
 		super();
 	}
 
-	public Course(int id, String name, int numClass, int numStudent, String startTime, String endTime, String description) {
+	public Course(int id, String name, int numClass, 
+			int numStudent, String startTime, 
+			String endTime, String description) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -79,6 +81,13 @@ public class Course {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	@Override
+	public String toString() {
+		return "Course [id=" + id + ", name=" + name + ", numClass=" + 
+				numClass + ", numStudent=" + numStudent + ", startTime=" + 
+				startTime + ", endTime=" + endTime + ", description=" + description + "]";
 	}
 	
 	

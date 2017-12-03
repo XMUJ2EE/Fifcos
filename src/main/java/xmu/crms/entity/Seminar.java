@@ -70,6 +70,14 @@ public class Seminar {
 	public void setProportions(Proportions proportions) {
 		this.proportions = proportions;
 	}
+	@Override
+	public String toString() {
+		return "Seminar [id=" + id + ", name=" + name + 
+				", description=" + description + ", groupingMethod=" + 
+				groupingMethod + ", startTime=" + startTime + 
+				", endTime=" + endTime + ", topics=" + topics + 
+				", proportions=" + proportions + "]";
+	}
 	
 	
 }

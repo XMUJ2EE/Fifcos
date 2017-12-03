@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/class")
 
 public class ClassController {
+	@SuppressWarnings("rawtypes")
 	@Autowired
 	List<Class> classes = new ArrayList<Class>();
 	

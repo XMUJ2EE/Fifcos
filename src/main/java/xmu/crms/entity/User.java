@@ -128,6 +128,15 @@ public class User {
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
+
+	@Override
+	public String toString() {
+		return "User [id=" + id + ", type=" + type + ", number=" + 
+				number + ", name=" + name + ", phone=" + phone + ", email=" + 
+				email + ", gender=" + gender + ", school=" + school + 
+				", title=" + title + ", password=" + password + ", unionId=" + 
+				unionId + ", avatar=" + avatar + "]";
+	}
 	
 	
 }

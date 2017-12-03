@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import java.util.Arrays;
+
 public class Group {
 	private int id;
 	private String name;
@@ -61,6 +63,12 @@ public class Group {
 	}
 	public void setGrade(SeminarGrade grade) {
 		this.grade = grade;
+	}
+	@Override
+	public String toString() {
+		return "Group [id=" + id + ", name=" + name + ", leader=" + 
+				leader + ", members=" + Arrays.toString(members) + 
+				", topics=" + topics + ", report=" + report + ", grade=" + grade + "]";
 	}
 	
 }

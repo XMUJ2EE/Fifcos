@@ -8,7 +8,8 @@ public class Topic {
 	private int groupLimit;
 	private int groupMenmberLimit;
 	private int groupLeft;
-	public Topic(int id, String serial, String name, String description, int groupLimit, int groupMenmberLimit,
+	public Topic(int id, String serial, String name, 
+			String description, int groupLimit, int groupMenmberLimit,
 			int groupLeft) {
 		super();
 		this.id = id;
@@ -60,6 +61,13 @@ public class Topic {
 	}
 	public void setGroupLeft(int groupLeft) {
 		this.groupLeft = groupLeft;
+	}
+	@Override
+	public String toString() {
+		return "Topic [id=" + id + ", serial=" + serial + 
+				", name=" + name + ", description=" + description + 
+				", groupLimit=" + groupLimit + ", groupMenmberLimit=" + 
+				groupMenmberLimit + ", groupLeft=" + groupLeft + "]";
 	}
 	
 }

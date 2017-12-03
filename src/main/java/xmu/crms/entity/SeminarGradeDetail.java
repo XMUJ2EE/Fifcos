@@ -55,6 +55,14 @@ public class SeminarGradeDetail {
 
 	public void setGrade(int grade) {
 		this.grade = grade;
-	};
+	}
+
+	@Override
+	public String toString() {
+		return "SeminarGradeDetail [groupName=" + 
+				groupName + ", leaderName=" + leaderName + 
+				", presentationGrade=" + presentationGrade + 
+				", reportGrade=" + reportGrade + ", grade=" + grade + "]";
+	}
 	
 }

@@ -6,7 +6,8 @@ public class CourseDetail {
 	private String description;
 	private String teacherName;
 	private String teacherEmail;
-	public CourseDetail(int id, String name, String description, String teacherName, String teacherEmail) {
+	public CourseDetail(int id, String name, 
+			String description, String teacherName, String teacherEmail) {
 		super();
 		this.id = id;
 		this.name = name;
