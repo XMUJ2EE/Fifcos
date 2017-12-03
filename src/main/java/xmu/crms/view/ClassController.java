@@ -2,8 +2,13 @@ package xmu.crms.view;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
@@ -12,39 +17,44 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 public class ClassController {
 	@Autowired
+	List<Class> classes = new ArrayList<Class>();
 	
 	@RequestMapping(method = GET)
-	public String getUserClass() {
+	public String getUserClass(String courseName, String teacherName, Model model) {
 		
 		return null;
 	}
 	
 	@RequestMapping(value="/{classId}", method = GET)
-	public String getClassById() {
+	public String getClassById(@PathVariable int id, Model model) {
+		
+		model.addAttribute("class", classes.get(id));
 		
 		return null;
 	}
 	
 	@RequestMapping(value="/{classId}", method = PUT)
-	public String updateClassById() {
+	public String updateClassById(@PathVariable int id) {
 		
 		return null;
 	}
 	
 	@RequestMapping(value="/{classId}", method = DELETE)
-	public String deleteClassById() {
+	public String deleteClassById(@PathVariable int id) {
+		
+		classes.remove(id);
 		
 		return null;
 	}
 	
 	@RequestMapping(value="/{classId}/student", method = GET)
-	public String getClassStudent() {
+	public String getClassStudent(@PathVariable int id) {
 		
 		return null;
 	}
 	
 	@RequestMapping(value="/{classId}/student", method = POST)
-	public String selectClass() {
+	public String selectClass(@PathVariable int id) {
 		
 		return null;
 	}
