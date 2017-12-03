@@ -1,26 +1,23 @@
 package xmu.crms.entity;
 
-public class Class {
+public class CourseClass {
 	private int id;
 	private String name;
 	private int numStudent;
 	private String time;
 	private String site;
-	private int calling;
-	private String roster;
-	private Proportions proportions;
-	public Class(int id, String name, int numStudent, 
-			String time, String site, int calling, String roster,
-			Proportions proportions) {
+	private String courseName;
+	private String courseTeacher;
+	public CourseClass(int id, String name, int numStudent, String time, String site, String courseName,
+			String courseTeacher) {
 		super();
 		this.id = id;
 		this.name = name;
 		this.numStudent = numStudent;
 		this.time = time;
 		this.site = site;
-		this.calling = calling;
-		this.roster = roster;
-		this.proportions = proportions;
+		this.courseName = courseName;
+		this.courseTeacher = courseTeacher;
 	}
 	public int getId() {
 		return id;
@@ -52,25 +49,17 @@ public class Class {
 	public void setSite(String site) {
 		this.site = site;
 	}
-	public int getCalling() {
-		return calling;
+	public String getCourseName() {
+		return courseName;
 	}
-	public void setCalling(int calling) {
-		this.calling = calling;
+	public void setCourseName(String courseName) {
+		this.courseName = courseName;
 	}
-	public String getRoster() {
-		return roster;
+	public String getCourseTeacher() {
+		return courseTeacher;
 	}
-	public void setRoster(String roster) {
-		this.roster = roster;
+	public void setCourseTeacher(String courseTeacher) {
+		this.courseTeacher = courseTeacher;
 	}
-	public Proportions getProportions() {
-		return proportions;
-	}
-	public void setProportions(Proportions proportions) {
-		this.proportions = proportions;
-	}
-	
-	
 	
 }

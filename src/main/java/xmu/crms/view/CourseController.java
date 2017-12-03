@@ -51,7 +51,7 @@ public class CourseController {
 
 		course.setId(2);
 		course.setName("J2EE");
-		course.setNumClass(3);
+		course.setNumClass(1);
 		course.setNumStudent(60);
 		course.setStartTime("2017.9.1");
 		course.setEndTime("2018.1.1");
@@ -65,8 +65,11 @@ public class CourseController {
 	}
 	
 	@RequestMapping(method = POST)
-	public String createCourse(int id, String name, int numClass, int numStudent, String startTime, String endTime, String description, Model model) {
+	public String createCourse(String name, int numClass, 
+			int numStudent, String startTime, String endTime, 
+			String description, Model model) {
 		
+		int id = courses.size() + 1;
 		Course course = new Course(id, name, numClass, numStudent, startTime, endTime, description);
 		courses.add(course);
 		

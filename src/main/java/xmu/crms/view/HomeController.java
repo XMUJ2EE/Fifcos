@@ -32,13 +32,13 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/signin", method = POST)
-	public String signinPassword() {
+	public String signinPassword(String phone, String password) {
 		
 		return null;
 	}
 	
 	@RequestMapping(value = "/register", method = POST)
-	public String registerPassword() {
+	public String registerPassword(String phone, String password) {
 		
 		return null;
 	}
