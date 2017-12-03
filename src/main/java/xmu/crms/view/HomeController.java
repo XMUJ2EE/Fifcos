@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class HomeController {
 	@Autowired
 	
-	@RequestMapping(value = "/me", method = GET)
+	@RequestMapping(value = "/me", method = GET, produces = "application/json;charset=UTF-8")
 	public String getCurrentUser() {
 		
 		return null;
 	}
 	
-	@RequestMapping(value = "/me", method = PUT)
+	@RequestMapping(value = "/me", method = PUT, consumes = "application/json;charset=UTF-8")
 	public String updateCurrentUser() {
 		
 		return null;
