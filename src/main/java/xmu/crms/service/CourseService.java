@@ -1,10 +1,13 @@
 package xmu.crms.service;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import xmu.crms.entity.Class;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.Seminar;
+import xmu.crms.entity.SeminarGradeDetail;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * Course的服务接口
@@ -37,6 +40,7 @@ public interface CourseService {
 
     /**
      * 修改课程信息
+     * @param courseId Course 的id
      * @param course 课程对象
      * @return True or False
      */
@@ -44,6 +48,7 @@ public interface CourseService {
 
     /**
      * 按照id删除课程
+     * @param userId 当前用户的id
      * @param courseId 课程id
      * @return True or False
      */
@@ -54,14 +59,15 @@ public interface CourseService {
      * @param courseId 课程id
      * @return 班级列表
      */
-    List<Class> getClassListByCourseId(int courseId);
+    List<Map<String, Object>> getClassListByCourseId(int courseId);
 
     /**
      * 在指定id的课程下创建班级
      * @param courseId 课程id
-     * @return True or False
+     * @param myClass class对象
+     * @return class 的id和name
      */
-    Boolean addClassByCourseId(int courseId);
+    int addClassByCourseId(int courseId, Class myClass);
 
     /**
      * 按照课程id获取讨论课详情列表
@@ -70,5 +76,27 @@ public interface CourseService {
      */
     List<Seminar> getSeminarListByCourseId(int courseId);
 
+    /**
+     * 在指定课程下创建seminar
+     * @param courseId 课程id
+     * @param seminar 讨论课对象
+     * @return Seminar id
+     */
+    int addSeminarByCourseId(int courseId, Seminar seminar);
+
+    /**
+     * 获取当前正在进行的讨论课
+     * @param courseId 课程id
+     * @return 当前正在进行的讨论课详情或者null
+     */
+    Seminar getCurrentSeminarByCourseId(int courseId);
+
+    /**
+     * 获取课程下所有的讨论课成绩
+     * @param courseId 课程id
+     * @param userId 用户id
+     * @return 课程下所有小组的讨论课成绩列表
+     */
+    List<SeminarGradeDetail> getAllSeminarGradeByCourseId(int courseId, int userId);
 
 }

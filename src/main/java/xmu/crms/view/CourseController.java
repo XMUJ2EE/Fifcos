@@ -12,13 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
+import xmu.crms.entity.Class;
 import xmu.crms.entity.Course;
+import xmu.crms.entity.Seminar;
+import xmu.crms.entity.SeminarGradeDetail;
 import xmu.crms.service.CourseService;
 import xmu.crms.service.CourseServiceImpl;
 
@@ -112,39 +113,90 @@ public class CourseController {
 	
 	@RequestMapping(value = "/{courseId}/class", method = GET)
 	@ResponseBody
-	public ResponseEntity<List<Class>> getClassListByCourseId(@PathVariable int courseId) {
-		List<Class> classes = courseService.getClassListByCourseId(courseId);
+	public ResponseEntity<List<Map<String, Object>>> getClassListByCourseId(@PathVariable int courseId) {
+		if(0 == courseId){
+			// 错误的id格式
+			return ResponseEntity.status(400).build();
+		}
+		List<Map<String, Object>> classes = courseService.getClassListByCourseId(courseId);
+		if(null != classes){
+			return ResponseEntity.status(200).body(classes);
+		}else{
+			// 未找到
+			return ResponseEntity.status(404).build();
+		}
 
-		
-		return null;
-		
 	}
 	
 	
 	@RequestMapping(value = "/{courseId}/class", method = POST)
-	
-	public String createClassByCourseId(@PathVariable int id, Model model) {
-		
-		
-		return null;
+	@ResponseBody
+	public ResponseEntity createClassByCourseId(@PathVariable int courseId, @RequestBody Class myClass) {
+
+		// 权限认证 403
+
+		int result = courseService.addClassByCourseId(courseId, myClass);
+		if(0 == result){
+			// 未找到课程
+			return ResponseEntity.status(404).build();
+		}else{
+			// 成功
+			return ResponseEntity.status(201).body(new Object(){public int id=result;});
+		}
 		
 	}
 	
 	@RequestMapping(value = "/{courseId}/seminar", method = GET)
-	
-	public String getSeminarsByCourseId(@PathVariable int id, Model model) {
-		
-		
-		return null;
-		
+	@ResponseBody
+	public ResponseEntity<List<Seminar>> getSeminarsByCourseId(@PathVariable int courseId) {
+		// 权限认证
+
+		List<Seminar> seminars = courseService.getSeminarListByCourseId(courseId);
+		if(null != seminars){
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminars);
+		}else{
+			// 未找到课程
+			return ResponseEntity.status(404).build();
+		}
 	}
 	
 	@RequestMapping(value = "/{courseId}/seminar", method = POST)
-	
-	public String createSeminarByCourseId(@PathVariable int id, Model model) {
-		
-		
-		return null;
-		
+	@ResponseBody
+	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId, @RequestBody Seminar seminar) {
+		// 权限认证
+
+		int result = courseService.addSeminarByCourseId(courseId, seminar);
+		if(0 == result){
+			return ResponseEntity.status(404).build();
+		}else{
+			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(new Object(){public int id=result;});
+		}
+	}
+
+	@RequestMapping(value = "/{courseId}/seminar/current", method = GET)
+	@ResponseBody
+	public ResponseEntity<Seminar> getCurrentSeminarByCourseId(@RequestParam int courseId){
+		// 权限认证
+
+		Seminar seminar = courseService.getCurrentSeminarByCourseId(courseId);
+		if(null != seminar){
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
+		}else{
+			return ResponseEntity.status(404).build();
+		}
+	}
+
+	@RequestMapping(value = "/{courseId}/grade", method = GET)
+	@ResponseBody
+	public ResponseEntity getAllGradeByCourseId(@RequestParam int courseId){
+		// 权限认证
+
+		int userId = 123;
+		List<SeminarGradeDetail> seminarGradeDetails = courseService.getAllSeminarGradeByCourseId(courseId,userId);
+		if(null == seminarGradeDetails){
+			return ResponseEntity.status(404).build();
+		}else{
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarGradeDetails);
+		}
 	}
 }
