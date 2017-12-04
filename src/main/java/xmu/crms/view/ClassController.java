@@ -26,7 +26,7 @@ public class ClassController {
 	@RequestMapping(value="/{classId}", method = GET)
 	public String getClassById(@PathVariable int id, Model model) {
 
-		
+
 		return null;
 	}
 	
