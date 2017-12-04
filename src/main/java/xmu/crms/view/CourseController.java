@@ -175,7 +175,7 @@ public class CourseController {
 
 	@RequestMapping(value = "/{courseId}/seminar/current", method = GET)
 	@ResponseBody
-	public ResponseEntity<Seminar> getCurrentSeminarByCourseId(@RequestParam int courseId){
+	public ResponseEntity<Seminar> getCurrentSeminarByCourseId(@PathVariable int courseId){
 		// 权限认证
 
 		Seminar seminar = courseService.getCurrentSeminarByCourseId(courseId);
@@ -188,7 +188,7 @@ public class CourseController {
 
 	@RequestMapping(value = "/{courseId}/grade", method = GET)
 	@ResponseBody
-	public ResponseEntity getAllGradeByCourseId(@RequestParam int courseId){
+	public ResponseEntity getAllGradeByCourseId(@PathVariable int courseId){
 		// 权限认证
 
 		int userId = 123;
