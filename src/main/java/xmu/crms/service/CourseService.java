@@ -1,44 +1,74 @@
 package xmu.crms.service;
 
-import java.util.ArrayList;
+import com.sun.org.apache.xpath.internal.operations.Bool;
+import xmu.crms.entity.Course;
+import xmu.crms.entity.Seminar;
+
 import java.util.List;
 
-import org.springframework.stereotype.Service;
+/**
+ * Course的服务接口
+ * @author Xuezhang.Liu
+ *
+ */
+public interface CourseService {
 
-import xmu.crms.entity.Course;
+    /**
+     * 获取与当前用户相关联的课程列表
+     * @param userId 当前用户的id
+     * @return Course 列表
+     */
+    List<Course> getCourseListById(int userId);
 
-@Service
-public class CourseService {
-	//这里用List存放数据,以避免数据库的连接操作
-	private List<Course> courses = new ArrayList<Course>();
+    /**
+     * 创建课程，将课程对象映射到数据库
+     * @param userId 创建课程的用户id
+     * @param course 课程对象
+     * @return 新创建课程的id
+     */
+    int addCourse(int userId, Course course);
 
-	//由于可以使用增加课程来添加数据,这里不需要再默认添加数据了
+    /**
+     * 按照课程id查找课程
+     * @param courseId 课程id
+     * @return 课程对象，失败返回False
+     */
+    Course getCourseById(int courseId);
 
-	public CourseService() { }
+    /**
+     * 修改课程信息
+     * @param course 课程对象
+     * @return True or False
+     */
+    Boolean updateCourseById(Course course);
+
+    /**
+     * 按照id删除课程
+     * @param courseId 课程id
+     * @return True or False
+     */
+    Boolean deleteCourseById(int courseId);
+
+    /**
+     * 按照课程id寻找课程的班级列表
+     * @param courseId 课程id
+     * @return 班级列表
+     */
+    List<Class> getClassListByCourseId(int courseId);
+
+    /**
+     * 在指定id的课程下创建班级
+     * @param courseId 课程id
+     * @return True or False
+     */
+    Boolean addClassByCourseId(int courseId);
+
+    /**
+     * 按照课程id获取讨论课详情列表
+     * @param courseId 课程id
+     * @return Seminar列表
+     */
+    List<Seminar> getSeminarListByCourseId(int courseId);
 
 
-	//一个简单的通过id来获取课程的函数
-	public Course getCourseNameById(int id) {
-
-		return courses.get(id);
-	}
-
-	//添加课程
-	public Course addCourse(Course course) {
-
-		courses.add(course);
-		return course;
-
-	}
-	//以List形式,获取所有的课程
-	public List<Course> getAllCourses(){
-
-		return courses;
-
-	}
-	//删除课程
-	public Course deleteCourse(int id) {
-		
-		return courses.remove(id);
-	}
 }

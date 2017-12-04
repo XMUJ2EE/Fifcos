@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import xmu.crms.entity.Course;
-import xmu.crms.service.CourseService;
 
 /**
  * 

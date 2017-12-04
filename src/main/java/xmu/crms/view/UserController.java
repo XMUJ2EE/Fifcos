@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @RequestMapping("/")
 
-public class HomeController {
+public class UserController {
 	@Autowired
+
 	
 	@RequestMapping(value = "/me", method = GET, produces = "application/json;charset=UTF-8")
 	public String getCurrentUser() {
-		
+//		User user =
 		return null;
 	}
 	
