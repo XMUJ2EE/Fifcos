@@ -17,9 +17,6 @@ import xmu.crms.entity.Group;
 @RequestMapping("/group")
 
 public class GroupController {
-	@Autowired
-	
-	List<Group> groups = new ArrayList<Group>();
 	
 	@RequestMapping(value = "/{groupId}", method = GET)
 	public String getGroupById(@PathVariable int id) {

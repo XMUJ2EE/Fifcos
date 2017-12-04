@@ -14,7 +14,7 @@ public class User {
 	private String unionId;
 	private String avatar;
 
-	public User(int id, Type type, String number, 
+	public User(int id, Type type, String number,
 			String name, String phone, String email, 
 			Gender gender, School school,
 			String title, String password, 

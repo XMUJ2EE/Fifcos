@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/topic")
 
 public class TopicController {
-	@Autowired
 	
 	@RequestMapping(value = "/{topicId}", method = GET)
 	public String getTopicById(@PathVariable int id, Model model) {

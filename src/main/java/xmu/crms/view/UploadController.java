@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/upload")
 
 public class UploadController {
-	@Autowired
 	
 	@RequestMapping(value = "/avatar", method = POST)
 	public String uploadAvatar() {

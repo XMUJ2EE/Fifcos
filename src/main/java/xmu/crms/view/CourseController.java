@@ -2,110 +2,119 @@ package xmu.crms.view;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import xmu.crms.entity.Course;
+import xmu.crms.service.CourseService;
+import xmu.crms.service.CourseServiceImpl;
 
 /**
- * 
- * 课程信息Controller层
- * @author
+ * Course Controller
+ * @author Xuezhang.Liu
  *
  */
 
-
 @Controller
-
 @RequestMapping("/course")
-
 public class CourseController {
-	
 
 	@Autowired
-	private List<Course> courses = new ArrayList<Course>();
-	
-	@RequestMapping(method = GET)
-	public @ResponseBody Model getUserCourses(Model model) {
-		
-		/*
-		List<Course> courses = new ArrayList<Course>();
-		
-		Course course = new Course();
-		course.setId(1);
-		course.setName("OOAD");
-		course.setNumClass(3);
-		course.setNumStudent(60);
-		course.setStartTime("2017.9.1");
-		course.setEndTime("2018.1.1");
-		
-		courses.add(course);
+	CourseService courseService = new CourseServiceImpl();
 
-		course.setId(2);
-		course.setName("J2EE");
-		course.setNumClass(1);
-		course.setNumStudent(60);
-		course.setStartTime("2017.9.1");
-		course.setEndTime("2018.1.1");
-		
-		courses.add(course);
-		
-		*/
-		model.addAttribute("courseList", courses);
-		
-		return model;
+	@RequestMapping(method = GET)
+	@ResponseBody
+	public ResponseEntity<List<Course>> getUserCourses() {
+		int id = 123;
+
+		List<Course> courses = courseService.getCourseListById(id);
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(courses);
 	}
-	
+
 	@RequestMapping(method = POST)
-	public String createCourse(String name, int numClass, 
-			int numStudent, String startTime, String endTime, 
-			String description, Model model) {
-		
-		int id = courses.size() + 1;
-		Course course = new Course(id, name, numClass, numStudent, startTime, endTime, description);
-		courses.add(course);
-		
-		model.addAttribute(course);
-		return null;
+	@ResponseBody
+	public ResponseEntity createCourse(@RequestBody Course course) {
+		int id = 123;
+
+		int courseId = courseService.addCourse(id, course);
+		if(0 != courseId) {
+			return ResponseEntity.created(URI.create("/course")).contentType(MediaType.APPLICATION_JSON_UTF8).body(new Object() {
+				public int id = courseId;
+			});
+		}else{
+			return ResponseEntity.status(403).body(null);
+		}
 	}
 	
 	@RequestMapping(value = "/{courseId}", method = GET)
-	
-	public String getCourseById(@PathVariable int id, Model model) {
-		
-		model.addAttribute("course", courses.get(id));
-		
-		return null;
+	@ResponseBody
+	public ResponseEntity<Course> getCourseById(@PathVariable int courseId) {
+
+		if(0 == courseId){
+			//错误的ID格式
+			return ResponseEntity.status(400).body(null);
+		}
+		Course course = courseService.getCourseById(courseId);
+		if(null != course) {
+			//
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(course);
+		}else{
+			// 未找到课程
+			return ResponseEntity.status(404).body(null);
+		}
 		
 	}
 	
-	@RequestMapping(value = "/{courseId}", method = PUT )
-	
-	public String updateCourseById(@PathVariable int id, Model model) {
-		
-		return null;
+	@RequestMapping(value = "/{courseId}", method = PUT)
+	@ResponseBody
+	public ResponseEntity updateCourseById(@PathVariable int courseId, @RequestBody Course course) {
+
+		Boolean result = courseService.updateCourseById(courseId, course);
+		if(true == result){
+			// 修改成功
+			return ResponseEntity.status(204).body(null);
+		}else{
+			// 用户权限不足
+			return ResponseEntity.status(403).body(null);
+		}
 	}
 	
-	@RequestMapping(value = "/{courseId}", method = DELETE )
-	
-	public String deleteCourseById(@PathVariable int id) {
-		
-		courses.remove(id);
-		
-		return null;
+	@RequestMapping(value = "/{courseId}", method = DELETE)
+	@ResponseBody
+	public ResponseEntity deleteCourseById(@PathVariable int courseId) {
+		int userId = 123;
+		if(0 == courseId){
+			// id格式错误
+			return ResponseEntity.status(400).build();
+		}
+		Boolean result = courseService.deleteCourseById(userId, courseId);
+		if(true == result){
+			// 删除成功
+			return ResponseEntity.status(204).body(null);
+		}else{
+			// 未找到课程
+			return ResponseEntity.status(404).body(null);
+		}
 	}
 	
 	@RequestMapping(value = "/{courseId}/class", method = GET)
-	
-	public String getClassesByCourseId(@PathVariable int id, Model model) {
-		
+	@ResponseBody
+	public ResponseEntity<List<Class>> getClassListByCourseId(@PathVariable int courseId) {
+		List<Class> classes = courseService.getClassListByCourseId(courseId);
+
 		
 		return null;
 		

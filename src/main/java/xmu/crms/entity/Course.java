@@ -4,24 +4,33 @@ public class Course {
 	
 	private int id;
 	private String name;
-	private int numClass;
-	private int numStudent;
 	private String startTime;
 	private String endTime;
 	private String description;
+	private Proportions proportions;
 	
 	public Course() {
 		super();
 	}
 
-	public Course(int id, String name, int numClass, 
-			int numStudent, String startTime, 
-			String endTime, String description) {
+    @Override
+    public String toString() {
+        return "Course{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", description='" + description + '\'' +
+                ", proportions=" + proportions +
+                '}';
+    }
+
+    public Course(int id, String name, String startTime,
+                  String endTime, String description, Proportions proportions) {
 		super();
 		this.id = id;
 		this.name = name;
-		this.numClass = numClass;
-		this.numStudent = numStudent;
+		this.proportions = proportions;
 		this.startTime = startTime;
 		this.endTime = endTime;
 		this.description = description;
@@ -41,22 +50,6 @@ public class Course {
 
 	public void setName(String name) {
 		this.name = name;
-	}
-
-	public int getNumClass() {
-		return numClass;
-	}
-
-	public void setNumClass(int numClass) {
-		this.numClass = numClass;
-	}
-
-	public int getNumStudent() {
-		return numStudent;
-	}
-
-	public void setNumStudent(int numStudent) {
-		this.numStudent = numStudent;
 	}
 
 	public String getStartTime() {
@@ -83,13 +76,11 @@ public class Course {
 		this.description = description;
 	}
 
-	@Override
-	public String toString() {
-		return "Course [id=" + id + ", name=" + name + ", numClass=" + 
-				numClass + ", numStudent=" + numStudent + ", startTime=" + 
-				startTime + ", endTime=" + endTime + ", description=" + description + "]";
+	public Proportions getProportions() {
+		return proportions;
 	}
-	
-	
-	
+
+	public void setProportions(Proportions proportions) {
+		this.proportions = proportions;
+	}
 }

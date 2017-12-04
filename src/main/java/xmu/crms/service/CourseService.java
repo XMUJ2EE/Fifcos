@@ -31,7 +31,7 @@ public interface CourseService {
     /**
      * 按照课程id查找课程
      * @param courseId 课程id
-     * @return 课程对象，失败返回False
+     * @return 课程对象，失败返回0
      */
     Course getCourseById(int courseId);
 
@@ -40,14 +40,14 @@ public interface CourseService {
      * @param course 课程对象
      * @return True or False
      */
-    Boolean updateCourseById(Course course);
+    Boolean updateCourseById(int courseId, Course course);
 
     /**
      * 按照id删除课程
      * @param courseId 课程id
      * @return True or False
      */
-    Boolean deleteCourseById(int courseId);
+    Boolean deleteCourseById(int userId, int courseId);
 
     /**
      * 按照课程id寻找课程的班级列表

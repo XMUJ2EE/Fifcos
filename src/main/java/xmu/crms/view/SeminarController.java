@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/seminar")
 
 public class SeminarController {
-	@Autowired
 	
 	@RequestMapping(value = "/{seminarId}", method = GET)
 	public String getSeminarById(@PathVariable int id) {

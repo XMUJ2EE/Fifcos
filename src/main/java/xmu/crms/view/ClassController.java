@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/class")
 
 public class ClassController {
-	@SuppressWarnings("rawtypes")
-	@Autowired
-	List<Class> classes = new ArrayList<Class>();
-	
+
 	@RequestMapping(method = GET)
 	public String getUserClass(String courseName, String teacherName, Model model) {
 		
@@ -28,8 +25,7 @@ public class ClassController {
 	
 	@RequestMapping(value="/{classId}", method = GET)
 	public String getClassById(@PathVariable int id, Model model) {
-		
-		model.addAttribute("class", classes.get(id));
+
 		
 		return null;
 	}
@@ -42,8 +38,6 @@ public class ClassController {
 	
 	@RequestMapping(value="/{classId}", method = DELETE)
 	public String deleteClassById(@PathVariable int id) {
-		
-		classes.remove(id);
 		
 		return null;
 	}

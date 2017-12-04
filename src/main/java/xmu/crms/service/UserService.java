@@ -20,7 +20,8 @@ public interface UserService {
     /**
      * 根据Session中的id更新当前登录用户
      * @param id 数据库中的自增id主键
+     * @param  user 传过来的更新信息
      * @return True or False
      */
-    Boolean updateUserById(int id);
+    Boolean updateUserById(int id, User user);
 }
