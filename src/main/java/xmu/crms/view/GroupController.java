@@ -27,8 +27,26 @@ public class GroupController {
 		return null;
 	}
 	
-	@RequestMapping(value = "/{groupId}", method = PUT)
-	public String updateGroupById(@PathVariable int id) {
+	@RequestMapping(value = "/{groupId}/resign", method = PUT)
+	public String resignGroupLeader(@PathVariable int groupid, int studentId) {
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/{groupId}/assign", method = PUT)
+	public String assignGroupLeader(@PathVariable int groupid, int studentId) {
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/{groupId}/add", method = PUT)
+	public String addGroupMember(@PathVariable int groupid, int studentId) {
+		
+		return null;
+	}
+	
+	@RequestMapping(value = "/{groupId}/remove", method = PUT)
+	public String removeGroupMember(@PathVariable int groupid, int studentId) {
 		
 		return null;
 	}
@@ -40,7 +58,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/{groupId}/topic/{topicId}", method = DELETE)
-	public String deselectTopic(@PathVariable int id) {
+	public String deselectTopic(@PathVariable int groupId, int topicId) {
 		
 		return null;
 	}
@@ -58,7 +76,7 @@ public class GroupController {
 	}
 	
 	@RequestMapping(value = "/{groupId}/grade/{studentId}", method = PUT)
-	public String submitGradeByGroupId(@PathVariable int id) {
+	public String submitGradeByGroupId(@PathVariable int id, int studentId) {
 		
 		return null;
 	}

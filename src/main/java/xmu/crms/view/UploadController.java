@@ -17,7 +17,7 @@ public class UploadController {
 		
 		return null;
 	}
-	
+	/*
 	@RequestMapping(value = "/classroster", method = POST)
 	public String uploadRoster() {
 		
@@ -28,5 +28,5 @@ public class UploadController {
 	public String uploadReport() {
 		
 		return null;
-	}
+	}*/
 }
