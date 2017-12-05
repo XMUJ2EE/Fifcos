@@ -13,6 +13,42 @@ function getusername(){//getusername from cookie
     return username;
 }
 
+function teabind(){//TeacherbindPage bindtea-updatestuinfo
+    var Gender;
+    if($("#male").attr('checked')){
+        Gender = "male";
+    }
+    else{
+        Gender = "female";
+    }
+    var ata = {
+        name:$("#name").val(),
+        school:{
+            id:"32",
+            name:$("#school").val()
+        },
+        gender:Gender,
+        number:$("#teaNum").val(),
+        email:$("#eMail").val(),
+    }
+    $.ajax({
+        type:'put',
+        url: '/me',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status) {
+            if(status == "No Content"){
+                alert("成功!");
+                window.location.href="TeacherHomePage.html";
+            }
+            else{
+                alert("信息不合法");
+            }
+        }
+    });
+}
+
 
 function teainfo(){ //TeacherInfoModifyPage getteainfo
         $.ajax({
@@ -59,7 +95,7 @@ function teainfomod(){//TeacherInfoModifyPage updateteainfo
 }
 
 
-function courseinfo(){//TeacherCourseHome showcourseinfo
+function courseinfo(){  //TeacherCourseHome showcourseinfo
         $.ajax({
         type:'get',
         url: '/course',
@@ -82,6 +118,42 @@ function courseinfo(){//TeacherCourseHome showcourseinfo
     });
 }
 
+function createcourse(){    //TeacherCreateCourse
+    var ate;
+     ata = {
+        name:"OOAD",
+        description:"面向对象分析与设计",
+        startTime:"2017-09-20",
+        endTime:"2018-1-31",
+        "proportions":{
+            report:"50",
+            presentation:"50",
+            c:"20",
+            b:"60",
+            a:"20",
+        }
+        
+    }
+        $.ajax({
+        type:'POST',
+        url: '/course',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status) {
+            if(status == "Created"){
+                alert("创建成功!");
+                window.location.href="TeacherCourseHomePage.html"; 
+                return "23";
+            }
+            else{
+                alert("用户权限不足");
+            }
+        }
+    });
+    courseinfo();
+}
+
 
 function deletecourse(id){   //TeacherCourseHome deletaclass();
         $.ajax({
@@ -95,7 +167,7 @@ function deletecourse(id){   //TeacherCourseHome deletaclass();
                 alert("错误的ID格式");
             }
             else if(status = "Forbidden"){
-                alert("无法删除他人的课程");
+                alert("无法删除其他老师的课程");
             }
             else{
                 alert("未找到课程");
@@ -105,6 +177,130 @@ function deletecourse(id){   //TeacherCourseHome deletaclass();
     courseinfo();
 }
 
-function modifycourse(id){
+function classinfo(id){  //TeacherCourseInformation showclassinfo
+        window.location.href='TeacherCourseInformation.html' //skip to TeacherCourseInformation.html  
+        $.ajax({
+        type:'get',
+        url: '/course/'+id+'/class',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status) {
+            if(status == "OK"){
+              var content=document.getElementById("classtitle");
+                for(var i=0;i<data.length;i++){                           
+                        var str="";
+                     str+='<div class="block"><div class="blockFont" >'+data[i].name+'</div></div></div>'
+                }
+                content.innerHTML=str;
+            }
+            else{
+                alert("获取信息失败");
+            }
+        }
+    });
+        //get seminar information haven't achieved
+}
 
+function createseminar(id){    //TeacherCreateSeminar
+    var ate;
+     ata = {
+        name:"概要设计",
+        description:"模型层与数据库设计",
+        groupingMethod:"fixed",
+        startTime:"2017-10-10",
+        endTime:"2017-10-24",
+        "proportions":{
+            report:"50",
+            presentation:"50",
+            c:"20",
+            b:"60",
+            a:"20",
+        }
+        
+    }
+        $.ajax({
+        type:'POST',
+        url: '/course/'+id+'/seminar',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status) {
+            if(status == "Created"){
+                alert("创建成功!");   
+                window.location.href="TeacherCourseInformation.html"; 
+                return "32";
+            }
+            else{
+                alert("用户权限不足");
+            }
+        }
+    });
+}
+
+function courseinfomod(id){
+       $.ajax({
+        type:'put',
+        url: '/course/'+id,
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status) {
+            if(status == "No Content"){
+                alert("修改成功!");
+                window.location.href="TeacherCourseHomePage.html";
+            }
+            else{
+                alert("用户权限不足");
+            }
+        }
+    });
+
+}
+
+function updateseminar(id){
+        window.location.href="TeacherUpdateSenimar.html";
+        $.ajax({
+        type:'put',
+        url: '/seminar/'+id,
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status) {
+            if(status == "No Content"){
+                alert("修改成功!");
+                window.location.href="TeacherSenimarInfo.html";
+            }
+            else if(status=="Bad Request"){
+                alert("错误的ID格式");
+            }
+            else {
+                alert("未找到讨论课");
+            }
+        }
+    });
+}
+
+function updatetopic(id){
+    window.location.href="TeacherUpdateTopic.html";
+        $.ajax({
+        type:'put',
+        url: '/topic/'+id,
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status) {
+            if(status == "No Content"){
+                alert("成功");
+            }
+            else if(status == "Bad Request"){
+                alert("错误的ID格式");
+            }
+            else if(status = "Forbidden"){
+                alert("用户权限不足");
+            }
+            else{
+                alert("未找到话题");
+            }
+        }
+    });
 }
