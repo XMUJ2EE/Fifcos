@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>班级信息</title>
+   <link rel="stylesheet" href="../../css/teacher/content.css">
+ 
+</head>
+<body>
+    
+        <div class="top">
+          <div class="font">
+            课堂管理系统
+          </div>
+          <div class="icon">
+            <img src="../../Img/home.png">首页
+            <img src="../../Img/help.png">帮助
+            <img src="../../Img/exit.png">退出
+          </div>
+          <div class="clear"></div>
+        </div>
+        <div class="body">
+            <div class="navigation">
+                <div class="courseName">OOAD</div>
+                <div class="line"></div>
+                <div class="courseIntroduction">OOAD（Object Oriented Analysis Design，面向对象的分析和设计，面向对象分析与设计）是现代软件企业广为采用的一项有效技术。OOAD方法要求在设计中要映射现实世界中指定问题域中的对象和实体，例如：顾客、汽车和销售人员等。这就需要设计要尽可能地接近现实世界，即以最自然的方式表述实体。所以面向对象技术的优点即为能够构建与现实世界相对应的问题模型，并保持他们的结构、关系和行为为模式。</div>
+            </div>
+            <div class="content">
+                <div class="block">
+                    <div class="title">周三1-2节</div><br/>
+                    <div class="returnButton" onclick="window.location.href='TeacherCourseInformation.html'">返回上一页</div>
+                    <div class="line"></div>
+                    <div class="itemBody">
+                        <div class="item">
+                          <label class="itemName">班级名称:</label>
+                          <label class="itemName">周三1-2节</label>
+                        </div>
+                        <div class="item">
+                          <label class="itemName">上课地点:</label>
+                          <label class="itemName">海韵212</label>
+                        </div>
+                        <div class="item">
+                          <label class="itemName">上课时间:</label>
+                          <label class="itemName">单周周一12节 </label>
+                          <label class="itemName"> 周三12节</label>
+                        </div>
+                        <div class="item">
+                          <label class="itemName">评分规则:</label>
+                          <label class="itemName">讨论课分数占比</label>
+                          <label class="itemName">60% </label>
+                          <label class="itemName"> 报告分数占比</label>
+                          <label class="itemName">40%</label>
+                        </div>
+                        <div class="item" style="margin-left: 25%">
+                          <label class="smallItemName">5分占比</label>
+                          <input type="text" name="seminarGrade" class="smallInput">
+                          <label class="smallItemName">4分占比</label>
+                          <input type="text" name="seminarGrade" class="smallInput">
+                          <label class="smallItemName">3分占比</label>
+                          <input type="text" name="seminarGrade" class="smallInput">
+                        </div>
+                        <div class="item">
+                          <label class="itemName">开始时间:</label>
+                          <label class="itemName">2017/11/11</label>
+                          <label class="itemName">开始时间 </label>
+                          <input class="timeStyle" value="2017/11/14">
+                        </div>
+                        <div class="item">
+                          <label class="itemName">导入学生名单:</label>
+                          <button class="selectFile">下载文件</button>
+                        </div>
+                        <div class="item">
+                          <button class="submit">修改</button>
+                          <button class="reset">删除班级</button>
+                          <div class="clear"></div>
+                        </div>
+                        <div class="item">
+                          <div class="clear"></div>
+                        </div>
+                        <div class="topicBlockBody">
+                          <div class="topicBlock"><div class="topicBlockFont">TopicA</div></div>
+                          <div class="topicBlock"><div class="topicBlockFont">TopicB</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+           
+    <!-- jquery.js-->
+    <script src ="../../js/jquery-1.10.2.js"></script>
+    <!-- student.js -->
+    <script src ="../../js/TeacherCourse.js""></script>
+</body>
+</html>

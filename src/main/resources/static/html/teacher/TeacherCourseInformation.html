@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>教师课程内页</title>
+ <link href="../../css/teacher/TeacherCourseInformation.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<div class="top">
+        	<div class="font">
+        		课堂管理系统
+        	</div>
+        	<div class="icon">
+        		<img src="../../Img/home.png">首页
+        		<img src="../../Img/help.png">帮助
+        		<img src="../../Img/exit.png">退出
+        	</div>
+        	<div class="clear"></div>
+    	</div>
+        <div class="body">
+            <div class="navigation">
+                <div class="courseName">OOAD</div>
+                <div class="line"></div>
+                <div class="courseIntroduction">OOAD（Object Oriented Analysis Design，面向对象的分析和设计，面向对象分析与设计）是现代软件企业广为采用的一项有效技术。OOAD方法要求在设计中要映射现实世界中指定问题域中的对象和实体，例如：顾客、汽车和销售人员等。这就需要设计要尽可能地接近现实世界，即以最自然的方式表述实体。所以面向对象技术的优点即为能够构建与现实世界相对应的问题模型，并保持他们的结构、关系和行为为模式。</div>
+            </div>
+            <div class="content">
+                <div class="classInfo">
+                    <div class="title">课程班级</div>
+                    <div class="returnButton" onclick="window.history.back()">返回上一页</div>
+                    <div class="line"></div>
+                    <div class="blockBody" id="classtitle">
+                        <div class="block"><div class="blockFont" onclick="window.location.href='TeacherClassInfo.html'">周三1-2节</div></div>
+                        <div class="block"><div class="blockFont">周三3-4节</div></div>
+                        <div class="block"><div class="blockFont">周三5-6节</div></div>
+                         <div class="block">
+                             <img class="addImg" src="../../Img/smalladd.png" alt="添加" onclick="window.location.href='TeacherCreateClass.html'">
+                        </div>
+                 </div>
+                </div>
+                <div class="seminarInfo">
+                    <div class="title">讨论课</div>
+                    <div class="line"></div>
+                    <div class="blockBody">
+                        <div class="block"><div class="blockFont" onclick="window.location.href='TeacherSenimarInfo.html'">讨论课1</div></div>
+                        <div class="block"><div class="blockFont">讨论课2</div></div>
+                        <div class="block"><div class="blockFont">讨论课3</div></div>
+                        <div class="block"><div class="blockFont">讨论课4</div></div>
+                        <div class="block"><div class="blockFont">讨论课5</div></div>
+						<div class="block"><div class="blockFont">讨论课6</div></div>
+                         <div class="block">
+                             <img class="addImg" src="../../Img/smalladd.png" alt="添加" onclick="window.location.href='TeacherCreateSeminar.html'">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+ <!-- jquery.js-->
+<script src ="../../js/jquery-1.10.2.js"></script>
+<!-- student.js -->
+<script src ="../../js/TeacherCourse.js"></script>
+
+</body>
+</html>

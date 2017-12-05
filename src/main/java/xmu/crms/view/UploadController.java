@@ -22,12 +22,16 @@ public class UploadController {
 	@RequestMapping(value = "/avatar", method = POST)
 	@ResponseBody
 	public ResponseEntity<String> uploadAvatar() {
-		String url = uploadService.uploadAvatar();
-		if (url != null){
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(url);
-		}else{
-			return ResponseEntity.status(400).body(null);
-		}
+//		String url = uploadService.uploadAvatar();
+//		if (url != null){
+//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(url);
+//		}else{
+//			return ResponseEntity.status(400).body(null);
+//		}
+		String url = "{\n" +
+				"  \"url\": \"/avatar/3486.png\"\n" +
+				"}";
+		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(url);
 	}
 	/*
 	@RequestMapping(value = "/classroster", method = POST)

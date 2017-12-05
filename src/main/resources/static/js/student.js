@@ -1,4 +1,9 @@
 
+//---------------------------- support functions--------------------------------------
+function updateCookie(name,value){ 
+    document.cookie=name+'='+escape(value);
+}
+
 function getusername(){//getusername from cookie
     var Cookie=document.cookie; 
     var arrCookie=Cookie.split(";"); //cookie split
@@ -12,6 +17,8 @@ function getusername(){//getusername from cookie
     }
     return username;
 }
+
+//----------------------------StudentbindPage-------------------------------
 
 function stubind(){//StudentbindPage bindstu-updatestuinfo
     var Gender;
@@ -49,6 +56,8 @@ function stubind(){//StudentbindPage bindstu-updatestuinfo
     });
 }
 
+//----------------------------StudentHomePage-------------------------------
+
 function stuinfo(){//StudentHomePage showstuinfo
         $.ajax({
         type:'get',
@@ -73,6 +82,8 @@ function stuinfo(){//StudentHomePage showstuinfo
         }
     });
 }
+
+//----------------------------StudentInfoModifyPage-------------------------------
 
 function stumodinfo(){//StudentInfoModifyPage getstuinfo
         $.ajax({
@@ -117,6 +128,38 @@ function stuinfomod(){//StudentInfoModifyPage updatestuinfo
     });
 }
 
+//--------------------------------StudentCourseHome-----------------------------------
+
+function jumpCourse(id){
+    var cid = document.getElementById("course").getAttribute("name");
+    updateCookie('classCurrent',id);
+    updateCookie('courseCurrent',cid);
+    location.href="StudentCourseInformation.html"
+}
+
+function getcourseid(name){//StudentCourseHome store course id
+        var courseid = '';
+        $.ajax({
+        type:'get',
+        url: '/course',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status) {
+            if(status == "OK"){
+                for(var i=0;i<data.length;i++){                           
+                        if(data[i].name == name){
+                            courseid = data[i].id;break;
+                        }
+                }
+            }
+            else{
+                alert("courseid查询失败！");
+            }
+        }
+    });
+    return courseid;
+}
+
 function classinfo(){//StudentCourseHome showclassinfo
         $.ajax({
         type:'get',
@@ -126,15 +169,20 @@ function classinfo(){//StudentCourseHome showclassinfo
         success: function (data,status) {
             if(status == "OK"){
                 var content=document.getElementById("classcontent");
+                var str="";
                 for(var i=0;i<data.length;i++){                           
-                        var str="";
-                        str += '<div class="main_box_right_content"><h3 class="classtitle"><span id="course">'+data[i].courseNum+
+                        var cid = getcourseid(data[i].courseName);
+                        //document.cookie = 'course'+i+'='+cid;
+                        str += '<div class="title">课程信息</div><hr class="line"/><div class="main_box_right_content" onclick="jumpCourse(this.id)" id="'+data[i].id+'"><h3 class="classtitle"><span id="course" name="'+cid+'">'+data[i].courseName+
                         '</span><button type="submit" id="'+data[i].id+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].name+
                         '</span></td><td class="tabletext" id="site">课程地点：'+data[i].site+
-                        '</td></tr><tr><td class="tabletext" id="teacher">教师：'+data[i].courseTeacher+'</td><td class="tabletext"></td></tr></table></div></div>'               
+                        '</td></tr><tr><td class="tabletext" id="teacher">教师：'+data[i].courseTeacher+'</td><td class="tabletext"></td></tr></table></div></div>';               
                 }
-                content.innerHTML=str;
-            }
+                content.innerHTML=str;               
+            }   
+            else{
+                alert("classinfo查询失败！");
+            }         
         }
     });
 }
@@ -159,4 +207,82 @@ function dropclass(id){//StudentCourseHome dropclass();
         }
     });
     classinfo();
+}
+
+
+//----------------------------StudentChooseCoursePage-------------------------------
+
+function classlist(){//StudentChooseCoursePage classlist
+        $.ajax({
+        type:'get',
+        url: '/class?courseName=*&teacherName=*',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status) {
+            if(status == "OK"){
+                var content=document.getElementById("classcontent");
+                var str="";
+                var contenthead = '<div class="title">选择课程</div><hr class="line"/><div class="checkcourse">'+
+                                  '<form class="itemName" action="" method="get" onsubmit="return classlistsearch();">任课教师：<input type="text" name="teacher"><br/>课程名称：<input type="text" name="course"><input type="submit" value="查询">'+
+                                  '</form>';
+                for(var i=0;i<data.length;i++){                                                
+                        str += '</div><div class="main_box_right_content"><h3 class="classtitle">'+data[i].courseName+'<button id="'+data[i].id+'" onclick="selectclass(this.id)">选择课程</button></h3>'+
+                        '<div class="divideline"></div><div  class="classinfo"><table class="table"><tr>'+
+                        '<td class="tabletext">班级：<span>'+data[i].name+'</span></td><td class="tabletext">课程地点：'+data[i].site+'</td></tr><tr>'+
+                        '<td class="tabletext">班级人数：'+data[i].numStudent+'</td>  <td class="tabletext">'+data[i].time+'</td></tr></table></div></div>';
+                }
+                content.innerHTML = contenthead+str;
+            }
+        }
+    });
+}
+
+function selectclass(id1){//StudentChooseCoursePage selectclass
+        var ata = {id:id1}
+        $.ajax({
+        type:'post',
+        url: '/class/'+id1+'/student',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status){
+            if(status == "Created"){
+                alert("成功");
+            }
+            else if(status == "Bad Request"){
+                alert("错误的ID格式");
+            }
+            else if(status == "Forbidden"){
+                alert("学生无法为他人选课");
+            }
+            else{
+                alert("已选过同课程的课");
+            }
+        }
+    });
+}
+
+function classlistsearch(){//StudentChooseCoursePage classlist(searched)
+        $.ajax({
+        type:'get',
+        url: '/class?courseName='+document.getElementById("course").value+'&teacherName=*'+document.getElementById("teacher").value,
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status){
+            if(status == "OK"){
+                var content=document.getElementById("classcontent");
+                var str="";
+                var contenthead = '<div class="title">选择课程</div><hr class="line"/><div class="checkcourse">'+
+                                  '<form class="itemName" action="" method="get" onsubmit="return classlistsearch();">任课教师：<input type="text" name="teacher"><br/>课程名称：<input type="text" name="course"><input type="submit" value="查询">'+
+                                  '</form>';
+                for(var i=0;i<data.length;i++){                           
+                        str += '</div><div class="main_box_right_content"><h3 class="classtitle">'+data[i].courseName+'<button id="'+data[i].id+'" onclick="selectclass(this.id)">选择课程</button></h3>'+
+                        '<div class="divideline"></div><div  class="classinfo"><table class="table"><tr>'+
+                        '<td class="tabletext">班级：<span>'+data[i].name+'</span></td><td class="tabletext">课程地点：'+data[i].site+'</td></tr><tr>'+
+                        '<td class="tabletext">班级人数：'+data[i].numStudent+'</td>  <td class="tabletext">'+data[i].time+'</td></tr></table></div></div>';
+                }
+                content.innerHTML = contenthead+str;
+            }
+        }
+    });
 }
