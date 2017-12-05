@@ -42,9 +42,9 @@ public class UserController {
                 null,null,request.get("avator"));
 		Boolean result = userService.updateUserById(123, user);
 		if(result){
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
+			return ResponseEntity.status(204).build();
 		}else{
-			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+			return ResponseEntity.status(400).build();
 		}
 	}
 	

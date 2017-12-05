@@ -2,7 +2,7 @@ package xmu.crms.service;
 
 import org.springframework.stereotype.Service;
 import xmu.crms.entity.Topic;
-import xmu.crms.view.VO.TopicPartVO;
+import xmu.crms.view.vo.TopicPartVO;
 import xmu.crms.view.vo.GroupVO;
 
 
