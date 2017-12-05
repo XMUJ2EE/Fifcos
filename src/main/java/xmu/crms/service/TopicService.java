@@ -2,13 +2,12 @@ package xmu.crms.service;
 
 import java.util.List;
 
-import xmu.crms.entity.Group;
 import xmu.crms.entity.Topic;
+import xmu.crms.view.VO.GroupVO;
 
 public interface TopicService {
 	
 	/**
-	 * 
 	 * 根据topicId获取topic的内容
 	 * @param id
 	 * @return 查询到的Topic对象
@@ -38,5 +37,5 @@ public interface TopicService {
 	 * @param id
 	 * @return 查询到的groupList
 	 */
-	List<Group> getGroupsByTopicId(int id);
+	List<GroupVO> getGroupsByTopicId(int id);
 }
