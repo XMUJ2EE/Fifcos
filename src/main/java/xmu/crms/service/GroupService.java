@@ -1,7 +1,7 @@
 package xmu.crms.service;
 
 import xmu.crms.entity.Grade;
-import xmu.crms.view.VO.GroupDetailsVO;
+import xmu.crms.view.vo.GroupDetailsVO;
 
 public interface GroupService {
 	
