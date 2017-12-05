@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 /**
  * 讨论课的签到状态Controller
@@ -16,18 +17,18 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/seminar")
 public class AttendanceController {
 
-    @RequestMapping("/{seminarId}/class/{classId}/attendance")
-    public String getStateByClassId(@PathVariable int seminarId, @PathVariable int classId){
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.GET)
+    public ResponseEntity getStateByClassId(@PathVariable int seminarId, @PathVariable int classId){
         String state = "{\n" +
                 "  \"numPresent\": 40,\n" +
                 "  \"numStudent\": 60,\n" +
                 "  \"status\": \"calling\",\n" +
                 "  \"group\": \"grouping\"\n" +
                 "}";
-        return state;
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(state);
     }
 
-    @RequestMapping("/{seminarId}/class/{classId}/attendance/present")
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/present",method = RequestMethod.GET)
     public ResponseEntity getNiceStateStudentList(){
         String studentList = "[\n" +
                 "  {\n" +
@@ -42,7 +43,7 @@ public class AttendanceController {
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentList);
     }
 
-    @RequestMapping("/{seminarId}/class/{classId}/attendance/late")
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/late",method = RequestMethod.GET)
     public ResponseEntity getLateStudentList(@PathVariable int seminarId, @PathVariable int classId){
         String studentList = "[\n" +
                 "  {\n" +
@@ -57,7 +58,7 @@ public class AttendanceController {
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentList);
     }
 
-    @RequestMapping("/{seminarId}/class/{classId}/attendance/absent")
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/absent",method = RequestMethod.GET)
     public ResponseEntity getAbsentStudentList(@PathVariable int seminarId, @PathVariable int classId){
         String studentList = "[\n" +
                 "  {\n" +
@@ -68,7 +69,7 @@ public class AttendanceController {
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentList);
     }
 
-    @RequestMapping("/{seminarId}/class/{classId}/attendance/{studentId}")
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/{studentId}",method = RequestMethod.GET)
     public ResponseEntity callInRoll(@PathVariable int seminarId, @PathVariable int classId, @PathVariable int studentId){
         String state = "{\n" +
                 "  \"status\": \"late\"\n" +
