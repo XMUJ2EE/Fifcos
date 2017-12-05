@@ -14,6 +14,7 @@ import xmu.crms.service.CourseService;
 import xmu.crms.service.CourseServiceImpl;
 import xmu.crms.service.SchoolService;
 import xmu.crms.service.SchoolServiceImpl;
+import xmu.crms.view.vo.AddSchoolVO;
 
 import javax.websocket.server.PathParam;
 import java.net.URI;
@@ -26,51 +27,92 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 @RequestMapping("/school")
 public class SchoolController {
-    @Autowired
-    SchoolService schoolService = new SchoolServiceImpl();
+   // @Autowired
+  //  SchoolService schoolService = new SchoolServiceImpl();
 
     @RequestMapping(method = GET)
     @ResponseBody
-    public ResponseEntity<List<School>> getSchoolList(@PathParam("city") String city) {
+    public ResponseEntity getSchoolList(@PathParam("city") String city) {
 
-        List<School> schools = schoolService.getSchoolList(city);
-
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(schools);
+//        List<School> schools = schoolService.getSchoolList(city);
+//
+//        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(schools);
+        String school = "[\n" +
+                "  {\n" +
+                "    \"id\": 32,\n" +
+                "    \"name\": \"厦门大学\",\n" +
+                "    \"province\": \"福建\",\n" +
+                "    \"city\": \"厦门\"\n" +
+                "  },\n" +
+                "  {\n" +
+                "    \"id\": 37,\n" +
+                "    \"name\": \"厦门软件学院\",\n" +
+                "    \"province\": \"福建\",\n" +
+                "    \"city\": \"厦门\"\n" +
+                "  }\n" +
+                "]";
+        return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(school);
     }
 
     @RequestMapping(method = POST)
     @ResponseBody
-    public ResponseEntity addSchool(@RequestBody School school) {
-        int schoolId = 38;
-        if(schoolService.addSchool(school.getName(), school.getProvince(), school.getCity())) {
-            return ResponseEntity.created(URI.create("/school")).contentType(MediaType.APPLICATION_JSON_UTF8).body(new Object() {
-                public int id = schoolId;
-            });
-        }else {
-            return ResponseEntity.status(409).body(null);
-        }
+    public ResponseEntity addSchool() {
+//        int schoolId = 38;
+////        if (schoolService.addSchool("a", "b", "c")){
+////            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(schoolId);
+////        }else{
+////            return ResponseEntity.status(409).body(null);
+////        }
+////
+////        /*if(schoolService.addSchool(school.getName(), school.getProvince(), school.getCity())) {
+////            return ResponseEntity.created(URI.create("/school")).contentType(MediaType.APPLICATION_JSON_UTF8).body(new Object() {
+////                public int id = schoolId;
+////            });
+////        }else {
+////            return ResponseEntity.status(409).body(null);
+////        }*/
+        String id = "{\n" +
+                "  \"id\": 38\n" +
+                "}";
+        return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(id);
     }
 
     @RequestMapping(value = "/province", method = GET)
     @ResponseBody
-    public ResponseEntity<List<String>> getProvince() {
+    public ResponseEntity getProvince() {
 
-        List<String> provinces = new ArrayList<String>();
-        provinces = schoolService.getProvince();
-
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(provinces);
+//        List<String> provinces = new ArrayList<String>();
+//        provinces = schoolService.getProvince();
+//
+//        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(provinces);
+        String province = "[\n" +
+                "  \"北京\",\n" +
+                "  \"天津\",\n" +
+                "  \"河北省\",\n" +
+                "  \"……\",\n" +
+                "  \"澳门特别行政区\"\n" +
+                "]";
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(province);
     }
 
     @RequestMapping(value = "/city", method = GET)
     @ResponseBody
-    public  ResponseEntity<List<String>> getCity(@PathParam("province") String province) {
-        List<String> city = new ArrayList<String>();
-
-        city = schoolService.getCity(province);
-        if (city.isEmpty()){
-            return ResponseEntity.status(404).body(null);
-        }else{
-            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(city);
-        }
+    public  ResponseEntity getCity(@PathParam("province") String province) {
+//        List<String> city = new ArrayList<String>();
+//
+//        city = schoolService.getCity(province);
+//        if (city.isEmpty()){
+//            return ResponseEntity.status(404).body(null);
+//        }else{
+//            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(city);
+//        }
+        String city = "[\n" +
+                "  \"北京\",\n" +
+                "  \"天津\",\n" +
+                "  \"河北省\",\n" +
+                "  \"……\",\n" +
+                "  \"澳门特别行政区\"\n" +
+                "]";
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(city);
     }
 }
