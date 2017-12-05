@@ -1,7 +1,7 @@
 package xmu.crms.service;
 
 import org.springframework.stereotype.Service;
-import xmu.crms.view.VO.AvatarVO;
+import xmu.crms.view.vo.AvatarVO;
 
 @Service
 public class UploadServiceImpl implements UploadService {

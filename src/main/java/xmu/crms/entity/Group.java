@@ -1,12 +1,14 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.SeminarGrade;
+
 import java.util.Arrays;
 
 public class Group {
 	private int id;
 	private String name;
 	private User leader;
-	private User members[];
+	private User[] members;
 	private Topic topics;
 	private String report;
 	private SeminarGrade grade;

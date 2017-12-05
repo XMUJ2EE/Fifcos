@@ -20,6 +20,10 @@ public class Topic {
 		this.groupMenmberLimit = groupMenmberLimit;
 		this.groupLeft = groupLeft;
 	}
+
+	public Topic() {
+	}
+
 	public int getId() {
 		return id;
 	}

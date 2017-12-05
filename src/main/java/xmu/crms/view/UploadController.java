@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xmu.crms.service.UploadService;
 import xmu.crms.service.UploadServiceImpl;
-import xmu.crms.view.VO.AvatarVO;
+import xmu.crms.view.vo.AvatarVO;
 
 @Controller
 

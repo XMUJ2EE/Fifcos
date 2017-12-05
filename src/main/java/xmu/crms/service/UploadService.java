@@ -1,6 +1,6 @@
 package xmu.crms.service;
 
-import xmu.crms.view.VO.AvatarVO;
+import xmu.crms.view.vo.AvatarVO;
 
 public interface UploadService {
 	

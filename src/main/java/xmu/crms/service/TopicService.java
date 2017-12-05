@@ -3,8 +3,10 @@ package xmu.crms.service;
 import java.util.List;
 
 import xmu.crms.entity.Topic;
-import xmu.crms.view.VO.GroupVO;
+
 import xmu.crms.view.VO.TopicPartVO;
+import xmu.crms.view.vo.GroupVO;
+
 
 public interface TopicService {
 	

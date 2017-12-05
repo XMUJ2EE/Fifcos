@@ -3,23 +3,19 @@ package xmu.crms.view;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Repository;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import xmu.crms.entity.Class;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.Seminar;
-import xmu.crms.entity.SeminarGradeDetail;
+import xmu.crms.view.vo.SeminarGradeDetail;
 import xmu.crms.service.CourseService;
 import xmu.crms.service.CourseServiceImpl;
 

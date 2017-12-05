@@ -4,7 +4,7 @@ import org.springframework.stereotype.Service;
 import xmu.crms.entity.Class;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.Seminar;
-import xmu.crms.entity.SeminarGradeDetail;
+import xmu.crms.view.vo.SeminarGradeDetail;
 
 import java.util.List;
 import java.util.Map;
