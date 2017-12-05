@@ -29,8 +29,8 @@ import xmu.crms.service.CourseServiceImpl;
 @RequestMapping("/course")
 public class CourseController {
 
-	@Autowired
-	CourseService courseService = new CourseServiceImpl();
+//	@Autowired
+//	CourseService courseService;
 
 	@RequestMapping(method = GET)
 	@ResponseBody

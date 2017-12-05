@@ -29,8 +29,8 @@ import xmu.crms.service.ClassServiceImpl;
 
 public class ClassController {
 
-	@Autowired
-	private ClassService classService = new ClassServiceImpl();
+//	@Autowired
+//	private ClassService classService;
 
 	@RequestMapping(method = GET)
 	@ResponseBody

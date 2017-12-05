@@ -22,7 +22,7 @@ public class UserDetailVO {
     public UserDetailVO() {
     }
 
-    public UserDetailVO(int id, Type type, String name, String number, String phone, String email, Gender gender, SchoolVO schoolVO, String title, String avator) {
+    public UserDetailVO(int id, Type type, String name, String number, String phone, String email, Gender gender, SchoolVO school, String title, String avator) {
 
         this.id = id;
         this.type = type;
@@ -31,7 +31,7 @@ public class UserDetailVO {
         this.phone = phone;
         this.email = email;
         this.gender = gender;
-        this.school = schoolVO;
+        this.school = school;
         this.title = title;
         this.avator = avator;
     }
@@ -92,11 +92,11 @@ public class UserDetailVO {
         this.gender = gender;
     }
 
-    public SchoolVO getSchoolVO() {
+    public SchoolVO getSchool() {
         return school;
     }
 
-    public void setSchoolVO(SchoolVO schoolVO) {
+    public void setSchool(SchoolVO schoolVO) {
         this.school = schoolVO;
     }
 
