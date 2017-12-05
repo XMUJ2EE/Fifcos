@@ -21,9 +21,13 @@ public class UploadController {
 
 	@RequestMapping(value = "/avatar", method = POST)
 	@ResponseBody
-	public ResponseEntity<AvatarVO> uploadAvatar() {
-		AvatarVO avatarVO = uploadService.uploadAvatar();
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(avatarVO);
+	public ResponseEntity<String> uploadAvatar() {
+		String url = uploadService.uploadAvatar();
+		if (url != null){
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(url);
+		}else{
+			return ResponseEntity.status(400).body(null);
+		}
 	}
 	/*
 	@RequestMapping(value = "/classroster", method = POST)

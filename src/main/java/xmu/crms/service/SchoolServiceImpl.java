@@ -26,11 +26,23 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Override
     public List<String> getProvince() {
-        return null;
+        List<String> provinces = new ArrayList<String>();
+        provinces.add("北京");
+        provinces.add("天津");
+        provinces.add("河北省");
+        provinces.add("...");
+        provinces.add("澳门特别行政区");
+        return provinces;
     }
 
     @Override
     public List<String> getCity(String province) {
-        return null;
+        List<String> city = new ArrayList<String>();
+        city.add("北京");
+        city.add("天津");
+        city.add("河北省");
+        city.add("...");
+        city.add("澳门特别行政区");
+        return city;
     }
 }
