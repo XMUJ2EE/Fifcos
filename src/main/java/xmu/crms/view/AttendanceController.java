@@ -7,7 +7,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 /**
+ * 讨论课的签到状态Controller
  * @author mads
+ * 备注： 由于标准组的Seminar部分不太明确，所以先直接返回字符串
  */
 
 @Controller

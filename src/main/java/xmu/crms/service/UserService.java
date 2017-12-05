@@ -1,6 +1,7 @@
 package xmu.crms.service;
 
 import xmu.crms.entity.User;
+import xmu.crms.view.vo.UserDetailVO;
 
 /**
  * User的服务接口
@@ -15,7 +16,7 @@ public interface UserService {
      * @param id 数据库的自增id主键
      * @return 查询到的User对象
      */
-    User getUserById(int id);
+    UserDetailVO getUserById(int id);
 
     /**
      * 根据Session中的id更新当前登录用户

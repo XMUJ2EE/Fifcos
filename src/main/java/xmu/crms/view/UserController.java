@@ -3,6 +3,7 @@ package xmu.crms.view;
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -26,14 +27,14 @@ public class UserController {
 	@Autowired
 	private  UserService userService = new UserServiceImpl();
 	
-	@RequestMapping(value = "/me", method = GET, produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/me", method = GET)
 	@ResponseBody
-	public User getCurrentUser() {
-		int id = 123;
-		return userService.getUserById(id);
+	public ResponseEntity getCurrentUser() {
+		int id = 3486;
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userService.getUserById(id));
 	}
 	
-	@RequestMapping(value = "/me", method = PUT, consumes = "application/json;charset=utf-8")
+	@RequestMapping(value = "/me", method = PUT)
 	public ResponseEntity updateCurrentUser(@RequestBody Map<String, String> request) {
 	    User user = new User(123, Type.STUDENT,request.get("number"),
                 request.get("name"),request.get("phone"),request.get("email"),
@@ -49,32 +50,15 @@ public class UserController {
 	
 	
 	@RequestMapping(value = "/signin", method = GET)
-	public String signInWechat(@RequestParam String code, @RequestParam String state, @RequestParam String successUrl) {
+	public ResponseEntity signInWechat(@RequestParam String code, @RequestParam String state, @RequestParam String successUrl) {
 		
-		return null;
+		String success = "{\n" +
+				"  \"id\": 3486,\n" +
+				"  \"type\": \"student\",\n" +
+				"  \"name\": \"张三\",\n" +
+				"  \"jwt\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjaWQiOiJPQTAwMDEiLCJpYXQiOjE0ODI2NTcyODQyMjF9.TeJpy936w610Vrrm+c3+RXouCA9k1AX0Bk8qURkYkdo=\"\n" +
+				"}";
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(success);
 	}
-	
-	@RequestMapping(value = "/signin", method = POST)
-	public String signInPassword(String phone, String password) {
-		
-		return null;
-	}
-	
-	@RequestMapping(value = "/register", method = POST)
-	public String registerPassword(String phone, String password) {
-		
-		return null;
-	}
-	
-	@RequestMapping(value = "/school", method = GET)
-	public String getSchools() {
-		
-		return null;
-	}
-	
-	@RequestMapping(value = "/school", method = POST)
-	public String createSchool() {
-		
-		return null;
-	}
+
 }

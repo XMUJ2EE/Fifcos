@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>教师主页</title>
+    <link href="../../css/teacher/TeacherCourseHomePage.css" rel="stylesheet" type="text/css"/>
+</head>
+<body onload="return courseinfo();">
+    	<div class="top">
+        	<div class="font">
+        		课堂管理系统
+        	</div>
+        	<div class="icon">
+        		<img src="../../Img/home.png">首页
+        		<img src="../../Img/help.png">帮助
+        		<img src="../../Img/exit.png">退出
+        	</div>
+        	<div class="clear"></div>
+    	</div>
+        <div class="body">
+            <div class="navigation">
+                <div class="title">导航</div>
+                <div class="line"></div>
+                <div class="courseIntroduction">
+           <a class="guidefont" href="#">基本信息</a>
+                  <a class="guidefont" href="#">课程信息</a>
+                  <a class="guidefont" href="#">新建课程</a>
+                </div>
+            </div>
+            <div class="content" id="coursecontent">
+              <div class="title">课程信息</div>
+              <hr class="line"/>
+                
+              
+          <div class="main_box_right_content">
+  				<h3 class="classtitle" id="name">J2EE
+  					<button type="submit" onclick="deletecourse(this.id)">删除课程</button>
+  					<button onclick="window.location.href='TeacherUpdateCourse.html'">修改课程</button>
+  				</h3>
+			<div class="divideline"></div>
+				<div  class="classinfo">
+					      
+                <table class="table">
+                  <tr>
+                    <td class="tabletext">班级数：<span id="numClass">1</span></td>  <td class="tabletext" id="numStudent">学生人数：60</td>
+                  </tr>
+                   <tr>
+                     <td class="tabletext" id="startTime">开始时间：XXXX</td>  <td class="tabletext" id="endTime">结束时间:XXXX</td>
+                  </tr>
+                </table>
+				</div>
+		    </div>
+          <div class="main_box_right_content"  onclick="window.location.href='TeacherCreateCoursePage.html'">
+				<img class="addcourse" src="../../Img/add.png"  >
+		    </div>
+            </div>
+            
+           
+            <div class="clear"></div>
+        </div>
+    <!-- jquery.js-->
+    <script src ="../../js/jquery-1.10.2.js"></script>
+    <!-- student.js -->
+    <script src ="../../js/TeacherCourse.js""></script>
+</body>
+</html>

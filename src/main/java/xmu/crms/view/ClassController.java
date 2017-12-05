@@ -208,7 +208,7 @@ public class ClassController {
 		}
 	}
 
-	@RequestMapping(value="/{classId}/classgroup/add", method = PUT)
+	@RequestMapping(value="/{classId}/classgroup/remove", method = PUT)
 	public ResponseEntity deleteMemberFromGroup(@PathVariable int classId, @RequestBody Map<String, Object> request) {
 		// id格式判断 400
 		// 权限认证 403
