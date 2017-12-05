@@ -54,12 +54,9 @@ public class SchoolController {
     @RequestMapping(value = "/province", method = GET)
     @ResponseBody
     public ResponseEntity<List<String>> getProvince() {
+
         List<String> provinces = new ArrayList<String>();
-        provinces.add("北京");
-        provinces.add("天津");
-        provinces.add("福建省");
-        provinces.add("浙江省");
-        provinces.add("上海");
+        provinces = schoolService.getProvince();
 
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(provinces);
     }
@@ -67,16 +64,13 @@ public class SchoolController {
     @RequestMapping(value = "/city", method = GET)
     @ResponseBody
     public  ResponseEntity<List<String>> getCity(@PathParam("province") String province) {
-        List<String> provinces = new ArrayList<String>();
-        provinces.add("北京");
-        provinces.add("天津");
-        provinces.add("福建省");
-        provinces.add("浙江省");
-        provinces.add("上海");
-        if (provinces.isEmpty()){
+        List<String> city = new ArrayList<String>();
+
+        city = schoolService.getCity(province);
+        if (city.isEmpty()){
             return ResponseEntity.status(404).body(null);
         }else{
-            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(provinces);
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(city);
         }
     }
 }

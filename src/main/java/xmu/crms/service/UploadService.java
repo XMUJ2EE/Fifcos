@@ -9,5 +9,7 @@ public interface UploadService {
 	 *
 	 * @return avatar地址
 	 */
-	AvatarVO uploadAvatar();
+	String uploadAvatar();
+
+
 }

@@ -6,8 +6,8 @@ import xmu.crms.view.vo.AvatarVO;
 @Service
 public class UploadServiceImpl implements UploadService {
     @Override
-    public AvatarVO uploadAvatar() {
-        AvatarVO avatarVO = new AvatarVO("/avatar/3486.png");
-        return avatarVO;
+    public String uploadAvatar() {
+        String url = "/avatar/3486.png";
+        return url;
     }
 }
