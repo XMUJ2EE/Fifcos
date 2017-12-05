@@ -3,9 +3,9 @@ package xmu.crms.service;
 import org.springframework.stereotype.Service;
 import xmu.crms.entity.Grade;
 import xmu.crms.entity.PresentationGrade;
-import xmu.crms.view.VO.GroupDetailsVO;
-import xmu.crms.view.VO.TopicIdNameVO;
-import xmu.crms.view.VO.UserIdNameVO;
+import xmu.crms.view.vo.GroupDetailsVO;
+import xmu.crms.view.vo.TopicIdNameVO;
+import xmu.crms.view.vo.UserIdNameVO;
 
 @Service
 public class GroupServiceImpl implements GroupService {

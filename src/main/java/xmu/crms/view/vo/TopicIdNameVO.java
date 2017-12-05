@@ -1,10 +1,10 @@
-package xmu.crms.view.VO;
+package xmu.crms.view.vo;
 
-public class UserIdNameVO {
+public class TopicIdNameVO {
     private int id;
     private String name;
 
-    public UserIdNameVO(int id, String name) {
+    public TopicIdNameVO(int id, String name) {
         this.id = id;
         this.name = name;
     }

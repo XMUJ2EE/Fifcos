@@ -13,12 +13,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import xmu.crms.entity.Topic;
 import xmu.crms.service.TopicService;
 import xmu.crms.service.TopicServiceImpl;
-<<<<<<< HEAD
-import xmu.crms.view.VO.GroupVO;
-import xmu.crms.view.VO.TopicPartVO;
-=======
 import xmu.crms.view.vo.GroupVO;
->>>>>>> ddfb09856efb701fe10ef29414678f930f71a965
+import xmu.crms.view.vo.TopicPartVO;
 
 import java.util.List;
 
