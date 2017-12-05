@@ -8,7 +8,7 @@ public class SeminarClasses {
 	private String courseName;
 	private String startTime;
 	private String endTime;
-	private Class classes[];
+	private Class[] classes;
 	public SeminarClasses(int id, String name, 
 			String courseName, String startTime, 
 			String endTime, Class[] classes) {

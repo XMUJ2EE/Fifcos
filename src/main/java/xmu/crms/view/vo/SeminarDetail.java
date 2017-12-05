@@ -1,4 +1,4 @@
-package xmu.crms.entity;
+package xmu.crms.view.vo;
 
 public class SeminarDetail {
 	private int id;
@@ -21,6 +21,10 @@ public class SeminarDetail {
 		this.teacherName = teacherName;
 		this.teacherEmail = teacherEmail;
 	}
+
+	public SeminarDetail() {
+	}
+
 	public int getId() {
 		return id;
 	}

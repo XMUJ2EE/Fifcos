@@ -1,10 +1,9 @@
 package xmu.crms.service;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import xmu.crms.entity.Class;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.Seminar;
-import xmu.crms.entity.SeminarGradeDetail;
+import xmu.crms.view.vo.SeminarGradeDetail;
 
 import java.util.List;
 import java.util.Map;

@@ -1,4 +1,4 @@
-package xmu.crms.view.VO;
+package xmu.crms.view.vo;
 
 public class AvatarVO {
     private String url;

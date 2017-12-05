@@ -1,4 +1,4 @@
-package xmu.crms.entity;
+package xmu.crms.view.vo;
 
 public class SeminarGradeDetail {
 	private String groupName;

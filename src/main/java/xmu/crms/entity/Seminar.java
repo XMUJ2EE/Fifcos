@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.TopicVO;
+
 public class Seminar {
 	private int id;
 	private String name;
@@ -7,11 +9,13 @@ public class Seminar {
 	private String groupingMethod;
 	private String startTime;
 	private String endTime;
-	private Topic topics;
+	private TopicVO[] topics;
 	private Proportions proportions;
+
+	public Seminar(){};
 	public Seminar(int id, String name, String description, 
 			String groupingMethod, String startTime, String endTime,
-			Topic topics, Proportions proportions) {
+			TopicVO[] topics, Proportions proportions) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -58,10 +62,10 @@ public class Seminar {
 	public void setEndTime(String endTime) {
 		this.endTime = endTime;
 	}
-	public Topic getTopics() {
+	public TopicVO[] getTopics() {
 		return topics;
 	}
-	public void setTopics(Topic topics) {
+	public void setTopics(TopicVO[] topics) {
 		this.topics = topics;
 	}
 	public Proportions getProportions() {
