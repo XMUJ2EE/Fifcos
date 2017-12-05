@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="../../css/common/bootstrap.min.css">
     <link rel="stylesheet" href="../../css/teacher/content.css">
 </head>
-<body>
+<body onload="scoreinfo">
 <div class="top">
     <div class="font">
         课堂管理系统
@@ -46,7 +46,7 @@
                     <th>报告</th>
                 </tr>
                 </thead>
-                <tbody class="tableContent">
+                <tbody class="tableContent" id="tablecontent">
                 <tr>
                     <td>A</td>
                     <td>Bangalore</td>
@@ -93,5 +93,9 @@
 </div>
     <div class="clear"></div>
 </div>
+    <!-- jquery.js-->
+    <script src ="../../js/jquery-1.10.2.js"></script>
+    <!-- teacher-innerpage.js -->
+    <script src ="../../js/teacher-innerpage.js"></script>
 </body>
 </html>

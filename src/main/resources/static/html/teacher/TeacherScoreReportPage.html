@@ -54,18 +54,19 @@
 	  
 	</style>
 </head>
-<body>
-    
+<body onload="return groupinfo();">
     <div class="top">
 		<div class="item1">
-			<label class="itemName">讨论课3</label>
-			<label class="itemName">1-A-1组</label>
-			<label class="itemName">组长：……</label>
+			<label class="itemName" id="seminarid">讨论课3</label>
+			<label class="itemName" id="groupname">1-A-1组</label>
+			<label class="itemName" id="leader">组长：</label>
 		</div>
 		<div class="item2">
 			<label class="itemName">评分:</label>
-			<input type="text" placeholder="3-5"/>
-			<button class="itemName">确认打分</button>
+			<input type="text" placeholder="3-5" id="reportgrade"/>
+			<form action="" method="POST" onsubmit="return grade();">
+			<button class="itemName" type="submit">确认打分</button>
+			</form>
 		</div>		
 	</div>
 	<div class="body">
@@ -73,6 +74,10 @@
 			<object class="pdfFile">学生的报告</object>
 		</div>
 	</div>
+	<!-- jquery.js-->
+    <script src ="../../js/jquery-1.10.2.js"></script>
+    <!-- teacher-innerpage.js -->
+    <script src ="../../js/teacher-innerpage.js"></script>
 </body>
 </html>
 		
