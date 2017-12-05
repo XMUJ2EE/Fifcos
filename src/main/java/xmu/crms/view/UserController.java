@@ -36,16 +36,16 @@ public class UserController {
 	
 	@RequestMapping(value = "/me", method = PUT)
 	public ResponseEntity updateCurrentUser(@RequestBody Map<String, String> request) {
-	    User user = new User(123, Type.STUDENT,request.get("number"),
-                request.get("name"),request.get("phone"),request.get("email"),
-                Gender.MALE,null,request.get("title"),
-                null,null,request.get("avator"));
-		Boolean result = userService.updateUserById(123, user);
-		if(result){
-			return new ResponseEntity(HttpStatus.NO_CONTENT);
-		}else{
-			return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
+//	    User user = new User(123, Type.STUDENT,request.get("number"),
+//                request.get("name"),request.get("phone"),request.get("email"),
+//                Gender.MALE,null,request.get("title"),
+//                null,null,request.get("avator"));
+//		Boolean result = userService.updateUserById(123, user);
+//		if(result){
+		return ResponseEntity.status(204).build();
+//		}else{
+//			return ResponseEntity.status(400).build();
+//		}
 	}
 	
 	

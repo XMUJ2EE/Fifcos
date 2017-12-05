@@ -15,7 +15,7 @@ public class UserDetailVO {
     private String phone;
     private String email;
     private Gender gender;
-    private SchoolVO schoolVO;
+    private SchoolVO school;
     private String title;
     private String avator;
 
@@ -31,7 +31,7 @@ public class UserDetailVO {
         this.phone = phone;
         this.email = email;
         this.gender = gender;
-        this.schoolVO = schoolVO;
+        this.school = schoolVO;
         this.title = title;
         this.avator = avator;
     }
@@ -93,11 +93,11 @@ public class UserDetailVO {
     }
 
     public SchoolVO getSchoolVO() {
-        return schoolVO;
+        return school;
     }
 
     public void setSchoolVO(SchoolVO schoolVO) {
-        this.schoolVO = schoolVO;
+        this.school = schoolVO;
     }
 
     public String getTitle() {
@@ -126,7 +126,7 @@ public class UserDetailVO {
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
                 ", gender=" + gender +
-                ", schoolVO=" + schoolVO +
+                ", schoolVO=" + school +
                 ", title='" + title + '\'' +
                 ", avator='" + avator + '\'' +
                 '}';

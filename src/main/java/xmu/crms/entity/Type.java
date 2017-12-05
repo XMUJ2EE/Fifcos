@@ -6,7 +6,7 @@ public enum Type {
 	STUDENT("student"),
 	TEACHER("teacher");
 
-
+	@JsonValue
 	public String getValue() {
 		return value;
 	}
