@@ -1,23 +1,39 @@
-
-function getusername(){//getusername from cookie
+function updateCookie(name,value){
+    document.cookie=name+'='+escape(value);
+} 
+function getseminarid(){
     var Cookie=document.cookie; 
     var arrCookie=Cookie.split(";"); //cookie split
-    var username; 
+    var seminarCurrent; 
     for(var i=0;i<arrCookie.length;i++){
         var arr=arrCookie[i].split("="); 
-        if("username"==arr[0]){ 
-            username=arr[1]; 
+        if("seminarCurrent"==arr[0]){ 
+            seminarCurrent=arr[1]; 
             break; 
         }
     }
-    return username;
+    return seminarCurrent;
+}
+
+function getgroupid(){
+    var Cookie=document.cookie; 
+    var arrCookie=Cookie.split(";"); //cookie split
+    var groupCurrent; 
+    for(var i=0;i<arrCookie.length;i++){
+        var arr=arrCookie[i].split("="); 
+        if("groupCurrent"==arr[0]){ 
+            groupCurrent=arr[1]; 
+            break; 
+        }
+    }
+    return groupCurrent;
 }
 //------------------------------------------TeacherCreateTopic------------------------------
 function createtopic(){
         var ata = {serial:"A",name:document.getElementById("seminarName").Value,description:document.getElementById("description").Value,groupLimit:document.getElementById("groupLimit").Value,groupMemberLimit:document.getElementById("groupmLimit").Value};
         $.ajax({
         type:'post',
-        url: '/seminar/'+ seminarid +'/topic',//路径id统一用cookie存储，需要前面的变量
+        url: '/seminar/'+ getseminarid() +'/topic',//路径id统一用cookie存储，需要前面的变量
         dataType: "json",
         contentType: "application/json;",
         data: JSON.stringify(ata),
@@ -46,7 +62,7 @@ function scoreinfo(){
     var group;
         $.ajax({
         type:'get',
-        url: '/seminar/'+ seminarid +'/group',//路径id统一用cookie存储，需要前面的变量
+        url: '/seminar/'+  getseminarid() +'/group',//路径id统一用cookie存储，需要前面的变量
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status){
@@ -117,7 +133,7 @@ function groupinfo(){
     var tid = '';
     $.ajax({
         type:'get',
-        url: '/group/'+groupId,//路径id统一用cookie存储，需要前面的变量
+        url: '/group/'+getgroupid(),//路径id统一用cookie存储，需要前面的变量
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status){
@@ -136,7 +152,7 @@ function groupinfo(){
     });
     $.ajax({
         type:'get',
-        url: '/seminar/'+ seminarid +'/topic',//路径id统一用cookie存储，需要前面的变量
+        url: '/seminar/'+  getseminarid() +'/topic',//路径id统一用cookie存储，需要前面的变量
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status){
@@ -161,7 +177,7 @@ function grade(){
     var ata = {reportGrade:document.getElementById("reportgrade")};
         $.ajax({
         type:'put',
-        url: '/group/'+groupId+'/grade',//路径id统一用cookie存储，需要前面的变量
+        url: '/group/'+getgroupid()+'/grade',//路径id统一用cookie存储，需要前面的变量
         dataType: "json",
         contentType: "application/json;",
         data: JSON.stringify(ata),
