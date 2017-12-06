@@ -16,13 +16,13 @@
 // function jumpTopicF(id1){//jump to specific topicF
 //     var tid = document.getElementById("id1").getAttribute("id");
 //     updateCookie('topicCurrent',tid);
-//     location.href="StudentViewTopicPage(fixed).html";
+//     location.href="StudentViewTopicPageFixed.html";
 // }
 //
 // function jumpTopicR(id1){//jump to specific topicR
 //     var tid = document.getElementById("id1").getAttribute("id");
 //     updateCookie('topicCurrent',tid);
-//     location.href="StudentViewTopicPage(random).html";
+//     location.href="StudentViewTopicPageRandom.html";
 // }
 //
 // /*
@@ -321,7 +321,7 @@
 //         success: function (data,status){
 //             if(status == "Created"){
 //                 alert("成功");
-//                 location.href = "StudentDiscussionClassPage(fixed).html?"+"sid="+encodeURI(getsid());
+//                 location.href = "StudentDiscussionClassPageFixed.html?"+"sid="+encodeURI(getsid());
 //             }
 //             else if(status == "Bad Request"){
 //                 alert("错误的ID格式或话题已满");

@@ -182,7 +182,10 @@ public class CourseController {
 //			// 成功
 //			return ResponseEntity.status(201).body(new Object(){public int id=result;});
 //		}
-		return ResponseEntity.status(201).build();
+		String a ="{\n" +
+				"  \"id\": 45\n" +
+				"}";
+		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
 	
 	@RequestMapping(value = "/{courseId}/seminar", method = GET)
