@@ -24,14 +24,30 @@ import java.util.Map;
 
 public class UserController {
 
-	@Autowired
-	private  UserService userService = new UserServiceImpl();
+//	@Autowired
+//	private  UserService userService = new UserServiceImpl();
 	
 	@RequestMapping(value = "/me", method = GET)
 	@ResponseBody
 	public ResponseEntity getCurrentUser() {
-		int id = 3486;
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userService.getUserById(id));
+//		int id = 3486;
+//		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userService.getUserById(id));
+		String a = "{\n" +
+				"  \"id\": 3486,\n" +
+				"  \"type\": \"student\",\n" +
+				"  \"name\": \"张三\",\n" +
+				"  \"number\": \"23320152202333\",\n" +
+				"  \"phone\": \"18911114514\",\n" +
+				"  \"email\": \"23320152202333@stu.xmu.edu.cn\",\n" +
+				"  \"gender\": \"male\",\n" +
+				"  \"school\": {\n" +
+				"    \"id\": 32,\n" +
+				"    \"name\": \"厦门大学\"\n" +
+				"  },\n" +
+				"  \"title\": \"\",\n" +
+				"  \"avatar\": \"/avatar/3486.png\"\n" +
+				"}";
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
 	
 	@RequestMapping(value = "/me", method = PUT)

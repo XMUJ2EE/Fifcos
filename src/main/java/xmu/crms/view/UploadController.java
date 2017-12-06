@@ -16,8 +16,8 @@ import xmu.crms.view.vo.AvatarVO;
 @RequestMapping("/upload")
 
 public class UploadController {
-	@Autowired
-	UploadService uploadService = new UploadServiceImpl();
+//	@Autowired
+//	UploadService uploadService = new UploadServiceImpl();
 
 	@RequestMapping(value = "/avatar", method = POST)
 	@ResponseBody
@@ -31,7 +31,7 @@ public class UploadController {
 		String url = "{\n" +
 				"  \"url\": \"/avatar/3486.png\"\n" +
 				"}";
-		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(url);
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(url);
 	}
 	/*
 	@RequestMapping(value = "/classroster", method = POST)

@@ -73,7 +73,7 @@ public class SeminarController {
 				"  \"isLeader\": true,\n" +
 				"  \"areTopicsSeletced\": true\n" +
 				"}";
-		return ResponseEntity.status(200).body(seminar);
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
 	}
 
 	@RequestMapping(value = "/{seminarId}/detail", method = GET)

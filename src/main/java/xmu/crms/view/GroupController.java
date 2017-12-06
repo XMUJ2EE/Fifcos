@@ -29,7 +29,7 @@ public class GroupController {
 
 	@RequestMapping(value = "/{groupId}", method = GET)
 	@ResponseBody
-	public ResponseEntity getGroupById(@PathVariable int groupId, @RequestBody boolean embedTopics, @RequestBody boolean embedGrade) {
+	public ResponseEntity getGroupById(@PathVariable int groupId) {
 //		GroupDetailsVO groupDetailsVO = groupService.getGroupById(groupId, embedTopics, embedGrade);
 //
 //		if (groupId <= 0)
@@ -143,7 +143,7 @@ public class GroupController {
 		String u = "{\n" +
 				"  \"url\": \"/group/27/topic/23\"\n" +
 				"}";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(u);
+		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(u);
 	}
 	
 	@RequestMapping(value = "/{groupId}/topic/{topicId}", method = DELETE)

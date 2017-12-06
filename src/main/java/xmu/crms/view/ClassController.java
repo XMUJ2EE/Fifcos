@@ -153,12 +153,12 @@ public class ClassController {
 				"  {\n" +
 				"    \"id\": 233,\n" +
 				"    \"name\": \"张三\",\n" +
-				"    \"number\": 24320152202333\n" +
+				"    \"number\": \"24320152202333\"\n" +
 				"  },\n" +
 				"  {\n" +
 				"    \"id\": 245,\n" +
 				"    \"name\": \"张八\",\n" +
-				"    \"number\": 24320152202334\n" +
+				"    \"number\": \"24320152202334\"\n" +
 				"  }\n" +
 				"]";
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(stuList);
