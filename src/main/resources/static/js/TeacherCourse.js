@@ -143,7 +143,7 @@
 //         success: function (data,status) {
 //             if(status == "Created"){
 //                 alert("创建成功!");
-//                 window.location.href="TeacherCourseHomePage.html";
+//                 window.location.href="courses.html";
 //                 return "23";
 //             }
 //             else{
@@ -178,7 +178,7 @@
 // }
 //
 // function classinfo(id){  //TeacherCourseInformation showclassinfo
-//         window.location.href='TeacherCourseInformation.html' //skip to TeacherCourseInformation.html
+//         window.location.href='course.html' //skip to course.html
 //         $.ajax({
 //         type:'get',
 //         url: '/course/'+id+'/class',
@@ -227,7 +227,7 @@
 //         success: function (data,status) {
 //             if(status == "Created"){
 //                 alert("创建成功!");
-//                 window.location.href="TeacherCourseInformation.html";
+//                 window.location.href="course.html";
 //                 return "32";
 //             }
 //             else{
@@ -247,7 +247,7 @@
 //         success: function (data,status) {
 //             if(status == "No Content"){
 //                 alert("修改成功!");
-//                 window.location.href="TeacherCourseHomePage.html";
+//                 window.location.href="courses.html";
 //             }
 //             else{
 //                 alert("用户权限不足");
@@ -258,7 +258,7 @@
 // }
 //
 // function updateseminar(id){
-//         window.location.href="TeacherUpdateSenimar.html";
+//         window.location.href="seminar_update.html";
 //         $.ajax({
 //         type:'put',
 //         url: '/seminar/'+id,
@@ -268,7 +268,7 @@
 //         success: function (data,status) {
 //             if(status == "No Content"){
 //                 alert("修改成功!");
-//                 window.location.href="TeacherSenimarInfo.html";
+//                 window.location.href="seminar.html";
 //             }
 //             else if(status=="Bad Request"){
 //                 alert("错误的ID格式");
@@ -281,7 +281,7 @@
 // }
 //
 // function updatetopic(id){
-//     window.location.href="TeacherUpdateTopic.html";
+//     window.location.href="topic_update.html";
 //         $.ajax({
 //         type:'put',
 //         url: '/topic/'+id,
