@@ -31,32 +31,38 @@
                     <div class="title">创建话题</div><br/>
                     <div class="returnButton">返回上一页</div>
                     <div class="line"></div>
+                    <form action="" method="POST" onsubmit="return ">
                     <div class="itemBody">
                         <div class="item">
                           <label class="itemName">题   目*:</label>
-                          <input type="text" name="seminarName" class="bigInput">
+                          <input type="text" id="seminarName" class="bigInput">
                         </div>
                         <div class="item" style="height:40%;">
                           <label class="itemName">说   明*:</label>
-                          <textarea class="textStyle"></textarea>
+                          <textarea class="textStyle" id="description"></textarea>
                         </div>
                         <div class="item">
                           <label class="itemName">组数限制*: </label>
-                          <input type="text" name="groupLimit" class="middleInput">
+                          <input type="text" id="groupLimit" class="middleInput">
                         </div>
                         <div class="item">
                           <label class="itemName">组内人数上限*: </label>
-                          <input type="text" name="groupLimit" class="middleInput">
+                          <input type="text" id="groupmLimit" class="middleInput">
                         </div>
                         <div class="item">
-                          <button class="submit">提 交</button>
-                          <button class="reset">重 置</button>
+                          <button class="submit" type="submit">提 交</button>
+                          <button class="reset" onclick="reset()">重 置</button>
                           <div class="clear"></div>
                         </div>
                     </div>
+                    </form>
                 </div>
             </div>
             <div class="clear"></div>
         </div>
+    <!-- jquery.js-->
+    <script src ="../../js/jquery-1.10.2.js"></script>
+    <!-- teacher-innerpage.js -->
+    <script src ="../../js/teacher-innerpage.js"></script>
 </body>
 </html>
