@@ -5,16 +5,16 @@
 	<meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>学生查看小组</title>
+    <title>查看话题（随机分组）</title>
     <link href="../../css/student/content.css" rel="stylesheet" type="text/css"/>
 </head>
-<body onload="return groupinfo();">
+<body onload="return topicinfoR();">
         <div class="top">
           <div class="font">
             课堂管理系统
           </div>
           <div class="icon">
-           <img src="../../Img/home.png">首页
+            <img src="../../Img/home.png">首页
             <img src="../../Img/help.png">帮助
             <img src="../../Img/exit.png">退出
           </div>
@@ -28,35 +28,27 @@
             </div>
             <div class="content">
                 <div class="block">
-                    <div class="title">固定分组</div>
-                    <div class="returnButton" onclick="window.location.href='StudentCourseInformation.html';">返回上一页</div>
+                    <div class="title" id="serial">话题A</div>
+                    <div class="returnButton" onclick="window.location.href='random_seminar.html'">返回上一页</div>
                     <div class="line"></div>
                     <div class="itemBody">
                         <div class="item">
-                          <table id="studenttable1">
-						                <tr>
-                              <th>角色</th>
-                              <th>学号</th>
-                              <th>姓名</th>
-                            </tr>
-                            <tr>
-                              <td>队长</td>
-							                <td>24320152200001</td>
-                              <td>Steven Jobs</td>
-                            </tr>
-                            <tr class="alt">
-                              <td>队员</td>
-                              <td>24320152209999</td>
-                              <td>Li YanHong</td>
-                            </tr>
-                          </table>
+                          <label class="itemName">题目:</label>
+                          <label class="itemName" id="topic">Domain model与模块划分</label>
                         </div>
-						<div class="itemBody">
-						  <div class="item">
-						<div class="modifyButton" onclick="window.location.href='StudentModifyGroupPage.html'"> 修改 </div>
-						</div>
-					</div>
-					</div>
+                        <div class="item">
+                          <label class="itemName">说明:</label>
+                          <label class="itemName" id="descriptionT">XXX</label>
+                        </div>
+                        <div class="item">
+                          <label class="itemName">组数限制:</label>
+                          <label class="itemName" id="grouplimit">3</label>
+                        </div>
+                        <div class="item">
+                          <label class="itemName">组内人数上限:</label>
+                          <label class="itemName" id="groupmemberlimit">5</label>
+                        </div>
+					         </div>
                 </div>
             </div>
             <div class="clear"></div>

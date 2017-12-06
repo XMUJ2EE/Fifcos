@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>学生基本信息</title>
-    <link href="../../css/common/HomePage.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/common/HomePage.css" rel="stylesheet" type="text/css"/>
     
 </head>
 <body onload="return stuinfo();">
@@ -12,9 +12,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="../../Img/home.png">首页
-        		<img src="../../Img/help.png">帮助
-        		<img src="../../Img/exit.png">退出
+        		<img src="/img/home.png">首页
+        		<img src="/img/help.png">帮助
+        		<img src="/img/exit.png">退出
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -22,9 +22,9 @@
             <div class="navigation">
                 <div class="title">导航</div>
                 <div class="line"></div>
-                <div class="courseIntroduction"><a class="guidefont" href="StudentHomePage.html">基本信息</a>
-                  <a class="guidefont" href="StudentCourseHome.html">课程信息</a>
-                  <a class="guidefont" href="StudentChooseCoursePage.html">选择课程</a>
+                <div class="courseIntroduction"><a class="guidefont" href="/student/baseinfo">基本信息</a>
+                  <a class="guidefont" href="/student/courses">课程信息</a>
+                  <a class="guidefont" href="/student/course?action=select">选择课程</a>
                 </div>
             </div>
             <div class="content">
@@ -56,7 +56,7 @@
         <br/>
         <br/>
         <div class="button">
-        <button onclick="window.location.href='StudentInfoModifyPage.html'">修改</button>
+        <button onclick="window.location.href='/student/update'">修改</button>
         </div>
         </div>
             </div>
@@ -65,8 +65,8 @@
             <div class="clear"></div>
         </div>
     <!-- jquery.js-->
-    <script src ="../../js/jquery-1.10.2.js"></script>
+    <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student.js -->
-    <script src ="../../js/student.js"></script>
+    <script src ="/js/student.js"></script>
 </body>
 </html>

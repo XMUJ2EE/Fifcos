@@ -16,13 +16,13 @@
 // function jumpTopicF(id1){//jump to specific topicF
 //     var tid = document.getElementById("id1").getAttribute("id");
 //     updateCookie('topicCurrent',tid);
-//     location.href="StudentViewTopicPageFixed.html";
+//     location.href="fixed_topic.html";
 // }
 //
 // function jumpTopicR(id1){//jump to specific topicR
 //     var tid = document.getElementById("id1").getAttribute("id");
 //     updateCookie('topicCurrent',tid);
-//     location.href="StudentViewTopicPageRandom.html";
+//     location.href="random_topic.html";
 // }
 //
 // /*
@@ -182,7 +182,7 @@
 //             if(status == "OK"){
 //                 var seminar=document.getElementById("seminarinfo");
 //                 var contenthead = '<div class="title">讨论课</div>'+
-//                                   '<div class="returnButton" onclick="window.location.href="StudentCourseHome.html"">返回上一页</div>'+
+//                                   '<div class="returnButton" onclick="window.location.href="courses.html"">返回上一页</div>'+
 //                                   '<div class="line"></div>'
 //                                   '<div class="blockBody">';
 //                 var contenttail = '</div>';
@@ -321,7 +321,7 @@
 //         success: function (data,status){
 //             if(status == "Created"){
 //                 alert("成功");
-//                 location.href = "StudentDiscussionClassPageFixed.html?"+"sid="+encodeURI(getsid());
+//                 location.href = "fixed_seminar.html?"+"sid="+encodeURI(getsid());
 //             }
 //             else if(status == "Bad Request"){
 //                 alert("错误的ID格式或话题已满");
@@ -504,7 +504,7 @@
 //         success: function (data,status) {
 //             if(status == "No Content"){
 //                 alert("成功!");
-//                 window.location.href="StudentViewGroupPage.html";
+//                 window.location.href="group.html";
 //             }
 //             else if(status == "Bad Request"){
 //                 alert("错误的ID格式、待添加的学生不存在");

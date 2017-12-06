@@ -5,10 +5,10 @@
 	<meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>学生查看讨论课（随机）</title>
+    <title>学生查看讨论课（固定）</title>
     <link href="../../css/student/content.css" rel="stylesheet" type="text/css"/>
 </head>
-<body onload = "return seminarinfoR();"> 
+<body onload="return seminarinfoF();">
         <div class="top">
           <div class="font">
             课堂管理系统
@@ -29,44 +29,29 @@
             <div class="content">
                 <div class="block">
                     <div class="title">讨论课1</div>
-                    <div class="returnButton" onclick="window.location.href='StudentCourseInformation.html'">返回上一页</div>
+                    <div class="returnButton" onclick="window.location.href='course.html'">返回上一页</div>
                     <div class="line"></div>
                     <div class="itemBody">
                         <div class="item">
                           <label class="itemName">本节讨论课的主要内容针对第一二章</label>
 						  <div class="line"></div>
                         </div>
-						<div class="item">
+                        <div class="item">
                           <label class="itemName">分组方式：</label>
-						  <label class="itemName" id="groupingmethod">随机分组</label><br/>
+						  <label class="itemName" id="groupingmethod">固定分组</label><br/>
                           <label class="itemName">开始时间：</label>
 						  <label class="itemName" id="starttime">11/10/2017</label><br/>
 						  <label class="itemName">结束时间：</label>
 						  <label class="itemName" id="endtime">11/10/2017</label>
-						  <div class="item"></div>
-						  <div class="line"></div>
-						</div>
-						<div class="item"></div>
-						<div class="item" id="randomteam">
-                          <label class="itemName">选择话题：</label>
-						  <label class="itemName" id="topicselected">A</label><br/>
-                          <label class="itemName">组号：</label>
-						  <label class="itemName" id="groupnum">1-A-1</label><br/>
-                          <label class="itemName">组长：</label>
-						  <label class="itemName" id="groupleader">XXX</label><br/>
-                          <label class="itemName">组员：</label>
-						  <label class="itemName">XXX</label>
-						  <label class="itemName">XXX</label>
-						  <label class="itemName">XXX</label>
                         </div>
-					</div>
+                    </div>
                 </div>
-				 <div class="block">
+				<div class="block">
                     <div class="title">话题</div>
                     <div class="line"></div>
 					<div class="blockBody" id="topics">
-                        <div class="smallblock"><div class="blockFont">话题A</div></div>
-                        <div class="smallblock"><div class="blockFont">话题B</div></div>
+                        <div class="smallblock" onclick="window.location.href='fixed_topic.html'"><div class="blockFont">话题A</div></div>
+                        <div class="smallblock" onclick="window.location.href='fixed_topic.html'"><div class="blockFont">话题B</div></div>
 					</div>
                     <div class="item">
                         <button class="uploadbutton">上传报告</button>

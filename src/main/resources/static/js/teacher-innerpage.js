@@ -90,7 +90,7 @@ function scoreinfo(){
                 if(status == "OK"){
                     tid = data.topics.id;
                     str += '<tr><td>'+data.topics.name+'</td><td>'+data.name+'</td><td>'+data.leader.name+'</td><td id="classg"></td><td>'+data.report+'</td><td id="reportg"></td><td id="totalg"></td>'+
-                    '<td><img src="../../Img/view.png" alt="预览"><img src="../../Img/download.png" alt="下载"></td></tr>';
+                    '<td><img src="../../img/view.png" alt="预览"><img src="../../img/download.png" alt="下载"></td></tr>';
                 }
                 else if(status == 'Bad Request'){
                     alert("错误的ID格式");
@@ -184,7 +184,7 @@ function grade(){
         success: function (data,status) {
             if(status == "No Content"){
                 alert("修改成功!");
-                window.location.href="StudentHomePage.html";
+                window.location.href="baseinfo.html";
             }
             else if(status == 'Bad Request'){
                 alert("错误的ID格式");
