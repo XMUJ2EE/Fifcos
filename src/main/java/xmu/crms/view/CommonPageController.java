@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author mads
  */
 @Controller
-public class HomeController {
+public class CommonPageController {
 
     @RequestMapping("/login")
     public String login(){
