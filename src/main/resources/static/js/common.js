@@ -23,7 +23,7 @@
 // }
 //
 // function register(){//RegisterPage
-//     window.location.href="AccountLoginPage.html";
+//     window.location.href="login.html";
 //     // var Gender,Type;
 //     // if($("#male").prop('checked')){
 //     //     Gender = "male";
@@ -71,7 +71,7 @@
 //     //     success: function (data,status) {
 //     //         if(status == "No Content"){
 //     //             alert("成功");
-//     //             window.location.href="AccountLoginPage.html";
+//     //             window.location.href="login.html";
 //     //         }
 //     //         else{
 //     //             alert("信息不合法");

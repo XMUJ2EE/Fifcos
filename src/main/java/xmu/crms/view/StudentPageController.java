@@ -2,6 +2,7 @@ package xmu.crms.view;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author mads
@@ -24,7 +25,7 @@ public class StudentPageController {
      */
     @RequestMapping("/student/update")
     public String update(){
-        return "student/form_baseinfo.html";
+        return "student/baseinfo_update";
     }
 
     /**
@@ -42,79 +43,68 @@ public class StudentPageController {
      */
     @RequestMapping("/student/courses")
     public String courses(){
-        return "student/courses";
+        return "student/course_list";
     }
 
     /**
      * 课程详情
      * @return
      */
-    @RequestMapping("/student/course/{id}")
-    public String courseDetail(){
-        return "student/course";
+    @RequestMapping("/student/course")
+    public String courseDetail(@RequestParam(value = "action",required = false)String action,
+                               @RequestParam(value = "id",required = false)String id){
+        if(null == action){
+            if(null == id){
+                return null;
+            }
+            return "student/course";
+        }
+        return "student/course_select";
     }
 
     /**
-     * 固定分组的seminar
+     * seminar
      * @return
      */
-    @RequestMapping("/student/course/seminar/fixed/{id}")
-    public String seminarFixed(){
-        return "student/fixed_seminar";
+    @RequestMapping("/student/course/seminar")
+    public String seminarFixed(@RequestParam(value = "type",required = true) String type,
+                               @RequestParam(value = "id", required = true) String id,
+                               @RequestParam(value = "cid",required = true)String cid){
+        if(type == "fixed"){
+            return "student/fixed_seminar";
+        }else if(type == "random"){
+            return "student/random_seminar";
+        }
+        return "error";
     }
 
-    /**
-     * 随机分组的seminar
-     * @return
-     */
-    @RequestMapping("/student/course/seminar/random/{id}")
-    public String seminarRandom(){
-        return "student/random_seminar";
-    }
 
     /**
      * 课程固定小组
      * @return
      */
     @RequestMapping("/student/course/group")
-    public String group(){
-        return "student/group";
+    public String group(@RequestParam(value = "action", required = false)String action){
+        if(null == action) {
+            return "student/group";
+        }
+        return "student/group_update";
     }
 
     /**
-     * 更新课程小组表单
+     * 话题
      * @return
      */
-    @RequestMapping("/student/course/group?action=update")
-    public String updateGroup(){
-        return "student/form_group";
-    }
-
-    /**
-     * 固定分组的话题
-     * @return
-     */
-    @RequestMapping("/student/course/seminar/fixed/{id}/topic")
-    public String getFixedTopic(){
-        return "student/fixed_topic";
-    }
-
-    /**
-     * 随机分组的话题
-     * @return
-     */
-    @RequestMapping("/student/course/seminar/random/{id}/topic")
-    public String getRandomTopic(){
-        return "student/random_topic";
-    }
-
-    /**
-     * 选择课程表单
-     * @return
-     */
-    @RequestMapping("/student/course?action=select")
-    public String selectTopic(){
-        return "student/form_course";
+    @RequestMapping("/student/course/seminar/topic")
+    public String getFixedTopic(@RequestParam(value = "type") String type,
+                                @RequestParam(value = "sid")String sid,
+                                @RequestParam(value = "cid")String cid){
+        if(type == "fixed") {
+            return "student/fixed_topic";
+        }else if(type == "random"){
+            return "student/random_topic";
+        }
+        return "error";
     }
 
     /**
@@ -122,7 +112,8 @@ public class StudentPageController {
      * @return
      */
     @RequestMapping("/student/course/seminar/grade")
-    public String grade(){
+    public String grade(@RequestParam(value = "sid",required = true)String sid,
+                        @RequestParam(value = "cid",required = true)String cid){
         return "student/grade";
     }
 
