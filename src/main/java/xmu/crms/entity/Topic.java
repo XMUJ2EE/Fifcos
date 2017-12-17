@@ -1,40 +1,20 @@
 package xmu.crms.entity;
 
+import java.math.BigInteger;
+
 public class Topic {
-	private int id;
-	private String serial;
+	private BigInteger id;
 	private String name;
-	private String description;
-	private int groupLimit;
-	private int groupMenmberLimit;
-	private int groupLeft;
-	public Topic(int id, String serial, String name, 
-			String description, int groupLimit, int groupMenmberLimit,
-			int groupLeft) {
-		super();
-		this.id = id;
-		this.serial = serial;
-		this.name = name;
-		this.description = description;
-		this.groupLimit = groupLimit;
-		this.groupMenmberLimit = groupMenmberLimit;
-		this.groupLeft = groupLeft;
-	}
-
-	public Topic() {
-	}
-
-	public int getId() {
+	private String desciption;
+	private Integer groupNumberLimit;
+	private Integer groupStudentLimit;
+	private Seminar seminar;
+	
+	public BigInteger getId() {
 		return id;
 	}
-	public void setId(int id) {
+	public void setId(BigInteger id) {
 		this.id = id;
-	}
-	public String getSerial() {
-		return serial;
-	}
-	public void setSerial(String serial) {
-		this.serial = serial;
 	}
 	public String getName() {
 		return name;
@@ -42,36 +22,29 @@ public class Topic {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getDescription() {
-		return description;
+	public String getDesciption() {
+		return desciption;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+	public void setDesciption(String desciption) {
+		this.desciption = desciption;
 	}
-	public int getGroupLimit() {
-		return groupLimit;
+	public Integer getGroupNumberLimit() {
+		return groupNumberLimit;
 	}
-	public void setGroupLimit(int groupLimit) {
-		this.groupLimit = groupLimit;
+	public void setGroupNumberLimit(Integer groupNumberLimit) {
+		this.groupNumberLimit = groupNumberLimit;
 	}
-	public int getGroupMenmberLimit() {
-		return groupMenmberLimit;
+	public Integer getGroupStudentLimit() {
+		return groupStudentLimit;
 	}
-	public void setGroupMenmberLimit(int groupMenmberLimit) {
-		this.groupMenmberLimit = groupMenmberLimit;
+	public void setGroupStudentLimit(Integer groupStudentLimit) {
+		this.groupStudentLimit = groupStudentLimit;
 	}
-	public int getGroupLeft() {
-		return groupLeft;
+	public Seminar getSeminar() {
+		return seminar;
 	}
-	public void setGroupLeft(int groupLeft) {
-		this.groupLeft = groupLeft;
-	}
-	@Override
-	public String toString() {
-		return "Topic [id=" + id + ", serial=" + serial + 
-				", name=" + name + ", description=" + description + 
-				", groupLimit=" + groupLimit + ", groupMenmberLimit=" + 
-				groupMenmberLimit + ", groupLeft=" + groupLeft + "]";
+	public void setSeminar(Seminar seminar) {
+		this.seminar = seminar;
 	}
 	
 }

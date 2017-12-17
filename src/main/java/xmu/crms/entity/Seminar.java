@@ -1,87 +1,70 @@
 package xmu.crms.entity;
 
-import xmu.crms.view.vo.TopicVO;
+import java.math.BigInteger;
+import java.util.Date;
 
 public class Seminar {
-	private int id;
+	private BigInteger id;
 	private String name;
 	private String description;
-	private String groupingMethod;
-	private String startTime;
-	private String endTime;
-	private TopicVO[] topics;
-	private Proportions proportions;
+	private Course course;
+	private Boolean fixed;
+	private Date startTime;
+	private Date endTime;
 
-	public Seminar(){};
-	public Seminar(int id, String name, String description, 
-			String groupingMethod, String startTime, String endTime,
-			TopicVO[] topics, Proportions proportions) {
-		super();
-		this.id = id;
-		this.name = name;
-		this.description = description;
-		this.groupingMethod = groupingMethod;
-		this.startTime = startTime;
-		this.endTime = endTime;
-		this.topics = topics;
-		this.proportions = proportions;
-	}
-	public int getId() {
+	public BigInteger getId() {
 		return id;
 	}
-	public void setId(int id) {
+
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
+
 	public String getDescription() {
 		return description;
 	}
+
 	public void setDescription(String description) {
 		this.description = description;
 	}
-	public String getGroupingMethod() {
-		return groupingMethod;
+
+	public Course getCourse() {
+		return course;
 	}
-	public void setGroupingMethod(String groupingMethod) {
-		this.groupingMethod = groupingMethod;
+
+	public void setCourse(Course course) {
+		this.course = course;
 	}
-	public String getStartTime() {
+
+	public Boolean getFixed() {
+		return fixed;
+	}
+
+	public void setFixed(Boolean fixed) {
+		this.fixed = fixed;
+	}
+
+	public Date getStartTime() {
 		return startTime;
 	}
-	public void setStartTime(String startTime) {
+
+	public void setStartTime(Date startTime) {
 		this.startTime = startTime;
 	}
-	public String getEndTime() {
+
+	public Date getEndTime() {
 		return endTime;
 	}
-	public void setEndTime(String endTime) {
+
+	public void setEndTime(Date endTime) {
 		this.endTime = endTime;
 	}
-	public TopicVO[] getTopics() {
-		return topics;
-	}
-	public void setTopics(TopicVO[] topics) {
-		this.topics = topics;
-	}
-	public Proportions getProportions() {
-		return proportions;
-	}
-	public void setProportions(Proportions proportions) {
-		this.proportions = proportions;
-	}
-	@Override
-	public String toString() {
-		return "Seminar [id=" + id + ", name=" + name + 
-				", description=" + description + ", groupingMethod=" + 
-				groupingMethod + ", startTime=" + startTime + 
-				", endTime=" + endTime + ", topics=" + topics + 
-				", proportions=" + proportions + "]";
-	}
-	
-	
 }

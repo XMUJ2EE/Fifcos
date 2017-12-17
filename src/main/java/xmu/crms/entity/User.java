@@ -1,142 +1,106 @@
 package xmu.crms.entity;
 
+import java.math.BigInteger;
+
 public class User {
-	private int id;
-	private Type type;
-	private String number;
-	private String name;
+	private BigInteger id;
 	private String phone;
-	private String email;
-	private Gender gender;
-	private School school;
-	private String title;
-	private String password;
-	private String unionId;
+	private String wechatId;
+	private String openid;
 	private String avatar;
-
-	public User(int id, Type type, String number,
-			String name, String phone, String email, 
-			Gender gender, School school,
-			String title, String password, 
-			String unionId, String avatar) {
-		this.id = id;
-		this.type = type;
-		this.number = number;
-		this.name = name;
-		this.phone = phone;
-		this.email = email;
-		this.gender = gender;
-		this.school = school;
-		this.title = title;
-		this.password = password;
-		this.unionId = unionId;
-		this.avatar = avatar;
-	}
-
-	public int getId() {
+	private String password;
+	private String name;
+	private School school;
+	private Integer gender;
+	private Integer type;
+	private String number;
+	private Integer education;
+	private Integer title;
+	private String email;
+	
+	public BigInteger getId() {
 		return id;
 	}
-
-	public void setId(int id) {
+	public void setId(BigInteger id) {
 		this.id = id;
 	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public void setType(Type type) {
-		this.type = type;
-	}
-
-	public String getNumber() {
-		return number;
-	}
-
-	public void setNumber(String number) {
-		this.number = number;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getPhone() {
 		return phone;
 	}
-
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-
-	public String getEmail() {
-		return email;
+	public String getWechatId() {
+		return wechatId;
 	}
-
-	public void setEmail(String email) {
-		this.email = email;
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
 	}
-
-	public Gender getGender() {
-		return gender;
+	public String getOpenid() {
+		return openid;
 	}
-
-	public void setGender(Gender gender) {
-		this.gender = gender;
+	public void setOpenid(String openid) {
+		this.openid = openid;
 	}
-
-	public School getSchool() {
-		return school;
-	}
-
-	public void setSchool(School school) {
-		this.school = school;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getUnionId() {
-		return unionId;
-	}
-
-	public void setUnionId(String unionId) {
-		this.unionId = unionId;
-	}
-
 	public String getAvatar() {
 		return avatar;
 	}
-
 	public void setAvatar(String avatar) {
 		this.avatar = avatar;
 	}
-
-	@Override
-	public String toString() {
-		return "User [id=" + id + ", type=" + type + ", number=" + 
-				number + ", name=" + name + ", phone=" + phone + ", email=" + 
-				email + ", gender=" + gender + ", school=" + school + 
-				", title=" + title + ", password=" + password + ", unionId=" + 
-				unionId + ", avatar=" + avatar + "]";
+	public String getPassword() {
+		return password;
 	}
-	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public String getName() {
+		return name;
+	}
+	public void setName(String name) {
+		this.name = name;
+	}
+	public School getSchool() {
+		return school;
+	}
+	public void setSchool(School school) {
+		this.school = school;
+	}
+	public Integer getGender() {
+		return gender;
+	}
+	public void setGender(Integer gender) {
+		this.gender = gender;
+	}
+	public Integer getType() {
+		return type;
+	}
+	public void setType(Integer type) {
+		this.type = type;
+	}
+	public String getNumber() {
+		return number;
+	}
+	public void setNumber(String number) {
+		this.number = number;
+	}
+	public Integer getEducation() {
+		return education;
+	}
+	public void setEducation(Integer education) {
+		this.education = education;
+	}
+	public Integer getTitle() {
+		return title;
+	}
+	public void setTitle(Integer title) {
+		this.title = title;
+	}
+	public String getEmail() {
+		return email;
+	}
+	public void setEmail(String email) {
+		this.email = email;
+	}
 	
 }

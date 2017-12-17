@@ -1,14 +1,13 @@
 package xmu.crms.entity;
 
 import java.math.BigInteger;
-import java.util.Date;
 
-public class Course {
+public class ClassInfo {
 	private BigInteger id;
 	private String name;
-	private Date startDate;
-	private Date endDate;
-	private User teacher;
+	private Course course;
+	private String site;
+	private String classTime;
 	private String description;
 	private Integer reportPercentage;
 	private Integer presentationPercentage;
@@ -28,26 +27,26 @@ public class Course {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getStartDate() {
-		return startDate;
+	public Course getCourse() {
+		return course;
 	}
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
+	public void setCourse(Course course) {
+		this.course = course;
 	}
-	public Date getEndDate() {
-		return endDate;
+	public String getSite() {
+		return site;
 	}
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
+	public void setSite(String site) {
+		this.site = site;
 	}
-	public User getTeacher() {
-		return teacher;
+	public String getClassTime() {
+		return classTime;
 	}
-	public void setTeacher(User teacher) {
-		this.teacher = teacher;
+	public void setClassTime(String classTime) {
+		this.classTime = classTime;
 	}
 	public String getDescription() {
-		return description;
+		return this.description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
