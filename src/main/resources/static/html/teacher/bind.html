@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+    <title>ClassManage</title>
+ <link href="../../css/student/StudentBindPage.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div class="titleBackground"></div>
+<div class="title">课程管理系统</div>
+<div class="icon">
+<img src="../../Img/home.png">首页
+<img src="../../Img/help.png">帮助
+<img src="../../Img/exit.png">退出
+</div>
+<form action="" method="PUT" onsubmit="return teabind();">
+<div class="phoneNum">手机号:<input type="text" id="phoneNum" /></div>
+<div class="password">密码:<input type="text" id ="password"/></div>
+<div class="name">姓名:<input type="text" id="name"/></div>
+<div class="school">学校:<input type="text" id="school"/></div>
+<div class="gender">性别:</div>
+<div class="male">男<input type="radio" value="男" id="male" checked="checked"/></div>
+<div class="female">女<input type="radio" value="女" id="female"/></div>
+<div class="studentNum">教工号:<input type="text" id="teaNum"/></div>
+<div class="eMail">邮箱:<input type="text" id="eMail"/></div>
+<div class="submit" type="submit" >提交</div>
+	<!-- jquery.js-->
+	<script src ="../../js/jquery-1.10.2.js"></script>
+	<script src ="../../js/TeacherCourse.js"></script>
+</form>
+</body>
+
+</html>

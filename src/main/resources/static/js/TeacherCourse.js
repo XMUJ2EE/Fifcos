@@ -1,100 +1,133 @@
-//
-// function getusername(){//getusername from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var username;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("username"==arr[0]){
-//             username=arr[1];
-//             break;
-//         }
-//     }
-//     return username;
-// }
-//
-// function teabind(){//TeacherbindPage bindtea-updatestuinfo
-//     var Gender;
-//     if($("#male").attr('checked')){
-//         Gender = "male";
-//     }
-//     else{
-//         Gender = "female";
-//     }
-//     var ata = {
-//         name:$("#name").val(),
-//         school:{
-//             id:"32",
-//             name:$("#school").val()
-//         },
-//         gender:Gender,
-//         number:$("#teaNum").val(),
-//         email:$("#eMail").val(),
-//     }
-//     $.ajax({
-//         type:'put',
-//         url: '/me',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         data: JSON.stringify(ata),
-//         success: function (data,status) {
-//             if(status == "No Content"){
-//                 alert("成功!");
-//                 window.location.href="TeacherHomePage.html";
-//             }
-//             else{
-//                 alert("信息不合法");
-//             }
-//         }
-//     });
-// }
-//
-//
-// function teainfo(){ //TeacherInfoModifyPage getteainfo
-//         $.ajax({
-//         type:'get',
-//         url: '/me',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status) {
-//             if(status == "OK"){
-//                 document.getElementById("username").innerHTML('用户名：'+'<span>'+data.id+'</span>');
-//                 document.getElementById("teaNum").attr("value",data.number);
-//                 document.getElementById("name").attr("value",data.name);
-//                 document.getElementById("gender").attr("value",data.gender);
-//                 document.getElementById("school").attr("value",data.school.name);
-//                 document.getElementById("title").attr("value",data.title);
-//                 document.getElementById("email").attr("value",data.email);
-//                 document.getElementById("phone").attr("value",data.phone);
-//             }
-//             else{
-//                 alert("获取信息失败");
-//             }
-//         }
-//     });
-// }
-//
-//
-// function teainfomod(){//TeacherInfoModifyPage updateteainfo
-//         $.ajax({
-//         type:'put',
-//         url: '/me',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         data: JSON.stringify(ata),
-//         success: function (data,status) {
-//             if(status == "No Content"){
-//                 alert("修改成功!");
-//                 window.location.href="TeacherHomePage.html";
-//             }
-//             else{
-//                 alert("信息不合法");
-//             }
-//         }
-//     });
-// }
-//
-//
+
+/*---------------------------- support functions--------------------------------------*/
+function updateCookie(name,value){
+    document.cookie=name+'='+escape(value);
+}
+
+function getusername(){ //getusername from cookie
+    var Cookie=document.cookie;
+    var arrCookie=Cookie.split(";"); //cookie split
+    var username;
+    for(var i=0;i<arrCookie.length;i++){
+        var arr=arrCookie[i].split("=");
+        if("username"==arr[0]){
+            username=arr[1];
+            break;
+        }
+    }
+    return username;
+}
+
+/*---------------------------- teacher/bind--------------------------------------*/
+
+function teabind(){
+     alert("成功!");
+    var Gender;
+    if($("#male").attr('checked')){
+        Gender = "male";
+    }
+    else{
+        Gender = "female";
+    }
+    var ata = {
+        name:$("#name").val(),
+        school:{
+            id:"32",
+            name:$("#school").val()
+        },
+        gender:Gender,
+        number:$("#teaNum").val(),
+        email:$("#eMail").val(),
+    }
+    $.ajax({
+        type:'put',
+        url: '/me',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data) {
+            if(data.status==204){
+                alert("成功!");
+                window.location.href="/teacher/home"; //跳转到教师信息的那个页
+            }
+            else{
+                alert("信息不合法");
+            }
+        }
+    });
+}
+
+/*---------------------------- teacher/baseinfo-------------------------------*/
+function teainfo(){
+        $.ajax({
+        type:'get',
+        url: '/me',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (date) {
+            if(data.status==200){
+                document.cookie = 'username='+data.id; //store username in cookie
+                $("username").html('用户名：'+'<span>'+data.id+'</span>');
+                document.getElementById("teaNum").innerHTML('教工号：'+'<span>'+data.number+'</span>');
+                document.getElementById("name").innerHTML('姓名：'+'<span>'+data.name+'</span>');
+                document.getElementById("gender").innerHTML('性别：'+'<span>'+data.gender+'</span>');
+                document.getElementById("school").innerHTML('学校：'+'<span>'+data.school.name+'</span>');
+                document.getElementById("title").innerHTML('职称：'+'<span>'+data.title+'</span>');
+                document.getElementById("email").innerHTML('邮箱：'+'<span>'+data.email+'</span>');
+                document.getElementById("phone").innerHTML('联系方式：'+'<span>'+data.phone+'</span>');
+            }
+            else{
+                alert("获取信息失败");
+            }
+        }
+    });
+}
+
+/*----------------------------teacher/baseinfo_update-------------------------------*/
+function getteainfo(){  //get techer information
+        $.ajax({
+        type:'get',
+        url: '/me',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status) {
+            if(status == "OK"){
+                document.getElementById("username").innerHTML('用户名：'+'<span>'+data.id+'</span>');
+                document.getElementById("teaNum").attr("value",data.number);
+                document.getElementById("name").attr("value",data.name);
+                document.getElementById("gender").attr("value",data.gender);
+                document.getElementById("school").attr("value",data.school.name);
+                document.getElementById("title").attr("value",data.title);
+                document.getElementById("email").attr("value",data.email);
+                document.getElementById("phone").attr("value",data.phone);
+            }
+            else{
+                alert("获取信息失败");
+            }
+        }
+    });
+}
+
+function teainfomod(){
+        $.ajax({
+        type:'put',
+        url: '/me',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data) {
+            if(data.status==204){
+                alert("修改成功!");
+                window.location.href="/teacher/home";  //跳转到教师信息的那个页
+            }
+            else{
+                alert("信息不合法");
+            }
+        }
+    });
+}
+
+
 // function courseinfo(){  //TeacherCourseHome showcourseinfo
 //         $.ajax({
 //         type:'get',

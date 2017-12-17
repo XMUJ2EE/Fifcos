@@ -33,14 +33,14 @@
 //         }
 //     });
 // }
-//
+
 // function teainfo(){
 //         $.ajax({
 //         type:'get',
 //         url: '/me',
 //         dataType: "json",
 //         contentType: "application/json;",
-//         success: function (data,status) {
+//         success: function (data) {
 //             if(status == "OK"){
 //                 alert("成功!");
 //                 window.location.href="StudentHomePage.html";

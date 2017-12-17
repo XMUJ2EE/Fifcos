@@ -13,7 +13,7 @@ public class TeacherPageController {
      */
     @RequestMapping("/teacher/home")
     public String home() {
-        return "student/baseinfo";
+        return "teacher/baseinfo";
     }
 
     /**
