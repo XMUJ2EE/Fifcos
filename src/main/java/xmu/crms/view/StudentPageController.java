@@ -14,7 +14,7 @@ public class StudentPageController {
      * 个人信息
      * @return
      */
-    @RequestMapping("/student/home")
+    @RequestMapping("/student/profile")
     public String home(){
         return "student/baseinfo";
     }
