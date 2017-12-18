@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xmu.crms.mapper.GradeMapper">
+
+    <resultMap id="seminarGroupTopicResultMap" type="SeminarGroupTopic">
+        <id property="id" column="id" />
+        <result property="topic_id" column="topic_id" />
+        <result property="seminar_group_id" column="seminar_group_id" />
+        <result property="presentation_grade" column="presentation_grade" />
+    </resultMap>
+9
+    <resultMap id="seminarGroupTopicResultMap" type="SeminarGroupTopic">
+        <collection property="id" column="id" ofType="int" select="selectSeminarGroupTopicIdByTopicId" />
+    </resultMap>
+
+
+    <select id="selectStudentScoreGroup" resultMap="seminarGroupTopicResultMap">
+        select id, topic_id, seminar_group_id, presentation_grade
+        from seminar_group_topic where topic_id = #{topicId}
+    </select>
+
+    <select id="selectSeminarGroupTopicIdByTopicId" parameterType="int">
+        select id from seminar_group_topic where topic_id = #{topicId}
+    </select>
+    
+    <delete id="deleteStudentScoreGroupByTopicId" parameterType="int">
+        delete from student_score_group
+        where seminar_group_topic_id in
+        (select id from seminar_group_topic where topic_id = #{topicId})
+    </delete>
+
+
+
+
+
+
+    <select id="listSeminarGradeBySeminarGroupId" parameterType="int">
+        select presentation_grade from seminar_group_topic
+        where seminar_id = #{seminarGroupId}
+    </select>
+
+    <insert id="insertGroupGradeByUserId">
+
+    </insert>
+
+    <update id="updateGroupByGroupId">
+        UPDATE seminar_group SET
+            report_grade = #{grade}
+        WHERE id = #{seminar_group_id}
+    </update>
+
+    <select id="listSeminarGradeByStudentId" parameterType="int">
+
+    </select>
+</mapper>
