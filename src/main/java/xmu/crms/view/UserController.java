@@ -32,10 +32,11 @@ public class UserController {
 		BigInteger id = BigInteger.valueOf(1);
 		try{
 			User user = userService.getUserByUserId(id);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(user);
 		}catch (UserNotFoundException e){
 			System.out.println(e.getMessage());
+			return ResponseEntity.status(400).build();
 		}
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body();
 	}
 	
 	@RequestMapping(value = "/me", method = PUT)
