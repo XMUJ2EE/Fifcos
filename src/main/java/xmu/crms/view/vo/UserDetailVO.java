@@ -1,7 +1,5 @@
 package xmu.crms.view.vo;
 
-import xmu.crms.entity.Gender;
-import xmu.crms.entity.Type;
 
 /**
  * @author mads
@@ -9,12 +7,12 @@ import xmu.crms.entity.Type;
 public class UserDetailVO {
 
     private int id;
-    private Type type;
+    private int type;
     private String name;
     private String number;
     private String phone;
     private String email;
-    private Gender gender;
+    private int gender;
     private SchoolVO school;
     private String title;
     private String avator;
@@ -22,7 +20,7 @@ public class UserDetailVO {
     public UserDetailVO() {
     }
 
-    public UserDetailVO(int id, Type type, String name, String number, String phone, String email, Gender gender, SchoolVO school, String title, String avator) {
+    public UserDetailVO(int id, int type, String name, String number, String phone, String email, int gender, SchoolVO school, String title, String avator) {
 
         this.id = id;
         this.type = type;
@@ -44,11 +42,11 @@ public class UserDetailVO {
         this.id = id;
     }
 
-    public Type getType() {
+    public int getType() {
         return type;
     }
 
-    public void setType(Type type) {
+    public void setType(int type) {
         this.type = type;
     }
 
@@ -84,11 +82,11 @@ public class UserDetailVO {
         this.email = email;
     }
 
-    public Gender getGender() {
+    public int getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(int gender) {
         this.gender = gender;
     }
 
