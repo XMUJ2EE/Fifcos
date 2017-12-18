@@ -117,7 +117,7 @@ public interface UserService {
 	 * @return list 用户id列表
 	 * @exception UserNotFoundException throws when 未找到对应用户
 	 */
-	 Boolean updateUserByUserId(BigInteger userId, User user) throws
+	 void updateUserByUserId(BigInteger userId, User user) throws
 	        UserNotFoundException;
 	
 

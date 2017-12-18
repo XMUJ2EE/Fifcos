@@ -3,6 +3,9 @@
         PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
+    <properties resource="config.properties">
+
+    </properties>
 
     <typeAliases>
         <package name="xmu.crms.entity"/>
@@ -13,7 +16,6 @@
         <environment id="development">
             <transactionManager type="JDBC"></transactionManager>
             <dataSource type="POOLED">
-                <property name="driver" value="${driver}"></property>
                 <property name="url" value="${url}"></property>
                 <property name="username" value="${username}"></property>
                 <property name="password" value="${password}"></property>
