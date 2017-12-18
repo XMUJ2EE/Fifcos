@@ -18,10 +18,9 @@ public interface CourseService {
 	 * @author ZhouZhongjun
 	 * @param userId 用户Id
 	 * @return null 课程列表
-	 * @exception InfoIllegalException userId格式错误时抛出
 	 * @exception CourseNotFoundException 未找到课程
 	 */
-	 List<Course> listCourseByUserId(BigInteger userId) throws InfoIllegalException,CourseNotFoundException;
+	 List<Course> listCourseByUserId(BigInteger userId)throws  CourseNotFoundException;
 	
 	
 	/**
@@ -30,9 +29,8 @@ public interface CourseService {
 	 * @param userId 用户Id
 	 * @param course 课程信息
 	 * @return courseId 新建课程的id
-	 * @exception InfoIllegalException userId格式错误时抛出
 	 */
-	 BigInteger insertCourseByUserId(BigInteger userId,Course course) throws InfoIllegalException;
+	 BigInteger insertCourseByUserId(BigInteger userId,Course course);
 	
 	
 	/**
@@ -40,10 +38,9 @@ public interface CourseService {
 	 * @author ZhouZhongjun
 	 * @param courseId 课程Id
 	 * @return course
-	 * @exception InfoIllegalException courseId格式错误时抛出
 	 * @exception CourseNotFoundException 未找到课程
 	 */
-	 Course getCourseByCourseId(BigInteger courseId) throws InfoIllegalException,CourseNotFoundException;
+	 Course getCourseByCourseId(BigInteger courseId) throws CourseNotFoundException;
 	
 	
 	/**
@@ -64,10 +61,9 @@ public interface CourseService {
 	 * @see SeminarService #deleteSemiarByCourseId(BigInteger courseId)
 	 * @see ClassService   #deleteClassByCourseId(BigInteger courseId)
 	 * @return true删除成功  false删除失败
-	 * @exception InfoIllegalException courseId格式错误时抛出
 	 * @exception CourseNotFoundException 未找到课程
 	 */
-	Boolean deleteCourseByCourseId(BigInteger courseId) throws InfoIllegalException,CourseNotFoundException;
+	Boolean deleteCourseByCourseId(BigInteger courseId) throws CourseNotFoundException;
 	
 
 	
@@ -78,10 +74,9 @@ public interface CourseService {
 	 * @param courseName 课程名称
 	 * @return list 课程列表
 	 * @see CourseService #getCourseByCourseId(BigInteger courseId)
-	 * @exception InfoIllegalException courseId格式错误时抛出
 	 * @exception CourseNotFoundException 未找到课程
 	 */
-	 List<Course> listCourseByCourseName(String courseName) throws InfoIllegalException,CourseNotFoundException;
+	 List<Course> listCourseByCourseName(String courseName) throws CourseNotFoundException;
 	
 	
 	/**
@@ -92,11 +87,10 @@ public interface CourseService {
 	 * @return list 班级列表
 	 * @see CourseService #listCourseByCourseName(String courseName)
 	 * @see ClassService #listClassByCourseId(BigInteger courseId)
-	 * @exception InfoIllegalException courseId格式错误时抛出
 	 * @exception CourseNotFoundException 未找到课程
 	 * @exception ClassNotFoundException 未找到班级
 	 */
-	 List<ClassInfo> listClassByCourseName(String courseName) throws InfoIllegalException,CourseNotFoundException,ClassNotFoundException;
+	 List<ClassInfo> listClassByCourseName(String courseName) throws CourseNotFoundException,ClassNotFoundException;
 	
 	
 	/**
@@ -121,12 +115,11 @@ public interface CourseService {
 	 * @return list 班级列表
 	 * @see CourseService #listCourseByUserId(BigInteger userId)
 	 * @see ClassService #listClassByCourseId(BigInteger courseId)
-	 * @exception InfoIllegalException userId格式错误时抛出或courseId格式错误时抛出
 	 * @exception CourseNotFoundException 未找到课程
 	 * @exception ClassNotFoundException 未找到班级
 	 */
 	 List<ClassInfo> listClassByUserId(BigInteger userId)
-	        throws InfoIllegalException,CourseNotFoundException,
+	        throws CourseNotFoundException,
 	        ClassNotFoundException;
 }
 
