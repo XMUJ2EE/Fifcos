@@ -1,25 +1,12 @@
 package xmu.crms.view;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.web.bind.annotation.ResponseBody;
-import xmu.crms.entity.School;
-import xmu.crms.service.CourseService;
-import xmu.crms.service.CourseServiceImpl;
-import xmu.crms.service.SchoolService;
-import xmu.crms.service.SchoolServiceImpl;
-import xmu.crms.view.vo.AddSchoolVO;
 
 import javax.websocket.server.PathParam;
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;

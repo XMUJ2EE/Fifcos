@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>选择课程</title>
+    <link href="../../css/student/StudentChooseCoursePage.css" rel="stylesheet" type="text/css"/>
+    
+</head>
+<body onload="return classlist();">
+    	<div class="top">
+        	<div class="font">
+        		课堂管理系统
+        	</div>
+        	<div class="icon">
+        		<img src="../../Img/home.png">首页
+				<img src="../../Img/help.png">帮助
+				<img src="../../Img/exit.png">退出
+        	</div>
+        	<div class="clear"></div>
+    	</div>
+        <div class="body">
+          <div class="navigation">
+                <div class="title">导航</div>
+                <div class="line"></div>
+                <div class="courseIntroduction"><a class="guidefont" href="baseinfo.html">基本信息</a>
+                  <a class="guidefont" href="course_list.html">课程信息</a>
+                  <a class="guidefont" href="course_select.html">选择课程</a>
+                </div>
+            </div>
+            <div class="content">
+              <div class="title">选择课程</div>
+              <hr class="line"/>             
+          <div class="checkcourse">
+          <form class="itemName" action="" method="get" onsubmit="return classlistsearch();">
+          任课教师：<input type="text" id="teacher"><br/>
+           课程名称：<input type="text" id="course">
+           <input type="submit" value="查询">      
+           </form>
+              </div>
+          <div class="main_box_right_content">      
+				<h3 class="classtitle">J2EE
+				<button>选择课程</button>
+        </h3>
+			 <div class="divideline"></div>
+				<div  class="classinfo">
+					         <table class="table">
+                <tr>
+                <td class="tabletext">班级：<span>周三一二节</span></td>  <td class="tabletext">课程地点：海韵</td>
+                </tr>
+                 <tr>
+                <td class="tabletext">班级人数：60</td>  <td class="tabletext">时间：周三一二节，周四五六节</td>
+                </tr>
+                </table>
+				</div>
+		    </div>       
+            </div>
+            
+           
+            <div class="clear"></div>
+        </div>
+    <!-- jquery.js-->
+    <script src ="../../js/jquery-1.10.2.js"></script>
+    <!-- student.js -->
+    <script src ="../../js/student.js"></script>
+</body>
+</html>

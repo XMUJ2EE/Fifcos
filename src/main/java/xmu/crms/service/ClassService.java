@@ -1,117 +1,188 @@
 package xmu.crms.service;
 
-import org.springframework.stereotype.Service;
-import xmu.crms.entity.Class;
-import xmu.crms.entity.Group;
-import xmu.crms.entity.User;
-
+import java.math.BigInteger;
 import java.util.List;
 
+import xmu.crms.entity.*;
+
 /**
- * Class服务接口
- * @author Xuezhang.Liu
+ * 
+ * @author YeXiaona,ZhouZhongJun
+ * @version 2.00
+ *
  */
-
 public interface ClassService {
+	/**
+	 * 按classId删除CourseSelection表的一条记录 .
+	 * 
+	 * @author zhouzhongjun
+	 * @param classId 班级Id
+	 * @return true/false 是否成功删除
+	 */
+	 Boolean deleteClassSelectionByClassId(BigInteger classId);
 
-    /**
-     * 根据用户id获取用户的班级列表
-     * @param userId 用户id
-     * @param courseName 课程名称，可选
-     * @param courseTeacher 课程老师名字，可选
-     * @return 班级列表
-     */
-    List<Class> getClassListByUserId(int userId, String courseName, String courseTeacher);
+	/**
+	 * 按课程名称和教师名称获取班级列表.
+	 * <p>
+	 * 根据课程名和教师名获取课程ID，通过课程ID获取班级列表;若课程名和班级名均不为空，取交集<br>
+	 * 
+	 * @author yexiaona
+	 * @param courseName 课程名称
+	 * @param teacherName 教师名称
+	 * @return List 班级列表
+	 * @see ClassService #listClassByCourseName(String courseName)
+	 * @see ClassService #listClassByTeacherName(String teacherName)
+	 */
+	 List<ClassInfo> listClassByName(String courseName, String teacherName);
 
-    /**
-     * 根据班级id获取班级详情
-     * @param classId 班级id
-     * @return 班级对象详情
-     */
-    Class getClassById(int classId);
+	/**
+	 * 根据课程ID获得班级列表.
+	 * 
+	 * @author yexiaona
+	 * @param courseId 课程ID
+	 * @return list 班级列表
+	 */
+	 List<ClassInfo> listClassByCourseId(BigInteger courseId);
 
-    /**
-     * 根据id修改班级信息
-     * @param classId 班级id
-     * @param myClass 班级对象
-     * @return 执行结果
-     */
-    Boolean updateClassById(int classId, Class myClass);
+	/**
+	 * 按班级id获取班级详情.
+	 * <p>
+	 * 根据班级id获取班级<br>
+	 * 
+	 * @author yexiaona
+	 * @param classId 班级ID
+	 * @return ClassBO 班级
+	 */
+	 ClassInfo getClassByClassId(BigInteger classId);
 
-    /**
-     * 根据id删除班级
-     * @param classId 班级id
-     * @return 执行结果
-     */
-    Boolean deleteClassById(int classId);
+	/**
+	 * 按班级id和班级修改班级信息.
+	 * <p>
+	 * 根据班级id修改班级信息<br>
+	 * 
+	 * @author yexiaona
+	 * @param classId 班级ID
+	 * @return boolean 班级修改是否成功情况
+	 */
+	 Boolean updateClassByClassId(BigInteger classId);
 
-    /**
-     * 根据条件获取班级学生列表
-     * @param classId 班级id
-     * @param numBeginWith 学号开头
-     * @param nameBeginWith 姓名开头
-     * @return 学生列表
-     */
-    List<User> getStudentListByClassId(int classId, String numBeginWith, String nameBeginWith);
+	/**
+	 * 按班级id删除班级.
+	 * <p>
+	 * 根据班级id删除班级<br>
+	 * 
+	 * @author yexiaona
+	 * @param classId 班级ID
+	 * @return boolean 班级删除是否成功情况
+	 * @see ClassService #deleteCourseSelectionById(BigInteger classId,User user)
+	 * @see FixGroupService #deleteFixGroupByClassId(BigInteger classId)
+	 * @see SeminarGroupService #deleteSeminarGroupByClaaId(BigInteger classId)
+	 */
+	 Boolean deleteClassByClassId(BigInteger classId);
 
-    /**
-     * 把学生加入到班级（建立一条学生班级映射记录）
-     * @param classId 班级id
-     * @param studentId 学生id
-     * @return 执行结果
-     */
-    Boolean addStudentToClassByClassIdAndStudentId(int classId, int studentId);
+	/**
+	 * 学生按班级id选择班级.
+	 * <p>
+	 * 根据班级id和用户id新增选课记录<br>
+	 * 
+	 * @author yexiaona
+	 * @param userId 用户id
+	 * @param classId 班级id
+	 * @return url 选课url
+	 */
+	 String insertCourseSelectionById(BigInteger userId, BigInteger classId);
 
-    /**
-     * 把学生从班级移除（删除一条学生班级映射）
-     * @param classId 班级id
-     * @param studentId 学生id
-     * @return 执行结果
-     */
-    Boolean deleteStudentFromClassByClassIdAndStudentId(int classId, int studentId);
+	/**
+	 * 学生按班级id取消选择班级.
+	 * <p>
+	 * 根据班级id和用户id删除选课记录及与该班级相关的信息<br>
+	 * 
+	 * @author yexiaona
+	 * @param userId 用户id
+	 * @param classId  班级id
+	 * @return boolean 取消班级是否成功
+	 */
+	 Boolean deleteCourseSelectionById(BigInteger userId, BigInteger classId);
 
-    /**
-     * 查找学生id对应班级id内的小组(固定小组)信息
-     * @param classId 班级id
-     * @param studentId 学生id
-     * @return 小组信息
-     */
-    Group getGroupByClassId(int classId, int studentId);
+	/**
+	 * 老师获取该班级签到、分组状态.
+	 * <p>
+	 * 根据讨论课id及班级id，获得该班级的签到、分组状态<br>
+	 * 
+	 * @author yexiaona
+	 * @param seminarId  讨论课id
+	 * @return classBO 班级
+	 * @see SeminarGroupService #listSeminarGroupBySeminarId(BigInteger seminarId)
+	 */
+	 ClassInfo getCallGroupStatusById(BigInteger seminarId);
 
-    /**
-     * 移除班级固定小组的组长
-     * @param classId 班级id
-     * @param groupId 小组id
-     * @return 执行结果
-     */
-    Boolean deleteLeaderFromGroupByClassId(int classId, int groupId);
+	/**
+	 * 新建班级.
+	 * <p>
+	 * 根据教师id和课程id新建班级<br>
+	 * 
+	 * @author yexiaona
+	 * @param userId  教师id
+	 * @param courseId 课程id
+	 * @return classId 班级Id
+	 */
+	 BigInteger insertClassById(BigInteger userId, BigInteger courseId);
 
-    /**
-     * 添加班级固定小组的组长
-     * @param classId 班级id
-     * @param studentId 学生id
-     * @param groupId 小组id
-     * @return 执行结果
-     */
-    Boolean addLeaderInGroupByClassId(int classId, int studentId, int groupId);
+	/**
+	 * 按courseId删除Class.
+	 * <p>
+	 * 先根据CourseId获得所有的class的信息，然后根据class信息删除courseSelection表的记录，然后再根据courseId和classId删除ScoureRule表记录，再调用根据classId删除固定分组，最后再将班级的信息删除<br>
+	 * 
+	 * @author zhouzhongjun
+	 * @param courseId 课程Id
+	 * @see ClassService #listClassByCourseId(BigInteger courseId)
+	 * @see ClassService #deleteClasssSelectionByClassId(BigInteger classId)
+	 * @see FixGroupService #deleteFixGroupByClassId(BigInteger ClassId)
+	 * @return true删除成功 false删除失败
+	 */
+	 Boolean deleteClassByCourseId(BigInteger courseId);
 
-    /**
-     * 班级固定小组添加成员
-     * @param classId 班级id
-     * @param studentId 学生id
-     * @param groupId 小组id
-     * @return 执行结果
-     */
-    Boolean addMemberInGroupByClassId(int classId, int studentId, int groupId);
+	/**
+	 * 按classId删除ScoreRule.
+	 * 
+	 * @author zhouzhongjun
+	 * @param classId 班级Id
+	 * @return true删除成功 false删除失败
+	 */
+	 Boolean deleteScoreRuleById(BigInteger classId);
 
-    /**
-     * 从固定小组删除成员
-     * @param classId 班级id
-     * @param studentId 学生id
-     * @param groupId 小组id
-     * @return 执行结果
-     */
-    Boolean deleteMemberFromGroupByClassId(int classId, int studentId, int groupId);
+	/**
+	 * 查询评分规则.
+	 * <p>
+	 * 按id查询指定的评分规则<br>
+	 * 
+	 * @author YeHongjie
+	 * @param classId  班级id
+	 * @return ProportionBO 返回评分规则，若未找到对应评分规则返回空（null)
+	 */
+	 ClassInfo getScoreRule(BigInteger classId);
 
+	/**
+	 * 新增评分规则.
+	 * <p>
+	 * 新增评分规则<br>
+	 * 
+	 * @author YeHongjie
+	 * @param classId 班级Id
+	 * @param proportions  评分规则
+	 * @return scoreRuleId 若创建成功则返回该评分规则的id，失败则返回-1
+	 */
+	 BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions);
 
+	/**
+	 * 修改评分规则.
+	 * <p>
+	 * 修改指定的评分规则<br>
+	 * 
+	 * @author YeHongjie
+	 * @param classId 班级id
+	 * @param proportions 评分规则
+	 * @return state 若修改成功则返回true，失败则返回false
+	 */
+	 Boolean updateScoreRule(BigInteger classId, ClassInfo proportions);
 }

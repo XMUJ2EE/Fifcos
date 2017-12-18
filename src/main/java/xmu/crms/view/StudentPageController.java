@@ -1,7 +1,9 @@
 package xmu.crms.view;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author mads
@@ -13,7 +15,7 @@ public class StudentPageController {
      * 个人信息
      * @return
      */
-    @RequestMapping("/student/home")
+    @RequestMapping("/student/profile")
     public String home(){
         return "student/baseinfo";
     }
@@ -24,7 +26,7 @@ public class StudentPageController {
      */
     @RequestMapping("/student/update")
     public String update(){
-        return "student/form_baseinfo.html";
+        return "student/baseinfo_update";
     }
 
     /**
@@ -42,89 +44,81 @@ public class StudentPageController {
      */
     @RequestMapping("/student/courses")
     public String courses(){
-        return "student/courses";
+        return "student/course_list";
     }
 
     /**
-     * 课程详情
+     * 获取某个课程详情
      * @return
      */
-    @RequestMapping("/student/course/{id}")
-    public String courseDetail(){
+    @RequestMapping("/student/course/{courseId}")
+    public String courseDetail(@PathVariable String courseId){
         return "student/course";
     }
 
     /**
-     * 固定分组的seminar
+     * 选课表单
      * @return
      */
-    @RequestMapping("/student/course/seminar/fixed/{id}")
-    public String seminarFixed(){
-        return "student/fixed_seminar";
+    @RequestMapping("/student/course/select")
+    public String courseSelect(){
+        return "student/course_select";
     }
 
     /**
-     * 随机分组的seminar
+     * seminar
      * @return
      */
-    @RequestMapping("/student/course/seminar/random/{id}")
-    public String seminarRandom(){
-        return "student/random_seminar";
+    @RequestMapping("/student/course/{courseId}/seminar/{seminerId}")
+    public String seminarFixed(@PathVariable String courseId, @PathVariable String seminarId,
+                               @RequestParam(value = "type",required = true) String type){
+        if(type == "fixed"){
+            return "student/fixed_seminar";
+        }else if(type == "random"){
+            return "student/random_seminar";
+        }
+        return "error";
     }
+
 
     /**
      * 课程固定小组
      * @return
      */
     @RequestMapping("/student/course/group")
-    public String group(){
+    public String group(@RequestParam(value = "action", required = false)String action){
         return "student/group";
     }
 
     /**
-     * 更新课程小组表单
+     * 更新固定小组
      * @return
      */
-    @RequestMapping("/student/course/group?action=update")
-    public String updateGroup(){
-        return "student/form_group";
+    @RequestMapping("/student/course/group/update")
+    public String groupUpdate(){
+        return "student/group_update";
     }
 
     /**
-     * 固定分组的话题
+     * 话题
      * @return
      */
-    @RequestMapping("/student/course/seminar/fixed/{id}/topic")
-    public String getFixedTopic(){
-        return "student/fixed_topic";
-    }
-
-    /**
-     * 随机分组的话题
-     * @return
-     */
-    @RequestMapping("/student/course/seminar/random/{id}/topic")
-    public String getRandomTopic(){
-        return "student/random_topic";
-    }
-
-    /**
-     * 选择课程表单
-     * @return
-     */
-    @RequestMapping("/student/course?action=select")
-    public String selectTopic(){
-        return "student/form_course";
+    @RequestMapping("/student/course/{courseId}/seminar/{seminarId}/topic")
+    public String getFixedTopic(@RequestParam(value = "type") String type){
+        if(type == "fixed") {
+            return "student/fixed_topic";
+        }else if(type == "random"){
+            return "student/random_topic";
+        }
+        return "error";
     }
 
     /**
      * 分数
      * @return
      */
-    @RequestMapping("/student/course/seminar/grade")
+    @RequestMapping("/student/course/{courseId}/seminar/{seminar}/grade")
     public String grade(){
         return "student/grade";
     }
-
-
 }

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>学生基本信息改</title>
+   <link href="../../css/common/InfoModifyPage.css" rel="stylesheet" type="text/css"/>
+    
+</head>
+<body onload="return stumodinfo();">
+    	<div class="top">
+        	<div class="font">
+        		课堂管理系统
+        	</div>
+        	<div class="icon">
+        		<img src="../../Img/home.png">首页
+				<img src="../../Img/help.png">帮助
+				<img src="../../Img/exit.png">退出
+        	</div>
+        	<div class="clear"></div>
+    	</div>
+        <div class="body">
+           <div class="navigation">
+                <div class="title">导航</div>
+                <div class="line"></div>
+                <div class="courseIntroduction"><a class="guidefont" href="baseinfo.html">基本信息</a>
+                  <a class="guidefont" href="course_list.html">课程信息</a>
+                  <a class="guidefont" href="course_select.html">选择课程</a>
+                </div>
+            </div>
+            <div class="content">
+              <div class="title">基本信息</div>
+              <hr class="line"/>
+                
+                 <div class="info">
+                
+        <!--<form action="" method="PUT" onsubmit="return stuinfomod();">-->
+        <table class="table">
+        <tr class="itemName">
+        <td id="username">用户名：<span>12345678978</span></td>
+        <td>学号：<input type="text" id="stuffNum"/></td>
+        </tr>
+        <tr class="itemName">
+        <td>姓名：<input type="text" id="name"/></td>
+        <td>性别：<input type="text" id="gender"/></td>
+        </tr>
+        <tr class="itemName">
+        <td>学校：<input type="text" id="school"/></td>
+        <td>学历：<input type="text" id="title"/></td>
+        </tr>
+        <tr class="itemName">
+        <td>E-mail：<input type="text" id="email"/></td>
+        <td>联系方式：<input type="text" id="phone"/></td>
+        </tr>
+         </table>
+         <br/>
+        <br/>
+        <br/>
+        <br/>
+       <div >
+           <button class="button" id="submit" onclick="window.location.href='baseinfo.html';">提交</button>
+        </div>
+        <!--</form>-->
+       
+        
+        </div>
+            </div>
+            
+           
+            <div class="clear"></div>
+        </div>
+    <!-- jquery.js-->
+    <script src ="../../js/jquery-1.10.2.js"></script>
+    <!-- student.js -->
+    <script src ="../../js/student.js"></script>
+</body>
+</html>

@@ -2,7 +2,16 @@ package xmu.crms.view;
 
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+/**
+ *
+ * @author wang
+ *
+ */
+
 
 @Controller
 public class TeacherPageController {
@@ -29,7 +38,7 @@ public class TeacherPageController {
      * 创建学校
      * @return
      */
-    @RequestMapping("/teacher/school?action=create")
+    @RequestMapping("/teacher/school/create")
     public String createSchool() {
         return "teacher/school_create";
     }
@@ -56,7 +65,7 @@ public class TeacherPageController {
      * 创建课程
      * @return
      */
-    @RequestMapping("/teacher/courses?action=create")
+    @RequestMapping("/teacher/courses/create")
     public String createCourse() {
         return "teacher/course_create";
     }
@@ -65,8 +74,8 @@ public class TeacherPageController {
      * 查看课程详细信息
      * @return
      */
-    @RequestMapping("/teacher/course/{id}")
-    public String courseDetail() {
+    @RequestMapping("/teacher/course/{courseId}")
+    public String courseDetail(@PathVariable String courseId) {
         return "teacher/course";
     }
 
@@ -74,8 +83,8 @@ public class TeacherPageController {
      * 更新课程信息
      * @return
      */
-    @RequestMapping("/teacher/course/{id}?action=update")
-    public String updateCourse() {
+    @RequestMapping("/teacher/course/{courseId}/update")
+    public String updateCourse(@PathVariable String courseId) {
         return "teacher/course_update";
     }
 
@@ -83,8 +92,8 @@ public class TeacherPageController {
      * 查看课程的班级
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/class/{id}")
-    public String myClass() {
+    @RequestMapping("/teacher/course/{courseId}/class/{classId}")
+    public String myClass(@PathVariable String courseId, @PathVariable String classId) {
         return "teacher/class";
     }
 
@@ -92,8 +101,8 @@ public class TeacherPageController {
      * 创建班级
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/class?action=create")
-    public String createClass() {
+    @RequestMapping("/teacher/course/{courseId}/class/create")
+    public String createClass(@PathVariable String courseId) {
         return "teacher/class_create";
     }
 
@@ -101,8 +110,8 @@ public class TeacherPageController {
      * 查看该课程的讨论课
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar/{id}")
-    public String seminar() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}")
+    public String seminar(@PathVariable String courseId, @PathVariable String seminarId) {
         return "teacher/seminar";
     }
 
@@ -110,8 +119,8 @@ public class TeacherPageController {
      * 更新讨论课信息
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar/{id}?action=update")
-    public String updateSminar() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}/update")
+    public String updateSminar(@PathVariable String courseId, @PathVariable String seminarId) {
         return "teacher/seminar_update";
     }
 
@@ -119,8 +128,8 @@ public class TeacherPageController {
      * 创建讨论课
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar?action=create")
-    public String createSeminar() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/create")
+    public String createSeminar(@PathVariable String courseId) {
         return "teacher/seminar_create";
     }
 
@@ -128,8 +137,8 @@ public class TeacherPageController {
      * 获取讨论课所有小组的分数
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar/{id}/score")
-    public String getScore() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}/score")
+    public String getScore(@PathVariable String courseId, @PathVariable String seminarId) {
         return "teacher/score";
     }
 
@@ -137,8 +146,8 @@ public class TeacherPageController {
      * 创建话题
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar/{id}/topic?action=create")
-    public String createTopic() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}/topic/create")
+    public String createTopic(@PathVariable String courseId, @PathVariable String seminarId) {
         return "teacher/topic_create";
     }
 
@@ -146,8 +155,8 @@ public class TeacherPageController {
      * 查看该讨论课的话题
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar/{id}/topic/{id}")
-    public String topic() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}/topic/{topicId}")
+    public String topic(@PathVariable String courseId, @PathVariable String seminarId, @PathVariable String topicId) {
         return "teacher/topic";
     }
 
@@ -155,8 +164,8 @@ public class TeacherPageController {
      * 更新话题
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar/{id}/topic/{id}?action=update")
-    public String updateTopic() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}/topic/{topicId}/update")
+    public String updateTopic(@PathVariable String courseId, @PathVariable String seminarId, @PathVariable String topicId) {
         return "teacher/topic_update";
     }
 
@@ -164,8 +173,8 @@ public class TeacherPageController {
      * 查看报告以及打分
      * @return
      */
-    @RequestMapping("/teacher/course/{id}/seminar/{id}/score?action=score")
-    public String scoreReport() {
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}/score/score")
+    public String scoreReport(@PathVariable String courseId, @PathVariable String seminarId) {
         return "teacher/report_socre";
     }
 

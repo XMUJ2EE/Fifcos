@@ -1,101 +1,132 @@
 package xmu.crms.service;
-
-import xmu.crms.entity.Class;
-import xmu.crms.entity.Course;
-import xmu.crms.entity.Seminar;
-import xmu.crms.view.vo.SeminarGradeDetail;
-
+import java.math.BigInteger;
 import java.util.List;
-import java.util.Map;
+import xmu.crms.exception.*;
+import xmu.crms.entity.*;
+
 
 /**
- * Course的服务接口
- * @author Xuezhang.Liu
+ * 
+ * @author YeXiaona ZhouZhongjun CaoXingmei
+ * @version 2.00
  *
  */
 public interface CourseService {
+	/**
+	 * 按userId获取与当前用户相关联的课程列表.
+	 * <p>老师与他相关联的课程列表<br> 
+	 * @author ZhouZhongjun
+	 * @param userId 用户Id
+	 * @return null 课程列表
+	 * @exception InfoIllegalException userId格式错误时抛出
+	 * @exception CourseNotFoundException 未找到课程
+	 */
+	 List<Course> listCourseByUserId(BigInteger userId) throws InfoIllegalException,CourseNotFoundException;
+	
+	
+	/**
+	 * 按userId创建课程.
+	 * @author ZhouZhongjun
+	 * @param userId 用户Id
+	 * @param course 课程信息
+	 * @return courseId 新建课程的id
+	 * @exception InfoIllegalException userId格式错误时抛出
+	 */
+	 BigInteger insertCourseByUserId(BigInteger userId,Course course) throws InfoIllegalException;
+	
+	
+	/**
+	 * 按courseId获取课程 .
+	 * @author ZhouZhongjun
+	 * @param courseId 课程Id
+	 * @return course
+	 * @exception InfoIllegalException courseId格式错误时抛出
+	 * @exception CourseNotFoundException 未找到课程
+	 */
+	 Course getCourseByCourseId(BigInteger courseId) throws InfoIllegalException,CourseNotFoundException;
+	
+	
+	/**
+	 * 传入courseId和course信息修改course信息.
+	 * @author ZhouZhongjun
+     * @param courseId 课程Id
+	 * @param course 课程信息
+	 * @return true修改成功  false修改失败
+	 */
+	 Boolean updateCourseByCourseId(BigInteger courseId,Course course);
+	
+	
+	/**
+	 * 按courseId删除课程.
+	 * <p>先根据courseID删除Seminar 和 class,然后再将course的信息删除<br>  
+	 * @author ZhouZhongjun
+     * @param courseId 课程Id
+	 * @see SeminarService #deleteSemiarByCourseId(BigInteger courseId)
+	 * @see ClassService   #deleteClassByCourseId(BigInteger courseId)
+	 * @return true删除成功  false删除失败
+	 * @exception InfoIllegalException courseId格式错误时抛出
+	 * @exception CourseNotFoundException 未找到课程
+	 */
+	Boolean deleteCourseByCourseId(BigInteger courseId) throws InfoIllegalException,CourseNotFoundException;
+	
 
-    /**
-     * 获取与当前用户相关联的课程列表
-     * @param userId 当前用户的id
-     * @return Course 列表
-     */
-    List<Course> getCourseListById(int userId);
-
-    /**
-     * 创建课程，将课程对象映射到数据库
-     * @param userId 创建课程的用户id
-     * @param course 课程对象
-     * @return 新创建课程的id
-     */
-    int addCourse(int userId, Course course);
-
-    /**
-     * 按照课程id查找课程
-     * @param courseId 课程id
-     * @return 课程对象，失败返回0
-     */
-    Course getCourseById(int courseId);
-
-    /**
-     * 修改课程信息
-     * @param courseId Course 的id
-     * @param course 课程对象
-     * @return True or False
-     */
-    Boolean updateCourseById(int courseId, Course course);
-
-    /**
-     * 按照id删除课程
-     * @param userId 当前用户的id
-     * @param courseId 课程id
-     * @return True or False
-     */
-    Boolean deleteCourseById(int userId, int courseId);
-
-    /**
-     * 按照课程id寻找课程的班级列表
-     * @param courseId 课程id
-     * @return 班级列表
-     */
-    List<Map<String, Object>> getClassListByCourseId(int courseId);
-
-    /**
-     * 在指定id的课程下创建班级
-     * @param courseId 课程id
-     * @param myClass class对象
-     * @return class 的id和name
-     */
-    int addClassByCourseId(int courseId, Class myClass);
-
-    /**
-     * 按照课程id获取讨论课详情列表
-     * @param courseId 课程id
-     * @return Seminar列表
-     */
-    List<Seminar> getSeminarListByCourseId(int courseId);
-
-    /**
-     * 在指定课程下创建seminar
-     * @param courseId 课程id
-     * @param seminar 讨论课对象
-     * @return Seminar id
-     */
-    int addSeminarByCourseId(int courseId, Seminar seminar);
-
-    /**
-     * 获取当前正在进行的讨论课
-     * @param courseId 课程id
-     * @return 当前正在进行的讨论课详情或者null
-     */
-    Seminar getCurrentSeminarByCourseId(int courseId);
-
-    /**
-     * 获取课程下所有的讨论课成绩
-     * @param courseId 课程id
-     * @param userId 用户id
-     * @return 课程下所有小组的讨论课成绩列表
-     */
-    List<SeminarGradeDetail> getAllSeminarGradeByCourseId(int courseId, int userId);
-
+	
+	/**
+	 * 根据课程名称获取课程列表.
+	 * <p>根据课程名称获取课程列表<br>
+	 * @author YeXiaona
+	 * @param courseName 课程名称
+	 * @return list 课程列表
+	 * @see CourseService #getCourseByCourseId(BigInteger courseId)
+	 * @exception InfoIllegalException courseId格式错误时抛出
+	 * @exception CourseNotFoundException 未找到课程
+	 */
+	 List<Course> listCourseByCourseName(String courseName) throws InfoIllegalException,CourseNotFoundException;
+	
+	
+	/**
+	 * 按课程名称获取班级列表.
+	 * <p>根据课程名获取课程ID，通过课程ID获取班级列表<br>
+	 * @author YeXiaona
+	 * @param courseName 课程名称
+	 * @return list 班级列表
+	 * @see CourseService #listCourseByCourseName(String courseName)
+	 * @see ClassService #listClassByCourseId(BigInteger courseId)
+	 * @exception InfoIllegalException courseId格式错误时抛出
+	 * @exception CourseNotFoundException 未找到课程
+	 * @exception ClassNotFoundException 未找到班级
+	 */
+	 List<ClassInfo> listClassByCourseName(String courseName) throws InfoIllegalException,CourseNotFoundException,ClassNotFoundException;
+	
+	
+	/**
+	 * 按教师名称获取班级列表.
+	 * <p>根据教师名称获取课程ID，通过课程ID获取班级列表<br>
+	 * @author YeXiaona
+	 * @param teacherName 教师名称
+	 * @return list 班级列表
+	 * @see UserService #listUserIdByUserName(String userName)
+	 * @see CourseService #listClassByUserId(BigInteger userId)
+	 * @exception UserNotFoundException 未找到用户
+	 * @exception CourseNotFoundException 未找到课程
+	 * @exception ClassNotFoundException 未找到班级
+	 */
+	 List<ClassInfo> listClassByTeacherName(String teacherName) throws UserNotFoundException,CourseNotFoundException,ClassNotFoundException;
+	
+	
+	/**
+	 * 根据教师ID获取班级列表.  
+	 * @author YeXiaona
+	 * @param userId 教师ID
+	 * @return list 班级列表
+	 * @see CourseService #listCourseByUserId(BigInteger userId)
+	 * @see ClassService #listClassByCourseId(BigInteger courseId)
+	 * @exception InfoIllegalException userId格式错误时抛出或courseId格式错误时抛出
+	 * @exception CourseNotFoundException 未找到课程
+	 * @exception ClassNotFoundException 未找到班级
+	 */
+	 List<ClassInfo> listClassByUserId(BigInteger userId)
+	        throws InfoIllegalException,CourseNotFoundException,
+	        ClassNotFoundException;
 }
+

@@ -4,7 +4,6 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,11 +12,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
-import xmu.crms.entity.Grade;
-import xmu.crms.entity.PresentationGrade;
-import xmu.crms.service.GroupService;
-import xmu.crms.service.GroupServiceImpl;
-import xmu.crms.view.vo.GroupDetailsVO;
 
 @Controller
 
@@ -165,7 +159,7 @@ public class GroupController {
 	@ResponseBody
 	public ResponseEntity getGradeByGroupId(@PathVariable int groupId) {
 
-//		Grade grade = groupService.getGradeByGroupId(groupId);
+//		GradeService grade = groupService.getGradeByGroupId(groupId);
 //		if (groupId <= 0)
 //			return ResponseEntity.status(400).body(null);
 //		if (grade != null) {
