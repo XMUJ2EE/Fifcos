@@ -19,14 +19,13 @@ function getusername(){ //getusername from cookie
 }
 
 $(function(){
-    teainfo();
-    getteainfo();
+    //teainfo();
+   // getteainfo();
 });
 
 /*---------------------------- teacher/bind--------------------------------------*/
-
 function teabind(){
-     alert("成功!");
+    alert("成功!");
     var Gender;
     if($("#male").attr('checked')){
         Gender = "male";
@@ -70,7 +69,7 @@ function teainfo(){
         dataType: "json",
         contentType: "application/json;",
         success: function (data, textStatus, xhr) {
-            console.log(xhr.status);
+           // console.log(xhr.status);
             if(xhr.status==200){
                 document.cookie = 'username='+data.id; //store username in cookie
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
@@ -115,17 +114,22 @@ function getteainfo(){  //get techer information
 }
 
 function teainfomod(){
+         var ata = {
+            name:$("#name").val(),
+            gender:$("#gender").val(),
+            title:$("#title").val(),
+            email:$("#eMail").val(),
+            phone:$("#phone").val(),
+            avatar: "/avatar/3486.png"
+        }
         $.ajax({
         type:'put',
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
-        //data: JSON.stringify(ata),
-        data:$('#updateinfo').serialize(),
-         error: function(request) {
-                    alert("Connection error");
-                },
+        data: JSON.stringify(ata),
         success: function (data,textStatus,xhr) {
+            console.log(xhr.status);
             if(xhr.status==204){
                 alert("修改成功!");
                 window.location.href='/teacher/home';

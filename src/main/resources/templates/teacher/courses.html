@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>教师主页</title>
-    <link href="../../css/teacher/TeacherCourseHomePage.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/teacher/TeacherCourseHomePage.css" rel="stylesheet" type="text/css"/>
 </head>
 <body >
     	<div class="top">
@@ -11,9 +11,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="../../Img/home.png">首页
-        		<img src="../../Img/help.png">帮助
-        		<img src="../../Img/exit.png">退出
+        		<img src="/Img/home.png">首页
+        		<img src="/Img/help.png">帮助
+        		<img src="/Img/exit.png">退出
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -30,8 +30,7 @@
             <div class="content" id="coursecontent">
               <div class="title">课程信息</div>
               <hr class="line"/>
-                
-              
+
           <div class="main_box_right_content">
   				<h3 class="classtitle" id="name">J2EE
   					<button type="submit" onclick="deletecourse(this.id)">删除课程</button>
@@ -39,7 +38,6 @@
   				</h3>
 			<div class="divideline"></div>
 				<div  class="classinfo" onclick="window.location.href='course.html'">
-					      
                 <table class="table">
                   <tr>
                     <td class="tabletext">班级数：<span id="numClass">1</span></td>  <td class="tabletext" id="numStudent">学生人数：60</td>
@@ -51,16 +49,14 @@
 				</div>
 		    </div>
           <div class="main_box_right_content"  onclick="window.location.href='course_create.html'">
-				<img class="addcourse" src="../../Img/add.png"  >
+				<img class="addcourse" src="/img/add.png"  >
 		    </div>
             </div>
-            
-           
             <div class="clear"></div>
         </div>
     <!-- jquery.js-->
-    <script src ="../../js/jquery-1.10.2.js"></script>
+    <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student.js -->
-    <script src ="../../js/TeacherCourse.js""></script>
+    <script src ="/js/TeacherCourse.js""></script>
 </body>
 </html>

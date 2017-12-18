@@ -3,8 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>新建课程</title>
-    <link href="../../css/teacher/TeacherCreateCoursePage.css"rel="stylesheet" type="text/css"/>
-    
+    <link href="/css/teacher/TeacherCreateCoursePage.css"rel="stylesheet" type="text/css"/>
 </head>
 <body>
     	<div class="top">
@@ -12,9 +11,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="../../Img/home.png">首页
-        		<img src="../../Img/help.png">帮助
-        		<img src="../../Img/exit.png">退出
+        		<img src="/img/home.png">首页
+        		<img src="/img/help.png">帮助
+        		<img src="/img/exit.png">退出
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -28,10 +27,8 @@
                 </div>
             </div>
             <div class="content">
-           
 		  <div class="title">新建课程</div>
 		  <hr class="line"/>
-	     
         <br/>
        <form class="form" action="" method="PUT" onsubmit="return createcourse();">
           <div class="itemName" >
@@ -44,30 +41,23 @@
           课程介绍：<br/>
           <textarea name="courseinfo" cols="80" rows="5"></textarea><br/>
           评分规则*： <br/>
-         
          <div class="scorerule">
             <p> 讨论课分数占比:<input type="text" name="seminarscore">报告分数占比：<input type="text" name="reportscore"></p>
             <p>五分占比:<input type="text" name="five">四分占比：<input type="text" name="four">三分占比：<input type="text" name="three"></p>
          </div>
-        
         <br/>
         <div class="buttons">
-          
           <input class="button" type="submit" name="submit"/><input class="button" type="reset" name="reset"/>
-          
         </div>
-             </form>  
+             </form>
           </div>
       </div>
           </div>
-        
-           
             <div class="clear"></div>
-   
     <!-- jquery.js-->
-    <script src ="../../js/jquery-1.10.2.js"></script>
+    <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student.js -->
-    <script src ="../../js/TeacherCourse.js""></script>
+    <script src ="/js/TeacherCourse.js""></script>
 
 </body>
 </html>
