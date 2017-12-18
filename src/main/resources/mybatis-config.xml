@@ -6,14 +6,23 @@
 
     <typeAliases>
         <package name="xmu.crms.entity"/>
+        <package name="xmu.crms.mapper"/>
     </typeAliases>
 
-    <environments default="">
-        <environment id="">
-            <transactionManager type=""></transactionManager>
-            <dataSource type=""></dataSource>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"></transactionManager>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"></property>
+                <property name="url" value="${url}"></property>
+                <property name="username" value="${username}"></property>
+                <property name="password" value="${password}"></property>
+            </dataSource>
         </environment>
     </environments>
+    <mappers>
+        <package name="mapper"></package>
+    </mappers>
 
 
 

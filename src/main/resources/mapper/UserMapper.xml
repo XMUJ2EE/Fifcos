@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper>
+    <resultMap id="userResultMap" type="User">
+        <id property="id" column="id"/>
+        <result property="id" column="id" />
+        <result property="phone" column="phone" />
+        <result property="wechatId" column="wechat_id" />
+        <result property="openid" column="openid" />
+        <result property="avatar" column="avatar" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="school" column="school_id" />
+        <result property="gender" column="gender" />
+        <result property="type" column="type" />
+        <result property="number" column="number" />
+        <result property="education" column="education" />
+        <result property="title" column="title" />
+        <result property="email" column="email" />
+    </resultMap>
+    
+    <sql id="setCondition">
+        <set>
+            <if test="id != null and id != ''">and id=#{id}</if>
+            <if test="phone != null and phone != ''">and phone=#{phone}</if>
+            <if test="wechatId != null and wechatId != ''">and wechat_id=#{wechatId}</if>
+            <if test="openid != null and openid != ''">and openid=#{openid}</if>
+            <if test="avatar != null and avatar != ''">and avatar=#{avatar}</if>
+            <if test="password != null and password != ''">and password=#{password}</if>
+            <if test="name != null and name != ''">and `name`=#{name}</if>
+            <if test="school != null and school != ''">and school_id=#{school}</if>
+            <if test="gender != null and gender != ''">and gender=#{gender}</if>
+            <if test="type != null and type != ''">and `type`=#{type}</if>
+            <if test="number != null and number != ''">and `number`=#{number}</if>
+            <if test="education != null and education != ''">and education=#{education}</if>
+            <if test="title != null and title != ''">and title=#{title}</if>
+            <if test="email != null and email != ''">and email=#{email}</if>
+        </set>
+    </sql>
+
+    <select id="getUserByUserId" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avator, password, `name`, school_id, gender, `type`, `number`, education, title, email
+        from user_info
+        where id = #{id}
+    </select>
+
+    <update id="updateUserByUserId">
+        update user_info
+        <include refid="setCondition"></include>
+        where id = #{id}
+    </update>
+
+
+</mapper>
