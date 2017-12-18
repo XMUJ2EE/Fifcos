@@ -40,7 +40,7 @@ public interface GradeService {
 	 * @param grade 分数
 	 * @return true 提交成功 false 提交失败
 	 */
-	 Boolean insertGroupGradeByUserId(BigInteger userId,BigInteger seminarId,BigInteger groupId,BigInteger grade) ;
+	 Boolean insertGroupGradeByUserId(BigInteger userId, BigInteger seminarId, BigInteger groupId, BigInteger grade) ;
 
 	/**
 	 * 按ID设置小组报告分.

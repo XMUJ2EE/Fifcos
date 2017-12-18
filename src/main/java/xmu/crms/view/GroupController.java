@@ -159,7 +159,7 @@ public class GroupController {
 	@ResponseBody
 	public ResponseEntity getGradeByGroupId(@PathVariable int groupId) {
 
-//		Grade grade = groupService.getGradeByGroupId(groupId);
+//		GradeService grade = groupService.getGradeByGroupId(groupId);
 //		if (groupId <= 0)
 //			return ResponseEntity.status(400).body(null);
 //		if (grade != null) {

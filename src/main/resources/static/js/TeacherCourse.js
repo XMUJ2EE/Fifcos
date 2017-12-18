@@ -18,6 +18,11 @@ function getusername(){ //getusername from cookie
     return username;
 }
 
+$(function(){
+    teainfo();
+    getteainfo();
+});
+
 /*---------------------------- teacher/bind--------------------------------------*/
 
 function teabind(){
@@ -64,17 +69,18 @@ function teainfo(){
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
-        success: function (date) {
-            if(data.status==200){
+        success: function (data, textStatus, xhr) {
+            console.log(xhr.status);
+            if(xhr.status==200){
                 document.cookie = 'username='+data.id; //store username in cookie
-                $("username").html('用户名：'+'<span>'+data.id+'</span>');
-                document.getElementById("teaNum").innerHTML('教工号：'+'<span>'+data.number+'</span>');
-                document.getElementById("name").innerHTML('姓名：'+'<span>'+data.name+'</span>');
-                document.getElementById("gender").innerHTML('性别：'+'<span>'+data.gender+'</span>');
-                document.getElementById("school").innerHTML('学校：'+'<span>'+data.school.name+'</span>');
-                document.getElementById("title").innerHTML('职称：'+'<span>'+data.title+'</span>');
-                document.getElementById("email").innerHTML('邮箱：'+'<span>'+data.email+'</span>');
-                document.getElementById("phone").innerHTML('联系方式：'+'<span>'+data.phone+'</span>');
+                $("#username").html('用户名：'+'<span>'+data.id+'</span>');
+                $("#teaNum").html('教工号：'+'<span>'+data.number+'</span>');
+                $("#name").html('姓名：'+'<span>'+data.name+'</span>');
+                $("#gender").html ('性别：'+'<span>'+data.gender+'</span>');
+                $("#school").html('学校：'+'<span>'+data.school.name+'</span>');
+                $("#title").html ('职称：'+'<span>'+data.title+'</span>');
+                $("#email").html ('邮箱：'+'<span>'+data.email+'</span>');
+                $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
             else{
                 alert("获取信息失败");
@@ -90,16 +96,16 @@ function getteainfo(){  //get techer information
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
-        success: function (data,status) {
-            if(status == "OK"){
-                document.getElementById("username").innerHTML('用户名：'+'<span>'+data.id+'</span>');
-                document.getElementById("teaNum").attr("value",data.number);
-                document.getElementById("name").attr("value",data.name);
-                document.getElementById("gender").attr("value",data.gender);
-                document.getElementById("school").attr("value",data.school.name);
-                document.getElementById("title").attr("value",data.title);
-                document.getElementById("email").attr("value",data.email);
-                document.getElementById("phone").attr("value",data.phone);
+        success: function (data,textStatus,xhr) {
+            if(xhr.status==200){
+                document.cookie = 'username='+data.id; //store username in cookie
+                $("input[name='name']").val(data.name);
+                $("input[name='idnum']").val(data.number);
+                $("input[name='sex']").attr("value",data.gender);
+                $("input[name='school']").attr("value",data.school.name);
+                $("input[name='title']").attr("value",data.title);
+                $("input[name='e-mail']").attr("value",data.email);
+                $("input[name='phone']").attr("value",data.phone);
             }
             else{
                 alert("获取信息失败");
@@ -114,11 +120,15 @@ function teainfomod(){
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
-        data: JSON.stringify(ata),
-        success: function (data) {
-            if(data.status==204){
+        //data: JSON.stringify(ata),
+        data:$('#updateinfo').serialize(),
+         error: function(request) {
+                    alert("Connection error");
+                },
+        success: function (data,textStatus,xhr) {
+            if(xhr.status==204){
                 alert("修改成功!");
-                window.location.href="/teacher/home";  //跳转到教师信息的那个页
+                window.location.href='/teacher/home';
             }
             else{
                 alert("信息不合法");
