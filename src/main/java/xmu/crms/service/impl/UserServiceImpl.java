@@ -2,13 +2,13 @@ package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.crms.dao.UserDao;
 import xmu.crms.entity.Attendance;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.User;
 import xmu.crms.exception.ClassesNotFoundException;
 import xmu.crms.exception.SeminarNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.mapper.UserMapper;
 import xmu.crms.service.UserService;
 
 import java.math.BigInteger;
@@ -21,8 +21,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
-    @Autowired
-    private UserDao userDao;
+    private UserMapper userMapper;
 
     @Override
     public Boolean insertAttendanceById(BigInteger classId, BigInteger seminarId, BigInteger userId, double longitude, double latitude) throws ClassesNotFoundException, SeminarNotFoundException {
@@ -51,7 +50,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUserId(BigInteger userId) throws UserNotFoundException {
-        return userDao.getUserByUserId(userId);
+        return userMapper.getUserByUserId(userId);
     }
 
     @Override
