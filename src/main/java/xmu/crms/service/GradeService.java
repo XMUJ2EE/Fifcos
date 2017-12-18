@@ -49,7 +49,7 @@ public class GradeService {
 	 * @param grade 分数
 	 * @return true 提交成功 false 提交失败
 	 */
-	private boolean insertGroupGradeByUserId(BigInteger userId,BigInteger seminarId,BigInteger groupId,BigInteger grade) {
+	private boolean insertGroupGradeByUserId(BigInteger userId, BigInteger seminarId, BigInteger groupId, BigInteger grade) {
 	    
 	    //插入打分表
 	    return true;
@@ -79,7 +79,7 @@ public class GradeService {
 		
 		List<BigInteger> list = new ArrayList<BigInteger>();		
 		
-		return list;		
+		return list;
 	}
 	
 }
