@@ -46,11 +46,11 @@ public interface GradeService {
 	 * 按ID设置小组报告分.
 	 * 
 	 * @author Huhui
-	 * @param seminar_group_id 讨论课组id
+	 * @param seminarGroupId 讨论课组id
 	 * @param grade 分数
 	 * @return Boolean true 操作成功 false 操作失败
 	 */
-	 void updateGroupByGroupId(BigInteger seminar_group_id, BigInteger grade);
+	 void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade);
 	
 	/**
 	 * 获取某学生的讨论课成绩列表.

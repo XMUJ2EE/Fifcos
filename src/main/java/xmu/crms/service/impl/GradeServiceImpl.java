@@ -19,13 +19,12 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public void deleteStudentScoreGroupByTopicId(BigInteger topicId) {
-
+        gradeMapper.deleteStudentScoreGroupByTopicId(gradeMapper.listSeminarGroupTopicId(topicId));
     }
 
     @Override
     public List<BigInteger> listSeminarGradeBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId) {
-        gradeMapper.listSeminarGradeBySeminarGroupId(userId, seminarGroupId);
-        return null;
+        return gradeMapper.listSeminarGradeBySeminarGroupId(userId, seminarGroupId);
     }
 
     @Override
@@ -34,12 +33,13 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public void updateGroupByGroupId(BigInteger seminar_group_id, BigInteger grade) {
-        gradeMapper.updateGroupByGroupId(seminar_group_id, grade);
+    public void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade) {
+        gradeMapper.updateGroupByGroupId(seminarGroupId, grade);
     }
 
     @Override
     public List<BigInteger> listSeminarGradeByStudentId(BigInteger userId) {
-        return null;
+        BigInteger seminarGroupId = gradeMapper.getSeminarGroupIdByStudentId(userId);
+        return gradeMapper.listSeminarGradeByStudentId(seminarGroupId);
     }
 }

@@ -9,48 +9,65 @@
         <result property="seminar_group_id" column="seminar_group_id" />
         <result property="presentation_grade" column="presentation_grade" />
     </resultMap>
-9
-    <resultMap id="seminarGroupTopicResultMap" type="SeminarGroupTopic">
-        <collection property="id" column="id" ofType="int" select="selectSeminarGroupTopicIdByTopicId" />
-    </resultMap>
 
 
-    <select id="selectStudentScoreGroup" resultMap="seminarGroupTopicResultMap">
-        select id, topic_id, seminar_group_id, presentation_grade
-        from seminar_group_topic where topic_id = #{topicId}
-    </select>
 
-    <select id="selectSeminarGroupTopicIdByTopicId" parameterType="int">
-        select id from seminar_group_topic where topic_id = #{topicId}
-    </select>
-    
     <delete id="deleteStudentScoreGroupByTopicId" parameterType="int">
         delete from student_score_group
         where seminar_group_topic_id in
         (select id from seminar_group_topic where topic_id = #{topicId})
     </delete>
-
-
-
-
+    <select id="listSeminarGroupTopicId" parameterType="int">
+        select id from seminar_group_topic where topic_id = #{topicId}
+    </select>
+    <delete id="deleteStudentScoreGroupByTopicId" parameterType="List">
+        delete from student_score_group
+        where seminar_group_topic_id in
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </delete>
 
 
     <select id="listSeminarGradeBySeminarGroupId" parameterType="int">
         select presentation_grade from seminar_group_topic
-        where seminar_id = #{seminarGroupId}
+        where seminar_group_id = #{seminarGroupId}
     </select>
 
-    <insert id="insertGroupGradeByUserId">
 
+
+
+
+
+    <select id="selectSeminarGroupId" parameterType="int">
+        select id from seminar_group
+        where seminar_id = #{seminar_id}
+    </select>
+    <insert id="insertGroupGradeByUserId" useGeneratedKeys="true" keyProperty="id">
+        insert into student_score_group (student_id, seminar_group_topic_id, grade)
+        values (#{userId}, #{seminarGroupTopicId}, #{grade})
     </insert>
+
+
+
+
+
+
 
     <update id="updateGroupByGroupId">
         UPDATE seminar_group SET
-            report_grade = #{grade}
-        WHERE id = #{seminar_group_id}
+        report_grade = #{grade}
+        WHERE id = #{seminarGroupId}
     </update>
 
-    <select id="listSeminarGradeByStudentId" parameterType="int">
-
+    
+    <select id="getSeminarGroupIdByStudentId" parameterType="int">
+        select seminar_id from seminar_group_member
+        where student_id = #{userId}
     </select>
+    <select id="listSeminarGradeByStudentId" parameterType="int">
+        select presentation_grade from seminar_group_topic
+        where seminar_group_id = #{seminarGroupId}
+    </select>
+
 </mapper>
