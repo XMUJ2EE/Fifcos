@@ -1,6 +1,7 @@
 package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import xmu.crms.entity.Attendance;
 import xmu.crms.entity.Course;
@@ -21,6 +22,7 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    @Autowired(required = false)
     private UserMapper userMapper;
 
     @Override
@@ -34,8 +36,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User signUpPhone(User user) {
-        return null;
+    public User signUpPhone(User user) throws Exception{
+        User fakeUser = userMapper.getUserByNumber(user.getNumber());
+        if(fakeUser != null){
+            throw new Exception("用户已存在");
+        }
+        userMapper.insertUser(user);
+        return userMapper.getUserByNumber(user.getNumber());
     }
 
     @Override
@@ -60,7 +67,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void updateUserByUserId(BigInteger userId, User user) throws UserNotFoundException {
-
+        userMapper.updateUserByUserId(userId, user);
     }
 
     @Override

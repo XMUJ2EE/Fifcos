@@ -14,6 +14,7 @@ import xmu.crms.entity.User;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.service.UserService;
 
+import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.Map;
 
@@ -23,7 +24,7 @@ import java.util.Map;
 
 public class UserController {
 
-	@Autowired
+	@Resource
 	private UserService userService;
 	
 	@RequestMapping(value = "/me", method = GET)
@@ -32,7 +33,11 @@ public class UserController {
 		BigInteger id = BigInteger.valueOf(1);
 		try{
 			User user = userService.getUserByUserId(id);
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(user);
+			if(user != null){
+				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(user);
+			}else{
+				return ResponseEntity.status(404).build();
+			}
 		}catch (UserNotFoundException e){
 			System.out.println(e.getMessage());
 			return ResponseEntity.status(400).build();

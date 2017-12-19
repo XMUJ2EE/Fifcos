@@ -49,8 +49,8 @@ public interface UserService {
 	 * @param user 用户信息(手机号Phone和密码Password)
 	 * @return user 该用户信息
 	 */
-	 User signUpPhone(User user);
-	
+	 User signUpPhone(User user) throws Exception;
+
 	
 	/**
 	 * 用户解绑.

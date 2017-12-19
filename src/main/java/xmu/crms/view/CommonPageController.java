@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
  */
 @Controller
 public class CommonPageController {
-
     /**
      * 登陆
      * @return
