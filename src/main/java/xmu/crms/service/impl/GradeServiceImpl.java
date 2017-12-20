@@ -19,7 +19,7 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public void deleteStudentScoreGroupByTopicId(BigInteger topicId) {
-        gradeMapper.deleteStudentScoreGroupByTopicId(gradeMapper.listSeminarGroupTopicId(topicId));
+        gradeMapper.deleteStudentScoreGroupByTopicId(topicId);
     }
 
     @Override

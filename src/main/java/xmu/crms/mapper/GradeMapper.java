@@ -15,23 +15,18 @@ import java.util.List;
 @Mapper
 public interface GradeMapper {
 
-    //void deleteStudentScoreGroupByTopicId(BigInteger topicId);
+    void deleteStudentScoreGroupByTopicId(BigInteger topicId);
 
-    List<BigInteger> listSeminarGroupTopicId(BigInteger topicId);
-    void deleteStudentScoreGroupByTopicId(List<BigInteger> list);
 
     List<BigInteger> listSeminarGradeBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId);
-
-
 
     BigInteger getSeminarGroupTopicId(BigInteger topicId, BigInteger groupId);
     void insertGroupGradeByUserId(BigInteger userId, BigInteger seminarGroupTopicId, BigInteger grade);
 
 
 
-
-
     void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade);
+
 
     BigInteger getSeminarGroupIdByStudentId(BigInteger userId);
     List<BigInteger> listSeminarGradeByStudentId(BigInteger seminarGroupId);
