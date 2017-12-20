@@ -7,6 +7,10 @@
                                      maximum-scale=1.0,
                                      user-scalable=no">
     <title>ClassManage</title>
+     <!-- jquery.js-->
+    <script src ="/js/jquery-1.10.2.js"></script>
+    <!-- common.js -->
+    <script src="/js/common.js"></script>
     <!-- 最新版本的 Bootstrap 核心 CSS 文件 -->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css"
           integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
@@ -31,12 +35,8 @@
 <input type="text" class="UserNameField" id="username"></input>
 <div class="Password"> 密码</div>
 <input type="password" class="PasswordField" id="password"></input>
-<button class="Login" type="button" onclick="window.location.href='/student/home';">登录</button>
+<button class="Login" type="button" onclick="return login();">登录</button>
 <!--</form>-->
-<div class="Enroll"><a href="/student/bind">注册</a></div>
-    <!-- jquery.js-->
-    <script src ="/js/jquery-1.10.2.js"></script>
-    <!-- common.js -->
-    <script src="/js/common.js"></script>
+<div class="Enroll"><a onclick="window.location.href='/register'">注册</a></div>
 </body>
 </html>
