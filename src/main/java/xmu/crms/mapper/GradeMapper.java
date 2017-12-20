@@ -12,7 +12,6 @@ import java.util.List;
  * @author wang
  */
 
-@Mapper
 public interface GradeMapper {
 
     void deleteStudentScoreGroupByTopicId(BigInteger topicId);

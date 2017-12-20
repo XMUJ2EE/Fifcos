@@ -37,6 +37,8 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade) {
+        System.out.println(seminarGroupId);
+        System.out.println(grade);
         gradeMapper.updateGroupByGroupId(seminarGroupId, grade);
     }
 
