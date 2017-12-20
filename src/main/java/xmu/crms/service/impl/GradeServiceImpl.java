@@ -1,5 +1,6 @@
 package xmu.crms.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.crms.mapper.GradeMapper;
 import xmu.crms.service.GradeService;
@@ -15,6 +16,7 @@ import java.util.List;
 @Service
 public class GradeServiceImpl implements GradeService {
 
+    @Autowired(required = false)
     private GradeMapper gradeMapper;
 
     @Override
@@ -37,8 +39,6 @@ public class GradeServiceImpl implements GradeService {
 
     @Override
     public void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade) {
-        System.out.println(seminarGroupId);
-        System.out.println(grade);
         gradeMapper.updateGroupByGroupId(seminarGroupId, grade);
     }
 

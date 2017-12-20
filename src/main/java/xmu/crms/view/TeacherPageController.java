@@ -98,6 +98,15 @@ public class TeacherPageController {
     }
 
     /**
+     * 修改班级信息
+     * @return
+     */
+    @RequestMapping("/teacher/course/{courseId}/class/{classId}/update")
+    public String updateClass(@PathVariable String courseId, @PathVariable String classId) {
+        return "class_update";
+    }
+
+    /**
      * 创建班级
      * @return
      */
