@@ -1,0 +1,197 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xmu.crms.mapper.GradeMapper">
+
+    <resultMap id="seminarGroupTopicResultMap" type="SeminarGroupTopic">
+        <id property="id" column="id" />
+        <result property="topic_id" column="topic_id" />
+        <result property="seminar_group_id" column="seminar_group_id" />
+        <result property="presentation_grade" column="presentation_grade" />
+    </resultMap>
+
+    <resultMap id="userResultMap" type="User">
+        <id  property="id" column="id"/>
+        <result property="phone" column="phone" />
+        <result property="wechatId" column="wechat_id" />
+        <result property="openid" column="openid" />
+        <result property="avatar" column="avatar" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="gender" column="gender" />
+        <result property="type" column="type" />
+        <result property="number" column="number" />
+        <result property="education" column="education" />
+        <result property="title" column="title" />
+        <result property="email" column="email" />
+        <association property="school" column="school_id" javaType="School" select="getSchoolById">
+        </association>
+    </resultMap>
+
+    <resultMap id="courseResultMap" type="Course">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="description" column="description" />
+        <result property="reportPercentage" column="report_percentage" />
+        <result property="presentationPercentage" column="presentation_percentage" />
+        <result property="fivePointPercentage" column="five_point_percentage" />
+        <result property="fourPointPercentage" column="four_point_percentage" />
+        <result property="threePointPercentage" column="three_point_percentage" />
+        <association property="teacher" column="teacher_id" javaType="User" select="getUserByUserId" />
+    </resultMap>
+
+    <resultMap id="seminarResultMap" type="Seminar" >
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="description" column="description" />
+        <result property="fixed" column="is_fixed" />
+        <result property="startTime" column="start_time" javaType="Date" />
+        <result property="endTime" column="end_time" javaType="Date" />
+        <association property="course" column="course_id" javaType="Course" select="getCourseByCourseId" />
+    </resultMap>
+
+    <resultMap id="classInfoResultMap" type="ClassInfo">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="site" column="site" />
+        <result property="classTime" column="class_time" />
+
+        <result property="reportPercentage" column="report_percentage" />
+        <result property="presentationPercentage" column="presentation_percentage" />
+        <result property="fivePointPercentage" column="five_point_percentage" />
+        <result property="fourPointPercentage" column="four_point_percentage" />
+        <result property="threePointPercentage" column="three_point_percentage" />
+        <association property="course" column="course_id" javaType="Course" select="getCourseByCourseId" />
+    </resultMap>
+
+    <resultMap id="seminarGroupResultMap" type="SeminarGroup">
+        <id property="id" column="id" />
+        <result property="report" column="report" />
+        <result property="reportGrade" column="report_grade" />
+        <result property="presentationGrade" column="presentation_grade" />
+        <result property="finalGrade" column="final_grade" />
+        <association property="leader" column="leadr_id" javaType="User" select="getUserByUserId" />
+        <association property="seminar" column="seminar_id" javaType="Seminar" select="listSeminarByCourseId" />
+        <association property="classInfo" column="class_id" javaType="ClassInfo"  select="getClassInfoByClassId" />
+    </resultMap>
+
+
+    <select id="getSchoolById" parameterType="java.math.BigInteger" resultType="School">
+        select id, `name`, province, city from school where id=#{id}
+    </select>
+
+    <select id="getUserByUserId" parameterType="java.math.BigInteger" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id = #{id}
+    </select>
+
+
+
+    <select id="listSeminarByCourseId" parameterType="java.math.BigInteger" resultMap="seminarResultMap">
+        select id, `name`, description, course_id, is_fixed, strat_time, end_time from seminar
+        where course_id = #{courseId}
+    </select>
+
+    <delete id="deleteStudentScoreGroupByTopicId" parameterType="java.math.BigInteger">
+        delete from student_score_group
+        where seminar_group_topic_id in
+        (select id from seminar_group_topic where topic_id = #{topicId})
+    </delete>
+
+
+    <select id="listSeminarGradeBySeminarGroupId" parameterType="java.math.BigInteger" resultType="java.math.BigInteger">
+        select presentation_grade from seminar_group_topic
+        where seminar_group_id = #{seminarGroupId}
+    </select>
+
+
+
+    <select id="getSeminarGroupTopicId" parameterType="java.math.BigInteger">
+        select id from seminar_group
+        where topic_id = #{topic_id} and seminar_group_id = #{groupId}
+    </select>
+    <insert id="insertGroupGradeByUserId" useGeneratedKeys="true" keyProperty="id">
+        insert into student_score_group (student_id, seminar_group_topic_id, grade)
+        values (#{userId}, #{seminarGroupTopicId}, #{grade})
+    </insert>
+
+
+
+
+
+
+
+    <update id="updateGroupByGroupId">
+        UPDATE seminar_group SET
+        report_garde = 4
+        WHERE id = 2
+    </update>
+
+    
+    <select id="getSeminarGroupIdByStudentId" parameterType="java.math.BigInteger">
+        select seminar_id from seminar_group_member
+        where student_id = #{userId}
+    </select>
+    <select id="listSeminarGradeByStudentId" parameterType="java.math.BigInteger">
+        select final_grade from seminar_group_topic
+        where seminar_group_id = #{seminarGroupId}
+    </select>
+
+<!--
+    <resultMap id="presentationGrade" type="PresentationGradeVO">
+        <result property="topicId" column="topic_id" />
+        <result property="grade" column="presentation_grade" />
+    </resultMap>
+
+    <select id="getPresentationGrade" resultMap="presentationGrade">
+        select
+    </select>
+
+    <resultMap id="groupGradeResultMap" type="GroupGradeVO">
+        <association property="presentationGrade" resultMap="" select=""/>
+        <result property="reportGrade" column="report_grade" />
+        <result property="grade" column="final_grade" />
+    </resultMap>
+-->
+
+
+<!--
+    <resultMap id="gradeResultMap" type="SeminarGradeDetail">
+        <id property="seminarId" column="seminar_id" />
+        <result property="leaderId" column="leader_id" />
+        <result property="presentationGrade" column="presentation_grade" />
+        <result property="reportGrade" column="report_grade" />
+        <result property="finalGrade" column="final_grade" />
+    </resultMap>
+    <select id="listSeminar" parameterType="int">
+        select id from seminar
+        where course_id = #{courseId}
+    </select>
+    <select id="listSeminarGrade" parameterType="id" resultMap="gradeResultMap">
+        select seminar_id, leader_id, presentation_grade, report_grade, final_grade from seminar_group
+        where seminar_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>         -->     <!-- 按courseId获取所有学生的讨论课成绩-->
+    <!--
+        <select id="getLeaderNameByLeaderId" parameterType="int">
+            select `name` from user_info
+            where id = #{leaderId}
+        </select>
+        <select id="getSeminarNameBySeminarId" parameterType="int">
+            select `name` from seminar
+            where id = #{seminarId}
+        </select>
+    -->
+        <!-- 按courseId获取所有讨论课成绩 -->
+
+
+
+
+
+
+</mapper>

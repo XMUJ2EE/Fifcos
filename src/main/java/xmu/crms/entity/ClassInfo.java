@@ -1,6 +1,7 @@
 package xmu.crms.entity;
 
 import java.math.BigInteger;
+import java.util.List;
 
 public class ClassInfo {
 	private BigInteger id;
@@ -81,5 +82,5 @@ public class ClassInfo {
 	public void setThreePointPercentage(Integer threePointPercentage) {
 		this.threePointPercentage = threePointPercentage;
 	}
-	
+
 }

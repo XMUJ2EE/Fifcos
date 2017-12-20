@@ -8,6 +8,9 @@ public class Attendance {
 	private ClassInfo classInfo;
 	private Seminar seminar;
 	private Integer attendanceStatus;
+	public final static Integer PRESENT=0;
+	public final static Integer LATE=1;
+	public final static Integer ABSENCE=2;
 	
 	public BigInteger getId() {
 		return id;
@@ -39,5 +42,15 @@ public class Attendance {
 	public void setAttendanceStatus(Integer attendanceStatus) {
 		this.attendanceStatus = attendanceStatus;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Attendance{" +
+				"id=" + id +
+				", student=" + student +
+				", classInfo=" + classInfo +
+				", seminar=" + seminar +
+				", attendanceStatus=" + attendanceStatus +
+				'}';
+	}
 }

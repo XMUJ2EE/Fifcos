@@ -20,13 +20,10 @@ public interface UserService {
 	 * @param userId 学生的id
 	 * @param longitude 经度
 	 * @param latitude 纬度
-	 * @return true（添加签到信息成功）/false（添加签到信息未成功）
-	 * @exception ClassesNotFoundException 未找到班级
-	 * @exception SeminarNotFoundException 未找到讨论课
 	 */
-	 Boolean insertAttendanceById(BigInteger classId, BigInteger seminarId, 
+	 void insertAttendanceById(BigInteger classId, BigInteger seminarId,
 	        BigInteger userId, double longitude, double latitude) throws
-	ClassesNotFoundException,SeminarNotFoundException;
+	LocationNotFoundException, InvalidOperationException;
 	
 	/**
 	 * 获取学生签到信息.
@@ -39,8 +36,7 @@ public interface UserService {
 	 * @exception SeminarNotFoundException 未找到讨论课
 	 */
 	 List<Attendance> listAttendanceById(BigInteger classId, BigInteger seminarId)
-	        throws ClassesNotFoundException,
-	        SeminarNotFoundException;
+	        throws LocationNotFoundException;
 
 	/**
 	 * 手机号注册.
@@ -49,8 +45,8 @@ public interface UserService {
 	 * @param user 用户信息(手机号Phone和密码Password)
 	 * @return user 该用户信息
 	 */
-	 User signUpPhone(User user);
-	
+	 User signUpPhone(User user) throws UserDuplicatedException;
+
 	
 	/**
 	 * 用户解绑.
@@ -62,7 +58,7 @@ public interface UserService {
 	 * @see CourseService#deleteCourseByCourseId(BigInteger courseId)
 	 * @exception UserNotFoundException 未找到对应用户
 	 */
-	 boolean deleteTeacherAccount(BigInteger userId) throws
+	 void deleteTeacherAccount(BigInteger userId) throws
 	        UserNotFoundException;
 	
 	
@@ -75,7 +71,7 @@ public interface UserService {
 	 * @see ClassService#deleteCourseSelectionById(BigInteger userId,BigInteger classId)
 	 * @exception UserNotFoundException 未找到对应用户
 	 */		
-	 Boolean deleteStudentAccount(BigInteger userId) throws
+	 void deleteStudentAccount(BigInteger userId) throws
 	        UserNotFoundException;
 	
 	
@@ -151,7 +147,7 @@ public interface UserService {
 	 * @see UserService #listAttendanceById(BigInteger, BigInteger)
 	 * @see UserService #getUserByUserId(BigInteger)
 	 */
-	 List<User> listPresentStudent(BigInteger seminarId, BigInteger classId);
+	 List<User> listPresentStudent(BigInteger seminarId, BigInteger classId)throws LocationNotFoundException;
 
 
 	/**
@@ -163,7 +159,7 @@ public interface UserService {
 	 * @see UserService #listUserByClassId(BigInteger, String, String)
 	 * @see UserService #listPresentStudent(BigInteger, BigInteger)
 	 */
-	 List<User> listAbsenceStudent(BigInteger seminarId,BigInteger classId);
+	 List<User> listAbsenceStudent(BigInteger seminarId,BigInteger classId) throws LocationNotFoundException;
 	
 	/**
 	 * 根据教师名称列出课程名称.
@@ -173,6 +169,7 @@ public interface UserService {
 	 * @return list 课程列表
 	 * @see UserService #listUserByUserName(String userName)
 	 * @see CourseService #listCourseByUserId(BigInteger userId)
+	 * @exception UserNotFoundException
 	 */
-	 List<Course> listCourseByTeacherName(String teacherName);
+	 List<Course> listCourseByTeacherName(String teacherName) throws UserNotFoundException, CourseNotFoundException;
 }
