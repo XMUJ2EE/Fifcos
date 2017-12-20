@@ -1,0 +1,173 @@
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xmu.crms.mapper.UserMapper">
+
+    <resultMap id="userResultMap" type="User">
+        <id  property="id" column="id"/>
+        <result property="phone" column="phone" />
+        <result property="wechatId" column="wechat_id" />
+        <result property="openid" column="openid" />
+        <result property="avatar" column="avatar" />
+        <result property="password" column="password" />
+        <result property="name" column="name" />
+        <result property="gender" column="gender" />
+        <result property="type" column="type" />
+        <result property="number" column="number" />
+        <result property="education" column="education" />
+        <result property="title" column="title" />
+        <result property="email" column="email" />
+        <association property="school" column="school_id" javaType="School" select="getSchoolById">
+        </association>
+    </resultMap>
+
+    <resultMap id="courseResultMap" type="Course">
+        <id property="id" column="id" />
+        <result property="name" column="name" />
+        <result property="startDate" column="start_date" />
+        <result property="endDate" column="end_date" />
+        <result property="description" column="description" />
+        <result property="reportPercentage" column="report_percentage" />
+        <result property="presentationPercentage" column="presentation_percentage" />
+        <result property="fivePointPercentage" column="five_point_percentage" />
+        <result property="fourPointPercentage" column="four_point_percentage" />
+        <result property="threePointPercentage" column="three_point_percentage" />
+        <association property="teacher" column="teacher_id" javaType="User" select="getUserByUserId" />
+    </resultMap>
+
+    <resultMap id="locationResultMap" type="Location">
+        <id property="id" column="id" />
+        <result property="longitude" column="longitude" />
+        <result property="latitude" column="latitude" />
+        <result property="status" column="status" />
+    </resultMap>
+
+    <resultMap id="attendanceResultMap" type="Attendance">
+        <id property="id" column="id"/>
+        <result property="attendanceStatus" column="attendance_status" />
+        <association property="student" column="student_id" javaType="User" select="getUserByUserId" />
+    </resultMap>
+    
+    <sql id="setCondition">
+        <set>
+            <if test="id != null and id != ''">and id=#{id}</if>
+            <if test="phone != null and phone != ''">and phone=#{phone}</if>
+            <if test="wechatId != null and wechatId != ''">and wechat_id=#{wechatId}</if>
+            <if test="openid != null and openid != ''">and openid=#{openid}</if>
+            <if test="avatar != null and avatar != ''">and avatar=#{avatar}</if>
+            <if test="password != null and password != ''">and password=#{password}</if>
+            <if test="name != null and name != ''">and `name`=#{name}</if>
+            <if test="school != null and school != ''">and school_id=#{school}</if>
+            <if test="gender != null and gender != ''">and gender=#{gender}</if>
+            <if test="type != null and type != ''">and `type`=#{type}</if>
+            <if test="number != null and number != ''">and `number`=#{number}</if>
+            <if test="education != null and education != ''">and education=#{education}</if>
+            <if test="title != null and title != ''">and title=#{title}</if>
+            <if test="email != null and email != ''">and email=#{email}</if>
+        </set>
+    </sql>
+
+    <select id="getSchoolById" parameterType="java.math.BigInteger" resultType="School">
+        select id, `name`, province, city from school where id=#{id}
+    </select>
+
+    <select id="getUserByUserId" parameterType="java.math.BigInteger" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id = #{id}
+    </select>
+
+    <update id="updateUserByUserId">
+        update user_info
+        <include refid="setCondition"></include>
+        where id = #{id}
+    </update>
+
+    <select id="getSchoolByName" parameterType="java.lang.String" resultType="School">
+        select id, `name`, province, city from school where name = #{name}
+    </select>
+
+    <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
+        insert into user_info(phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email)
+        values (#{phone}, #{wechatId}, #{openid}, #{avatar}, #{password}, #{school.id}, #{name}, #{gender},
+        #{type}, #{number}, #{education}, #{title}, #{email})
+    </insert>
+
+    <delete id="deleteUserByUserId" parameterType="java.math.BigInteger">
+        delete from user where id = #{id}
+    </delete>
+
+    <select id="listCourseByTeacherId" parameterType="java.math.BigInteger" resultMap="courseResultMap">
+        select id, `name`, start_date, end_date, teacher_id, description, report_percentage, presentation_percentage,
+        five_point_percentage, four_point_percentage, three_point_percentage
+        from course where teacher_id = #{id}
+    </select>
+
+    <select id="getUserByNumber" parameterType="java.lang.String" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where `number` = #{number}
+    </select>
+
+    <update id="unbindUserById" parameterType="java.math.BigInteger">
+        update user_info set phone="" where id=#{id}
+    </update>
+
+    <select id="getUsersByName" parameterType="java.lang.String" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where `name` = #{name}
+    </select>
+
+    <select id="listUserByClassId" parameterType="java.math.BigInteger" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id in (select student_id from course_selection where course_selection.class_id = #{classId})
+    </select>
+
+    <select id="getLocationById" resultMap="locationResultMap">
+        select id, longitude, latitude, status
+        from location
+        where class_id = #{classId} and seminar_id = #{seminarId}
+    </select>
+
+    <insert id="insertAttendanceById" useGeneratedKeys="true" keyProperty="id">
+        insert into attendance(student_id, seminar_id, class_id, attendance_status)
+        values (#{userId}, #{seminarId}, #{classId}, #{status})
+    </insert>
+
+    <select id="listAbsenceStudentById" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id in (
+        select student_id from attendance
+        where seminar_id =#{seminarId} and class_id = #{classId} and attendance_status = 2)
+    </select>
+
+    <select id="listAttendanceById" resultMap="attendanceResultMap" >
+        select id, student_id, attendance_status from attendance
+        where class_id = #{classId} and seminar_id = #{seminarId}
+    </select>
+
+    <select id="listPresentStudent" resultMap="userResultMap" >
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id in (
+        select student_id from attendance
+        where seminar_id =#{seminarId} and class_id = #{classId} and attendance_status = 0)
+    </select>
+
+    <select id="listUnCallingStudent" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id not in (select student_id from attendance
+        where seminar_id=#{seminarId} and class_id=#{classId})
+    </select>
+</mapper>

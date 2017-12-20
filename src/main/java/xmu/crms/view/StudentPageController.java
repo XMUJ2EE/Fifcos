@@ -67,7 +67,7 @@ public class StudentPageController {
      * seminar
      * @return
      */
-    @RequestMapping("/student/course/{courseId}/seminar/{seminerId}")
+    @RequestMapping("/student/course/{courseId}/seminar/{seminarId}")
     public String seminarFixed(@PathVariable String courseId, @PathVariable String seminarId,
                                @RequestParam(value = "type",required = true) String type){
         if(type == "fixed"){

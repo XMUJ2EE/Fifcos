@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>教师主页</title>
-    <link href="../../css/teacher/TeacherCourseHomePage.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/teacher/TeacherCourseHomePage.css" rel="stylesheet" type="text/css"/>
 </head>
 <body >
     	<div class="top">
@@ -11,9 +11,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="../../Img/home.png">首页
-        		<img src="../../Img/help.png">帮助
-        		<img src="../../Img/exit.png">退出
+        		<img src="/Img/home.png">首页
+        		<img src="/Img/help.png">帮助
+        		<img src="/Img/exit.png">退出
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -22,24 +22,22 @@
                 <div class="title">导航</div>
                 <div class="line"></div>
                 <div class="courseIntroduction">
-           <a class="guidefont" href="TeacherHomePage.html">基本信息</a>
-                  <a class="guidefont" href="courses.html">课程信息</a>
-                  <a class="guidefont" href="course_create.html">新建课程</a>
+                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/home'">基本信息</a>
+                  <a class="guidefont" href="#"  onclick="window.location.href='/teacher/courses'">课程信息</a>
+                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/courses/create'">新建课程</a>
                 </div>
             </div>
             <div class="content" id="coursecontent">
               <div class="title">课程信息</div>
               <hr class="line"/>
-                
-              
+
           <div class="main_box_right_content">
   				<h3 class="classtitle" id="name">J2EE
   					<button type="submit" onclick="deletecourse(this.id)">删除课程</button>
-  					<button onclick="window.location.href='course_update.html'">修改课程</button>
+  					<button onclick="window.location.href='/teacher/course/{courseId}/update'">修改课程</button>
   				</h3>
 			<div class="divideline"></div>
-				<div  class="classinfo" onclick="window.location.href='course.html'">
-					      
+				<div  class="classinfo" onclick="window.location.href='/teacher/course/{courseId}'">
                 <table class="table">
                   <tr>
                     <td class="tabletext">班级数：<span id="numClass">1</span></td>  <td class="tabletext" id="numStudent">学生人数：60</td>
@@ -50,17 +48,15 @@
                 </table>
 				</div>
 		    </div>
-          <div class="main_box_right_content"  onclick="window.location.href='course_create.html'">
-				<img class="addcourse" src="../../Img/add.png"  >
+          <div class="main_box_right_content"  onclick="window.location.href='/teacher/courses/create'">
+				<img class="addcourse" src="/img/add.png"  >
 		    </div>
             </div>
-            
-           
             <div class="clear"></div>
         </div>
     <!-- jquery.js-->
-    <script src ="../../js/jquery-1.10.2.js"></script>
+    <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student.js -->
-    <script src ="../../js/TeacherCourse.js""></script>
+    <script src ="/js/TeacherCourse.js""></script>
 </body>
 </html>

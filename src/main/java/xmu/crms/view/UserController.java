@@ -2,6 +2,7 @@ package xmu.crms.view;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -9,7 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import xmu.crms.entity.User;
+import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.service.UserService;
 
+import javax.annotation.Resource;
+import java.math.BigInteger;
 import java.util.Map;
 
 @Controller
@@ -18,30 +24,24 @@ import java.util.Map;
 
 public class UserController {
 
-//	@Autowired
-//	private  UserService userService = new UserServiceImpl();
+	@Resource
+	private UserService userService;
 	
 	@RequestMapping(value = "/me", method = GET)
 	@ResponseBody
 	public ResponseEntity getCurrentUser() {
-//		int id = 3486;
-//		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userService.getUserById(id));
-		String a = "{\n" +
-				"  \"id\": 3486,\n" +
-				"  \"type\": \"student\",\n" +
-				"  \"name\": \"张三\",\n" +
-				"  \"number\": \"23320152202333\",\n" +
-				"  \"phone\": \"18911114514\",\n" +
-				"  \"email\": \"23320152202333@stu.xmu.edu.cn\",\n" +
-				"  \"gender\": \"male\",\n" +
-				"  \"school\": {\n" +
-				"    \"id\": 32,\n" +
-				"    \"name\": \"厦门大学\"\n" +
-				"  },\n" +
-				"  \"title\": \"\",\n" +
-				"  \"avatar\": \"/avatar/3486.png\"\n" +
-				"}";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
+		BigInteger id = BigInteger.valueOf(1);
+		try{
+			User user = userService.getUserByUserId(id);
+			if(user != null){
+				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(user);
+			}else{
+				return ResponseEntity.status(404).build();
+			}
+		}catch (UserNotFoundException e){
+			System.out.println(e.getMessage());
+			return ResponseEntity.status(400).build();
+		}
 	}
 	
 	@RequestMapping(value = "/me", method = PUT)

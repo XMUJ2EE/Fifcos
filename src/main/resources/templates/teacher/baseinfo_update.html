@@ -7,7 +7,7 @@
     <script src ="/js/jquery-1.10.2.js"></script>
     <script src ="/js/TeacherCourse.js"></script>
 </head>
-<body>
+<body onload=" return getteainfo();">
     	<div class="top">
         	<div class="font">
         		课堂管理系统
@@ -26,7 +26,7 @@
                 <div class="courseIntroduction">
                   <a class="guidefont" href="#" onclick="window.location.href='/teacher/home'">基本信息</a>
                   <a class="guidefont" href="#"  onclick="window.location.href='/teacher/courses'">课程信息</a>
-                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/courses?action=create'">新建课程</a>
+                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/courses/create'">新建课程</a>
                 </div>
             </div>
             <div class="content">
@@ -34,23 +34,22 @@
               <hr class="line"/>
                  <div class="imgarea"><img class="img" src="/img/link.jpg"/></div>
                  <div class="info">
-        <form id="updateinfo" action="" method="PUT" onsubmit="return teainfomod();">
         <table class="table">
         <tr class="itemName">
         <td id="username">用户名：<span>12345678978</span></td>
         <td id="teaNum">教工号：<input type="text" name="idnum"/></td>
         </tr>
         <tr class="itemName">
-        <td>姓名：<input type="text" name="name"/></td>
-        <td >性别：<input type="text" name="sex"/></td>
+        <td>姓名：<input type="text" name="name" id="name"/></td>
+        <td >性别：<input type="text" name="sex" id="gender"/></td>
         </tr>
         <tr class="itemName">
-        <td>学校：<input type="text" name="school"/></td>
-        <td >职称：<input type="text" name="title"/></td>
+        <td>学校：<input type="text" name="school" id="school"/></td>
+        <td >职称：<input type="text" name="title" id="title"/></td>
         </tr>
         <tr class="itemName">
-        <td >E-mail：<input type="text" name="e-mail"/></td>
-        <td >联系方式：<input type="text" name="phone"/></td>
+        <td >E-mail：<input type="text" name="e-mail" id="eMail"/></td>
+        <td >联系方式：<input type="text" name="phone" id="phone"/></td>
         </tr>
          </table>
          <br/>
@@ -58,9 +57,8 @@
         <br/>
         <br/>
        <div >
-         <button class="button">提交</button>
+         <button class="button" type="submit" onclick="return teainfomod();">提交</button>
         </div>
-        </form>
         </div>
             </div>
             <div class="clear"></div>
