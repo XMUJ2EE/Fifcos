@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="xmu.crms.mapper.GradeMapper">
+
+    <resultMap id="seminarGroupTopicResultMap" type="SeminarGroupTopic">
+        <id property="id" column="id" />
+        <result property="topic_id" column="topic_id" />
+        <result property="seminar_group_id" column="seminar_group_id" />
+        <result property="presentation_grade" column="presentation_grade" />
+    </resultMap>
+
+
+
+    <delete id="deleteStudentScoreGroupByTopicId" parameterType="int">
+        delete from student_score_group
+        where seminar_group_topic_id in
+        (select id from seminar_group_topic where topic_id = #{topicId})
+    </delete>
+    <select id="listSeminarGroupTopicId" parameterType="int">
+        select id from seminar_group_topic where topic_id = #{topicId}
+    </select>
+    <delete id="deleteStudentScoreGroupByTopicId" parameterType="List">
+        delete from student_score_group
+        where seminar_group_topic_id in
+            <foreach collection="list" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+    </delete>
+
+
+    <select id="listSeminarGradeBySeminarGroupId" parameterType="int">
+        select presentation_grade from seminar_group_topic
+        where seminar_group_id = #{seminarGroupId}
+    </select>
+
+
+
+
+
+
+
+
+    <select id="getSeminarGroupTopicId" parameterType="int">
+        select id from seminar_group
+        where topic_id = #{topic_id} and seminar_group_id = #{groupId}
+    </select>
+    <insert id="insertGroupGradeByUserId" useGeneratedKeys="true" keyProperty="id">
+        insert into student_score_group (student_id, seminar_group_topic_id, grade)
+        values (#{userId}, #{seminarGroupTopicId}, #{grade})
+    </insert>
+
+
+
+
+
+
+
+    <update id="updateGroupByGroupId">
+        UPDATE seminar_group SET
+        report_grade = #{grade}
+        WHERE id = #{seminarGroupId}
+    </update>
+
+    
+    <select id="getSeminarGroupIdByStudentId" parameterType="int">
+        select seminar_id from seminar_group_member
+        where student_id = #{userId}
+    </select>
+    <select id="listSeminarGradeByStudentId" parameterType="int">
+        select final_grade from seminar_group_topic
+        where seminar_group_id = #{seminarGroupId}
+    </select>
+
+
+
+
+
+
+
+
+    <resultMap id="gradeResultMap" type="SeminarGradeDetail">
+        <id property="seminarId" column="seminar_id" />
+        <result property="leaderId" column="leader_id" />
+        <result property="presentationGrade" column="presentation_grade" />
+        <result property="reportGrade" column="report_grade" />
+        <result property="finalGrade" column="final_grade" />
+    </resultMap>
+    <select id="listSeminar" parameterType="int">
+        select id from seminar
+        where course_id = #{courseId}
+    </select>
+    <select id="listSeminarGrade" parameterType="id" resultMap="gradeResultMap">
+        select seminar_id, leader_id, presentation_grade, report_grade, final_grade from seminar_group
+        where seminar_id in
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>              <!-- 按courseId获取所有学生的讨论课成绩-->
+
+    <select id="getLeaderNameByLeaderId" parameterType="int">
+        select `name` from user_info
+        where id = #{leaderId}
+    </select>
+    <select id="getSeminarNameBySeminarId" parameterType="int">
+        select `name` from seminar
+        where id = #{seminarId}
+    </select>
+
+
+
+
+
+
+
+
+
+    <!-- 按courseId获取所有讨论课成绩 -->
+
+
+
+
+
+
+</mapper>

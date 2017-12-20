@@ -2,8 +2,10 @@ package xmu.crms.view;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import java.math.BigInteger;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -12,14 +14,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+import xmu.crms.service.GradeService;
+import xmu.crms.service.impl.GradeServiceImpl;
+import xmu.crms.view.vo.PresentationGradeVO;
 
 @Controller
 
 @RequestMapping("/group")
 
 public class GroupController {
-//	@Autowired
+
 //	GroupService groupService = new GroupServiceImpl();
+	@Autowired
+	GradeService gradeService = new GradeServiceImpl();
 
 	@RequestMapping(value = "/{groupId}", method = GET)
 	@ResponseBody
@@ -194,13 +201,18 @@ public class GroupController {
 //		}else{
 //			return ResponseEntity.status(404).body(null);
 //		}
+        BigInteger groupId1 = BigInteger.valueOf(groupId);
+        BigInteger grade = BigInteger.valueOf(request.get("reportGrade"));
+
+		gradeService.updateGroupByGroupId(groupId1, grade);
+
 		return ResponseEntity.status(204).body(null);
 
 	}
 	
 	@RequestMapping(value = "/{groupId}/grade/presentation/{studentId}", method = PUT)
 	@ResponseBody
-	public ResponseEntity submitGradeByGroupId(@PathVariable int groupId, @PathVariable int studentId) {
+	public ResponseEntity submitGradeByGroupId(@PathVariable int groupId, @PathVariable int studentId, @RequestBody PresentationGradeVO presentationGradeVO) {
 //		//if (groupId <= 0)
 //			return ResponseEntity.status(400).body(null);
 //		//if (groupService.submitGradeByGroupId(groupId, studentId)){
@@ -208,6 +220,12 @@ public class GroupController {
 //		}else{
 //			return ResponseEntity.status(404).body(null);
 //		}
+        BigInteger topicId = BigInteger.valueOf(presentationGradeVO.getTopicId());
+        BigInteger grade = BigInteger.valueOf(presentationGradeVO.getGrade());
+        BigInteger groupId1 = BigInteger.valueOf(groupId);
+        BigInteger studentId1 = BigInteger.valueOf(studentId);
+        gradeService.insertGroupGradeByUserId(studentId1, BigInteger.valueOf(1), groupId1, topicId, grade);
+
 		return ResponseEntity.status(204).body(null);
 	}
 }
