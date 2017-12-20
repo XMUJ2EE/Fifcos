@@ -52,9 +52,7 @@ public class StudentPageController {
      * @return
      */
     @RequestMapping("/student/course/{courseId}")
-    public String courseDetail(@PathVariable String courseId){
-        return "student/course";
-    }
+    public String courseDetail(@PathVariable String courseId){ return "student/course"; }
 
     /**
      * 选课表单
@@ -78,6 +76,7 @@ public class StudentPageController {
             return "student/random_seminar";
         }
         return "error";
+        //return "student/fixed_seminar";
     }
 
 

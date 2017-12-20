@@ -1,201 +1,103 @@
-//
-// //---------------------------- support functions--------------------------------------
-// function updateCookie(name,value){
-//     document.cookie=name+'='+escape(value);
-// }
-//
-// function jumpSeminar(id1){//jump to specific Seminar
-//     var info = document.getElementById("id1").getAttribute("id");
-//     var arr = info.split(";");
-//     var sid = arr[0];var groupingmethod = arr[1];
-//     updateCookie('seminarCurrent',sid);
-//     updateCookie('groupingmethodCurrent',groupingmethod);
-//     location.href="StudentDiscussionClassPage("+groupingmethod+").html";
-// }
-//
-// function jumpTopicF(id1){//jump to specific topicF
-//     var tid = document.getElementById("id1").getAttribute("id");
-//     updateCookie('topicCurrent',tid);
-//     location.href="fixed_topic.html";
-// }
-//
-// function jumpTopicR(id1){//jump to specific topicR
-//     var tid = document.getElementById("id1").getAttribute("id");
-//     updateCookie('topicCurrent',tid);
-//     location.href="random_topic.html";
-// }
-//
-// /*
-// function getid(){//getid
-//     var loc = location.href;
-//     var n1 = loc.length;
-//     var n2 = loc.indexOf("=");
-//     var id = decodeURI(loc.substr(n2+1,n1-n2));//
-//     return id;
-// }
-// */
-//
-// function gettid(){//get topicid from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var topicCurrent;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("topicCurrent"==arr[0]){
-//             topicCurrent=arr[1];
-//             break;
-//         }
-//     }
-//     return topicCurrent;
-// }
-//
-// function getcid(){//get classid from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var classCurrent;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("classCurrent"==arr[0]){
-//             classCurrent=arr[1];
-//             break;
-//         }
-//     }
-//     return classCurrent;
-// }
-//
-// function getcourseid(){//get courseid from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var courseCurrent;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("courseCurrent"==arr[0]){
-//             courseCurrent=arr[1];
-//             break;
-//         }
-//     }
-//     return courseCurrent;
-// }
-//
-// function getsid(){//get seminarid from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var seminarCurrent;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("seminarCurrent"==arr[0]){
-//             seminarCurrent=arr[1];
-//             break;
-//         }
-//     }
-//     return seminarCurrent;
-// }
-//
-// function getgroupingmethod(){//get groupingmethod from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var groupingmethodCurrent;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("groupingmethodCurrent"==arr[0]){
-//             groupingmethodCurrent=arr[1];
-//             break;
-//         }
-//     }
-//     return groupingmethodCurrent;
-// }
-//
-// function getgid(){//get group from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var gid;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("gid"==arr[0]){
-//             gid=arr[1];
-//             break;
-//         }
-//     }
-//     return gid;
-// }
-//
-// function getcoursename(){//get coursename from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var coursename;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("coursename"==arr[0]){
-//             coursename=arr[1];
-//             break;
-//         }
-//     }
-//     return coursename;
-// }
-//
-// function getdescription(){//get description from cookie
-//     var Cookie=document.cookie;
-//     var arrCookie=Cookie.split(";"); //cookie split
-//     var description;
-//     for(var i=0;i<arrCookie.length;i++){
-//         var arr=arrCookie[i].split("=");
-//         if("description"==arr[0]){
-//             description=arr[1];
-//             break;
-//         }
-//     }
-//     return description;
-// }
-//
-//
+
+//---------------------------- support functions--------------------------------------
+
+function updateCookie(name, value) {
+    var exp = new Date();
+    exp.setTime(exp.getTime() + 6 * 24 * 60 * 60 * 1000); //6天过期
+    document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
+    return true;
+};
+
+function getCookie(name) {
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null) return unescape(arr[2]); return null;
+};
+
+function jumpSeminar(id1){//jump to specific Seminar
+    var info = id1;
+    var arr = info.split(";");
+    var sid = arr[0];var groupingmethod = arr[1];
+    updateCookie('seminarCurrent',sid);
+    //updateCookie('groupingmethodCurrent',groupingmethod);
+    window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+sid;
+}
+
+function jumpTopicF(id1){//jump to specific topicF
+    var tid = id1;
+    updateCookie('topicCurrent',tid);
+    location.href="fixed_topic.html";
+}
+
+function jumpTopicR(id1){//jump to specific topicR
+    var tid = id1;
+    updateCookie('topicCurrent',tid);
+    location.href="random_topic.html";
+}
+
+function getcid(){//get classid from cookie
+    var Cookie=document.cookie;
+    var arrCookie=Cookie.split(";"); //cookie split
+    var classCurrent;
+    for(var i=0;i<arrCookie.length;i++){
+        var arr=arrCookie[i].split("=");
+        if('classcurrent'==arr[0]){
+            classCurrent=arr[1];
+            break;
+        }
+    }
+    return classCurrent;
+}
 // //-----------------------------StudentCourseInformation--------------------------------------
-//
-// function courseinfo(){//show CourseInformation
-//         $.ajax({
-//         type:'get',
-//         url: '/course/'+getcourseid(),
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var description=document.getElementById("description");
-//                 var coursename=document.getElementById("coursename");
-//                 description.innerHTML = data.description;
-//                 coursename.innerHTML = data.name;
-//                 document.cookie = 'description='+ data.description;
-//                 document.cookie = 'coursename='+ data.name;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                  alert("未找到课程");
-//             }
-//         }
-//     });
-//         $.ajax({
-//         type:'get',
-//         url: '/course/'+getcourseid()+'/seminar',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var seminar=document.getElementById("seminarinfo");
-//                 var contenthead = '<div class="title">讨论课</div>'+
-//                                   '<div class="returnButton" onclick="window.location.href="courses.html"">返回上一页</div>'+
-//                                   '<div class="line"></div>'
-//                                   '<div class="blockBody">';
-//                 var contenttail = '</div>';
-//                 var str="";
-//                 for(var i=0;i<data.length;i++){
-//                         str += '<div class="block"><div class="blockFont" onclick="jumpSeminar(this.id)" id="'+data[i].id+';'+data[i].groupingMethod+'">'+data[i].name+'</div></div>';
-//                 }
-//                 seminar.innerHTML = contenthead+str+contenttail;
-//             }
-//         }
-//     });
-// }
-//
+
+function courseinfo(){//show CourseInformation
+        $.ajax({
+        type:'get',
+        url: '/course/'+getCookie("coursecurrent"),
+        dataType: "json",
+        contentType: "application/json;",
+            async:"false",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                var description=document.getElementById("description");
+                var coursename=document.getElementById("coursename");
+                description.innerHTML = data.description;
+                coursename.innerHTML = data.name;
+                updateCookie("description",data.description);
+                updateCookie("coursename",data.name);
+                //document.cookie = 'description='+ data.description;
+                //document.cookie = 'coursename='+ data.name;
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                 alert("未找到课程");
+            }
+        }
+    });
+        $.ajax({
+        type:'get',
+        url: '/course/'+getCookie("coursecurrent")+'/seminar',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                var seminar=document.getElementById("seminarinfo");
+                var contenthead = '<div class="title">讨论课</div>'+
+                                  '<div class="returnButton" onclick="window.location.href="courses.html"">返回上一页</div>'+
+                                  '<div class="line"></div>'+
+                                  '<div class="blockBody">';
+                var contenttail = '</div>';
+                var str="";
+                for(var i=0;i<data.length;i++){
+                        str += '<div class="block"><div class="blockFont" onclick="jumpSeminar(this.id)" id="'+data[i].id+';'+data[i].groupingMethod+'">'+data[i].name+'</div></div>';
+                }
+                seminar.innerHTML = contenthead+str+contenttail;
+            }
+        }
+    });
+}
+
 // //-----------------------------StudentDiscussionClassPage(fixed)-------------------------------------
 //
 // function seminarinfoF(){//show seminar info(fixed)
@@ -409,116 +311,201 @@
 // }
 //
 // //-----------------------------StudentViewGroupPage--------------------------------------
-//
-// function groupinfo(){// showgroup list
-//         $.ajax({
-//         type:'get',
-//         url: '/class/'+getcid()+'/classgroup',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var str = "";
-//                 var table = document.getElementById("studenttable");
-//                 var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th></tr>';
-//                 var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td></tr>';
-//                 for(var i=0;i<data.members.length;i++){
-//                     str += '<tr><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
-//                 }
-//                 table.innerHTML = tablehead+leader+str;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                 alert("教师访问此API");
-//             }
-//         }
-//     });
-// }
-//
-// //-----------------------------StudentModifyGroupPage--------------------------------------
-//
-// function groupmodinfo(){// showgroup list
-//         $.ajax({
-//         type:'get',
-//         url: '/class/'+getcid()+'/classgroup',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var str = "";
-//                 var table = document.getElementById("studenttable1");
-//                 var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th></tr>';
-//                 var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td></tr>';
-//                 for(var i=0;i<data.members.length;i++){
-//                     str += '<tr><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
-//                 }
-//                 table.innerHTML = tablehead+leader+str;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                 alert("教师访问此API");
-//             }
-//         }
-//     });
-// }
-//
-// function groupinfosearch(){//search
-//     $.ajax({
-//         type:'get',
-//         url: '/class/'+getcid()+'/student?nameBeginWith='+document.getElementById("name").value+'&numberBeginWith='+document.getElementById("num").value,
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var str = "";
-//                 var table = document.getElementById("studenttable2");
-//                 var confirm = document.getElementById("confirm");
-//                 var tablehead = '<tr><th>学号</th><th>姓名</th><th>操作</th></tr>';
-//                 for(var i=0;i<data.length;i++){
-//                     confirm.setAttribute('name',data[i].id);
-//                     str += '<tr><td>'+data[i].number+'</td><td>'+data[i].name+'</td><td><img src="./home.png"></td></tr>';
-//                 }
-//                 table.innerHTML = tablehead+str;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                 alert("教师访问此API");
-//             }
-//         }
-//     });
-// }
-// function groupinfoadd(name){//add student
-//     var ata = {id:name};
-//     $.ajax({
-//         type:'put',
-//         url: '/class/'+getcid()+'/classgroup/add',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         data: JSON.stringify(ata),
-//         success: function (data,status) {
-//             if(status == "No Content"){
-//                 alert("成功!");
-//                 window.location.href="group.html";
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式、待添加的学生不存在");
-//             }
-//             else if(status == "Forbidden"){
-//                 alert("权限不足（不是该小组的成员）");
-//             }
-//             else{
-//                 alert("待添加学生已经在小组里了");
-//             }
-//         }
-//     });
-// }
-//
+
+function groupinfo(){// showgroup list
+        var description=document.getElementById("description");
+        var coursename=document.getElementById("coursename");
+        description.innerHTML = getCookie("description");
+        coursename.innerHTML = getCookie("coursename");
+        $.ajax({
+        type:'get',
+        url: '/class/'+getCookie("classcurrent")+'/classgroup',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                var str = "";
+                var table = document.getElementById("studenttable");
+                var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th></tr>';
+                var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td></tr>';
+                for(var i=0;i<data.members.length;i++)
+                if(i%2!=0){
+                    str += '<tr><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
+                }
+                else{
+                    str += '<tr class="alt"><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
+                }
+                table.innerHTML = tablehead+leader+str;
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                alert("教师访问此API");
+            }
+        }
+    });
+}
+
+//-----------------------------StudentGroupUpdatePage--------------------------------------
+
+function groupmodinfo(){// showgroup list
+        var description=document.getElementById("description");
+        var coursename=document.getElementById("coursename");
+        description.innerHTML = getCookie("description");
+        coursename.innerHTML = getCookie("coursename");
+        $.ajax({
+        type:'get',
+        url: '/class/'+getCookie("classcurrent")+'/classgroup',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                var str = "";
+                //var table = $("[name='table1']");
+                var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th><th>操作</th></tr>';
+                var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td><td><img src="/img/home.png" id = " '+data.leader.id+ '" onclick="return groupinforemove(this.id);"></td></tr>';
+                for(var i=0;i<data.members.length;i++){
+                    if(i%2!=0){
+                        str += '<tr><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td><td><img src="/img/home.png" id = " ' + data.members[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
+                    }
+                    else{
+                        str += '<tr class="alt"><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td><td><img src="/img/home.png" id = " ' + data.members[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
+                    }
+                }
+                $("[name='table1']").html(tablehead+leader+str);
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                alert("教师访问此API");
+            }
+        }
+    });
+    $.ajax({
+        type:'get',
+        url: '/class/'+getCookie("classcurrent")+'/student',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                var str = "";
+                var table = $("[name='table2']");
+                var tablehead = '<tr><th>学号</th><th>姓名</th><th>操作</th></tr>';
+                for(var i=0;i<data.length;i++){
+                    if(i%2==0){
+                        str += '<tr><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                    }
+                    else{
+                        str += '<tr class="alt"><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                    }
+                }
+                $("[name='table2']").html(tablehead+str);
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                alert("未找到该班级");
+            }
+        }
+    });
+}
+
+function groupinfosearch(){//search
+    var name;
+    var number;
+    if($("#name").val()== ""){
+        name = "*";
+    }
+    else name = $("#name").val();
+    if($("#num").val()== ""){
+        number = "*";
+    }
+    else number = $("#num").val();
+    $.ajax({
+        type:'get',
+        url: '/class/'+getCookie("classcurrent")+'/student?nameBeginWith='+name+'&numberBeginWith='+number,
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                var str = "";
+                var confirm = document.getElementById("confirm");
+                var tablehead = '<tr><th>学号</th><th>姓名</th><th>操作</th></tr>';
+                for(var i=0;i<data.length;i++){
+                    //confirm.setAttribute('name',data[i].id);
+                    if(i%2==0){
+                        str += '<tr><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                    }
+                    else {
+                        str += '<tr class="alt"><td>' + data[i].number + '</td><td>' + data[i].name + '<td><img src="/img/home.png" id = " ' + data[i].id + '" onclick="return groupinfoadd(this.id);"></td></tr>';
+                    }
+                }
+                $("[name='table2']").html(tablehead+str);
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                alert("教师访问此API");
+            }
+        }
+    });
+}
+function groupinfoadd(name){//add student
+    var ata = {id:name};
+    $.ajax({
+        type:'put',
+        url: '/class/'+getCookie("classcurrent")+'/classgroup/add',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status,xhr) {
+            if(xhr.status == 204){
+                alert("成功!");
+                location.reload();
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式、待添加的学生不存在");
+            }
+            else if(xhr.status == 403){
+                alert("权限不足（不是该小组的成员）");
+            }
+            else{
+                alert("待添加学生已经在小组里了");
+            }
+        }
+    });
+}
+
+function groupinforemove(name){//remove student
+    var ata = {id:name};
+    $.ajax({
+        type:'put',
+        url: '/class/'+getCookie("classcurrent")+'/classgroup/remove',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status,xhr) {
+            if(xhr.status == 204){
+                alert("成功!");
+                location.reload();
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式、待添加的学生不存在");
+            }
+            else if(xhr.status == 403){
+                alert("权限不足（不是该小组的成员）");
+            }
+            else{
+                alert("待添加学生已经在小组里了");
+            }
+        }
+    });
+}
+
 // //-----------------------------StudentViewGradePage--------------------------------------
 //
 // function gradeinfo(){//StudentViewGroupPage  showgroup grade list

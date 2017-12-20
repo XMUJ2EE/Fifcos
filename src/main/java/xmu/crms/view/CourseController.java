@@ -202,7 +202,7 @@ public class CourseController {
 				"    \"id\": 32,\n" +
 				"    \"name\": \"概要设计\",\n" +
 				"    \"description\": \"模型层与数据库设计\",\n" +
-				"    \"groupingMethod\": \"fixed\",\n" +
+				"    \"groupingMethod\": \"random\",\n" +
 				"    \"startTime\": \"2017-10-10\",\n" +
 				"    \"endTime\": \"2017-10-24\",\n" +
 				"    \"grade\": 5\n" +
