@@ -1,13 +1,12 @@
 package xmu.crms.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
-import xmu.crms.entity.ClassInfo;
-import xmu.crms.entity.Course;
-import xmu.crms.entity.School;
-import xmu.crms.entity.User;
+import xmu.crms.entity.*;
 
 import java.math.BigInteger;
+import java.util.BitSet;
 import java.util.List;
 
 /**
@@ -39,17 +38,17 @@ public interface UserMapper {
     void insertUser(User user);
 
     /**
-     * 根据id删除用户
+     * 根据id解绑用户，就是置手机号为空
      * @param id
      */
-    void deleteUserByUserId(BigInteger id);
+    void unbindUserById(BigInteger id);
 
     /**
      * 根据老师id查找老师的课程
      * @param id
      * @return
      */
-    List<Course> getCoursesByTeacherId(BigInteger id);
+    List<Course> listCourseByTeacherId(BigInteger id);
 
     /**
      * 根据学生id查找学生选的课程
@@ -78,4 +77,75 @@ public interface UserMapper {
      * @return
      */
     User getUserByNumber(String number);
+
+    /**
+     * 根据姓名拿老师，老师可能重名
+     * @param name
+     * @return
+     */
+    List<User> getUsersByName(String name);
+
+    /**
+     * 根据班级查找学生列表
+     * @param classId
+     * @return
+     */
+    List<User> listUserByClassId(BigInteger classId);
+
+    /**
+     * 小程序： 学生签到
+     * @param classId
+     * @param seminarId
+     * @param userId
+     * @param status
+     */
+    void insertAttendanceById(@Param("classId") BigInteger classId,
+                              @Param("seminarId") BigInteger seminarId,
+                              @Param("userId") BigInteger userId,
+                              @Param("status") int status);
+
+    /**
+     * 根据classId和seminarId获取位置信息
+     * @param classId
+     * @param seminarId
+     * @return
+     */
+    Location getLocationById(@Param("classId")BigInteger classId,
+                             @Param("seminarId")BigInteger seminarId);
+
+    /**
+     * 查找某一节讨论课迟到的学生列表
+     * @param seminarId
+     * @param classId
+     * @return
+     */
+    List<User> listAbsenceStudentById(@Param("seminarId") BigInteger seminarId,
+                                      @Param("classId") BigInteger classId);
+
+    /**
+     * 查找某一节讨论课的签到名单
+     * @param seminarId
+     * @param classId
+     * @return
+     */
+    List<Attendance> listAttendanceById(@Param("seminarId") BigInteger seminarId,
+                                        @Param("classId") BigInteger classId);
+
+    /**
+     * 查找正常签到的学生
+     * @param seminarId
+     * @param classId
+     * @return
+     */
+    List<User> listPresentStudent(@Param("seminarId") BigInteger seminarId,
+                                  @Param("classId") BigInteger classId);
+
+    /**
+     * 查找正在上课的时候还没签到的同学
+     * @param seminarId
+     * @param classId
+     * @return
+     */
+    List<User> listUnCallingStudent(@Param("seminarId")BigInteger seminarId,
+                                    @Param("classId") BigInteger classId);
 }

@@ -5,9 +5,13 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 import xmu.crms.entity.ErrorInfo;
-import xmu.crms.exception.UserDumplicatedException;
+import xmu.crms.exception.UserDuplicatedException;
 
 import javax.servlet.http.HttpServletRequest;
+
+/**
+ * @author mads
+ */
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -24,9 +28,9 @@ public class GlobalExceptionHandler {
         return mav;
     }
 
-    @ExceptionHandler(value = UserDumplicatedException.class)
+    @ExceptionHandler(value = UserDuplicatedException.class)
     @ResponseBody
-    public ErrorInfo<String> UserDumplicatedExceptionHandler(HttpServletRequest req, UserDumplicatedException e) throws Exception{
+    public ErrorInfo<String> userDuplicatedExceptionHandler(HttpServletRequest req, UserDuplicatedException e) throws Exception{
 
         ErrorInfo<String> res = new ErrorInfo<>();
         res.setMessage(e.getMessage());

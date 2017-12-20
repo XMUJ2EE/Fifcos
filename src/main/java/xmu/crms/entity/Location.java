@@ -6,9 +6,12 @@ public class Location {
 	private BigInteger id;
 	private ClassInfo classInfo;
 	private Seminar seminar;
-	private Double BigIntegeritude;
+	private Double longitude;
 	private Double latitude;
 	private Integer status;
+	public final static Integer END=0;
+	public final static Integer CALLING=1;
+	public final static Integer BREAK=2;
 	
 	public BigInteger getId() {
 		return id;
@@ -28,11 +31,11 @@ public class Location {
 	public void setSeminar(Seminar seminar) {
 		this.seminar = seminar;
 	}
-	public Double getBigIntegeritude() {
-		return BigIntegeritude;
+	public Double getLongitude() {
+		return longitude;
 	}
-	public void setBigIntegeritude(Double BigIntegeritude) {
-		this.BigIntegeritude = BigIntegeritude;
+	public void setLongitude(Double longitude) {
+		this.longitude = longitude;
 	}
 	public Double getLatitude() {
 		return latitude;

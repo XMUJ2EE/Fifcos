@@ -33,6 +33,19 @@
         <result property="threePointPercentage" column="three_point_percentage" />
         <association property="teacher" column="teacher_id" javaType="User" select="getUserByUserId" />
     </resultMap>
+
+    <resultMap id="locationResultMap" type="Location">
+        <id property="id" column="id" />
+        <result property="longitude" column="longitude" />
+        <result property="latitude" column="latitude" />
+        <result property="status" column="status" />
+    </resultMap>
+
+    <resultMap id="attendanceResultMap" type="Attendance">
+        <id property="id" column="id"/>
+        <result property="attendanceStatus" column="attendance_status" />
+        <association property="student" column="student_id" javaType="User" select="getUserByUserId" />
+    </resultMap>
     
     <sql id="setCondition">
         <set>
@@ -85,7 +98,7 @@
         delete from user where id = #{id}
     </delete>
 
-    <select id="getCoursesByTeacherId" parameterType="java.math.BigInteger" resultMap="courseResultMap">
+    <select id="listCourseByTeacherId" parameterType="java.math.BigInteger" resultMap="courseResultMap">
         select id, `name`, start_date, end_date, teacher_id, description, report_percentage, presentation_percentage,
         five_point_percentage, four_point_percentage, three_point_percentage
         from course where teacher_id = #{id}
@@ -96,5 +109,65 @@
         school_id, `name`, gender, `type`, `number`, education, title, email
         from user_info
         where `number` = #{number}
+    </select>
+
+    <update id="unbindUserById" parameterType="java.math.BigInteger">
+        update user_info set phone="" where id=#{id}
+    </update>
+
+    <select id="getUsersByName" parameterType="java.lang.String" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where `name` = #{name}
+    </select>
+
+    <select id="listUserByClassId" parameterType="java.math.BigInteger" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id in (select student_id from course_selection where course_selection.class_id = #{classId})
+    </select>
+
+    <select id="getLocationById" resultMap="locationResultMap">
+        select id, longitude, latitude, status
+        from location
+        where class_id = #{classId} and seminar_id = #{seminarId}
+    </select>
+
+    <insert id="insertAttendanceById" useGeneratedKeys="true" keyProperty="id">
+        insert into attendance(student_id, seminar_id, class_id, attendance_status)
+        values (#{userId}, #{seminarId}, #{classId}, #{status})
+    </insert>
+
+    <select id="listAbsenceStudentById" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id in (
+        select student_id from attendance
+        where seminar_id =#{seminarId} and class_id = #{classId} and attendance_status = 2)
+    </select>
+
+    <select id="listAttendanceById" resultMap="attendanceResultMap" >
+        select id, student_id, attendance_status from attendance
+        where class_id = #{classId} and seminar_id = #{seminarId}
+    </select>
+
+    <select id="listPresentStudent" resultMap="userResultMap" >
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id in (
+        select student_id from attendance
+        where seminar_id =#{seminarId} and class_id = #{classId} and attendance_status = 0)
+    </select>
+
+    <select id="listUnCallingStudent" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where id not in (select student_id from attendance
+        where seminar_id=#{seminarId} and class_id=#{classId})
     </select>
 </mapper>
