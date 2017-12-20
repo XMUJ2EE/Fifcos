@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="xmu.crms.mapper.GradeMapper">
@@ -17,25 +16,12 @@
         where seminar_group_topic_id in
         (select id from seminar_group_topic where topic_id = #{topicId})
     </delete>
-    <select id="listSeminarGroupTopicId" parameterType="int">
-        select id from seminar_group_topic where topic_id = #{topicId}
-    </select>
-    <delete id="deleteStudentScoreGroupByTopicId" parameterType="List">
-        delete from student_score_group
-        where seminar_group_topic_id in
-            <foreach collection="list" item="item" open="(" separator="," close=")">
-                #{item}
-            </foreach>
-    </delete>
 
 
-    <select id="listSeminarGradeBySeminarGroupId" parameterType="int">
+    <select id="listSeminarGradeBySeminarGroupId" parameterType="int" resultType="Integer">
         select presentation_grade from seminar_group_topic
         where seminar_group_id = #{seminarGroupId}
     </select>
-
-
-
 
 
 
@@ -72,13 +58,25 @@
         where seminar_group_id = #{seminarGroupId}
     </select>
 
+<!--
+    <resultMap id="presentationGrade" type="PresentationGradeVO">
+        <result property="topicId" column="topic_id" />
+        <result property="grade" column="presentation_grade" />
+    </resultMap>
+
+    <select id="getPresentationGrade" resultMap="presentationGrade">
+        select
+    </select>
+
+    <resultMap id="groupGradeResultMap" type="GroupGradeVO">
+        <association property="presentationGrade" resultMap="" select=""/>
+        <result property="reportGrade" column="report_grade" />
+        <result property="grade" column="final_grade" />
+    </resultMap>
+-->
 
 
-
-
-
-
-
+<!--
     <resultMap id="gradeResultMap" type="SeminarGradeDetail">
         <id property="seminarId" column="seminar_id" />
         <result property="leaderId" column="leader_id" />
@@ -96,26 +94,18 @@
         <foreach collection="list" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
-    </select>              <!-- 按courseId获取所有学生的讨论课成绩-->
-
-    <select id="getLeaderNameByLeaderId" parameterType="int">
-        select `name` from user_info
-        where id = #{leaderId}
-    </select>
-    <select id="getSeminarNameBySeminarId" parameterType="int">
-        select `name` from seminar
-        where id = #{seminarId}
-    </select>
-
-
-
-
-
-
-
-
-
-    <!-- 按courseId获取所有讨论课成绩 -->
+    </select>         -->     <!-- 按courseId获取所有学生的讨论课成绩-->
+    <!--
+        <select id="getLeaderNameByLeaderId" parameterType="int">
+            select `name` from user_info
+            where id = #{leaderId}
+        </select>
+        <select id="getSeminarNameBySeminarId" parameterType="int">
+            select `name` from seminar
+            where id = #{seminarId}
+        </select>
+    -->
+        <!-- 按courseId获取所有讨论课成绩 -->
 
 
 
