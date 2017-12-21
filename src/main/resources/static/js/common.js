@@ -16,8 +16,11 @@ $(function () {
                     else
                         window.location.href="/teacher/home";
                 }
-                else{
-                    alert("手机号密码错误！");
+            },
+            statusCode:{
+                401: function () {
+                    $("#password").val("");
+                    alert("用户名或密码错误！");
                 }
             }
         });
