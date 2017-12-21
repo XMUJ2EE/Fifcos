@@ -1,9 +1,11 @@
 package xmu.crms.service.impl;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.crms.entity.Seminar;
 import xmu.crms.entity.SeminarGroup;
+import xmu.crms.exception.GroupNotFoundException;
 import xmu.crms.mapper.GradeMapper;
 import xmu.crms.service.GradeService;
 
@@ -22,35 +24,62 @@ public class GradeServiceImpl implements GradeService {
     private GradeMapper gradeMapper;
 
     @Override
-    public void deleteStudentScoreGroupByTopicId(BigInteger topicId) {
-        gradeMapper.deleteStudentScoreGroupByTopicId(topicId);
+    public Boolean deleteStudentScoreGroupByTopicId(BigInteger topicId) {
+        try{
+            gradeMapper.deleteStudentScoreGroupByTopicId(topicId);
+        }catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public SeminarGroup listSeminarGradeBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId) {
+    public SeminarGroup getSeminarGroupBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId)
+            throws GroupNotFoundException, IllegalArgumentException{
         return gradeMapper.listSeminarGradeBySeminarGroupId(userId, seminarGroupId);
     }
 
     @Override
-    public void insertGroupGradeByUserId(BigInteger topicId, BigInteger userId,
-                                         BigInteger seminarId, BigInteger groupId, BigInteger grade) {
-
-        BigInteger seminarGroupTopicId = gradeMapper.getSeminarGroupTopicId(topicId, groupId);
-        gradeMapper.insertGroupGradeByUserId(userId, seminarGroupTopicId, grade);
+    public Boolean insertGroupGradeByUserId(BigInteger topicId, BigInteger userId, BigInteger groupId, BigInteger grade) throws IllegalArgumentException{
+        try{
+            BigInteger seminarGroupTopicId = gradeMapper.getSeminarGroupTopicId(topicId, groupId);
+            gradeMapper.insertGroupGradeByUserId(userId, seminarGroupTopicId, grade);
+        }catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade) {
-        gradeMapper.updateGroupByGroupId(seminarGroupId, grade);
+    public Boolean updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade) {
+        try{
+            gradeMapper.updateGroupByGroupId(seminarGroupId, grade);
+        }catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return false;
+        }
+        return true;
     }
 
     @Override
-    public List<SeminarGroup> listSeminarGradeByStudentId(BigInteger userId) {
+    public List<SeminarGroup> listSeminarGradeByUserId(BigInteger userId) throws IllegalArgumentException{
         return gradeMapper.listSeminarGradeByStudentId(userId);
     }
 
     @Override
-    public List<SeminarGroup> listSeminarGradeByCourseId(BigInteger courseId) {
+    public List<SeminarGroup> listSeminarGradeByCourseId(BigInteger userId, BigInteger courseId) throws IllegalArgumentException{
         return gradeMapper.listSeminarGradeByCourseId(courseId);
+    }
+
+    @Override
+    public void countPresentationGrade(BigInteger seminarId, BigInteger seminarGroupId) throws IllegalArgumentException {
+
+    }
+
+    @Override
+    public void countGroupGradeBySerminarId(BigInteger seminarId, BigInteger seminarGroupId) throws IllegalArgumentException {
+
     }
 }
