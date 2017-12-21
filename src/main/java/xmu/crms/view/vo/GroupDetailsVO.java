@@ -2,12 +2,12 @@ package xmu.crms.view.vo;
 
 public class GroupDetailsVO {
     private int id;
-    private UserIdNameVO leader;
-    private UserIdNameVO members[];
+    private UserUpdateVO leader;
+    private UserUpdateVO members[];
     private TopicIdNameVO topicIdNameVO;
     private String report;
 
-    public GroupDetailsVO(int id, UserIdNameVO leader, UserIdNameVO[] members, TopicIdNameVO topicIdNameVO, String report) {
+    public GroupDetailsVO(int id, UserUpdateVO leader, UserUpdateVO[] members, TopicIdNameVO topicIdNameVO, String report) {
         this.id = id;
         this.leader = leader;
         this.members = members;
@@ -23,19 +23,19 @@ public class GroupDetailsVO {
         this.id = id;
     }
 
-    public UserIdNameVO getLeader() {
+    public UserUpdateVO getLeader() {
         return leader;
     }
 
-    public void setLeader(UserIdNameVO leader) {
+    public void setLeader(UserUpdateVO leader) {
         this.leader = leader;
     }
 
-    public UserIdNameVO[] getMembers() {
+    public UserUpdateVO[] getMembers() {
         return members;
     }
 
-    public void setMembers(UserIdNameVO[] members) {
+    public void setMembers(UserUpdateVO[] members) {
         this.members = members;
     }
 

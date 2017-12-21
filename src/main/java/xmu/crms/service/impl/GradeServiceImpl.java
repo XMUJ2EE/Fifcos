@@ -2,6 +2,8 @@ package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.crms.entity.Seminar;
+import xmu.crms.entity.SeminarGroup;
 import xmu.crms.mapper.GradeMapper;
 import xmu.crms.service.GradeService;
 
@@ -25,13 +27,13 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public List<BigInteger> listSeminarGradeBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId) {
+    public SeminarGroup listSeminarGradeBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId) {
         return gradeMapper.listSeminarGradeBySeminarGroupId(userId, seminarGroupId);
     }
 
     @Override
-    public void insertGroupGradeByUserId(BigInteger userId, BigInteger seminarId,
-                                         BigInteger groupId, BigInteger topicId, BigInteger grade) {
+    public void insertGroupGradeByUserId(BigInteger topicId, BigInteger userId,
+                                         BigInteger seminarId, BigInteger groupId, BigInteger grade) {
 
         BigInteger seminarGroupTopicId = gradeMapper.getSeminarGroupTopicId(topicId, groupId);
         gradeMapper.insertGroupGradeByUserId(userId, seminarGroupTopicId, grade);
@@ -43,8 +45,12 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public List<BigInteger> listSeminarGradeByStudentId(BigInteger userId) {
-        BigInteger seminarGroupId = gradeMapper.getSeminarGroupIdByStudentId(userId);
-        return gradeMapper.listSeminarGradeByStudentId(seminarGroupId);
+    public List<SeminarGroup> listSeminarGradeByStudentId(BigInteger userId) {
+        return gradeMapper.listSeminarGradeByStudentId(userId);
+    }
+
+    @Override
+    public List<SeminarGroup> listSeminarGradeByCourseId(BigInteger courseId) {
+        return gradeMapper.listSeminarGradeByCourseId(courseId);
     }
 }

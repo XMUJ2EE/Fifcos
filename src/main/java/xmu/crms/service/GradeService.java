@@ -1,5 +1,8 @@
 package xmu.crms.service;
 
+import xmu.crms.entity.Seminar;
+import xmu.crms.entity.SeminarGroup;
+
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +31,7 @@ public interface GradeService {
 	 * @return list 讨论课分数列表
 	 * @see SeminarGroupService#listSeminarGroupIdByStudentId(BigInteger userId)
 	 */
-    List<BigInteger> listSeminarGradeBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId);
+    SeminarGroup listSeminarGradeBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId);
     
 	/**
 	 * 提交对其他小组的打分.
@@ -40,7 +43,8 @@ public interface GradeService {
 	 * @param grade 分数
 	 * @return true 提交成功 false 提交失败
 	 */
-	 void insertGroupGradeByUserId(BigInteger userId, BigInteger seminarId, BigInteger groupId, BigInteger topicId, BigInteger grade);
+	 void insertGroupGradeByUserId(BigInteger topicId, BigInteger userId,
+								   BigInteger seminarId, BigInteger groupId, BigInteger grade);
 
 	/**
 	 * 按ID设置小组报告分.
@@ -59,6 +63,7 @@ public interface GradeService {
 	 * @return list 讨论课成绩列表
 	 * @see SeminarGroupService#listSeminarGroupBySeminarId(BigInteger seminarId)
 	 */
-	 List<BigInteger> listSeminarGradeByStudentId(BigInteger userId);
-	
+	List<SeminarGroup> listSeminarGradeByStudentId(BigInteger userId);
+
+	List<SeminarGroup> listSeminarGradeByCourseId(BigInteger courseId);
 }

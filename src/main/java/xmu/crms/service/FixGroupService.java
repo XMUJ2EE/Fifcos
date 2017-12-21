@@ -6,7 +6,7 @@ import xmu.crms.entity.*;
 import xmu.crms.exception.*;
 
 /**
- * 
+ *
  * @author ZhouZhongjun YeHongjie Heqi Aixing
  * @version 2.00
  *
@@ -22,7 +22,7 @@ public interface FixGroupService {
 	 */
 	 Boolean deleteFixGroupMemberByFixGroupId(BigInteger fixGroupId) throws
 	        FixGroupNotFoundException;
-	
+
 	/**
 	 * 将学生加入固定小组.
 	 * ＜p＞将用户加入指定的固定小组<br>*
@@ -36,7 +36,7 @@ public interface FixGroupService {
 
 	 */
      BigInteger insertFixGroupMemberById(BigInteger userId,BigInteger groupId) throws FixGroupNotFoundException,UserNotFoundException,InvalidOperationException;
-    
+
 	/**
 	 * 查询固定小组成员.
 	 * ＜p＞按照固定小组id查询该小组的成员<br>*
@@ -54,10 +54,10 @@ public interface FixGroupService {
      * @return null 固定分组列表
 	 */
 	 List<FixGroup> listFixGroupByClassId(BigInteger classId);
-	
+
 	/**
 	 * 按classId删除FixGroup
-	 * <p>先根据classId得到所有的FixGroup信息，再根据FixGroupid删除FixGroupMember表的信息，最后再将FixGroup信息删除<br>  
+	 * <p>先根据classId得到所有的FixGroup信息，再根据FixGroupid删除FixGroupMember表的信息，最后再将FixGroup信息删除<br>
 	 * @author zhouzhongjun
      * @param classId 班级Id
      * @see FixGroupService #listFixGroupByClassId(BigInteger classId)
@@ -67,7 +67,7 @@ public interface FixGroupService {
 	 */
 	 Boolean deleteFixGroupByClassId(BigInteger classId) throws
 	        ClassNotFoundException;
-    
+
     /**
 	 * 删除固定小组.
 	 * ＜p＞按照id删除固定小组<br>*
@@ -79,7 +79,7 @@ public interface FixGroupService {
 	 */
      Boolean deleteFixGroupByGroupId(BigInteger groupId) throws
             FixGroupNotFoundException;
-    
+
     /**
 	 * 修改固定小组.
 	 * ＜p＞修改固定小组的信息（不包括成员）<br>*
@@ -89,9 +89,9 @@ public interface FixGroupService {
 	 * @return Boolean 若更新成功返回true，失败返回false
 	 * @exception FixGroupNotFoundException 未找到小组
 	 */
-     Boolean updateFixGroupByGroupId(BigInteger groupId,FixGroup fixGroupBO) throws 
+     Boolean updateFixGroupByGroupId(BigInteger groupId,FixGroup fixGroupBO) throws
             FixGroupNotFoundException;
-    
+
     /**
 	 * 查询固定小组.
 	 * ＜p＞按照id查询某一固定小组的信息（包括成员）<br>*
@@ -103,7 +103,7 @@ public interface FixGroupService {
 	 */
      FixGroup getFixGroupByGroupId(BigInteger groupId) throws
             FixGroupNotFoundException;
- 
+
 
     /**
 	 * 将学生加入小组.
@@ -117,7 +117,7 @@ public interface FixGroupService {
 	 * @exception UserNotFoundException 不存在该学生
 	 * @exception InvalidOperationException 待添加学生已经在小组里了
 	 */
-     BigInteger insertStudnetIntoGroup(BigInteger userId,BigInteger groupId) throws 
+     BigInteger insertStudnetIntoGroup(BigInteger userId,BigInteger groupId) throws
             FixGroupNotFoundException,FixGroupNotFoundException,UserNotFoundException,
             InvalidOperationException;
 
@@ -138,12 +138,12 @@ public interface FixGroupService {
 	 * @author heqi
 	 * @param userId 学生id
 	 * @param classId 班级id
-	 * @return GroupBO 返回班级固定小组的信息 
+	 * @return GroupBO 返回班级固定小组的信息
 	 * @see UserService#getUserByUserId(BigInteger UserId)
 	 * @exception ClassNotFoundException 未找到小组
 	 * @exception UserNotFoundException 不存在该学生
 	 */
-	 FixGroup getFixedGroupById(BigInteger userId,BigInteger classId) throws 
+	 FixGroup getFixedGroupById(BigInteger userId,BigInteger classId) throws
 	        ClassNotFoundException,UserNotFoundException;
 
     /**
