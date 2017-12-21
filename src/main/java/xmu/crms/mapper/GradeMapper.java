@@ -2,9 +2,7 @@ package xmu.crms.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import xmu.crms.entity.School;
-import xmu.crms.entity.Seminar;
-import xmu.crms.entity.User;
+import xmu.crms.entity.*;
 import xmu.crms.service.SeminarGroupService;
 import xmu.crms.view.vo.SeminarGradeDetail;
 
@@ -30,8 +28,8 @@ public interface GradeMapper {
      * @param seminarGroupId
      * @return
      */
-    List<BigInteger> listSeminarGradeBySeminarGroupId(@Param("userId") BigInteger userId,
-                                                      @Param("seminarGroupId") BigInteger seminarGroupId);
+    SeminarGroup listSeminarGradeBySeminarGroupId(@Param("userId") BigInteger userId,
+                                                  @Param("seminarGroupId") BigInteger seminarGroupId);
 
 
     /**
@@ -66,15 +64,22 @@ public interface GradeMapper {
      * @param userId
      * @return
      */
-    BigInteger getSeminarGroupIdByStudentId(BigInteger userId);
+    List<BigInteger> getSeminarGroupIdByStudentId(BigInteger userId);
 
     /**
      * 获取学生所有讨论课成绩
-     * @param seminarGroupId
+     * @param userId
      * @return
      */
-    List<BigInteger> listSeminarGradeByStudentId(BigInteger seminarGroupId);
-    //List<BigInteger> listSeminarGradeByStudentId(BigInteger userId);
+    List<SeminarGroup> listSeminarGradeByStudentId(BigInteger userId);
+
+
+    /**
+     * 获取所有讨论课成绩
+     * @param courseId
+     * @return
+     */
+    List<SeminarGroup> listSeminarGradeByCourseId(BigInteger courseId);
 
     /**
      * 获取课程的所有讨论课
@@ -96,6 +101,21 @@ public interface GradeMapper {
      * @return
      */
     School getSchoolById(BigInteger id);
+
+
+    /**
+     * 获取班级信息
+     * @param id
+     * @return
+     */
+    ClassInfo getClassInfoByClassId(BigInteger id);
+
+    /**
+     * 获取Seminar
+     * @param id
+     * @return
+     */
+    Seminar getSeminarBySeminarId(BigInteger id);
 
     /**
      * 获取学生姓名
