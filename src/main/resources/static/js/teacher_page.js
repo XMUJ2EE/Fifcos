@@ -40,9 +40,13 @@ function jumptopic(cid){
    updateCookie('topicDetail',cid);
    window.location.href='/teacher/course/'+getCookie('courseDetail')+'/seminar/'+getCookie('seminarDetail')+'/topic/'+cid;  //进入话题详情页面
 }
+function jumpreportdetail(rid){
+    updateCookie('groupDetail',rid);
+    window.location.href='/teacher/course/'+getCookie('courseDetail')+'/seminar/'+getCookie('seminarDetail')+'/score/score'; //进入评分页面
+}
 /*---------------------------- teacher/bind--------------------------------------*/
 function teabind(){
-     var Gender = $("input[type='radio']:checked").val();
+    var Gender = $("input[type='radio']:checked").val();
     var ata = {
         name:$("#name").val(),
         gender:Gender,
@@ -319,6 +323,7 @@ function courseintroduce(){
     success: function (data,textStatus,xhr) {
         if(xhr.status == 200){
             // alert("获取成功");
+            $("#courseName").html(data.name);
             $("#courseIntroduction").html(data.description);
         }
         else if(xhr.staus==400){
@@ -487,6 +492,7 @@ function classinfo(){
     success: function (data,textStatus,xhr) {
         if(xhr.status == 200){
                 // alert("获取成功");
+                $("#upclassname").html(data.name);
                 $("#classname").html(data.name);
                 $("#site").html(data.site);
                 $("#time").html(data.time);
@@ -539,7 +545,75 @@ function updateclass(){
     window.location.href='/teacher/course/'+getCookie("courseDetail")+'/class/'+getCookie("classDetail")+'/update'
 }
 /*----------------------------teacher/class_update-------------------------------*/
+function backtoclass(){
+    window.location.href='/teacher/course/'+getCookie("courseDetail")+'/class/'+getCookie("classDetail")
+}
 
+function getclassdetail(){
+      $.ajax({
+        type:'get',
+        url: '/class/'+getCookie("classDetail"),
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,textStatus,xhr) {
+            if(xhr.status==200){
+                // alert("获取成功");
+                $("input[name='className']").attr("value",data.name);
+                $("input[name='numStudent']").attr("value",data.numStudent);
+                $("input[name='time']").attr("value",data.time);
+                $("input[name='site']").attr("value",data.site);
+                $("input[name='report']").attr("value",data.proportions.report);
+                $("input[name='presentation']").attr("value",data.proportions.presentation);
+                $("input[name='five']").attr("value",data.proportions.c);
+                $("input[name='four']").attr("value",data.proportions.b);
+                $("input[name='three']").attr("value",data.proportions.a);
+            }
+            else if(xhr.status==400){
+                alert("错误的ID格式");
+            }
+            else{
+                alert("未找到讨论课");
+            }
+        }
+    });
+}
+
+function classinfomod(){
+        var ata = {
+        name:$("#className").val(),
+        numStudent:$("#numStudent").val(),
+        time:$('#time').val(),
+        site:$("#site").val(),
+        roster:"/roster/周三12班.xlsx",
+        proportions:{
+            report:$("#report").val(),
+            presentation:$("#presentation").val(),
+            c:$("#five").val(),
+            b:$("#four").val(),
+            a:$("#three").val()
+        }
+
+    }
+       $.ajax({
+        type:'put',
+        url: '/class/'+getCookie("classDetail"),
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,textStatus,xhr) {
+            if(xhr.status==204){
+                alert("修改成功!");
+                window.location.href='/teacher/course/'+getCookie("courseDetail")+'/class/'+getCookie("classDetail");
+            }
+            else if(xhr.status==400){
+                alert("错误的ID格式");
+            }
+            else{
+                alert("未找到讨论课");
+            }
+        }
+    });
+}
 
 /*----------------------------teacher/seminar-------------------------------*/
 function seminarinfo(){
@@ -595,6 +669,31 @@ function gettopiclist(){
         else{
             alert("未找到讨论课");
 
+        }
+    }
+});
+}
+function deleteseminar(){
+    var ata = {id:getCookie("seminarDetail")}
+    $.ajax({
+    type:'delete',
+    url: '/seminar/'+getCookie("seminarDetail"),
+    data: JSON.stringify(ata),
+    dataType: "json",
+    contentType: "application/json;",
+    success: function (data,textStatus,xhr){
+        if(xhr.status == 204){
+            alert("删除成功");
+            backtocourse();  //页面跳转
+        }
+        else if(xhr.status == 400){
+            alert("错误的ID格式");
+        }
+        else if(xhr.status == 403){
+            alert("用户权限不足");
+        }
+        else{
+            alert("未找到班级");
         }
     }
 });
@@ -673,32 +772,6 @@ function seminarinfomod(){
         }
     });
 }
-function deleteseminar(){
-    var ata = {id:getCookie("seminarDetail")}
-    $.ajax({
-    type:'delete',
-    url: '/seminar/'+getCookie("seminarDetail"),
-    data: JSON.stringify(ata),
-    dataType: "json",
-    contentType: "application/json;",
-    success: function (data,textStatus,xhr){
-        if(xhr.status == 204){
-            alert("删除成功");
-            backtocourse();  //页面跳转
-        }
-        else if(xhr.status == 400){
-            alert("错误的ID格式");
-        }
-        else if(xhr.status == 403){
-            alert("用户权限不足");
-        }
-        else{
-            alert("未找到班级");
-        }
-    }
-});
-}
-
 /*----------------------------teacher/topic-------------------------------*/
 function topicinfo(){
   $.ajax({
@@ -844,4 +917,45 @@ function createtopic(){
         }
     });
 }
-/*----------------------------teacher/school_create-------------------------------*/
+/*----------------------------teacher/score-------------------------------*/
+function getreportlist(){
+    $.ajax({
+    type:'get',
+    url: '/seminar/'+getCookie("seminarDetail")+'/group',
+    dataType: "json",
+    contentType: "application/json;",
+    success: function (data,textStatus,xhr) {
+        if(xhr.status == 200){
+            // alert("获取成功");
+            var content=document.getElementById("reportcontent");   //获取外围容器
+            var str="";
+            for(var i=0;i<data.length;i++){
+                    str+="  <tr>\n" +
+                        "                    <td>" + data[i].name[1] + "</td>\n" +
+                        "                    <td>" + data[i].name + "</td>\n" +
+                        "                    <td>XXX</td>\n" +
+                        "                    <td>5</td>\n" +
+                        "                    <td>已提交</td>\n" +
+                        "                    <td>5</td>\n" +
+                        "                    <td>5</td>\n" +
+                        "                    <td>\n" +
+                        "                         <img src=\"/img/view.png\" alt=\"预览\" name='report' id=" + data[i].id + " onclick='jumpreportdetail(this.id)'>\n" +
+                        "                        <img src=\"/img/download.png\" alt=\"下载\" name='download' id=" + data[i].id + " onclick='jumpreportdetail(this.id)'>\n" +
+                        "                    </td>\n" +
+                        "                </tr>"
+                        //点击下载跳转到哪里去？
+            }
+            content.innerHTML=str;
+        }
+        else if(xhr.staus==400){
+            alert("错误的ID格式");
+        }
+        else{
+            alert("未找到讨论课");
+
+        }
+    }
+});
+}
+
+/*----------------------------teacher/report_score-------------------------------*/
