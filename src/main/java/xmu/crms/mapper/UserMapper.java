@@ -3,6 +3,7 @@ package xmu.crms.mapper;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+import xmu.crms.conf.UserDetailsImpl;
 import xmu.crms.entity.*;
 
 import java.math.BigInteger;
@@ -13,6 +14,7 @@ import java.util.List;
  * User的mapper
  * @author mads
  */
+@Mapper
 public interface UserMapper {
     /**
      * 根据用户名查找用户
@@ -148,4 +150,11 @@ public interface UserMapper {
      */
     List<User> listUnCallingStudent(@Param("seminarId")BigInteger seminarId,
                                     @Param("classId") BigInteger classId);
+
+    /**
+     * 根据手机号登陆用
+     * @param phone
+     * @return
+     */
+    UserDetailsImpl getUserByPhone(@Param("phone") String phone);
 }
