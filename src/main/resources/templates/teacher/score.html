@@ -5,11 +5,11 @@
     <meta charset="UTF-8">
     <meta name="viewport"
           content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title></title>
+    <title>教师评分</title>
     <link rel="stylesheet" href="/css/common/bootstrap.min.css">
     <link rel="stylesheet" href="/css/teacher/content.css">
 </head>
-<body onload="courseintroduce();">
+<body onload="getreportlist();return courseintroduce();">
 <div class="top">
     <div class="font">
         课堂管理系统
@@ -23,7 +23,7 @@
 </div>
 <div class="body">
     <div class="navigation">
-        <div class="courseName">OOAD</div>
+        <div class="courseName" id="courseName"></div>
         <div class="line"></div>
         <div class="courseIntroduction" id="courseIntroduction"></div>
     </div>
@@ -46,8 +46,8 @@
                     <th>报告</th>
                 </tr>
                 </thead>
-                <tbody class="tableContent" id="tablecontent">
-                <tr>
+                <tbody class="tableContent" id="reportcontent">
+               <!--  <tr>
                     <td>A</td>
                     <td>Bangalore</td>
                     <td>xxx</td>
@@ -59,33 +59,7 @@
                         <img src="/img/view.png" alt="预览">
                         <img src="/img/download.png" alt="下载">
                     </td>
-                </tr>
-                <tr>
-                    <td>A</td>
-                    <td>Bangalore</td>
-                    <td>xxx</td>
-                    <td>5</td>
-                    <td>已提交</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>
-                         <img src="/img/view.png" alt="预览">
-                        <img src="/img/download.png" alt="下载">
-                    </td>
-                </tr>
-                <tr>
-                    <td>A</td>
-                    <td>Bangalore</td>
-                    <td>xxx</td>
-                    <td>5</td>
-                    <td>已提交</td>
-                    <td>5</td>
-                    <td>5</td>
-                    <td>
-                         <img src="/img/view.png" alt="预览">
-                        <img src="/img/download.png" alt="下载">
-                    </td>
-                </tr>
+                </tr> -->
                 </tbody>
             </table>
         </div>

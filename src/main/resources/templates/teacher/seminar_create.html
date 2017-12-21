@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>创建讨论课</title>
-    <!-- <link rel="stylesheet" href="/bootstrap.min.css"> -->
+    <!-- <link rel="stylesheet" href="./bootstrap.min.css"> -->
     <link rel="stylesheet" href="/css/teacher/content.css">
 </head>
 <body onload="courseintroduce();">
@@ -20,7 +20,7 @@
         </div>
         <div class="body">
             <div class="navigation">
-                <div class="courseName">OOAD</div>
+                <div class="courseName" id="courseName"></div>
                 <div class="line"></div>
                 <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
@@ -29,22 +29,22 @@
                     <div class="title">创建讨论课</div>
                     <div class="returnButton" onclick="return backtocourse();">返回上一页</div>
                     <div class="line"></div>
-                    <!-- <form> -->
+
                     <div class="itemBody">
-                    <form class="form" action="" method="PUT" onsubmit="return createseminar(this.id);">
                         <div class="item">
                           <label class="itemName">讨论课名称:</label>
                           <input type="text" name="seminarName" class="bigInput" id="seminarname">
                         </div>
-                        <div class="item" style="height:40%;">
+                        <!-- <div class="item" style="height:40%;"> -->
+                          <div class="item" style="height:15%;">
                           <label class="itemName">讨论课说明:</label>
                           <textarea class="textStyle" id="description"></textarea>
                         </div>
                         <div class="item">
                           <label class="itemName">分组方式: </label>
                           <select class="bigSelect" id="groupingMethod">
-                            <option value ="volvo">fixed</option>
-                            <option value ="saab">random</option>
+                            <option value ="0">fixed</option>
+                            <option value ="1">random</option>
                           </select>
                         </div>
                         <div class="item">
@@ -68,20 +68,17 @@
                           <label class="itemName">3分占比</label>
                           <input type="text" name="seminarGrade" class="smallInput" id="three">
                         </div>
-                      </form>
+                      <!-- </form> -->
                         <div class="item">
                           <button class="submit"  name="submit" onclick="createseminar();">提 交</button>
-                          <button class="reset" onclick="">重 置</button>
+                          <button class="reset" onclick="window.location.reload();">重 置</button>
                           <div class="clear"></div>
                         </div>
                     </div>
                 </div>
-              <!-- </form> -->
             </div>
             <div class="clear"></div>
         </div>
-
-    <!-- jquery.js-->
     <script src ="/js/jquery-1.10.2.js"></script>
     <script src ="/js/teacher_page.js"></script>
 </body>

@@ -1,7 +1,7 @@
 target/
 !.mvn/wrapper/maven-wrapper.jar
 config.properties
-
+application.properties
 ### STS ###
 .apt_generated
 .classpath
