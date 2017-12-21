@@ -2,20 +2,19 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title>讨论课修改</title>
-    <link rel="stylesheet" href="./bootstrap.min.css">
-    <link rel="stylesheet" href="../../css/teacher/content.css">
+    <title>班级修改</title>
+    <!-- <link rel="stylesheet" href="./bootstrap.min.css"> -->
+    <link rel="stylesheet" href="/css/teacher/content.css">
 </head>
-<body>
-    
+<body onclick="return courseintroduce();">
         <div class="top">
           <div class="font">
             课堂管理系统
           </div>
           <div class="icon">
-            <img src="../../Img/home.png">首页
-           <img src="../../Img/home.png">帮助
-           <img src="../../Img/home.png">退出
+            <img src="/img/home.png">首页
+           <img src="/img/home.png">帮助
+           <img src="/img/home.png">退出
           </div>
           <div class="clear"></div>
         </div>
@@ -23,7 +22,7 @@
             <div class="navigation">
                 <div class="courseName">OOAD</div>
                 <div class="line"></div>
-                <div class="courseIntroduction">OOAD（Object Oriented Analysis Design，面向对象的分析和设计，面向对象分析与设计）是现代软件企业广为采用的一项有效技术。OOAD方法要求在设计中要映射现实世界中指定问题域中的对象和实体，例如：顾客、汽车和销售人员等。这就需要设计要尽可能地接近现实世界，即以最自然的方式表述实体。所以面向对象技术的优点即为能够构建与现实世界相对应的问题模型，并保持他们的结构、关系和行为为模式。</div>
+                <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
             <div class="content">
                 <div class="block">
@@ -91,5 +90,8 @@
             </div>
             <div class="clear"></div>
         </div>
+    <!-- jquery.js-->
+    <script src ="/js/jquery-1.10.2.js"></script>
+    <script src ="/js/teacher_page.js"></script>
 </body>
 </html>

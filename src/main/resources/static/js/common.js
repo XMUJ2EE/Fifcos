@@ -1,26 +1,26 @@
 
 /*------------------------AccountLoginPage---------------------------------*/
-function login(){
-    var ata = {phone:$("#username").val(),password:$("#password").val()}
-    $.ajax({
-        type:'post',
-        url: '/signin',
-        dataType: "json",
-        contentType: "application/json;",
-        data: JSON.stringify(ata),
-        success: function (data,textStatus,xhr) {
-            if(xhr.status == 200){//状态码存疑
-                if(data.type == "student")
-            	    window.location.href="/student/profile";
-                else
-                    window.location.href="/teacher/home";
-            }
-            else{
-            	alert("手机号密码错误！");
-            }
-        }
-    });
-}
+// function login(){
+//     var ata = {phone:$("#username").val(),password:$("#password").val()}
+//     $.ajax({
+//         type:'post',
+//         url: '/signin',
+//         dataType: "json",
+//         contentType: "application/json;",
+//         data: JSON.stringify(ata),
+//         success: function (data,textStatus,xhr) {
+//             if(xhr.status == 200){//状态码存疑
+//                 if(data.type == "student")
+//             	    window.location.href="/student/profile";
+//                 else
+//                     window.location.href="/teacher/home";
+//             }
+//             else{
+//             	alert("手机号密码错误！");
+//             }
+//         }
+//     });
+// }
 
 // function register(){//RegisterPage
 //     window.location.href="login.html";

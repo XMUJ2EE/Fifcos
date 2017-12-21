@@ -538,6 +538,7 @@ function deleteclass(){
 function updateclass(){
     window.location.href='/teacher/course/'+getCookie("courseDetail")+'/class/'+getCookie("classDetail")+'/update'
 }
+/*----------------------------teacher/class_update-------------------------------*/
 
 
 /*----------------------------teacher/seminar-------------------------------*/
@@ -550,7 +551,7 @@ function seminarinfo(){
     success: function (data,textStatus,xhr) {
         if(xhr.status == 200){
                 // alert("获取成功");
-                $("#seminarname").html("data.name");
+                $("#seminarname").html(data.name);
                 $("#description").html(data.description);
                 $("#groupingMethod").html(data.groupingMethod);
                 $("#startTime").html(data.startTime);
