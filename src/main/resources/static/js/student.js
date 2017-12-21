@@ -50,7 +50,7 @@ function stubind(){//StudentbindPage bindstu-updatestuinfo
 
 //----------------------------StudentHomePage-------------------------------
 
-function stuinfo(){//StudentHomePage showstuinfo
+function stuinfo(){ //StudentHomePage showstuinfo
         $.ajax({
         type:'get',
         url: '/me',

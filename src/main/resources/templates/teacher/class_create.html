@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>创建班级</title>
-    <link rel="stylesheet" href="{$base}/raffle/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="{$base}/raffle/bootstrap.min.css"> -->
      <link rel="stylesheet" href="/css/teacher/content.css">
     <style>
         html
@@ -207,15 +207,15 @@
       }
     </style>
 </head>
-<body>
+<body onload="courseintroduce();">
         <div class="top">
           <div class="font">
             课堂管理系统
           </div>
           <div class="icon">
-           <img src="/img/home.png">首页
-            <img src="/img/help.png">帮助
-            <img src="/img/exit.png">退出
+            <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+            <img src="/img/help.png"><a>帮助</a>
+            <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
           </div>
           <div class="clear"></div>
         </div>
@@ -223,57 +223,67 @@
             <div class="navigation">
                 <div class="courseName">OOAD</div>
                 <div class="line"></div>
-                <div class="courseIntroduction">OOAD（Object Oriented Analysis Design，面向对象的分析和设计，面向对象分析与设计）是现代软件企业广为采用的一项有效技术。OOAD方法要求在设计中要映射现实世界中指定问题域中的对象和实体，例如：顾客、汽车和销售人员等。这就需要设计要尽可能地接近现实世界，即以最自然的方式表述实体。所以面向对象技术的优点即为能够构建与现实世界相对应的问题模型，并保持他们的结构、关系和行为为模式。</div>
+                <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
             <div class="content">
                 <div class="block">
                     <div class="title">创建班级</div>
-                    <div class="returnButton" onclick="window.location.href='course.html'">返回上一页</div>
+                    <div class="returnButton" onclick="return backtocourse();">返回上一页</div>
                     <div class="line"></div>
+                    <!-- <form> -->
                     <div class="itemBody">
                         <div class="item">
-                          <label class="itemName">班级名称*:</label> &nbsp; &nbsp; &nbsp;
-                          <input type="text" name="className" class="bigInput">
+                          <label class="itemName" >班级名称*:</label> &nbsp; &nbsp; &nbsp;
+                          <input type="text" name="className" class="bigInput" id="classname">
                         </div>
                         <div class="item">
                           <label class="itemName">班级代号*: </label>&nbsp; &nbsp; &nbsp;
-                          <input type="text" name="classNickname" class="bigInput">
+                          <input type="text" name="classNickname" class="bigInput" id="classsite">
                         </div>
                         <div class="item">
                           <label class="itemName">上课时间*:</label>
-                          <select class="bigSelect"></select>
+                          <select class="bigSelect" id="classtime"></select>
                           <select class="smallSelect"></select>
                           <select class="smallSelect"></select>
-                          <button class="addButton">加号</button>
+                          &nbsp; &nbsp; &nbsp;
+                          <button class="addButton">
+                            <img class="addcourse" src="/img/smalladd.png">
+                          </button>
                         </div>
                         <div class="item">
+                          <br/>
                           <label class="itemName">评分规则*:</label>
                           <label class="itemName">讨论课分数占比  </label> &nbsp; &nbsp; &nbsp;&nbsp; &nbsp;
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="presentation">
                           <label class="itemName">报告分数占比  </label> &nbsp; &nbsp; &nbsp;
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="report">
                         </div>
                         <div class="item" style="margin-left: 22%">
                           <label class="itemName">5分占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="five">
                           <label class="itemName">4分占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="four">
                           <label class="itemName">3分占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="three">
                         </div>
                         <div class="item">
                           <label class="itemName">导入学生名单*:</label>
                           <button class="selectFile">选择文件</button>
                         </div>
                         <div class="item">
-                          <button class="submit">提交</button>
-                          <button class="reset">重置</button>
+                          <button class="submit" type="submit" name="submit" onclick="createclass();">提交</button>
+                          <button class="reset" onclick="">重置</button>
                           <div class="clear"></div>
                         </div>
                     </div>
                 </div>
+              <!-- </form> -->
             </div>
             <div class="clear"></div>
         </div>
+    <!-- jquery.js-->
+    <script src ="/js/jquery-1.10.2.js"></script>
+    <!-- student.js -->
+    <script src ="/js/TeacherCourse.js""></script>
 </body>
 </html>

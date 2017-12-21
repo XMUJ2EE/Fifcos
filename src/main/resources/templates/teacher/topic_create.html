@@ -3,19 +3,19 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>创建话题</title>
-    <link rel="stylesheet" href="./bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/bootstrap.min.css"> -->
     <link rel="stylesheet" href="/css/teacher/content.css">
-    <link rel="stylesheet" href="/css/teacher/frame.css">
+    <!-- <link rel="stylesheet" href="/css/teacher/frame.css"> -->
 </head>
-<body>
+<body onload="return courseintroduce();">
         <div class="top">
           <div class="font">
             课堂管理系统
           </div>
           <div class="icon">
-            <img src="/img/home.png">首页
-            <img src="/img/help.png">帮助
-            <img src="/img/exit.png">退出
+             <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+             <img src="/img/help.png"><a>帮助</a>
+             <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
           </div>
           <div class="clear"></div>
         </div>
@@ -23,18 +23,18 @@
             <div class="navigation">
                 <div class="courseName">OOAD</div>
                 <div class="line"></div>
-                <div class="courseIntroduction">OOAD（Object Oriented Analysis Design，面向对象的分析和设计，面向对象分析与设计）是现代软件企业广为采用的一项有效技术。OOAD方法要求在设计中要映射现实世界中指定问题域中的对象和实体，例如：顾客、汽车和销售人员等。这就需要设计要尽可能地接近现实世界，即以最自然的方式表述实体。所以面向对象技术的优点即为能够构建与现实世界相对应的问题模型，并保持他们的结构、关系和行为为模式。</div>
+                <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
             <div class="content">
                 <div class="block">
                     <div class="title">创建话题</div><br/>
                     <div class="returnButton">返回上一页</div>
                     <div class="line"></div>
-                    <form action="" method="POST" onsubmit="return ">
+                    <!-- <form action="" method="POST" onsubmit="return "> -->
                     <div class="itemBody">
                         <div class="item">
                           <label class="itemName">题   目*:</label>
-                          <input type="text" id="seminarName" class="bigInput">
+                          <input type="text" id="seminarName" class="bigInput" id="topicname">
                         </div>
                         <div class="item" style="height:40%;">
                           <label class="itemName">说   明*:</label>
@@ -46,15 +46,15 @@
                         </div>
                         <div class="item">
                           <label class="itemName">组内人数上限*: </label>
-                          <input type="text" id="groupmLimit" class="middleInput">
+                          <input type="text" id="groupMemberLimit" class="middleInput">
                         </div>
                         <div class="item">
-                          <button class="submit" type="submit">提 交</button>
+                          <button class="submit" onclick="return createtopic();">提 交</button>
                           <button class="reset" onclick="reset()">重 置</button>
                           <div class="clear"></div>
                         </div>
                     </div>
-                    </form>
+                    <!-- </form> -->
                 </div>
             </div>
             <div class="clear"></div>
@@ -62,6 +62,6 @@
     <!-- jquery.js-->
     <script src ="/js/jquery-1.10.2.js"></script>
     <!-- teacher-innerpage.js -->
-    <script src ="/js/teacher-innerpage.js"></script>
+    <script src ="/js/TeacherCourse.js"></script>
 </body>
 </html>

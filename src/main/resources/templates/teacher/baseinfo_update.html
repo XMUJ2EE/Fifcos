@@ -7,15 +7,15 @@
     <script src ="/js/jquery-1.10.2.js"></script>
     <script src ="/js/TeacherCourse.js"></script>
 </head>
-<body onload=" return getteainfo();">
+<body onload="return getteainfo();">
     	<div class="top">
         	<div class="font">
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="/img/home.png">首页
-        		<img src="/img/help.png">帮助
-        		<img src="/img/exit.png">退出
+        		<img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+                <img src="/img/help.png"><a>帮助</a>
+                <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
         	</div>
         	<div class="clear"></div>
     	</div>

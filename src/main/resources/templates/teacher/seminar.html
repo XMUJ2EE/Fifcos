@@ -8,16 +8,15 @@
     <title>老师查看讨论课</title>
     <link href="/css/teacher/content.css" rel="stylesheet" type="text/css"/>
 </head>
-<body>
-    
+<body onload="seminarinfo(); courseintroduce();return gettopiclist();">
         <div class="top">
           <div class="font">
             课堂管理系统
           </div>
           <div class="icon">
-            <img src="/img/home.png">首页
-            <img src="/img/help.png">帮助
-            <img src="/img/exit.png">退出
+             <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+             <img src="/img/help.png"><a>帮助</a>
+             <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
           </div>
           <div class="clear"></div>
         </div>
@@ -25,47 +24,44 @@
             <div class="navigation">
                 <div class="courseName">OOAD</div>
                 <div class="line"></div>
-                <div class="courseIntroduction">ooad is xxx</div>
+                <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
             <div class="content">
                 <div class="block">
                     <div class="title">讨论课1</div>
-                    <div class="returnButton">返回上一页</div>
+                    <div class="returnButton" onclick="return backtocourse();">返回上一页</div>
                     <div class="line"></div>
                     <div class="itemBody">
 						<div class="item">
                           <label class="itemName">讨论课名称：</label>
-						  <label class="itemName">讨论课1</label><br/>
+						               <label class="itemName" id="seminarname"></label><br/>
                           <label class="itemName">讨论课说明：</label>
-						  <label class="itemName">第一章练习</label><br/>
+						  <label class="itemName" id="description"></label><br/>
 						  <label class="itemName">分组方式：</label>
-						  <label class="itemName">随机分组</label><br/>
+						  <label class="itemName" id="groupingMethod"></label><br/>
 						  <label class="itemName">开始时间：</label>
-						  <label class="itemName">2017</label><br/>
+						  <label class="itemName" id="startTime"></label><br/>
 						  <label class="itemName">结束时间：</label>
-						  <label class="itemName">2017</label><br/>
-                          <button class="leftButton">评分</button>
-                          <button class="middleButton" onclick="updateseminar(this.id)">修改</button>
-               <button class="rightButton">删除讨论课</button>
+						  <label class="itemName" id="endTime"></label><br/>
+                          <button class="leftButton" onclick="return score();">评分</button>
+                          <button class="middleButton" onclick="return updateseminar();">修改</button>
+               <button class="rightButton" onclick="return deleteseminar();">删除讨论课</button>
 					</div>
-					
                 </div>
                 </div>
 				 <div class="block">
-                   
-					<div class="seminarInfo">
+			         <div class="seminarInfo" id="topiccontent">
                     <div class="title">话题</div>
                     <div class="line"></div>
                    <div class="topicBlockBody">
-                   <div class="topicBlock"><div class="topicBlockFont" onclick="window.location.href='topic.html'">话题A</div></div>
-                    <div class="topicBlock"><div class="topicBlockFont">话题B</div></div>
-                     <div class="topicBlock"><div class="topicBlockFont">话题C</div></div>
-                    <div class="topicBlock">
-                <img class="addImg" src="/img/smalladd.png" alt="添加"><div class="topicBlockFont">
-            </div>
+                     <div class="topicBlock"><div class="topicBlockFont">话题A</div></div>
+                      <div class="topicBlock"><div class="topicBlockFont">话题B</div></div>
+                       <div class="topicBlock"><div class="topicBlockFont">话题C</div></div>
+                      <div class="topicBlock">
+                         <img class="addImg" src="/img/smalladd.png" alt="添加">
+                      </div>
                    </div>
-                   
-                   </div>
+                </div>
                 </div>
             </div>
             <div class="clear"></div>
