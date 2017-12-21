@@ -72,9 +72,11 @@ public class StudentPageController {
     @RequestMapping("/student/course/{courseId}/seminar/{seminarId}")
     public String seminarFixed(@PathVariable String courseId, @PathVariable String seminarId,
                                @RequestParam(value = "type",required = true) String type){
-        if(type == "fixed"){
+        String fixed = "fixed";
+        String random = "random";
+        if(fixed.equals(type)){
             return "student/fixed_seminar";
-        }else if(type == "random"){
+        }else if(random.equals(type)){
             return "student/random_seminar";
         }
         return "error";
