@@ -18,8 +18,8 @@ function jumpSeminar(id1){//jump to specific Seminar
     var arr = info.split(";");
     var sid = arr[0];var groupingmethod = arr[1];
     updateCookie('seminarCurrent',sid);
-    //updateCookie('groupingmethodCurrent',groupingmethod);
-    window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+sid;
+    updateCookie('groupingmethodCurrent',groupingmethod);
+    window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+sid+'?type='+groupingmethod;
 }
 
 function jumpTopicF(id1){//jump to specific topicF
@@ -100,42 +100,41 @@ function courseinfo(){//show CourseInformation
 
 // //-----------------------------StudentDiscussionClassPage(fixed)-------------------------------------
 //
-// function seminarinfoF(){//show seminar info(fixed)
-//         $.ajax({
-//         type:'get',
-//         url: '/seminar/'+getsid(),
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 updateCookie('seminarCurrent',data.id);
-//                 var description=document.getElementById("description");
-//                 var coursename=document.getElementById("coursename");
-//                 var groupingmethod=document.getElementById("groupingmethod");
-//                 var starttime=document.getElementById("starttime");
-//                 var endtime=document.getElementById("endtime");
-//                 description.innerHTML = getdescription();
-//                 coursename.innerHTML = getcoursename();
-//                 groupingmethod.innerHTML = data.groupingMethod;
-//                 starttime.innerHTML = data.startTime;
-//                 endtime.innerHTML = data.endTime;
-//                 var topics = document.getElementById("topics");
-//                 var str = "";
-//                 for(var i=0;i<data.topics.length;i++){
-//                     var a = String.fromCharCode(65+i);
-//                     str += '<div class="smallblock"><div class="blockFont" onclick="jumpTopicF(this.id)" id="'+data.topics[i].id+'">话题'+a+'</div></div>'
-//                 }
-//                 topics.innerHTML = str;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                  alert("未找到讨论课");
-//             }
-//         }
-//     });
-// }
+function seminarinfoF(){//show seminar info(fixed)
+        $.ajax({
+        type:'get',
+        url: '/seminar/'+getCookie("seminarCurrent"),
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == "OK"){
+                var description=document.getElementById("description");
+                var coursename=document.getElementById("coursename");
+                var groupingmethod=document.getElementById("groupingmethod");
+                var starttime=document.getElementById("starttime");
+                var endtime=document.getElementById("endtime");
+                description.innerHTML = getdescription();
+                coursename.innerHTML = getcoursename();
+                groupingmethod.innerHTML = data.groupingMethod;
+                starttime.innerHTML = data.startTime;
+                endtime.innerHTML = data.endTime;
+                var topics = document.getElementById("topics");
+                var str = "";
+                for(var i=0;i<data.topics.length;i++){
+                    var a = String.fromCharCode(65+i);
+                    str += '<div class="smallblock"><div class="blockFont" onclick="jumpTopicF(this.id)" id="'+data.topics[i].id+'">话题'+a+'</div></div>'
+                }
+                topics.innerHTML = str;
+            }
+            else if(status == "Bad Request"){
+                alert("错误的ID格式");
+            }
+            else{
+                 alert("未找到讨论课");
+            }
+        }
+    });
+}
 //
 // //-----------------------------StudentDiscussionClassPage(random)-------------------------------------
 //
