@@ -3,19 +3,18 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>创建讨论课</title>
-    <link rel="stylesheet" href="/bootstrap.min.css">
+    <!-- <link rel="stylesheet" href="/bootstrap.min.css"> -->
     <link rel="stylesheet" href="/css/teacher/content.css">
 </head>
-<body>
-    
+<body onload="courseintroduce();">
         <div class="top">
           <div class="font">
             课堂管理系统
           </div>
           <div class="icon">
-            <img src="/img/home.png">首页
-           <img src="/img/home.png">帮助
-           <img src="/img/home.png">退出
+             <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+            <img src="/img/help.png"><a>帮助</a>
+            <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
           </div>
           <div class="clear"></div>
         </div>
@@ -23,57 +22,61 @@
             <div class="navigation">
                 <div class="courseName">OOAD</div>
                 <div class="line"></div>
-                <div class="courseIntroduction">ooad is xxx</div>
+                <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
             <div class="content">
                 <div class="block">
                     <div class="title">创建讨论课</div>
-                    <div class="returnButton" onclick="window.location.href='course.html'">返回上一页</div>
+                    <div class="returnButton" onclick="return backtocourse();">返回上一页</div>
                     <div class="line"></div>
-
-                    <div class="itemBody">   
+                    <!-- <form> -->
+                    <div class="itemBody">
                     <form class="form" action="" method="PUT" onsubmit="return createseminar(this.id);">
                         <div class="item">
                           <label class="itemName">讨论课名称:</label>
-                          <input type="text" name="seminarName" class="bigInput">
+                          <input type="text" name="seminarName" class="bigInput" id="seminarname">
                         </div>
                         <div class="item" style="height:40%;">
                           <label class="itemName">讨论课说明:</label>
-                          <textarea class="textStyle"></textarea>
+                          <textarea class="textStyle" id="description"></textarea>
                         </div>
                         <div class="item">
                           <label class="itemName">分组方式: </label>
-                          <select class="bigSelect"></select>
+                          <select class="bigSelect" id="groupingMethod">
+                            <option value ="volvo">fixed</option>
+                            <option value ="saab">random</option>
+                          </select>
                         </div>
                         <div class="item">
                           <label class="itemName">开始时间: </label>
-                          <input type="date" name="startTime" class="timeStyle">
+                          <input type="date" name="startTime" class="timeStyle" id=startTime>
                           <label class="itemName" style="margin-left: 15%">结束时间: </label>
-                          <input type="date" name="startTime" class="timeStyle">
+                          <input type="date" name="startTime" class="timeStyle" id="endTime">
                         </div>
                         <div class="item">
                           <label class="itemName">评分规则:</label>
                           <label class="itemName">讨论课分数占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="presentation">
                           <label class="itemName">报告分数占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="report">
                         </div>
                         <div class="item" style="margin-left: 18%">
                           <label class="itemName">5分占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="five">
                           <label class="itemName">4分占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="four">
                           <label class="itemName">3分占比</label>
-                          <input type="text" name="seminarGrade" class="smallInput">
+                          <input type="text" name="seminarGrade" class="smallInput" id="three">
                         </div>
                       </form>
                         <div class="item">
-                          <button class="submit">提 交</button>
-                          <button class="reset">重 置</button>
+                          <button class="submit"  name="submit" onclick="createseminar();">提 交</button>
+                          <button class="reset" onclick="">重 置</button>
                           <div class="clear"></div>
                         </div>
                     </div>
                 </div>
+              <!-- </form> -->
             </div>
             <div class="clear"></div>
         </div>

@@ -17,21 +17,21 @@
 <div class="titleBackground"></div>
 <div class="title">课程管理系统</div>
 <div class="icon">
-<img src="/img/home.png">首页
-<img src="/img/help.png">帮助
-<img src="/img/exit.png">退出
+<img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+<img src="/img/help.png"><a>帮助</a>
+<img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
 </div>
-<form action="" method="PUT" onsubmit="return teabind();">
+
 <div class="phoneNum">手机号:<input type="text" id="phoneNum" /></div>
 <div class="password">密码:<input type="text" id ="password"/></div>
 <div class="name">姓名:<input type="text" id="name"/></div>
 <div class="school">学校:<input type="text" id="school"/></div>
 <div class="gender">性别:</div>
-<div class="male">男<input type="radio" value="男" name="gender" id="male" checked="checked"/></div>
-<div class="female">女<input type="radio" value="女"  name="gender" id="female"/></div>
+<div class="male">男<input type="radio" value="male" name="gender" id="male" checked="checked"/></div>
+<div class="female">女<input type="radio" value="female"  name="gender" id="female"/></div>
 <div class="studentNum">教工号:<input type="text" id="teaNum"/></div>
 <div class="eMail">邮箱:<input type="text" id="eMail"/></div>
-<div class="submit" type="submit" onclick="window.location.href='/teacher/home'">提交</div>
+<div class="submit" type="submit" onclick="return teabind()">提交</div>
 </form>
 </body>
 

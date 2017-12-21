@@ -11,9 +11,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="/img/home.png">首页
-        		<img src="/img/help.png">帮助
-        		<img src="/img/exit.png">退出
+        		<img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+            <img src="/img/help.png"><a>帮助</a>
+            <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -21,36 +21,45 @@
          <div class="navigation">
                 <div class="title">导航</div>
                 <div class="line"></div>
-                <div class="courseIntroduction"><a class="guidefont" href="TeacherHomePage.html">基本信息</a>
-                  <a class="guidefont" href="courses.html">课程信息</a>
-                  <a class="guidefont" href="course_create.html">新建课程</a>
+                <div class="courseIntroduction">
+                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/home'">基本信息</a>
+                  <a class="guidefont" href="#"  onclick="window.location.href='/teacher/courses'">课程信息</a>
+                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/courses/create'">新建课程</a>
                 </div>
             </div>
             <div class="content">
 		  <div class="title">新建课程</div>
 		  <hr class="line"/>
         <br/>
-       <form class="form" action="" method="PUT" onsubmit="return createcourse();">
-          <div class="itemName" >
-           课程名称*：<input type="text" name="coursename"/>
-         <br/>
-         <br/>
-          开始时间*：<input type="date" name="begintime"/>  结束时间*：<input type="date" name="endtime"/>
-          <br/>
-          <br/>
-          课程介绍：<br/>
-          <textarea name="courseinfo" cols="80" rows="5"></textarea><br/>
-          评分规则*： <br/>
-         <div class="scorerule">
-            <p> 讨论课分数占比:<input type="text" name="seminarscore">报告分数占比：<input type="text" name="reportscore"></p>
-            <p>五分占比:<input type="text" name="five">四分占比：<input type="text" name="four">三分占比：<input type="text" name="three"></p>
+     <div class="form">
+        <div class="itemName" >
+            课程名称*：<input type="text" name="coursename" id="coursename"/>
+             <br/>
+             <br/>
+             开始时间*：<input type="date" name="begintime" id="begintime"/>
+              结束时间*：<input type="date" name="endtime"  id="endtime"/>
+              <br/>
+              <br/>
+              课程介绍：
+              <br/>
+              <textarea name="description" cols="80" rows="5" id="description"></textarea>
+              <br/>
+              评分规则*： <br/>
+            </div>
+             <div class="scorerule">
+                <p> 讨论课分数占比:<input type="text" name="seminarscore"  id="seminarscore">
+                    报告分数占比：<input type="text" name="reportscore"  id="reportscore"></p>
+                <p>五分占比:<input type="text" name="five" id="five">
+                  四分占比：<input type="text" name="four" id="four">
+                  三分占比：<input type="text" name="three" id="three">
+                </p>
+             </div>
+              <br/>
+            <div class="buttons">
+              <input class="button" type="submit" name="submit" onclick="return createcourse();">
+              <input class="button" type="reset" name="reset"  onclick="window.location.reload()">
+            </div>
          </div>
-        <br/>
-        <div class="buttons">
-          <input class="button" type="submit" name="submit"/><input class="button" type="reset" name="reset"/>
-        </div>
-             </form>
-          </div>
       </div>
           </div>
             <div class="clear"></div>

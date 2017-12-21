@@ -3,20 +3,18 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>查看话题</title>
-    <link rel="stylesheet" href="./bootstrap.min.css">
+    <link rel="stylesheet" href="/bootstrap.min.css">
     <link rel="stylesheet" href="/css/teacher/content.css">
-  
 </head>
-<body>
-    
+<body  onload="courseintroduce();return topicinfo();">
         <div class="top">
           <div class="font">
             课堂管理系统
           </div>
           <div class="icon">
-            <img src="/img/home.png">首页
-            <img src="/img/help.png">帮助
-            <img src="/img/exit.png">退出
+             <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+             <img src="/img/help.png"><a>帮助</a>
+             <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
           </div>
           <div class="clear"></div>
         </div>
@@ -24,34 +22,37 @@
             <div class="navigation">
                 <div class="courseName">OOAD</div>
                 <div class="line"></div>
-                <div class="courseIntroduction">ooad is xxx</div>
+                <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
             <div class="content">
                 <div class="block">
                     <div class="title">查看话题</div>
-                    <div class="returnButton">返回上一页</div>
+                    <div class="returnButton" onclick="backtoseminar();">返回上一页</div>
                     <div class="line"></div>
                     <div class="itemBody">
                         <div class="item">
                           <label class="itemName">题   目 :</label>
+                           <label class="itemName" id="topicname"></label>
                         </div>
                         <div class="item" style="height:40%;">
                           <label class="itemName">说   明 :</label>
+                           <label class="itemName" id="description"></label>
                         </div>
                         <div class="item">
                           <label class="itemName">组数限制: </label>
+                          <label class="itemName" id="groupLimit"></label>
                         </div>
                         <div class="item">
                           <label class="itemName">组内人数上限: </label>
-                     
+                          <label class="itemName" id="groupMemberLimit"></label>
                         </div>
                         <div class="item">
                           <label class="itemName">已选小组: </label>
-                        
+                          <label class="itemName" id="groupLeft"></label>
                         </div>
                         <div class="item">
-                          <button class="submit" onclick="updatetopic(this.id)">修 改</button>
-                          <button class="reset">删除话题</button>
+                          <button class="submit" onclick="return turntopicupdate();">修 改</button>
+                          <button class="reset" onclick="return deletetopic();">删除话题</button>
                           <div class="clear"></div>
                         </div>
                     </div>

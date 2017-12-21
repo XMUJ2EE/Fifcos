@@ -9,7 +9,10 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import xmu.crms.FifcosApplication;
 import xmu.crms.entity.User;
+import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.mapper.GradeMapper;
 import xmu.crms.service.impl.GradeServiceImpl;
+import xmu.crms.service.impl.UserServiceImpl;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.List;
 public class GradeServiceTest {
     @Autowired
     GradeService gradeService;
+
 
     @Test
     public void testDeleteStudentScoreGroupByTopicId() {
@@ -40,22 +44,13 @@ public class GradeServiceTest {
 
     @Test
     public void testUpdateGroupByGroupId() {
-        try{
-            gradeService.updateGroupByGroupId(BigInteger.valueOf(1), BigInteger.valueOf(4));
-            System.out.println("success!");
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
+        gradeService.updateGroupByGroupId(BigInteger.valueOf(1), BigInteger.valueOf(4));
+        System.out.println("success!");
     }
 
     @Test
     public void testlistSeminarGradeByStudentId() {
-        try{
-            List<BigInteger> list = gradeService.listSeminarGradeByStudentId(BigInteger.valueOf(1));
-            System.out.println(list);
-        }catch (Exception e){
-            System.out.println(e.toString());
-        }
-
+        List<BigInteger> list = gradeService.listSeminarGradeByStudentId(BigInteger.valueOf(1));
+        System.out.println(list);
     }
 }
