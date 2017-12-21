@@ -46,6 +46,12 @@
         <result property="attendanceStatus" column="attendance_status" />
         <association property="student" column="student_id" javaType="User" select="getUserByUserId" />
     </resultMap>
+
+    <resultMap id="userDetailResultMap" type="xmu.crms.conf.UserDetailsImpl">
+        <result property="phone" column="phone"/>
+        <result property="password" column="password"/>
+        <result property="type" column="type" />
+    </resultMap>
     
     <sql id="setCondition">
         <set>
@@ -169,5 +175,9 @@
         from user_info
         where id not in (select student_id from attendance
         where seminar_id=#{seminarId} and class_id=#{classId})
+    </select>
+
+    <select id="getUserByPhone" parameterType="java.lang.String" resultMap="userDetailResultMap">
+        select phone, password, type from user_info where phone = #{phone}
     </select>
 </mapper>

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -33,6 +33,48 @@
 <div class="eMail">邮箱:<input type="text" id="eMail"/></div>
 <div class="submit" type="submit" onclick="return teabind()">提交</div>
 </form>
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width,
+                                     initial-scale=1.0,
+                                     maximum-scale=1.0,
+                                     user-scalable=no">
+    <title>ClassManage</title>
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link href="/css/teacher/TeacherBindPage.css" rel="stylesheet" type="text/css"/>
+</head>
+
+<body>
+<div class="titleBackground"></div>
+<div class="title">课程管理系统</div>
+<div class="icon">
+	<img src="/img/home.png"><a onclick="window.location.href='/login'">首页</a>
+	<img src="/img/help.png"><a>帮助</a>
+	<img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
+</div>
+<div class="phoneNum">手机号:<input type="text" id="phoneNum"/></div>
+<div class="password">密码:<input type="text" id="password"/></div>
+<div class="name">姓名:<input type="text" id="name"/></div>
+<div class="province">省:<select class="provinceSelect" id="province"></select></div>
+<div class="city">市:<select class="citySelect" id="city"></select></div>
+<div class="school">学校:<select class="schoolSelect" id="school"></select>
+    <div class="createSchool" id="createSchool">创建学校</div>
+</div>
+<div class="gender">性别:</div>
+<div class="male">男<input type="radio" value="男" name="gender" checked="checked"/></div>
+<div class="female">女<input type="radio" value="女" name="gender"/></div>
+<div class="stuffNum">教工号:<input type="text" id="stuffNum"/></div>
+<div class="eMail">邮箱:<input type="text" id="eMail"/></div>
+<div class="submit" id="submit">提交</div>
+ <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+   <script src ="/js/teacher_page.js"></script>
 </body>
 
 </html>
