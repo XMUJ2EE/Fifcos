@@ -103,7 +103,7 @@ public class TeacherPageController {
      */
     @RequestMapping("/teacher/course/{courseId}/class/{classId}/update")
     public String updateClass(@PathVariable String courseId, @PathVariable String classId) {
-        return "class_update";
+        return "teacher/class_update";
     }
 
     /**

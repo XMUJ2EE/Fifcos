@@ -24,8 +24,6 @@ $(function () {
     });
 });
 
-
-
 // function register(){//RegisterPage
 //     window.location.href="login.html";
 //     // var Gender,Type;
