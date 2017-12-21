@@ -8,6 +8,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 import xmu.crms.FifcosApplication;
+import xmu.crms.entity.Seminar;
+import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.User;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.mapper.GradeMapper;
@@ -33,8 +35,8 @@ public class GradeServiceTest {
 
     @Test
     public void testListSeminarGradeBySeminarGroupId() {
-        List<BigInteger> list = gradeService.listSeminarGradeBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(1));
-        System.out.println(list);
+        SeminarGroup list = gradeService.listSeminarGradeBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(1));
+        System.out.println(list.toString());
     }
 
     @Test
@@ -45,12 +47,17 @@ public class GradeServiceTest {
     @Test
     public void testUpdateGroupByGroupId() {
         gradeService.updateGroupByGroupId(BigInteger.valueOf(1), BigInteger.valueOf(4));
-        System.out.println("success!");
     }
 
     @Test
     public void testlistSeminarGradeByStudentId() {
-        List<BigInteger> list = gradeService.listSeminarGradeByStudentId(BigInteger.valueOf(1));
+        List<SeminarGroup> list = gradeService.listSeminarGradeByStudentId(BigInteger.valueOf(3));
+        System.out.println(list);
+    }
+
+    @Test
+    public void testlistSeminarGradeByCourseId() {
+        List<SeminarGroup> list = gradeService.listSeminarGradeByCourseId(BigInteger.valueOf(1));
         System.out.println(list);
     }
 }

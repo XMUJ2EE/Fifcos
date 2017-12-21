@@ -83,4 +83,20 @@ public class ClassInfo {
 		this.threePointPercentage = threePointPercentage;
 	}
 
+	@Override
+	public String toString() {
+		return "ClassInfo{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				", course=" + course +
+				", site='" + site + '\'' +
+				", classTime='" + classTime + '\'' +
+				", description='" + description + '\'' +
+				", reportPercentage=" + reportPercentage +
+				", presentationPercentage=" + presentationPercentage +
+				", fivePointPercentage=" + fivePointPercentage +
+				", fourPointPercentage=" + fourPointPercentage +
+				", threePointPercentage=" + threePointPercentage +
+				'}';
+	}
 }

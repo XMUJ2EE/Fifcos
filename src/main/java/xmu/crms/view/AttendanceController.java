@@ -1,11 +1,21 @@
 package xmu.crms.view;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import xmu.crms.entity.Attendance;
+import xmu.crms.entity.User;
+import xmu.crms.exception.LocationNotFoundException;
+import xmu.crms.service.UserService;
+import xmu.crms.view.vo.UserVO;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 讨论课的签到状态Controller
@@ -17,64 +27,78 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/seminar")
 public class AttendanceController {
 
+    @Autowired
+    UserService userService;
+
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.GET)
     public ResponseEntity getStateByClassId(@PathVariable int seminarId, @PathVariable int classId){
-        String state = "{\n" +
-                "  \"numPresent\": 40,\n" +
-                "  \"numStudent\": 60,\n" +
-                "  \"status\": \"calling\",\n" +
-                "  \"group\": \"grouping\"\n" +
-                "}";
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(state);
+
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
     }
 
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/present",method = RequestMethod.GET)
-    public ResponseEntity getNiceStateStudentList(){
-        String studentList = "[\n" +
-                "  {\n" +
-                "    \"id\": 2357,\n" +
-                "    \"name\": \"张三\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 8232,\n" +
-                "    \"name\": \"李四\"\n" +
-                "  }\n" +
-                "]";
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentList);
+    public ResponseEntity getNiceStateStudentList(@PathVariable int seminarId, @PathVariable int classId){
+        List<UserVO> listAttdent = new ArrayList<UserVO>();
+        try {
+            List<User> listTotal = userService.listPresentStudent(BigInteger.valueOf(seminarId), BigInteger.valueOf(classId));
+            for (int i=0; i<listTotal.size(); i++) {
+                UserVO userVO = new UserVO(listTotal.get(i).getId(), listTotal.get(i).getName());
+                listAttdent.add(userVO);
+            }
+        } catch (LocationNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (listAttdent.isEmpty()) {
+            return ResponseEntity.status(404).body(null);
+        }else {
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listAttdent);
+        }
     }
 
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/late",method = RequestMethod.GET)
     public ResponseEntity getLateStudentList(@PathVariable int seminarId, @PathVariable int classId){
-        String studentList = "[\n" +
-                "  {\n" +
-                "    \"id\": 3412,\n" +
-                "    \"name\": \"王五\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 5234,\n" +
-                "    \"name\": \"王七九\"\n" +
-                "  }\n" +
-                "]";
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentList);
+        List<UserVO> listLate = new ArrayList<UserVO>();
+        try {
+            List<Attendance> listTotal = userService.listAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId));
+            for (int i=0; i<listTotal.size(); i++) {
+                if (listTotal.get(i).getAttendanceStatus() == 1) {
+                    UserVO userVO = new UserVO(listTotal.get(i).getStudent().getId(), listTotal.get(i).getStudent().getName());
+                    listLate.add(userVO);
+                }
+            }
+        } catch (LocationNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (listLate.isEmpty()) {
+            return ResponseEntity.status(404).body(null);
+        }else {
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listLate);
+        }
     }
 
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/absent",method = RequestMethod.GET)
     public ResponseEntity getAbsentStudentList(@PathVariable int seminarId, @PathVariable int classId){
-        String studentList = "[\n" +
-                "  {\n" +
-                "    \"id\": 34,\n" +
-                "    \"name\": \"张六\"\n" +
-                "  }\n" +
-                "]";
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentList);
+        List<UserVO> listAbsent = new ArrayList<UserVO>();
+        try {
+            List<User> listTotal = userService.listAbsenceStudent(BigInteger.valueOf(seminarId), BigInteger.valueOf(classId));
+            for (int i=0; i<listTotal.size(); i++) {
+                    UserVO userVO = new UserVO(listTotal.get(i).getId(), listTotal.get(i).getName());
+                    listAbsent.add(userVO);
+            }
+        } catch (LocationNotFoundException e) {
+            e.printStackTrace();
+        }
+        if (listAbsent.isEmpty()) {
+            return ResponseEntity.status(404).body(null);
+        }else {
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listAbsent);
+        }
     }
 
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/{studentId}",method = RequestMethod.GET)
     public ResponseEntity callInRoll(@PathVariable int seminarId, @PathVariable int classId, @PathVariable int studentId){
-        String state = "{\n" +
-                "  \"status\": \"late\"\n" +
-                "}";
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(state);
+
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
     }
 
 
