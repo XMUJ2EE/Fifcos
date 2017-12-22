@@ -1,8 +1,10 @@
 package xmu.crms.view;
 
+import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import xmu.crms.entity.School;
 import xmu.crms.security.FifcosAuthenticationToken;
 import xmu.crms.entity.JwtAuthenticationResponse;
 import xmu.crms.entity.User;
@@ -67,7 +70,6 @@ public class AuthController {
         }else{
             type = "unbind";
         }
-        httpServletResponse.setHeader("WWW-Authenticate",token);
         return ResponseEntity.ok(new JwtAuthenticationResponse(user.getId(),type,user.getName(),token));
     }
 
@@ -86,6 +88,18 @@ public class AuthController {
     @RequestMapping(value = "/register", method = RequestMethod.POST)
     public User register(@RequestBody User addedUser) throws AuthenticationException{
         return authService.register(addedUser);
+    }
+
+    @RequestMapping(value = "/auth/weChat", method = RequestMethod.POST)
+    public ResponseEntity weChatLogin(HttpServletRequest request) throws IOException{
+        BufferedReader br = request.getReader();
+        String str, code = "";
+        while((str = br.readLine()) != null){
+            code += str;
+        }
+        Map<String, Object> o = new ObjectMapper().readValue(code, Map.class);
+        Map<String, Object> ne = authService.weChatLogin((String)o.get("code"));
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(ne);
     }
 
 }

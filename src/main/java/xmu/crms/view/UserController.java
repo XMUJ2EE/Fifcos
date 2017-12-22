@@ -82,18 +82,5 @@ public class UserController {
 			return ResponseEntity.status(400).build();
 		}
 	}
-	
-	
-	@RequestMapping(value = "/signin", method = GET)
-	public ResponseEntity signInWechat(@RequestParam String code, @RequestParam String state, @RequestParam String successUrl) {
-		
-		String success = "{\n" +
-				"  \"id\": 3486,\n" +
-				"  \"type\": \"student\",\n" +
-				"  \"name\": \"张三\",\n" +
-				"  \"jwt\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjaWQiOiJPQTAwMDEiLCJpYXQiOjE0ODI2NTcyODQyMjF9.TeJpy936w610Vrrm+c3+RXouCA9k1AX0Bk8qURkYkdo=\"\n" +
-				"}";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(success);
-	}
 
 }

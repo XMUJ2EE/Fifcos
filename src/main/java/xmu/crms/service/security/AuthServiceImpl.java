@@ -1,5 +1,6 @@
 package xmu.crms.service.security;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration;
@@ -23,6 +24,11 @@ import xmu.crms.security.UserDetailsServiceImpl;
 import xmu.crms.service.UserService;
 import xmu.crms.util.JwtTokenUtil;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,8 +50,9 @@ public class AuthServiceImpl implements AuthService {
     @Autowired
     private UserService userService;
 
-    @Value("${jwt.tokenHead}")
-    private String tokenHead;
+    private String tokenHead = "Bearer ";
+
+    private String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx76ec7422a94c30ab&secret=b067de4ca07e611368058e427c035d05&grant_type=authorization_code";
 
 
 
@@ -81,5 +88,27 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public String refresh(String oldToken) {
         return null;
+    }
+
+    @Override
+    public Map<String, Object> weChatLogin(String code) throws IOException{
+        String reqUrl = url + "&js_code=" + code;
+        StringBuffer json = new StringBuffer();
+        try{
+            URL oracle = new URL(reqUrl);
+            URLConnection yc = oracle.openConnection();
+            BufferedReader in = new BufferedReader(new InputStreamReader(yc.getInputStream()));
+            String inputLine = null;
+            while((inputLine = in.readLine()) != null){
+                json.append(new String(inputLine.getBytes(),"utf-8"));
+            }
+            in.close();
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Map<String, Object> auth = new ObjectMapper().readValue(json.toString(), Map.class);
+        System.out.println(auth.toString());
+
+        return auth;
     }
 }
