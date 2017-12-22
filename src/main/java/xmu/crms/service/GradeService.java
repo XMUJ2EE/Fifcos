@@ -1,5 +1,6 @@
 package xmu.crms.service;
 
+import org.springframework.stereotype.Component;
 import xmu.crms.entity.Seminar;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.exception.GroupNotFoundException;
@@ -11,6 +12,7 @@ import java.util.List;
  * @author Yexiaona
  * @version 2.10
  */
+
 public interface GradeService {
 
 	/**
@@ -114,6 +116,4 @@ public interface GradeService {
 	 * @author qinlingyun
 	 */
 	void countGroupGradeBySerminarId(BigInteger seminarId, BigInteger seminarGroupId) throws IllegalArgumentException;
-
-
 }

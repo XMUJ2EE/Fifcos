@@ -60,14 +60,24 @@ public class GradeServiceTest {
     }
 
     @Test
-    public void testlistSeminarGradeByStudentId() {
+    public void testlistSeminarGradeByUserId() {
         List<SeminarGroup> list = gradeService.listSeminarGradeByUserId(BigInteger.valueOf(3));
         System.out.println(list);
     }
 
     @Test
     public void testlistSeminarGradeByCourseId() {
-        List<SeminarGroup> list = gradeService.listSeminarGradeByCourseId(BigInteger.valueOf(1), BigInteger.valueOf(1));
+        List<SeminarGroup> list = gradeService.listSeminarGradeByCourseId(BigInteger.valueOf(3), BigInteger.valueOf(1));
         System.out.println(list);
+    }
+
+    @Test
+    public void testCountPresentationGrade() {
+        gradeService.countPresentationGrade(BigInteger.valueOf(1), BigInteger.valueOf(1));
+    }
+
+    @Test
+    public void testCountGroupGradeBySerminarId() {
+        gradeService.countGroupGradeBySerminarId(BigInteger.valueOf(1), BigInteger.valueOf(1));
     }
 }
