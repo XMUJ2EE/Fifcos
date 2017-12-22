@@ -2,12 +2,18 @@ package xmu.crms.view;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import xmu.crms.entity.Topic;
+import xmu.crms.exception.TopicNotFoundException;
+import xmu.crms.service.TopicService;
+
+import java.math.BigInteger;
 
 @Controller
 
@@ -15,44 +21,28 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 public class TopicController {
 //	@Autowired
-//	TopicService topicService = new TopicServiceImpl();
+//	TopicService topicService;
 
 	@RequestMapping(value = "/{topicId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getTopicById(@PathVariable int topicId) {
-
-//		if (topicId == 0)
-//			return ResponseEntity.status(400).body(null);
-//
-//		Topic topic = topicService.getTopicById(topicId);
-//
-//		if (topic != null){
-//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topic);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
+		Topic topic = new Topic();
+//		try {
+//			topic = topicService.getTopicByTopicId(BigInteger.valueOf(topicId));
+//		} catch (TopicNotFoundException e) {
+//			e.printStackTrace();
 //		}
-		String topic = "{\n" +
-				"  \"id\": 257,\n" +
-				"  \"serial\": \"A\",\n" +
-				"  \"name\": \"领域模型与模块\",\n" +
-				"  \"description\": \"Domain model与模块划分\",\n" +
-				"  \"groupLimit\": 5,\n" +
-				"  \"groupMemberLimit\": 6,\n" +
-				"  \"groupLeft\": 2\n" +
-				"}";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topic);
+		if (topic == null) {
+			return ResponseEntity.status(404).body(null);
+		}else {
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topic);
+		}
 	}
 	
 	@RequestMapping(value = "/{topicId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateTopicById(@PathVariable int topicId) {
-//		if (topicId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (topicService.updateTopicById(topicId, topicPartVO)) {
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
-//		}
+
 		return ResponseEntity.status(204).body(null);
 	}
 	
@@ -60,13 +50,6 @@ public class TopicController {
 	@ResponseBody
 	public ResponseEntity deleteTopicById(@PathVariable int topicId) {
 
-//		if (topicId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (topicService.deleteTopicById(topicId)) {
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
-//		}
 		return ResponseEntity.status(204).body(null);
 	}
 	
@@ -74,24 +57,6 @@ public class TopicController {
 	@ResponseBody
 	public ResponseEntity getGroupsByTopicId(@PathVariable int topicId) {
 
-//		List<GroupVO> groupVOS = topicService.getGroupsByTopicId(topicId);
-//		if (topicId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupVOS != null) {
-//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(groupVOS);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
-//		}
-		String group = "[\n" +
-				"  {\n" +
-				"    \"id\": 23,\n" +
-				"    \"name\": \"1A1\"\n" +
-				"  },\n" +
-				"  {\n" +
-				"    \"id\": 26,\n" +
-				"    \"name\": \"2A2\"\n" +
-				"  }\n" +
-				"]";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(group);
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 }

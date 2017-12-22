@@ -14,7 +14,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+import xmu.crms.entity.SeminarGroup;
+import xmu.crms.exception.GroupNotFoundException;
+import xmu.crms.exception.TopicNotFoundException;
 import xmu.crms.service.GradeService;
+import xmu.crms.service.SeminarGroupService;
+import xmu.crms.service.TopicService;
 import xmu.crms.service.impl.GradeServiceImpl;
 import xmu.crms.view.vo.PresentationGradeVO;
 
@@ -23,93 +28,38 @@ import xmu.crms.view.vo.PresentationGradeVO;
 @RequestMapping("/group")
 
 public class GroupController {
-
-//	GroupService groupService = new GroupServiceImpl();
 	@Autowired
-	GradeService gradeService = new GradeServiceImpl();
+	GradeService gradeService;
+//	@Autowired
+//	SeminarGroupService seminarGroupService;
+//	@Autowired
+//	TopicService topicService;
 
 	@RequestMapping(value = "/{groupId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getGroupById(@PathVariable int groupId) {
-//		GroupDetailsVO groupDetailsVO = groupService.getGroupById(groupId, embedTopics, embedGrade);
-//
-//		if (groupId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupDetailsVO != null){
-//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(groupDetailsVO);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
-//		}
-		String group = "{\n" +
-				"  \"id\": 28,\n" +
-				"  \"leader\": {\n" +
-				"    \"id\": 8888,\n" +
-				"    \"name\": \"张三\"\n" +
-				"  },\n" +
-				"  \"members\": [\n" +
-				"    {\n" +
-				"      \"id\": 5324,\n" +
-				"      \"name\": \"李四\"\n" +
-				"    },\n" +
-				"    {\n" +
-				"      \"id\": 5678,\n" +
-				"      \"name\": \"王五\"\n" +
-				"    }\n" +
-				"  ],\n" +
-				"  \"topics\": [\n" +
-				"    {\n" +
-				"      \"id\": 257,\n" +
-				"      \"name\": \"领域模型与模块\"\n" +
-				"    }\n" +
-				"  ],\n" +
-				"  \"report\": \"\"\n" +
-				"}";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(group);
+
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 	
 	@RequestMapping(value = "/{groupId}/resign", method = PUT)
 	@ResponseBody
 	public ResponseEntity resignGroupLeader(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-//		if (groupId <= 0)
-//			return ResponseEntity.status(404).body(null);
-//		if (request.get("id") <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupService.resignGroupLeader(groupId, request.get("id"))){
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(403).body(null);
-//		}
+
 		return ResponseEntity.status(204).body(null);
 	}
 	
 	@RequestMapping(value = "/{groupId}/assign", method = PUT)
 	@ResponseBody
 	public ResponseEntity assignGroupLeader(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-//		if (groupId <= 0)
-//			return ResponseEntity.status(404).body(null);
-//		if (request.get("id") <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupService.assignGroupLeader(groupId, request.get("id"))){
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(403).body(null);
-//		}
+
 		return ResponseEntity.status(204).body(null);
 	}
 	
 	@RequestMapping(value = "/{groupId}/add", method = PUT)
 	@ResponseBody
 	public ResponseEntity addGroupMember(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-//
-//		if (groupId <= 0)
-//			return ResponseEntity.status(404).body(null);
-//		if (request.get("id") <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupService.addGroupMember(groupId, request.get("id"))){
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(403).body(null);
-//		}
+
 		return ResponseEntity.status(204).body(null);
 	}
 	
@@ -117,48 +67,25 @@ public class GroupController {
 	@ResponseBody
 	public ResponseEntity removeGroupMember(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
 
-//		if (groupId <= 0)
-//			return ResponseEntity.status(404).body(null);
-//		if (request.get("id") <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupService.removeGroupMember(groupId, request.get("id"))){
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(403).body(null);
-//		}
 		return ResponseEntity.status(204).body(null);
 	}
 	
 	@RequestMapping(value = "/{groupId}/topic", method = POST)
 	@ResponseBody
-	public ResponseEntity selectTopic(@PathVariable int groupId) {
-//		if (request.get("id") <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupId <= 0)
+	public ResponseEntity selectTopic(@PathVariable int groupId, @RequestBody Map<String, Integer> request) throws GroupNotFoundException, TopicNotFoundException {
+//		int id = request.get("id");
+//		if (seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)) == null) {
 //			return ResponseEntity.status(404).body(null);
-//		if (groupService.selectTopic(groupId, request.get("id")) != null){
-//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(groupService.selectTopic(groupId, request.get("id")));
-//		}else{
-//			return ResponseEntity.status(403).body(null);
+//		}else {
+//			seminarGroupService.insertTopicByGroupId(BigInteger.valueOf(groupId), BigInteger.valueOf(id));
 //		}
-		String u = "{\n" +
-				"  \"url\": \"/group/27/topic/23\"\n" +
-				"}";
-		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(u);
+		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 	
 	@RequestMapping(value = "/{groupId}/topic/{topicId}", method = DELETE)
 	@ResponseBody
 	public ResponseEntity deselectTopic(@PathVariable int groupId, @PathVariable int topicId) {
-//		if (topicId <= 0)
-//			return ResponseEntity.status(404).body(null);
-//		if (groupId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupService.deselectTopic(groupId, topicId)){
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(403).body(null);
-//		}
+
 		return ResponseEntity.status(204).body(null);
 	}
 	
@@ -166,66 +93,60 @@ public class GroupController {
 	@ResponseBody
 	public ResponseEntity getGradeByGroupId(@PathVariable int groupId) {
 
-//		GradeService grade = groupService.getGradeByGroupId(groupId);
-//		if (groupId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (grade != null) {
-//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(grade);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
-//		}
-		String grade = "{\n" +
-				"  \"presentationGrade\": [\n" +
-				"    {\n" +
-				"      \"topicId\": 257,\n" +
-				"      \"grade\": 4\n" +
-				"    },\n" +
-				"    {\n" +
-				"      \"topicId\": 258,\n" +
-				"      \"grade\": 5\n" +
-				"    }\n" +
-				"  ],\n" +
-				"  \"reportGrade\": 3,\n" +
-				"  \"grade\": 4\n" +
-				"}";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(grade);
+		SeminarGroup seminarGroup = null;
+		try {
+			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(groupId));
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+		}
+		if (seminarGroup == null) {
+			return ResponseEntity.status(404).body(null);
+		}else{
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarGroup);
+		}
 	}
 	
 	@RequestMapping(value = "/{groupId}/grade/report", method = PUT)
 	@ResponseBody
 	public ResponseEntity finalGradeByGroupId(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-//		if (groupId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		if (groupService.finalGradeByGroupId(groupId, request.get("reportGrade"))) {
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
-//		}
-        BigInteger groupId1 = BigInteger.valueOf(groupId);
-        BigInteger grade = BigInteger.valueOf(request.get("reportGrade"));
-
-		gradeService.updateGroupByGroupId(groupId1, grade);
-
-		return ResponseEntity.status(204).body(null);
-
+		SeminarGroup seminarGroup = null;
+		try {
+			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(groupId));
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+		}
+		if (seminarGroup == null) {
+			return ResponseEntity.status(404).body(null);
+		}else{
+			BigInteger grade = BigInteger.valueOf(request.get("reportGrade"));
+			try {
+				gradeService.updateGroupByGroupId(BigInteger.valueOf(groupId), grade);
+			} catch (GroupNotFoundException e) {
+				e.printStackTrace();
+			}
+			return ResponseEntity.status(204).body(null);
+		}
 	}
 	
 	@RequestMapping(value = "/{groupId}/grade/presentation/{studentId}", method = PUT)
 	@ResponseBody
-	public ResponseEntity submitGradeByGroupId(@PathVariable int groupId, @PathVariable int studentId, @RequestBody PresentationGradeVO presentationGradeVO) {
-//		//if (groupId <= 0)
-//			return ResponseEntity.status(400).body(null);
-//		//if (groupService.submitGradeByGroupId(groupId, studentId)){
-//			return ResponseEntity.status(204).body(null);
-//		}else{
-//			return ResponseEntity.status(404).body(null);
-//		}
-        BigInteger topicId = BigInteger.valueOf(presentationGradeVO.getTopicId());
-        BigInteger grade = BigInteger.valueOf(presentationGradeVO.getGrade());
-        BigInteger groupId1 = BigInteger.valueOf(groupId);
-        BigInteger studentId1 = BigInteger.valueOf(studentId);
-        gradeService.insertGroupGradeByUserId(studentId1, BigInteger.valueOf(1), groupId1, topicId, grade);
+	public ResponseEntity submitGradeByGroupId(@PathVariable int groupId, @PathVariable int studentId, @RequestBody Map<String, Integer> request) {
 
-		return ResponseEntity.status(204).body(null);
+		SeminarGroup seminarGroup = null;
+		try {
+			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(groupId));
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+		}
+		if (seminarGroup == null) {
+			return ResponseEntity.status(404).body(null);
+		}else{
+			BigInteger topicId = BigInteger.valueOf(request.get("topicId"));
+			BigInteger grade = BigInteger.valueOf(request.get("grade"));
+			BigInteger groupId1 = BigInteger.valueOf(groupId);
+			BigInteger studentId1 = BigInteger.valueOf(studentId);
+			gradeService.insertGroupGradeByUserId(topicId, studentId1, groupId1, grade);
+			return ResponseEntity.status(204).body(null);
+		}
 	}
 }

@@ -21,7 +21,7 @@
         </div>
         <div class="body">
             <div class="navigation">
-                <div class="courseName">OOAD</div>
+                <div class="courseName" id="courseName"></div>
                 <div class="line"></div>
                 <div class="courseIntroduction" id="courseIntroduction"></div>
             </div>
@@ -50,7 +50,7 @@
                         </div>
                         <div class="item">
                           <button class="submit" onclick="return createtopic();">提 交</button>
-                          <button class="reset" onclick="reset()">重 置</button>
+                          <button class="reset" onclick="window.location.reload()">重 置</button>
                           <div class="clear"></div>
                         </div>
                     </div>
@@ -61,7 +61,6 @@
         </div>
     <!-- jquery.js-->
     <script src ="/js/jquery-1.10.2.js"></script>
-    <!-- teacher-innerpage.js -->
-    <script src ="/js/TeacherCourse.js"></script>
+    <script src ="/js/teacher_page.js"></script>
 </body>
 </html>

@@ -1,25 +1,27 @@
 package xmu.crms.view.vo;
 
+import java.math.BigInteger;
+
 /**
  * @author mads
  */
 public class UserVO {
-    private int id;
+    private BigInteger id;
     private String name;
 
     public UserVO() {
     }
 
-    public UserVO(int id, String name) {
+    public UserVO(BigInteger id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

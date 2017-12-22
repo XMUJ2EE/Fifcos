@@ -8,6 +8,7 @@
                                      maximum-scale=1.0,
                                      user-scalable=no">
     <title>ClassManage</title>
+<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css">
 <link href="/css/common/RegisterPage.css" rel="stylesheet" type="text/css"/>
 </head>
 
@@ -15,30 +16,25 @@
 <div class="titleBackground"></div>
 <div class="title">课程管理系统</div>
 <div class="icon">
-   <img src="/img/home.png"><a onclick="window.location.href='/login'">首页</a>
-   <img src="/img/help.png"><a>帮助</a>
-   <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
+	<img src="/img/home.png"><a onclick="window.location.href='/login'">首页</a>
+	<img src="/img/help.png"><a>帮助</a>
+	<img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
 </div>
-<form action="" method="POST" onsubmit="return register();">
-<div class="phoneNum">手机号:<input type="text" id="phoneNum"/></div>
-<div class="password">密码:<input type="text" id="password"/></div>
-<div class="name">姓名:<input type="text" id="name"/></div>
-<div class="province">省:<select class="provinceSelect" id="provinceselect"></select></div>
-<div class="city">市:<select class="citySelect" id="cityselect"></select></div>
-<div class="school">学校:<select class="schoolSelect" id="schoolselect"></select><div class="createSchool">创建学校</div></div>
+<div class="phoneNum">手机号:<input type="text" name="phoneNum"/></div>
+<div class="password">密码:<input type="text" name="password"/></div>
+<div class="name">姓名:<input type="text" name="name"/></div>
+<div class="province">省:<select class="provinceSelect"></select></div>
+<div class="city">市:<select class="citySelect"></select></div>
+<div class="school">学校:<select class="schoolSelect"></select><div class="createSchool">创建学校</div></div>
 <div class="gender">性别:</div>
-<div class="male">男<input type="radio" value="male" name="gender" id="male" checked="checked"/></div>
-<div class="female">女<input type="radio" value="female"  name="gender" id="female"/></div>
+<div class="male">男<input type="radio" value="男" name="gender" checked="checked"/></div>
+<div class="female">女<input type="radio" value="女" name="gender"/></div>
 <div class="role">角色:</div>
-<div class="student">学生<input type="radio" value="student" name="occupation" id="student" checked="checked"/></div>
-<div class="teacher">教师<input type="radio" value="teacher" name="occupation" id="teacher"/></div>
-<div class="stuffNum">教工号:<input type="text" id="stuffNum"/></div>
-<div class="eMail">邮箱:<input type="text" id="eMail"/></div>
-<div class="submit" type = "submit">提交</div>
-	<!-- jquery.js-->
-	<script src ="/js/jquery-1.10.2.js"></script>
-	<!-- common.js -->
-    <script src ="/js/common.js"></script>
+<div class="student">学生<input type="radio" value="学生" name="role" checked="checked"/></div>
+<div class="teacher">教师<input type="radio" value="教师" name="role"/></div>
+<div class="stuffNum">教工号:<input type="text" name="stuffNum"/></div>
+<div class="eMail">邮箱:<input type="text" name="eMail"/></div>
+<div class="submit">提交</div>
 </body>
 
 </html>

@@ -536,7 +536,7 @@ function deleteclass(){
     });
 }
 function updateclass(){
-    window.location.href='/class/'+getCookie("classDetail")
+    window.location.href='/teacher/course/'+getCookie("courseDetail")+'/class/'+getCookie("classDetail")+'/update'
 }
 
 
