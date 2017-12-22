@@ -83,13 +83,27 @@ function teainfo(){
         success: function (data, textStatus, xhr) {
            // console.log(xhr.status);
             if(xhr.status==200){
-                updateCookie('username',data[i].id); //store username in cookie
+                var Gender;
+                var Title;
+                updateCookie('username',data.id); //store username in cookie
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
                 $("#teaNum").html('教工号：'+'<span>'+data.number+'</span>');
                 $("#name").html('姓名：'+'<span>'+data.name+'</span>');
-                $("#gender").html ('性别：'+'<span>'+data.gender+'</span>');
+                if(data.gender=='0'){
+                    Gender="男";
+                }
+                else {
+                    Gender="女";
+                }
+                if(data.title=='1'){
+                    Title="教授";
+                }
+                else{
+                    Title="副教授";
+                }
+                $("#gender").html ('性别：'+'<span>'+Gender+'</span>');
                 $("#school").html('学校：'+'<span>'+data.school.name+'</span>');
-                $("#title").html ('职称：'+'<span>'+data.title+'</span>');
+                $("#title").html ('职称：'+'<span>'+Title+'</span>');
                 $("#email").html ('邮箱：'+'<span>'+data.email+'</span>');
                 $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
@@ -109,12 +123,25 @@ function getteainfo(){  //get techer information
         contentType: "application/json;",
         success: function (data,textStatus,xhr) {
             if(xhr.status==200){
-                document.cookie = 'username='+data.id; //store username in cookie
+                var Gender;
+                var Title;
+                if(data.gender=='0'){
+                    Gender="男";
+                }
+                else {
+                    Gender="女";
+                }
+                if(data.title=='1'){
+                    Title="教授";
+                }
+                else{
+                    Title="副教授";
+                }
                 $("input[name='name']").val(data.name);
                 $("input[name='idnum']").val(data.number);
-                $("input[name='sex']").attr("value",data.gender);
+                $("input[name='sex']").attr("value",Gender);
                 $("input[name='school']").attr("value",data.school.name);
-                $("input[name='title']").attr("value",data.title);
+                $("input[name='title']").attr("value",Title);
                 $("input[name='e-mail']").attr("value",data.email);
                 $("input[name='phone']").attr("value",data.phone);
             }
