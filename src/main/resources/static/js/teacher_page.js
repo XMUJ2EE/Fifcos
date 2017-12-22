@@ -107,8 +107,15 @@ function teainfo(){
                 $("#email").html ('邮箱：'+'<span>'+data.email+'</span>');
                 $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
-            else{
-                alert("获取信息失败");
+        },
+        statusCode:{
+            401: function () {
+                alert("未登录!");
+                window.location.href="/login";
+            },
+            403:function () {
+                alert("未登录!");
+                window.location.href="/login";
             }
         }
     });

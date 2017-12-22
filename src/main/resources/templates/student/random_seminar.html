@@ -6,7 +6,7 @@
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>学生查看讨论课（随机）</title>
-    <link href="../../css/student/content.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/student/content.css" rel="stylesheet" type="text/css"/>
 </head>
 <body onload = "return seminarinfoR();"> 
         <div class="top">
@@ -14,9 +14,9 @@
             课堂管理系统
           </div>
           <div class="icon">
-            <img src="../../Img/home.png">首页
-            <img src="../../Img/help.png">帮助
-            <img src="../../Img/exit.png">退出
+              <img src="/Img/home.png">首页
+              <img src="/Img/help.png">帮助
+              <img src="/Img/exit.png">退出
           </div>
           <div class="clear"></div>
         </div>
@@ -24,40 +24,38 @@
             <div class="navigation">
                 <div class="courseName" id="coursename">OOAD</div>
                 <div class="line"></div>
-                <div class="courseIntroduction" id="discription">OOAD（Object Oriented Analysis Design，面向对象的分析和设计，面向对象分析与设计）是现代软件企业广为采用的一项有效技术。OOAD方法要求在设计中要映射现实世界中指定问题域中的对象和实体，例如：顾客、汽车和销售人员等。这就需要设计要尽可能地接近现实世界，即以最自然的方式表述实体。所以面向对象技术的优点即为能够构建与现实世界相对应的问题模型，并保持他们的结构、关系和行为为模式。</div>
+                <div class="courseIntroduction" id="description"></div>
             </div>
             <div class="content">
                 <div class="block">
-                    <div class="title">讨论课1</div>
-                    <div class="returnButton" onclick="window.location.href='course.html'">返回上一页</div>
+                    <div id="name" class="title"></div>
+                    <div class="returnButton" onclick="window.location.href='/student/course/'+getCookie('coursecurrent')">返回上一页</div>
                     <div class="line"></div>
                     <div class="itemBody">
                         <div class="item">
-                          <label class="itemName">本节讨论课的主要内容针对第一二章</label>
+                          <label id="descriptionS" class="itemName"></label>
 						  <div class="line"></div>
                         </div>
 						<div class="item">
                           <label class="itemName">分组方式：</label>
-						  <label class="itemName" id="groupingmethod">随机分组</label><br/>
+						  <label class="itemName" id="groupingmethod"></label><br/>
                           <label class="itemName">开始时间：</label>
-						  <label class="itemName" id="starttime">11/10/2017</label><br/>
+						  <label class="itemName" id="starttime"></label><br/>
 						  <label class="itemName">结束时间：</label>
-						  <label class="itemName" id="endtime">11/10/2017</label>
+						  <label class="itemName" id="endtime"></label>
 						  <div class="item"></div>
 						  <div class="line"></div>
 						</div>
 						<div class="item"></div>
 						<div class="item" id="randomteam">
                           <label class="itemName">选择话题：</label>
-						  <label class="itemName" id="topicselected">A</label><br/>
+						  <label class="itemName" id="topicselected"></label><br/>
                           <label class="itemName">组号：</label>
-						  <label class="itemName" id="groupnum">1-A-1</label><br/>
+						  <label class="itemName" id="groupnum"></label><br/>
                           <label class="itemName">组长：</label>
-						  <label class="itemName" id="groupleader">XXX</label><br/>
+						  <label class="itemName" id="groupleader"></label><br/>
                           <label class="itemName">组员：</label>
-						  <label class="itemName">XXX</label>
-						  <label class="itemName">XXX</label>
-						  <label class="itemName">XXX</label>
+						  <label class="itemName"></label>
                         </div>
 					</div>
                 </div>
@@ -66,13 +64,12 @@
                     <div class="line"></div>
 					<div class="blockBody" id="topics">
                         <div class="smallblock"><div class="blockFont">话题A</div></div>
-                        <div class="smallblock"><div class="blockFont">话题B</div></div>
 					</div>
                     <div class="item">
                         <button class="uploadbutton">上传报告</button>
 				    </div>
 					<div class="item">
-                        <button class="viewscorebutton">查看分数</button>
+                        <button class="viewscorebutton" onclick="window.location.href='/student/course/'+getCookie('coursecurrent')+'/seminar/'+getCookie('seminarCurrent')+'/grade'">查看分数</button>
                         <div class="clear"></div>
                     </div>
                 </div>
@@ -80,8 +77,8 @@
             <div class="clear"></div>
         </div>
     <!-- jquery.js-->
-    <script src ="../../js/jquery-1.10.2.js"></script>
+    <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student-innercourse.js -->
-    <script src ="../../js/student-innercourse.js"></script>
+    <script src ="/js/student-innercourse.js"></script>
 </body>
 </html>

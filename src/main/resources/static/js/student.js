@@ -1,7 +1,7 @@
 
 //---------------------------- support functions--------------------------------------
 function updateCookie(name,value){
-    document.cookie=name+'='+escape(value);
+    document.cookie=name+'='+value;
 }
 
 function getusername(){//getusername from cookie
@@ -21,22 +21,14 @@ function getusername(){//getusername from cookie
 //----------------------------StudentbindPage-------------------------------
 
 function stubind(){//StudentbindPage bindstu-updatestuinfo
-    var Gender;
-    if($("#male").attr('checked')){
-        Gender = "male";
-    }
-    else{
-        Gender = "female";
-    }
+    var Gender = $("input[type='radio']:checked").val();
     var ata = {
         name:$("#name").val(),
-        school:{
-            id:"32",
-            name:$("#school").val()
-        },
         gender:Gender,
-        number:$("#stuffNum").val(),
-        email:$("#eMail").val(),
+        title:$("#title").val(),
+        email:$("#email").val(),
+        phone:$("#phone").val(),
+        avatar:"/avatar/3486.png"
     }
     $.ajax({
         type:'put',
@@ -44,10 +36,10 @@ function stubind(){//StudentbindPage bindstu-updatestuinfo
         dataType: "json",
         contentType: "application/json;",
         data: JSON.stringify(ata),
-        success: function (data,status) {
-            if(status == "No Content"){
+        success: function (data,status,xhr) {
+            if(xhr.status == 204){
                 alert("成功!");
-                window.location.href="StudentHomePage.html";
+                window.location.href="/student/profile";
             }
             else{
                 alert("信息不合法");
@@ -64,17 +56,17 @@ function stuinfo(){ //StudentHomePage showstuinfo
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
-        success: function (data) {
-            if(data.status == 200){
+        success: function (data,status,xhr) {
+            if(xhr.status == 200){
                 document.cookie = 'username='+data.id;//store username in cookie
-                $("username").html('用户名：'+'<span>'+data.id+'</span>');
-                document.getElementById("stuffNum").innerHTML('学号：'+'<span>'+data.number+'</span>');
-                document.getElementById("name").innerHTML('姓名：'+'<span>'+data.name+'</span>');
-                document.getElementById("gender").innerHTML('性别：'+'<span>'+data.gender+'</span>');
-                document.getElementById("school").innerHTML('学校：'+'<span>'+data.school.name+'</span>');
-                document.getElementById("title").innerHTML('学历：'+'<span>'+data.title+'</span>');
-                document.getElementById("email").innerHTML('邮箱：'+'<span>'+data.email+'</span>');
-                document.getElementById("phone").innerHTML('联系方式：'+'<span>'+data.phone+'</span>');
+                $("#username").html('用户名：'+'<span>'+data.id+'</span>');
+                $("#stuffNum").html('学号：'+'<span>'+data.number+'</span>');
+                $("#name").html('姓名：'+'<span>'+data.name+'</span>');
+                $("#gender").html('性别：'+'<span>'+data.gender+'</span>');
+                $("#school").html('学校：'+'<span>'+data.school.name+'</span>');
+                $("#title").html('学历：'+'<span>'+data.title+'</span>');
+                $("#email").html('邮箱：'+'<span>'+data.email+'</span>');
+                $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
             else{
                 alert("获取信息失败");
@@ -85,22 +77,23 @@ function stuinfo(){ //StudentHomePage showstuinfo
 
 //----------------------------StudentInfoModifyPage-------------------------------
 
+
 function stumodinfo(){//StudentInfoModifyPage getstuinfo
         $.ajax({
         type:'get',
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
-        success: function (data,status) {
-            if(status == "OK"){
-                document.getElementById("username").innerHTML('用户名：'+'<span>'+data.id+'</span>');
-                document.getElementById("stuffNum").attr("value",data.number);
-                document.getElementById("name").attr("value",data.name);
-                document.getElementById("gender").attr("value",data.gender);
-                document.getElementById("school").attr("value",data.school.name);
-                document.getElementById("title").attr("value",data.title);
-                document.getElementById("email").attr("value",data.email);
-                document.getElementById("phone").attr("value",data.phone);
+        success: function (data,status,xhr) {
+            if(xhr.status == 200){
+                $("#username").html('用户名：'+'<span>'+data.id+'</span>');
+                $("#stuffNum").val(data.number);
+                $("#name").val(data.name);
+                $("#gender").val(data.gender);
+                $("#school").val(data.school.name);
+                $("#title").val(data.title);
+                $("#email").val(data.email);
+                $("#phone").val(data.phone);
             }
             else{
                 alert("获取信息失败");
@@ -110,16 +103,25 @@ function stumodinfo(){//StudentInfoModifyPage getstuinfo
 }
 
 function stuinfomod(){//StudentInfoModifyPage updatestuinfo
+        var ata = {
+            name:$("#name").val(),
+            gender:$("#gender").val(),
+            title:$("#title").val(),
+            email:$("#email").val(),
+            phone:$("#phone").val(),
+            avatar:"/avatar/3486.png"
+        }
         $.ajax({
         type:'put',
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
         data: JSON.stringify(ata),
-        success: function (data,status) {
-            if(status == "No Content"){
+        success: function (data,status,xhr) {
+            console.log(xhr.status);
+            if(xhr.status == 204){
                 alert("修改成功!");
-                window.location.href="StudentHomePage.html";
+                window.location.href="/student/profile";
             }
             else{
                 alert("信息不合法");
@@ -128,28 +130,30 @@ function stuinfomod(){//StudentInfoModifyPage updatestuinfo
     });
 }
 
-//--------------------------------StudentCourseHome-----------------------------------
+//--------------------------------StudentCourse_List-----------------------------------
+var courseid = '';
 
 function jumpCourse(id){
     var cid = document.getElementById("course").getAttribute("name");
-    updateCookie('classCurrent',id);
-    updateCookie('courseCurrent',cid);
-    location.href="course.html"
+    updateCookie('classcurrent',id);
+    updateCookie('coursecurrent',cid);
+    window.location.href="/student/course/"+cid;
 }
 
-function getcourseid(name){//StudentCourseHome store course id
-        var courseid = '';
+function getcourseid(name){//StudentCourse_List store course id
         $.ajax({
         type:'get',
         url: '/course',
         dataType: "json",
         contentType: "application/json;",
-        success: function (data,status) {
-            if(status == "OK"){
+        async:false,
+        success: function (data,status,xhr) {
+            if(xhr.status == 200){
                 for(var i=0;i<data.length;i++){
-                        if(data[i].name == name){
-                            courseid = data[i].id;break;
-                        }
+                    if(data[i].name == name){
+                        courseid = data[i].id;
+                        //console.log(courseid);
+                    }
                 }
             }
             else{
@@ -157,24 +161,23 @@ function getcourseid(name){//StudentCourseHome store course id
             }
         }
     });
-    return courseid;
 }
 
-function classinfo(){//StudentCourseHome showclassinfo
+function classinfo(){//StudentCourse_List showclassinfo
         $.ajax({
         type:'get',
         url: '/class',
         dataType: "json",
         contentType: "application/json;",
-        success: function (data,status) {
-            if(status == "OK"){
+        success: function (data,status,xhr) {
+            if(xhr.status == 200){
                 var content=document.getElementById("classcontent");
                 var str="";
                 for(var i=0;i<data.length;i++){
                         var cid = getcourseid(data[i].courseName);
                         //document.cookie = 'course'+i+'='+cid;
-                        str += '<div class="title">课程信息</div><hr class="line"/><div class="main_box_right_content" onclick="jumpCourse(this.id)" id="'+data[i].id+'"><h3 class="classtitle"><span id="course" name="'+cid+'">'+data[i].courseName+
-                        '</span><button type="submit" id="'+data[i].id+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].name+
+                        str += '<div class="title">课程信息</div><hr class="line"/><div class="main_box_right_content" ><h3 class="classtitle"><span id="course" name="'+courseid+'">'+data[i].courseName+
+                        '</span><button id="'+data[i].id+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo" onclick="jumpCourse(this.id)" id="'+data[i].id+'"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].name+
                         '</span></td><td class="tabletext" id="site">课程地点：'+data[i].site+
                         '</td></tr><tr><td class="tabletext" id="teacher">教师：'+data[i].courseTeacher+'</td><td class="tabletext"></td></tr></table></div></div>';
                 }
@@ -191,40 +194,46 @@ function dropclass(id){//StudentCourseHome dropclass();
         $.ajax({
         type:'delete',
         url: '/class/'+id+'/student/'+getusername(),
-        success: function (data,status){
-            if(status == "No Content"){
+            error:function(){
+            alert("请登录学生账户");
+            },
+        success: function (data,status,xhr){
+            if(xhr.status == 204){
                 alert("成功");
+                window.location.href = "/student/courses";
             }
-            else if(status == "Bad Request"){
+            else if(xhr.status == 400){
                 alert("错误的ID格式");
+                window.location.href = "/student/courses";
             }
-            else if(status = "Forbidden"){
+            else if(xhr.status = 403){
                 alert("学生无法为他人退课");
+                window.location.href = "/student/courses";
             }
             else{
                 alert("不存在这个选课或不存在这个学生、班级");
+                window.location.href = "/student/courses";
             }
         }
     });
-    classinfo();
+    //classinfo();
 }
 
 
-//----------------------------StudentChooseCoursePage-------------------------------
+//----------------------------StudenCourseSelectPage-------------------------------
 
-function classlist(){//StudentChooseCoursePage classlist
+function classlist(){//StudenCourseSelectPage classlist
         $.ajax({
         type:'get',
         url: '/class?courseName=*&teacherName=*',
         dataType: "json",
         contentType: "application/json;",
-        success: function (data,status) {
-            if(status == "OK"){
+            async:false,
+        success: function (data,status,xhr) {
+            if(xhr.status == 200){
                 var content=document.getElementById("classcontent");
-                var str="";
-                var contenthead = '<div class="title">选择课程</div><hr class="line"/><div class="checkcourse">'+
-                                  '<form class="itemName" action="" method="get" onsubmit="return classlistsearch();">任课教师：<input type="text" name="teacher"><br/>课程名称：<input type="text" name="course"><input type="submit" value="查询">'+
-                                  '</form>';
+                var str='';
+                var contenthead = '<div class="title">选择课程</div><hr class="line"/><div class="checkcourse">任课教师：<input type="text" name="teacher" value = ""><br/>课程名称：<input type="text" name="course"  value = ""><input type="submit" value="查询" onclick="return classlistsearch();">';
                 for(var i=0;i<data.length;i++){
                         str += '</div><div class="main_box_right_content"><h3 class="classtitle">'+data[i].courseName+'<button id="'+data[i].id+'" onclick="selectclass(this.id)">选择课程</button></h3>'+
                         '<div class="divideline"></div><div  class="classinfo"><table class="table"><tr>'+
@@ -237,7 +246,7 @@ function classlist(){//StudentChooseCoursePage classlist
     });
 }
 
-function selectclass(id1){//StudentChooseCoursePage selectclass
+function selectclass(id1){//StudenCourseSelectPage selectclass
         var ata = {id:id1}
         $.ajax({
         type:'post',
@@ -262,19 +271,29 @@ function selectclass(id1){//StudentChooseCoursePage selectclass
     });
 }
 
-function classlistsearch(){//StudentChooseCoursePage classlist(searched)
+function classlistsearch(){//StudenCourseSelectPage classlist(searched)
+        var course;
+        var teacher;
+        console.log($("[name='teacher']").val());
+        if($("[name='teacher']").val()== ""){
+            course = "*";
+        }
+        else course = $("[name='teacher']").val();
+        if($("[name='course']").val()== ""){
+            teacher = "*";
+        }
+        else teacher = $("[name='course']").val();
+        console.log($("[name='course']").val());
         $.ajax({
         type:'get',
-        url: '/class?courseName='+document.getElementById("course").value+'&teacherName=*'+document.getElementById("teacher").value,
+        url: '/class?courseName='+course+'&teacherName='+teacher,
         dataType: "json",
         contentType: "application/json;",
-        success: function (data,status){
-            if(status == "OK"){
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
                 var content=document.getElementById("classcontent");
                 var str="";
-                var contenthead = '<div class="title">选择课程</div><hr class="line"/><div class="checkcourse">'+
-                                  '<form class="itemName" action="" method="get" onsubmit="return classlistsearch();">任课教师：<input type="text" name="teacher"><br/>课程名称：<input type="text" name="course"><input type="submit" value="查询">'+
-                                  '</form>';
+                var contenthead = '<div class="title">选择课程</div><hr class="line"/><div class="checkcourse">任课教师：<input type="text" name="teacher" value = ""><br/>课程名称：<input type="text" name="course" value = ""><input type="submit" value="查询" onclick="return classlistsearch();">';
                 for(var i=0;i<data.length;i++){
                         str += '</div><div class="main_box_right_content"><h3 class="classtitle">'+data[i].courseName+'<button id="'+data[i].id+'" onclick="selectclass(this.id)">选择课程</button></h3>'+
                         '<div class="divideline"></div><div  class="classinfo"><table class="table"><tr>'+

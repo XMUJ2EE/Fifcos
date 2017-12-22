@@ -28,7 +28,7 @@ public interface GradeMapper {
      * @param seminarGroupId
      * @return
      */
-    SeminarGroup listSeminarGradeBySeminarGroupId(@Param("userId") BigInteger userId,
+    SeminarGroup getSeminarGradeBySeminarGroupId(@Param("userId") BigInteger userId,
                                                   @Param("seminarGroupId") BigInteger seminarGroupId);
 
 
@@ -71,7 +71,7 @@ public interface GradeMapper {
      * @param userId
      * @return
      */
-    List<SeminarGroup> listSeminarGradeByStudentId(BigInteger userId);
+    List<SeminarGroup> listSeminarGradeByUserId(BigInteger userId);
 
 
     /**
@@ -79,7 +79,8 @@ public interface GradeMapper {
      * @param courseId
      * @return
      */
-    List<SeminarGroup> listSeminarGradeByCourseId(BigInteger courseId);
+    List<SeminarGroup> listSeminarGradeByCourseId(@Param("userId") BigInteger userId,
+                                                  @Param("courseId") BigInteger courseId);
 
     /**
      * 获取课程的所有讨论课
@@ -87,6 +88,58 @@ public interface GradeMapper {
      * @return
      */
     List<Seminar> listSeminarByCourseId(BigInteger courseId);
+
+    /**
+     * 获取学生对该组的打分
+     * @param seminarGroupId
+     * @return
+     */
+    List<BigInteger> listGrade(BigInteger seminarGroupId);
+
+    /**
+     * 更新展示得分
+     * @param seminarGroupId
+     * @param grade
+     */
+    void updatePresentationGradeByGroupId(@Param("seminarGroupId") BigInteger seminarGroupId,
+                                          @Param("grade") BigInteger grade);
+
+    /**
+     * 获取ClassId
+     * @param seminarGroupId
+     * @param seminarId
+     * @return
+     */
+    BigInteger getClassId(@Param("seminarGroupId") BigInteger seminarGroupId,
+                             @Param("seminarId") BigInteger seminarId);
+
+    /**
+     * 获取报告分百分比
+     * @param classId
+     * @return
+     */
+    BigInteger getReportPresentationPercentage(BigInteger classId);
+
+    /**
+     * 获取报告分
+     * @param seminarGroupId
+     * @return
+     */
+    BigInteger getReportGrade(BigInteger seminarGroupId);
+
+    /**
+     * 获取展示分
+     * @param seminarGroupId
+     * @return
+     */
+    BigInteger getPresentationGrade(BigInteger seminarGroupId);
+
+    /**
+     * 更新最终成绩
+     * @param seminarGroupId
+     */
+    void updateFinalGrade(@Param("seminarGroupId") BigInteger seminarGroupId,
+                          @Param("grade") BigInteger grade);
 
     /**
      * 获取用户

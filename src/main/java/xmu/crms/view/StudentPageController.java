@@ -52,9 +52,7 @@ public class StudentPageController {
      * @return
      */
     @RequestMapping("/student/course/{courseId}")
-    public String courseDetail(@PathVariable String courseId){
-        return "student/course";
-    }
+    public String courseDetail(@PathVariable String courseId){ return "student/course"; }
 
     /**
      * 选课表单
@@ -107,9 +105,11 @@ public class StudentPageController {
      */
     @RequestMapping("/student/course/{courseId}/seminar/{seminarId}/topic")
     public String getFixedTopic(@RequestParam(value = "type") String type){
-        if(type == "fixed") {
+        String fixed = "fixed";
+        String random = "random";
+        if(fixed.equals(type)) {
             return "student/fixed_topic";
-        }else if(type == "random"){
+        }else if(random.equals(type)){
             return "student/random_topic";
         }
         return "error";

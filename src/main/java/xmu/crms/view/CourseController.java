@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import xmu.crms.entity.SeminarGroup;
@@ -27,6 +28,7 @@ public class CourseController {
 	GradeService gradeService;
 //	CourseService courseService;
 
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(method = GET)
 	@ResponseBody
 	public ResponseEntity getUserCourses() {
@@ -52,6 +54,7 @@ public class CourseController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
 
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(method = POST)
 	@ResponseBody
 	public ResponseEntity createCourse() {
@@ -60,7 +63,8 @@ public class CourseController {
 				"}";
 		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{courseId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getCourseById(@PathVariable int courseId) {
@@ -74,7 +78,8 @@ public class CourseController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 		
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateCourseById(@PathVariable int courseId) {
@@ -82,14 +87,16 @@ public class CourseController {
 		return ResponseEntity.status(204).build();
 
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}", method = DELETE)
 	@ResponseBody
 	public ResponseEntity deleteCourseById(@PathVariable int courseId) {
 		String a = "";
 		return ResponseEntity.status(204).build();
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{courseId}/class", method = GET)
 	@ResponseBody
 	public ResponseEntity getClassListByCourseId(@PathVariable int courseId) {
@@ -106,8 +113,9 @@ public class CourseController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 
 	}
-	
-	
+
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}/class", method = POST)
 	@ResponseBody
 	public ResponseEntity createClassByCourseId(@PathVariable int courseId) {
@@ -116,7 +124,8 @@ public class CourseController {
 				"}";
 		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{courseId}/seminar", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarsByCourseId(@PathVariable int courseId) {
@@ -134,7 +143,7 @@ public class CourseController {
 				"    \"id\": 32,\n" +
 				"    \"name\": \"概要设计\",\n" +
 				"    \"description\": \"模型层与数据库设计\",\n" +
-				"    \"groupingMethod\": \"fixed\",\n" +
+				"    \"groupingMethod\": \"random\",\n" +
 				"    \"startTime\": \"2017-10-10\",\n" +
 				"    \"endTime\": \"2017-10-24\",\n" +
 				"    \"grade\": 5\n" +
@@ -142,7 +151,8 @@ public class CourseController {
 				"]";
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}/seminar", method = POST)
 	@ResponseBody
 	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId) {
@@ -152,6 +162,7 @@ public class CourseController {
 		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
 
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{courseId}/seminar/current", method = GET)
 	@ResponseBody
 	public ResponseEntity getCurrentSeminarByCourseId(@PathVariable int courseId){
@@ -176,6 +187,7 @@ public class CourseController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
 
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}/grade", method = GET)
 	@ResponseBody
 	public ResponseEntity getAllGradeByCourseId(@PathVariable int courseId){

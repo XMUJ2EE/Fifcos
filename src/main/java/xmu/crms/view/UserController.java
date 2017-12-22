@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +23,7 @@ import java.util.Map;
 @Controller
 
 @RequestMapping("/")
-
+@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 public class UserController {
 
 	@Resource
@@ -80,19 +81,6 @@ public class UserController {
 			e.printStackTrace();
 			return ResponseEntity.status(400).build();
 		}
-	}
-	
-	
-	@RequestMapping(value = "/signin", method = GET)
-	public ResponseEntity signInWechat(@RequestParam String code, @RequestParam String state, @RequestParam String successUrl) {
-		
-		String success = "{\n" +
-				"  \"id\": 3486,\n" +
-				"  \"type\": \"student\",\n" +
-				"  \"name\": \"张三\",\n" +
-				"  \"jwt\": \"eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJjaWQiOiJPQTAwMDEiLCJpYXQiOjE0ODI2NTcyODQyMjF9.TeJpy936w610Vrrm+c3+RXouCA9k1AX0Bk8qURkYkdo=\"\n" +
-				"}";
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(success);
 	}
 
 }
