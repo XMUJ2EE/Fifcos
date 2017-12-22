@@ -8,33 +8,33 @@
                                      maximum-scale=1.0,
                                      user-scalable=no">
     <title>ClassManage</title>
- <link href="../../css/student/StudentBindPage.css" rel="stylesheet" type="text/css"/>
+ <link href="/css/student/StudentBindPage.css" rel="stylesheet" type="text/css"/>
 </head>
 
 <body>
 <div class="titleBackground"></div>
 <div class="title">课程管理系统</div>
 <div class="icon">
-<img src="../../Img/home.png">首页
-<img src="../../Img/help.png">帮助
-<img src="../../Img/exit.png">退出
+    <img src="/img/home.png">首页
+    <img src="/img/help.png">帮助
+    <img src="/img/exit.png">退出
 </div>
-<form action="" method="PUT" onsubmit="return stubind();">
+<!--<form action="" method="PUT" onsubmit="return stubind();">-->
 <div class="phoneNum">手机号:<input type="text" id="phoneNum"/></div>
 <div class="password">密码:<input type="text" id="password"/></div>
 <div class="name">姓名:<input type="text" id="name"/></div>
 <div class="school">学校:<input type="text" id="school"/></div>
 <div class="gender">性别:</div>
-<div class="male">男<input type="radio" value="男" id="male" checked="checked"/></div>
-<div class="female">女<input type="radio" value="女" id="female"/></div>
+<div class="male">男<input name="gender" type="radio" value="male" id="male" checked="checked"/></div>
+<div class="female">女<input name="gender" type="radio" value="female" id="female"/></div>
 <div class="studentNum">学号:<input type="text" id="stuffNum"/></div>
 <div class="eMail">邮箱:<input type="text" id="eMail"/></div>
-<div class="submit" type="submit">提交</div>
+<div class="submit" type="submit" onclick="return stubind();">提交</div>
     <!-- jquery.js-->
-    <script src ="../../js/jquery-1.10.2.js"></script>
+    <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student.js -->
-    <script src ="../../js/student.js"></script>
-</form>
+    <script src ="/js/student.js"></script>
+<!--</form>-->
 
 </body>
 
