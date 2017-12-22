@@ -14,6 +14,7 @@
       .top{
         width: 100%;
         height: 16%;
+        min-height: 100px;
         background-color: rgba(65,199,219,0.7);
         text-align: center;
         margin: 0 auto;
@@ -44,13 +45,13 @@
         clear: both;
       }
       .font{
-      	width: 20%;
+      	width: 50%;
         font-family: YouYuan;
         font-size: 40px;
         font-weight: bold;
-        margin-left: 35%;
-        text-align: center;
-        padding: 2%;
+        text-align: right;
+        padding-top: 2%;
+        margin-left: 9%;
         float: left;
         color: #FFFFFF;
       }

@@ -29,9 +29,14 @@
 <div class="male">男<input type="radio" value="男" name="gender" checked="checked"/></div>
 <div class="female">女<input type="radio" value="女" name="gender"/></div>
 <div class="role">角色:</div>
-<div class="student">学生<input type="radio" value="学生" name="role" checked="checked"/></div>
-<div class="teacher">教师<input type="radio" value="教师" name="role"/></div>
-<div class="stuffNum">教工号:<input type="text" name="stuffNum"/></div>
+<div class="student">
+	学生<input type="radio" value="学生" name="role" checked="checked" onclick="form1.style.display='';form2.style.display='none';" />
+</div>
+<div class="teacher">
+	教师<input type="radio" value="教师" name="role" onclick="form1.style.display='none';form2.style.display='';"/>
+</div>
+<div class="stuffNum" id="form1">学号:<input type="text" name="stuffNum"/></div>
+<div class="stuffNum" id="form2" style="display:none">教工号:<input type="text" name="stuffNum"/></div>
 <div class="eMail">邮箱:<input type="text" name="eMail"/></div>
 <div class="submit">提交</div>
 </body>
