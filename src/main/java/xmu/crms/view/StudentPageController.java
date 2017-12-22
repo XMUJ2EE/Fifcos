@@ -78,7 +78,6 @@ public class StudentPageController {
             return "student/random_seminar";
         }
         return "error";
-        //return "student/fixed_seminar";
     }
 
 
@@ -106,9 +105,11 @@ public class StudentPageController {
      */
     @RequestMapping("/student/course/{courseId}/seminar/{seminarId}/topic")
     public String getFixedTopic(@RequestParam(value = "type") String type){
-        if(type == "fixed") {
+        String fixed = "fixed";
+        String random = "random";
+        if(fixed.equals(type)) {
             return "student/fixed_topic";
-        }else if(type == "random"){
+        }else if(random.equals(type)){
             return "student/random_topic";
         }
         return "error";

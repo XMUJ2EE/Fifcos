@@ -22,17 +22,17 @@ function jumpSeminar(id1){//jump to specific Seminar
     window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+sid+'?type='+groupingmethod;
 }
 
-function jumpTopicF(id1){//jump to specific topicF
+function jumpTopic(id1){//jump to specific topicF
     var tid = id1;
     updateCookie('topicCurrent',tid);
-    location.href="fixed_topic.html";
+    window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+getCookie("seminarCurrent")+'/topic?type='+getCookie("groupingmethodCurrent");
 }
 
-function jumpTopicR(id1){//jump to specific topicR
-    var tid = id1;
-    updateCookie('topicCurrent',tid);
-    location.href="random_topic.html";
-}
+// function jumpTopicR(id1){//jump to specific topicR
+//     var tid = id1;
+//     updateCookie('topicCurrent',tid);
+//     location.href="random_topic";
+// }
 
 function getcid(){//get classid from cookie
     var Cookie=document.cookie;
@@ -84,7 +84,7 @@ function courseinfo(){//show CourseInformation
             if(xhr.status == 200){
                 var seminar=document.getElementById("seminarinfo");
                 var contenthead = '<div class="title">讨论课</div>'+
-                                  '<div class="returnButton" onclick="window.location.href="courses.html"">返回上一页</div>'+
+                                  '<div class="returnButton" onclick="window.location.href=\'/student/courses\'">返回上一页</div>'+
                                   '<div class="line"></div>'+
                                   '<div class="blockBody">';
                 var contenttail = '</div>';
@@ -99,7 +99,7 @@ function courseinfo(){//show CourseInformation
 }
 
 // //-----------------------------StudentDiscussionClassPage(fixed)-------------------------------------
-//
+
 function seminarinfoF(){//show seminar info(fixed)
         $.ajax({
         type:'get',
@@ -107,26 +107,24 @@ function seminarinfoF(){//show seminar info(fixed)
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status,xhr){
-            if(xhr.status == "OK"){
-                var description=document.getElementById("description");
-                var coursename=document.getElementById("coursename");
-                var groupingmethod=document.getElementById("groupingmethod");
-                var starttime=document.getElementById("starttime");
-                var endtime=document.getElementById("endtime");
-                description.innerHTML = getdescription();
-                coursename.innerHTML = getcoursename();
-                groupingmethod.innerHTML = data.groupingMethod;
-                starttime.innerHTML = data.startTime;
-                endtime.innerHTML = data.endTime;
+            if(xhr.status == 200){
+                $("#description").html(getCookie("description"));
+                $("#coursename").html(getCookie("coursename"));
+                if(data.groupingMethod=="fixed")
+                    $("#groupingmethod").html("固定");
+                else $("#groupingmethod").html("随机");
+                $("#name").html(data.name);
+                $("#descriptionS").html(data.description);
+                $("#starttime").html(data.startTime);
+                $("#endtime").html(data.endTime);
                 var topics = document.getElementById("topics");
                 var str = "";
                 for(var i=0;i<data.topics.length;i++){
-                    var a = String.fromCharCode(65+i);
-                    str += '<div class="smallblock"><div class="blockFont" onclick="jumpTopicF(this.id)" id="'+data.topics[i].id+'">话题'+a+'</div></div>'
+                    str += '<div class="smallblock"><div class="blockFont" onclick="jumpTopic(this.id)" id="'+data.topics[i].id+'">'+data.topics[i].name+'</div></div>'
                 }
                 topics.innerHTML = str;
             }
-            else if(status == "Bad Request"){
+            else if(xhr.status == 400){
                 alert("错误的ID格式");
             }
             else{
@@ -137,178 +135,161 @@ function seminarinfoF(){//show seminar info(fixed)
 }
 //
 // //-----------------------------StudentDiscussionClassPage(random)-------------------------------------
-//
-// function seminarinfoR(){//show seminar info(random)
-//         $.ajax({
-//         type:'get',
-//         url: '/seminar/'+getsid(),
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var description=document.getElementById("description");
-//                 var coursename=document.getElementById("coursename");
-//                 var groupingmethod=document.getElementById("groupingmethod");
-//                 var starttime=document.getElementById("starttime");
-//                 var endtime=document.getElementById("endtime");
-//                 description.innerHTML = getdescription();
-//                 coursename.innerHTML = getcoursename();
-//                 groupingmethod.innerHTML = data.groupingMethod;
-//                 starttime.innerHTML = data.startTime;
-//                 endtime.innerHTML = data.endTime;
-//                 var topics = document.getElementById("topics");
-//                 var str = "";
-//                 for(var i=0;i<data.topics.length;i++){
-//                     var a = String.fromCharCode(65+i);
-//                     str += '<div class="smallblock"><div class="blockFont" onclick="jumpTopicR(this.id)" id="'+data.topics[i].id+'">话题'+a+'</div></div>'
-//                 }
-//                 topics.innerHTML = str;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                  alert("未找到讨论课");
-//             }
-//         }
-//     });
-//         $.ajax({
-//         type:'get',
-//         url: '/seminar/'+getsid()+'/group/my',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var teaminfo = document.getElementById("randomteam");
-//                 var str1 = "";
-//                 var str2 = "";
-//                 for(var i=0;i<data.topics.length;i++){
-//                     str1 += '<label class="itemName" id="topicselected">'+data.topics[i].name+'</label><br/>';
-//                 }
-//
-//                 document.cookie='gid='+data.id;
-//
-//                 var teaminfohead = '<label class="itemName">选择话题：</label>'+str+
-//                           '<label class="itemName">组号：</label>'+'<label class="itemName" id="groupnum">'+data.id+'</label><br/>'+
-//                           '<label class="itemName">组长：</label>'+'<label class="itemName" id="groupleader">'+data.leader.name+'</label><br/>'+
-//                           '<label class="itemName">组员：</label>';
-//                 for(var i=0;i<data.members.length;i++){
-//                     str2 += '<label class="itemName">'+data.members[i].name+'</label>';
-//                 }
-//                 teaminfo.innerHTML = teaminfohead+str;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else if(status == "Forbidden"){
-//                 alert(" 老师无法使用本API");
-//             }
-//             else{
-//                  alert("讨论课尚未分组");
-//             }
-//         }
-//     });
-// }
-//
-// //-----------------------------StudentViewTopicPage(fixed)--------------------------------------
-// function selecttopic(id1){// select topic
-//         var ata = {id:id1}
-//         $.ajax({
-//         type:'post',
-//         url: '/group/'+id1+'/topic',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         data: JSON.stringify(ata),
-//         success: function (data,status){
-//             if(status == "Created"){
-//                 alert("成功");
-//                 location.href = "fixed_seminar.html?"+"sid="+encodeURI(getsid());
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式或话题已满");
-//             }
-//             else if(status == "Forbidden"){
-//                 alert("权限不足（不是该小组的组长）");
-//             }
-//             else{
-//                 alert("小组不存在");
-//             }
-//         }
-//     });
-// }
-//
-// function topicinfoF(){//  show topic information(fixed)
-//         $.ajax({
-//         type:'get',
-//         url: '/topic/'+gettid(),
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var description=document.getElementById("description");
-//                 var coursename=document.getElementById("coursename");
-//                 var serial=document.getElementById("serial");
-//                 var topic=document.getElementById("topic");
-//                 var descriptionT=document.getElementById("descriptionT");
-//                 var grouplimit=document.getElementById("grouplimit");
-//                 var groupmemberlimit=document.getElementById("groupmemberlimit");
-//                 var select=document.getElementById("select");
-//                 description.innerHTML = getdescription();
-//                 coursename.innerHTML = getcoursename();
-//                 serial.innerHTML = '话题'+data.serial;
-//                 topic.innerHTML = data.name;
-//                 descriptionT.innerHTML = data.description;
-//                 grouplimit.innerHTML = data.groupLimit;
-//                 groupmemberlimit.innerHTML = data.groupMemberLimit;
-//                 select.innerHTML = '<div class="modifyButton" onclick="selecttopic(this.id)" id="'+data.id+'"> 选择话题 </div>'
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                  alert("未找到讨论课");
-//             }
-//         }
-//     });
-// }
-//
-// //-----------------------------StudentViewTopicPage(random)--------------------------------------
-//
-// function topicinfoR(){// show topic information(random)
-//         $.ajax({
-//         type:'get',
-//         url: '/topic/'+gettid(),
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var description=document.getElementById("description");
-//                 var coursename=document.getElementById("coursename");
-//                 var serial=document.getElementById("serial");
-//                 var topic=document.getElementById("topic");
-//                 var descriptionT=document.getElementById("descriptionT");
-//                 var grouplimit=document.getElementById("grouplimit");
-//                 var groupmemberlimit=document.getElementById("groupmemberlimit");
-//                 var select=document.getElementById("select");
-//                 description.innerHTML = getdescription();
-//                 coursename.innerHTML = getcoursename();
-//                 serial.innerHTML = '话题'+data.serial;
-//                 topic.innerHTML = data.name;
-//                 descriptionT.innerHTML = data.description;
-//                 grouplimit.innerHTML = data.groupLimit;
-//                 groupmemberlimit.innerHTML = data.groupMemberLimit;
-//                 select.innerHTML = '<div class="modifyButton" onclick="selecttopic(this.id)" id="'+data.id+'"> 选择话题 </div>'
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                  alert("未找到讨论课");
-//             }
-//         }
-//     });
-// }
-//
+
+function seminarinfoR(){//show seminar info(random)
+        $.ajax({
+        type:'get',
+        url: '/seminar/'+getCookie("seminarCurrent"),
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                $("#description").html(getCookie("description"));
+                $("#coursename").html(getCookie("coursename"));
+                if(data.groupingMethod=="fixed")
+                    $("#groupingmethod").html("固定");
+                else $("#groupingmethod").html("随机");
+                $("#name").html(data.name);
+                $("#descriptionS").html(data.description);
+                $("#starttime").html(data.startTime);
+                $("#endtime").html(data.endTime);
+                var topics = document.getElementById("topics");
+                var str = "";
+                for(var i=0;i<data.topics.length;i++){
+                    var a = String.fromCharCode(65+i);
+                    str += '<div class="smallblock"><div class="blockFont" onclick="jumpTopic(this.id)" id="'+data.topics[i].id+'">'+data.topics[i].name+'</div></div>'
+                }
+                topics.innerHTML = str;
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                 alert("未找到讨论课");
+            }
+        }
+    });
+        $.ajax({
+        type:'get',
+        url: '/seminar/'+getCookie("seminarCurrent")+'/group/my',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                //var teaminfo = document.getElementById("randomteam");
+                var str1 = "";
+                var str2 = "";
+                for(var i=0;i<data.topics.length;i++){
+                    str1 += '<label class="itemName" id="topicselected">'+data.topics[i].name+'</label><br/>';
+                }
+                //document.cookie='gid='+data.id;
+                var teaminfohead = '<label class="itemName">选择话题：</label>'+str1+
+                          '<label class="itemName">组号：</label>'+'<label class="itemName" id="groupnum">'+data.id+'</label><br/>'+
+                          '<label class="itemName">组长：</label>'+'<label class="itemName" id="groupleader">'+data.leader.name+'</label><br/>'+
+                          '<label class="itemName">组员：</label>';
+                for(var i=0;i<data.members.length;i++){
+                    str2 += '<label class="itemName">'+data.members[i].name+'</label>';
+                }
+                $("#randomteam").html(teaminfohead+str2);
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else if(xhr.status == 403){
+                alert(" 老师无法使用本API");
+            }
+            else{
+                 alert("讨论课尚未分组");
+            }
+        }
+    });
+}
+
+//-----------------------------StudentViewTopicPage(fixed)--------------------------------------
+function selecttopic(id1){// select topic
+        var ata = {id:id1}
+        $.ajax({
+        type:'post',
+        url: '/group/'+id1+'/topic',
+        dataType: "json",
+        contentType: "application/json;",
+        data: JSON.stringify(ata),
+        success: function (data,status,xhr){
+            if(xhr.status == 201){
+                alert("成功");
+                window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+getCookie("seminarCurrent")+'?type='+getCookie("groupingmethodCurrent");
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式或话题已满");
+            }
+            else if(xhr.status == 403){
+                alert("权限不足（不是该小组的组长）");
+            }
+            else{
+                alert("小组不存在");
+            }
+        }
+    });
+}
+
+function topicinfoF(){//  show topic information(fixed)
+        $.ajax({
+        type:'get',
+        url: '/topic/'+getCookie("topicCurrent"),
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                var select=document.getElementById("select");
+                $("#description").html(getCookie("description"));
+                $("#coursename").html(getCookie("coursename"));
+                $("#serial").html('话题'+data.serial);
+                updateCookie("serialCurrent",data.serial);
+                $("#topic").html(data.name);
+                $("#descriptionT").html(data.description);
+                $("#grouplimit").html(data.groupLimit);
+                $("#groupmemberlimit").html(data.groupMemberLimit);
+                select.innerHTML = '<div class="modifyButton" onclick="selecttopic(this.id)" id="'+data.id+'"> 选择话题 </div>'
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                 alert("未找到讨论课");
+            }
+        }
+    });
+}
+
+//-----------------------------StudentViewTopicPage(random)--------------------------------------
+
+function topicinfoR(){// show topic information(random)
+        $.ajax({
+        type:'get',
+        url: '/topic/'+getCookie("topicCurrent"),
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                $("#description").html(getCookie("description"));
+                $("#coursename").html(getCookie("coursename"));
+                $("#serial").html('话题'+data.serial);
+                updateCookie("serialCurrent",data.serial);
+                $("#topic").html(data.name);
+                $("#descriptionT").html(data.description);
+                $("#grouplimit").html(data.groupLimit);
+                $("#groupmemberlimit").html(data.groupMemberLimit);
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                 alert("未找到讨论课");
+            }
+        }
+    });
+}
+
 // //-----------------------------StudentViewGroupPage--------------------------------------
 
 function groupinfo(){// showgroup list
@@ -431,7 +412,7 @@ function groupinfosearch(){//search
         success: function (data,status,xhr){
             if(xhr.status == 200){
                 var str = "";
-                var confirm = document.getElementById("confirm");
+                //var confirm = document.getElementById("confirm");
                 var tablehead = '<tr><th>学号</th><th>姓名</th><th>操作</th></tr>';
                 for(var i=0;i<data.length;i++){
                     //confirm.setAttribute('name',data[i].id);
@@ -506,35 +487,34 @@ function groupinforemove(name){//remove student
 }
 
 // //-----------------------------StudentViewGradePage--------------------------------------
-//
-// function gradeinfo(){//StudentViewGroupPage  showgroup grade list
-//         $.ajax({
-//         type:'get',
-//         url: '/course/'+getcourseid()+'/grade',
-//         dataType: "json",
-//         contentType: "application/json;",
-//         success: function (data,status){
-//             if(status == "OK"){
-//                 var str = "";
-//                 var table = document.getElementById("studenttable");
-//                 var tablehead = '<tr><th>讨论课</th><th>组名</th><th>组长</th><th>课堂讨论课得分</th><th>报告分数</th><th>总分</th></tr>';
-//                 for(var i=0;i<data.length;i++){
-//                     str += '<tr><td>'+data[i].seminarName+'</td><td>'+data[i].groupName+'</td><td>'+data[i].leaderName+'</td><td>'+data[i].presentationGrade+'</td><td>'+data[i].reportGrade+'</td><td>'+data[i].seminarName+'</td></tr>';
-//                 }
-//                 table.innerHTML = tablehead+str;
-//             }
-//             else if(status == "Bad Request"){
-//                 alert("错误的ID格式");
-//             }
-//             else{
-//                 alert("当前没有正在进行的讨论课");
-//             }
-//         }
-//     });
-// }
-//
-// function returnseminar(){//return
-//     var groupingmethod = getgroupingmethod();
-//     location.href="StudentDiscussionClassPage("+groupingmethod+").html";
-// }
-//
+
+function gradeinfo(){//StudentViewGroupPage  showgroup grade list
+        $.ajax({
+        type:'get',
+        url: '/course/'+getCookie("coursecurrent")+'/grade',
+        dataType: "json",
+        contentType: "application/json;",
+        success: function (data,status,xhr){
+            if(xhr.status == 200){
+                $("#description").html(getCookie("description"));
+                $("#coursename").html(getCookie("coursename"));
+                var str = "";
+                var tablehead = '<tr><th>讨论课</th><th>组名</th><th>组长</th><th>课堂讨论课得分</th><th>报告分数</th><th>总分</th></tr>';
+                for(var i=0;i<data.length;i++){
+                    if(i%2==0)
+                        str += '<tr><td>'+data[i].seminarName+'</td><td>'+data[i].groupName+'</td><td>'+data[i].leaderName+'</td><td>'+data[i].presentationGrade+'</td><td>'+data[i].reportGrade+'</td><td>'+data[i].seminarName+'</td></tr>';
+                    else
+                        str += '<tr class="alt"><td>'+data[i].seminarName+'</td><td>'+data[i].groupName+'</td><td>'+data[i].leaderName+'</td><td>'+data[i].presentationGrade+'</td><td>'+data[i].reportGrade+'</td><td>'+data[i].seminarName+'</td></tr>';
+                }
+                $("#studenttable").html(tablehead+str);
+            }
+            else if(xhr.status == 400){
+                alert("错误的ID格式");
+            }
+            else{
+                alert("当前没有正在进行的讨论课");
+            }
+        }
+    });
+}
+

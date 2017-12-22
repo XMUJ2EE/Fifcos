@@ -23,63 +23,18 @@
         </div>
         <div class="body">
             <div class="navigation">
-                <div class="courseName">OOAD</div>
+                <div class="courseName" id="coursename"></div>
                 <div class="line"></div>
-                <div class="courseIntroduction">ooad is xxx</div>
+                <div class="courseIntroduction" id="description"></div>
             </div>
             <div class="content">
                 <div class="block">
                     <div class="title">学生成绩</div>
-                    <div class="returnButton" onclick="returnseminar()">返回上一页</div>
+                    <div class="returnButton" onclick="window.location.href='/student/course/'+getCookie('coursecurrent')+'/seminar/'+getCookie('seminarCurrent')+'?type='+getCookie('groupingmethodCurrent')">返回上一页</div>
                     <div class="line"></div>
                     <div class="itemBody">
                         <div class="item">
-                          <table id="studenttable1">
-						    <tr>
-                              <th>讨论课</th>
-                              <th>组名</th>
-                              <th>组长</th>
-							  <th>课堂讨论课得分</th>
-                              <th>报告分数</th>
-                              <th>总分</th>
-                            </tr>
-
-                            <tr>
-                              <td>1</td>
-							  <td>1-A-4</td>
-                              <td>Steven Jobs</td>
-							  <td>5</td>
-							  <td>4</td>
-							  <td>4</td>
-                            </tr>
-
-                            <tr class="alt">
-                              <td>2</td>
-                              <td>1-A-1</td>
-                              <td>Li YanHong</td>
-							  <td>5</td>
-							  <td></td>
-							  <td></td>
-                            </tr>
-							
-							<tr>
-                              <td>3</td>
-							  <td></td>
-                              <td></td>
-							  <td></td>
-							  <td></td>
-							  <td></td>
-                            </tr>
-							
-							<tr class="alt">
-                              <td>4</td>
-							  <td></td>
-                              <td></td>
-							  <td></td>
-							  <td></td>
-							  <td></td>
-                            </tr>
-
+                          <table id="studenttable">
 						  </table>
                         </div>
 					</div>
