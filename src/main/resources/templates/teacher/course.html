@@ -11,9 +11,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        	  <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+        	   <img src="/img/home.png"><a href="/teacher/home">首页</a>
               <img src="/img/help.png"><a>帮助</a>
-              <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
+              <img src="/img/exit.png"><a href="#" onclick="logout();">退出</a>
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -29,19 +29,19 @@
                     <div class="returnButton"  onclick="window.location.href='/teacher/courses'">返回上一页</div>
                     <div class="line"></div>
                     <div class="blockBody" id="classtitle">
-                        <div class="block"><div class="blockFont">周三1-2节</div></div>
+                     <!--    <div class="block"><div class="blockFont">周三1-2节</div></div>
                         <div class="block"><div class="blockFont">周三3-4节</div></div>
                         <div class="block"><div class="blockFont">周三5-6节</div></div>
                          <div class="block">
                              <img class="addImg" src="/img/smalladd.png" alt="添加" >
-                        </div>
+                        </div> -->
                  </div>
                 </div>
                 <div class="seminarInfo" id="seminarcontent">
                     <div class="title">讨论课</div>
                     <div class="line"></div>
                     <div class="blockBody">
-                        <div class="block"><div class="blockFont">讨论课1</div></div>
+                      <!--   <div class="block"><div class="blockFont">讨论课1</div></div>
                         <div class="block"><div class="blockFont">讨论课2</div></div>
                         <div class="block"><div class="blockFont">讨论课3</div></div>
                         <div class="block"><div class="blockFont">讨论课4</div></div>
@@ -49,7 +49,7 @@
 						<div class="block"><div class="blockFont">讨论课6</div></div>
                         <div class="block">
                              <img class="addImg" src="/img/smalladd.png" alt="添加">
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
@@ -58,6 +58,7 @@
  <!-- jquery.js-->
 <script src ="/js/jquery-1.10.2.js"></script>
 <script src ="/js/teacher_page.js"></script>
+ <script src ="/js/jwt.js"></script>
 
 </body>
 </html>

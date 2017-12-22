@@ -6,6 +6,7 @@
     <link href="/css/teacher/TeacherCourseHomePage.css" rel="stylesheet" type="text/css"/>
     <script src ="/js/jquery-1.10.2.js"></script>
     <script src ="/js/teacher_page.js"></script>
+     <script src ="/js/jwt.js"></script>
 </head>
 <body onload="return courselist();">
     	<div class="top">
@@ -13,9 +14,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+        		  <img src="/img/home.png"><a href="/teacher/home">首页</a>
         		<img src="/img/help.png"><a>帮助</a>
-        		<img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
+        	 <img src="/img/exit.png"><a href="#" onclick="logout();">退出</a>
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -30,7 +31,7 @@
                 </div>
             </div>
             <div class="content" id="coursecontent">
-              <div class="title">课程信息</div>
+            <!--   <div class="title">课程信息</div>
                   <hr class="line"/>
                   <div class="main_box_right_content">
           			     	<h3 class="classtitle" id="name">
@@ -52,7 +53,7 @@
                   </div>
                   <div class="main_box_right_content"  onclick="window.location.href='/teacher/courses/create'">
                        <img class="addcourse" src="/img/add.png"  >
-                  </div>
+                  </div> -->
             </div>
             <div class="clear"></div>
         </div>

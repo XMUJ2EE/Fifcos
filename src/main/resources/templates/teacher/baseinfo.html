@@ -14,9 +14,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+        		<img src="/img/home.png"><a href="/teacher/home">首页</a>
                 <img src="/img/help.png"><a>帮助</a>
-                <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
+                <img src="/img/exit.png"><a href="#" onclick="logout();">退出</a>
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -24,9 +24,10 @@
             <div class="navigation">
                 <div class="title">导航</div>
                 <div class="line"></div>
-                    <div class="courseIntroduction">   <a class="guidefont" onclick="window.location.href='/teacher/home'">基本信息</a>
-                  <a class="guidefont"  onclick="window.location.href='/teacher/courses'">课程信息</a>
-                  <a class="guidefont" onclick="window.location.href='/teacher/courses/create'">新建课程</a>
+               <div class="courseIntroduction">
+                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/home'">基本信息</a>
+                  <a class="guidefont" href="#"  onclick="window.location.href='/teacher/courses'">课程信息</a>
+                  <a class="guidefont" href="#" onclick="window.location.href='/teacher/courses/create'">新建课程</a>
                 </div>
             </div>
             <div class="content">
@@ -36,20 +37,20 @@
                  <div class="info">
         <table class="table">
         <tr class="itemName">
-        <td id="username">用户名：<span>12345678978</span></td>
-        <td id="teaNum">教工号：<span>12345678978</span></td>
+        <td id="username"></td>
+        <td id="teaNum"></td>
         </tr>
         <tr class="itemName">
-        <td id="name">姓名：<span>12345678978</span></td>
-        <td id="gender">性别：<span>12345678978</span></td>
+        <td id="name"></td>
+        <td id="gender"></td>
         </tr>
         <tr class="itemName">
-        <td id="school">学校：<span>12345678978</span></td>
-        <td id="title">职称：<span>12345678978</span></td>
+        <td id="school"></td>
+        <td id="title"></td>
         </tr>
         <tr class="itemName">
-        <td id="email">E-mail：<span>12345678978</span></td>
-        <td id="phone">联系方式：<span>12345678978</span></td>
+        <td id="email"></td>
+        <td id="phone"></td>
         </tr>
         </table>
         <br/>

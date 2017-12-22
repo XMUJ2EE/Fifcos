@@ -14,9 +14,9 @@
             课堂管理系统
           </div>
           <div class="icon">
-             <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+              <img src="/img/home.png"><a href="/teacher/home">首页</a>
              <img src="/img/help.png"><a>帮助</a>
-             <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
+             <img src="/img/exit.png"><a href="#" onclick="logout();">退出</a>
           </div>
           <div class="clear"></div>
         </div>
@@ -51,7 +51,7 @@
                 </div>
 				 <div class="block">
 			         <div class="seminarInfo" id="topiccontent">
-                    <div class="title">话题</div>
+                 <!--    <div class="title">话题</div>
                     <div class="line"></div>
                    <div class="topicBlockBody">
                      <div class="topicBlock"><div class="topicBlockFont">话题A</div></div>
@@ -59,7 +59,7 @@
                        <div class="topicBlock"><div class="topicBlockFont">话题C</div></div>
                       <div class="topicBlock">
                          <img class="addImg" src="/img/smalladd.png" alt="添加">
-                      </div>
+                      </div> -->
                    </div>
                 </div>
                 </div>
@@ -69,5 +69,6 @@
     <!-- jquery.js-->
     <script src ="/js/jquery-1.10.2.js"></script>
     <script src ="/js/teacher_page.js"></script>
+     <script src ="/js/jwt.js"></script>
 </body>
 </html>

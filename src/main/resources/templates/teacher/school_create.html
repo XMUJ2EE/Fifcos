@@ -11,15 +11,16 @@
 <link href="/css/teacher/TeacherCreateSchool.css" rel="stylesheet" type="text/css"/>
 <script src ="/js/jquery-1.10.2.js"></script>
 <script src ="/js/teacher_page.js"></script>
+ <script src ="/js/jwt.js"></script>
 </head>
 
 <body>
 <div class="titleBackground"></div>
 <div class="title">课程管理系统</div>
 <div class="icon">
-  			 <img src="/img/home.png"><a onclick="window.location.href='/teacher/home'">首页</a>
+  			 	<img src="/img/home.png"><a href="/teacher/home">首页</a>
              <img src="/img/help.png"><a>帮助</a>
-             <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
+              <img src="/img/exit.png"><a href="#" onclick="logout();">退出</a>
 </div>
 <div class="province">所在省份:<select class="provinceSelect"></select></div>
 <div class="city">所在城市:<select class="citySelect"></select></div>
