@@ -120,7 +120,15 @@ function teainfo(){
         }
     });
 }
-
+function logout(){
+    if(localStorage.jwt){
+        localStorage.removeItem("jwt");
+        window.location.href='/login';
+    }
+    else{
+         window.location.href='/login';
+    }
+}
 /*----------------------------teacher/baseinfo_update-------------------------------*/
 function getteainfo(){  //get techer information
         $.ajax({
@@ -128,7 +136,11 @@ function getteainfo(){  //get techer information
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
+        error:function(){
+            // alert("错误");
+        },
         success: function (data,textStatus,xhr) {
+            // alert("成功");
             if(xhr.status==200){
                 var Gender;
                 var Title;
