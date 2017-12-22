@@ -1,4 +1,4 @@
-package xmu.crms.conf;
+package xmu.crms.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -7,6 +7,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import xmu.crms.security.FifcosAuthenticationToken;
+import xmu.crms.security.UserDetailsImpl;
+import xmu.crms.security.UserDetailsServiceImpl;
 
 import java.util.List;
 
@@ -29,7 +32,7 @@ public class FifcosAuthenticationProvider implements AuthenticationProvider{
         }
         List<SimpleGrantedAuthority> simpleGrantedAuthority = (List<SimpleGrantedAuthority>) userDetails.getAuthorities();
         if(simpleGrantedAuthority == null){
-            return null;
+            throw new BadCredentialsException("没有权限");
         }else{
             Integer type = ((UserDetailsImpl)userDetails).getType();
             String typeString = "";
@@ -38,7 +41,7 @@ public class FifcosAuthenticationProvider implements AuthenticationProvider{
             }else if(type == 1){
                 typeString = "teacher";
             }
-            return new FifcosAuthenticationToken(username,
+            return new FifcosAuthenticationToken(((UserDetailsImpl) userDetails).getNumber(),username,
                     fifcosAuthenticationToken.getPassword(),typeString,
                     simpleGrantedAuthority);
          }

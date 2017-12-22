@@ -3,7 +3,7 @@
 <head lang="en">
     <meta charset="UTF-8">
     <title>选择课程</title>
-    <link href="../../css/student/StudentChooseCoursePage.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/student/StudentChooseCoursePage.css" rel="stylesheet" type="text/css"/>
     
 </head>
 <body onload="return classlist();">
@@ -12,9 +12,9 @@
         		课堂管理系统
         	</div>
         	<div class="icon">
-        		<img src="../../Img/home.png">首页
-				<img src="../../Img/help.png">帮助
-				<img src="../../Img/exit.png">退出
+                <img src="/Img/home.png">首页
+                <img src="/Img/help.png">帮助
+                <img src="/Img/exit.png">退出
         	</div>
         	<div class="clear"></div>
     	</div>
@@ -22,12 +22,12 @@
           <div class="navigation">
                 <div class="title">导航</div>
                 <div class="line"></div>
-                <div class="courseIntroduction"><a class="guidefont" href="baseinfo.html">基本信息</a>
-                  <a class="guidefont" href="course_list.html">课程信息</a>
-                  <a class="guidefont" href="course_select.html">选择课程</a>
-                </div>
+              <div class="courseIntroduction"><a class="guidefont" href="/student/profile">基本信息</a>
+                  <a class="guidefont" href="/student/courses">课程信息</a>
+                  <a class="guidefont" href="/student/course/select">选择课程</a>
+              </div>
             </div>
-            <div class="content">
+            <div class="content" id="classcontent">
               <div class="title">选择课程</div>
               <hr class="line"/>             
           <div class="checkcourse">
@@ -59,8 +59,8 @@
             <div class="clear"></div>
         </div>
     <!-- jquery.js-->
-    <script src ="../../js/jquery-1.10.2.js"></script>
+    <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student.js -->
-    <script src ="../../js/student.js"></script>
+    <script src ="/js/student.js"></script>
 </body>
 </html>

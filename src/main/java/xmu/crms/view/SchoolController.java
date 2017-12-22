@@ -2,6 +2,7 @@ package xmu.crms.view;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -17,6 +18,7 @@ public class SchoolController {
    // @Autowired
   //  SchoolService schoolService = new SchoolServiceImpl();
 
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(method = GET)
     @ResponseBody
     public ResponseEntity getSchoolList(@PathParam("city") String city) {
@@ -41,6 +43,7 @@ public class SchoolController {
         return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(school);
     }
 
+    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(method = POST)
     @ResponseBody
     public ResponseEntity addSchool() {
@@ -64,6 +67,7 @@ public class SchoolController {
         return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(id);
     }
 
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/province", method = GET)
     @ResponseBody
     public ResponseEntity getProvince() {
@@ -82,6 +86,7 @@ public class SchoolController {
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(province);
     }
 
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/city", method = GET)
     @ResponseBody
     public  ResponseEntity getCity(@PathParam("province") String province) {
