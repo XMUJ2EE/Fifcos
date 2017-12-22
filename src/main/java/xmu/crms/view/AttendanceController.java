@@ -5,12 +5,16 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xmu.crms.entity.Attendance;
 import xmu.crms.entity.User;
+import xmu.crms.exception.InvalidOperationException;
 import xmu.crms.exception.LocationNotFoundException;
+import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.service.UserService;
+import xmu.crms.view.vo.LocationVO;
 import xmu.crms.view.vo.UserVO;
 
 import java.math.BigInteger;
@@ -19,8 +23,7 @@ import java.util.List;
 
 /**
  * 讨论课的签到状态Controller
- * @author mads
- * 备注： 由于标准组的Seminar部分不太明确，所以先直接返回字符串
+ * @author wang
  */
 
 @Controller
@@ -32,7 +35,11 @@ public class AttendanceController {
 
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.GET)
     public ResponseEntity getStateByClassId(@PathVariable int seminarId, @PathVariable int classId){
-
+        try {
+            List<Attendance> list = userService.listAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId));
+        } catch (LocationNotFoundException e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
     }
 
@@ -96,12 +103,40 @@ public class AttendanceController {
     }
 
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/{studentId}",method = RequestMethod.GET)
-    public ResponseEntity callInRoll(@PathVariable int seminarId, @PathVariable int classId, @PathVariable int studentId){
-
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
+    public ResponseEntity callInRoll(@PathVariable int seminarId, @PathVariable int classId, @PathVariable int studentId,
+                                     @RequestBody LocationVO locationVO) {
+        List<Attendance> list = new ArrayList<Attendance>();
+        try {
+            User user = userService.getUserByUserId(BigInteger.valueOf(studentId));
+            userService.insertAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId),
+                    BigInteger.valueOf(studentId), locationVO.getLongitude(), locationVO.getLatitude());
+            list = userService.listAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId));
+        } catch (LocationNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).body(null);
+        } catch (InvalidOperationException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(403).body(null);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).body(null);
+        }
+        Attendance attendance = new Attendance();
+        for (Attendance aList : list) {
+            if (aList.getStudent().getId().equals(studentId))
+                attendance = aList;
+        }
+        String attend = "";
+        if (attendance.getAttendanceStatus() == 0) {
+            attend = "present";
+        }
+        else if (attendance.getAttendanceStatus() == 1) {
+            attend = "late";
+        }else {
+            attend = "absence";
+        }
+        String status = "\"status:\"" + attend;
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(status);
     }
-
-
-
 
 }

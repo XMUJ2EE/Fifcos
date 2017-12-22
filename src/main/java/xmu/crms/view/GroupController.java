@@ -21,8 +21,12 @@ import xmu.crms.service.GradeService;
 import xmu.crms.service.SeminarGroupService;
 import xmu.crms.service.TopicService;
 import xmu.crms.service.impl.GradeServiceImpl;
+import xmu.crms.view.vo.GroupGradeVO;
 import xmu.crms.view.vo.PresentationGradeVO;
 
+/**
+ * @author wang
+ */
 @Controller
 
 @RequestMapping("/group")
@@ -72,14 +76,16 @@ public class GroupController {
 	
 	@RequestMapping(value = "/{groupId}/topic", method = POST)
 	@ResponseBody
-	public ResponseEntity selectTopic(@PathVariable int groupId, @RequestBody Map<String, Integer> request) throws GroupNotFoundException, TopicNotFoundException {
+	public ResponseEntity selectTopic(@PathVariable int groupId, @RequestBody Map<String, Integer> request)
+			throws GroupNotFoundException, TopicNotFoundException {
 //		int id = request.get("id");
 //		if (seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)) == null) {
 //			return ResponseEntity.status(404).body(null);
 //		}else {
 //			seminarGroupService.insertTopicByGroupId(BigInteger.valueOf(groupId), BigInteger.valueOf(id));
+			return ResponseEntity.status(201).body(null);
 //		}
-		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
+
 	}
 	
 	@RequestMapping(value = "/{groupId}/topic/{topicId}", method = DELETE)
@@ -92,7 +98,6 @@ public class GroupController {
 	@RequestMapping(value = "/{groupId}/grade", method = GET)
 	@ResponseBody
 	public ResponseEntity getGradeByGroupId(@PathVariable int groupId) {
-
 		SeminarGroup seminarGroup = null;
 		try {
 			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(groupId));
@@ -102,6 +107,7 @@ public class GroupController {
 		if (seminarGroup == null) {
 			return ResponseEntity.status(404).body(null);
 		}else{
+			//GroupGradeVO groupGradeVO = new GroupGradeVO(seminarGroup.getPresentationGrade(), seminarGroup.getReportGrade(), seminarGroup.getFinalGrade());
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarGroup);
 		}
 	}

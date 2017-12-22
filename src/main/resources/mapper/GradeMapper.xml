@@ -118,7 +118,7 @@
     </delete>
 
 
-    <select id="listSeminarGradeBySeminarGroupId" parameterType="java.math.BigInteger" resultMap="seminarGroupResultMap">
+    <select id="getSeminarGradeBySeminarGroupId" parameterType="java.math.BigInteger" resultMap="seminarGroupResultMap">
         select id, seminar_id, class_id, report, report_grade, presentation_grade, final_grade, leader_id
         from seminar_group
         where id = #{seminarGroupId}
@@ -140,7 +140,39 @@
         where id = #{seminarGroupId}
     </update>
 
-    <select id="listSeminarGradeByStudentId" parameterType="java.math.BigInteger" resultMap="seminarGroupResultMap">
+    <update id="updatePresentationGradeByGroupId" parameterType="java.math.BigInteger">
+        update seminar_group set
+        presentation_grade = #{grade}
+        where id = #{seminarGroupId}
+    </update>
+
+    <select id="getClassId" parameterType="java.math.BigInteger" resultType="java.math.BigInteger">
+        select class_id from seminar_group
+        where id = #{seminarGroupId} and seminar_id = #{seminarId}
+    </select>
+
+    <select id="getReportPresentationPercentage" parameterType="java.math.BigInteger" resultType="java.math.BigInteger">
+        select report_percentage from class_info
+        where id = #{classId}
+    </select>
+
+    <select id="getReportGrade" parameterType="java.math.BigInteger" resultType="java.math.BigInteger">
+        select report_grade from seminar_group
+        where id = #{seminarGroupId}
+    </select>
+
+    <select id="getPresentationGrade" parameterType="java.math.BigInteger" resultType="java.math.BigInteger">
+        select presentation_grade from seminar_group
+        where id = #{seminarGroupId}
+    </select>
+
+    <update id="updateFinalGrade" parameterType="java.math.BigInteger">
+        update seminar_group set
+        final_grade = #{grade}
+        where id = #{seminarGroupId}
+    </update>
+
+    <select id="listSeminarGradeByUserId" parameterType="java.math.BigInteger" resultMap="seminarGroupResultMap">
         select id, seminar_id, class_id, report, report_grade, presentation_grade, final_grade, leader_id
         from seminar_group
         where id in
@@ -148,11 +180,18 @@
         where student_id = #{userId})
     </select>
 
+
     <select id="listSeminarGradeByCourseId" parameterType="java.math.BigInteger" resultMap="seminarGroupResultMap">
         select id, seminar_id, class_id, report, report_grade, presentation_grade, final_grade, leader_id
         from seminar_group
         where seminar_id in
         (select id from seminar where course_id = #{courseId})
+        and id in (select seminar_group_id from seminar_group_member where student_id = #{userId})
+    </select>
+
+    <select id="listGrade" parameterType="java.math.BigInteger" resultType="java.math.BigInteger">
+        select grade from student_score_group
+        where seminar_group_topic_id in (select id from seminar_group_topic where seminar_group_id = #{seminarGroupId})
     </select>
 
 </mapper>

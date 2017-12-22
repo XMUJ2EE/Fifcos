@@ -1,21 +1,23 @@
 package xmu.crms.view.vo;
 
+import java.util.List;
+
 public class GroupGradeVO {
-    private PresentationGradeVO[] presentationGradeVO;
+    private List<PresentationGradeVO> presentationGradeVO;
     private int reportGrade;
     private int grade;
 
-    public GroupGradeVO(PresentationGradeVO[] presentationGradeVO, int reportGrade, int grade) {
+    public GroupGradeVO(List<PresentationGradeVO> presentationGradeVO, int reportGrade, int grade) {
         this.presentationGradeVO = presentationGradeVO;
         this.reportGrade = reportGrade;
         this.grade = grade;
     }
 
-    public PresentationGradeVO[] getPresentationGradeVO() {
+    public List<PresentationGradeVO> getPresentationGradeVO() {
         return presentationGradeVO;
     }
 
-    public void setPresentationGradeVO(PresentationGradeVO[] presentationGradeVO) {
+    public void setPresentationGradeVO(List<PresentationGradeVO> presentationGradeVO) {
         this.presentationGradeVO = presentationGradeVO;
     }
 
