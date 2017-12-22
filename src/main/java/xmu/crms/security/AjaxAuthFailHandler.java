@@ -1,4 +1,4 @@
-package xmu.crms.conf;
+package xmu.crms.security;
 
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;

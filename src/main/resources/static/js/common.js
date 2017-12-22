@@ -5,13 +5,15 @@ $(function () {
         var ata = {phone:$("#username").val(),password:$("#password").val()}
         $.ajax({
             type:'post',
-            url: '/signin',
+            url: '/auth',
             dataType: "json",
             data: JSON.stringify(ata),
             contentType: "application/json",
             success: function (data,textStatus,xhr) {
                 if(xhr.status == 200){//状态码存疑
+                    window.localStorage.setItem("jwt", data.jwt);
                     if(data.type == "student")
+
                         window.location.href="/student/profile";
                     else
                         window.location.href="/teacher/home";

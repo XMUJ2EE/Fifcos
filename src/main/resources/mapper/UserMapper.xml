@@ -47,7 +47,7 @@
         <association property="student" column="student_id" javaType="User" select="getUserByUserId" />
     </resultMap>
 
-    <resultMap id="userDetailResultMap" type="xmu.crms.conf.UserDetailsImpl">
+    <resultMap id="userDetailResultMap" type="xmu.crms.security.UserDetailsImpl">
         <result property="phone" column="phone"/>
         <result property="password" column="password"/>
         <result property="type" column="type" />
@@ -178,6 +178,6 @@
     </select>
 
     <select id="getUserByPhone" parameterType="java.lang.String" resultMap="userDetailResultMap">
-        select phone, password, type from user_info where phone = #{phone}
+        select `id`, `phone`, `password`, `type`, `name` from user_info where phone = #{phone}
     </select>
 </mapper>

@@ -4,6 +4,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +12,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 
+
 @RequestMapping("/topic")
 
 public class TopicController {
 //	@Autowired
 //	TopicService topicService = new TopicServiceImpl();
 
+	@PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
 	@RequestMapping(value = "/{topicId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getTopicById(@PathVariable int topicId) {
@@ -42,7 +45,7 @@ public class TopicController {
 				"}";
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topic);
 	}
-	
+	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{topicId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateTopicById(@PathVariable int topicId) {

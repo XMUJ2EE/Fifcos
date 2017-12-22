@@ -2,12 +2,10 @@ package xmu.crms.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-import xmu.crms.conf.UserDetailsImpl;
+import xmu.crms.security.UserDetailsImpl;
 import xmu.crms.entity.*;
 
 import java.math.BigInteger;
-import java.util.BitSet;
 import java.util.List;
 
 /**
