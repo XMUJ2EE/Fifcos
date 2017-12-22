@@ -5,6 +5,7 @@ import static org.springframework.web.bind.annotation.RequestMethod.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +27,7 @@ public class SeminarController {
 //	@Autowired
 //	SeminarService seminarService;
 
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarById(@PathVariable int seminarId) {
@@ -41,7 +43,8 @@ public class SeminarController {
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
 		}
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateSeminarById(@PathVariable int seminarId) {
@@ -49,7 +52,8 @@ public class SeminarController {
 
 		return ResponseEntity.status(204).build();
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}", method = DELETE)
 	public ResponseEntity deleteSeminarById(@PathVariable int seminarId) {
 //		Seminar seminar;
@@ -66,7 +70,8 @@ public class SeminarController {
 //		}
 		return ResponseEntity.status(204).build();
 	}
-	
+
+	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}/my", method = GET)
 	public ResponseEntity getSeminarWithMe(@PathVariable int seminarId) {
 
@@ -74,6 +79,7 @@ public class SeminarController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDNET')")
 	@RequestMapping(value = "/{seminarId}/detail", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarDetail(@PathVariable int seminarId) {
@@ -81,6 +87,7 @@ public class SeminarController {
 		return ResponseEntity.status(200).body(null);
 	}
 
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}/topic", method = GET)
 	@ResponseBody
 	public ResponseEntity getTopicBySeminarId(@PathVariable int seminarId) {
@@ -88,11 +95,13 @@ public class SeminarController {
 		return ResponseEntity.status(200).body(null);
 	}
 
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}/topic", method = POST)
 	public ResponseEntity addTopicBySeminarId(@PathVariable int seminarId){
 		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(new Object(){public int id=257;});
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}/group", method = GET)
 	@ResponseBody
 	public ResponseEntity getGroupBySeminarId(@PathVariable int seminarId,
@@ -103,6 +112,7 @@ public class SeminarController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 
+	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}/group/my", method = GET)
 	@ResponseBody
 	public ResponseEntity getMyGroupBySeminarId(@PathVariable int seminarId){

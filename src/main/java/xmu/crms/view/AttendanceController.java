@@ -3,6 +3,7 @@ package xmu.crms.view;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,12 +31,14 @@ public class AttendanceController {
     @Autowired
     UserService userService;
 
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.GET)
     public ResponseEntity getStateByClassId(@PathVariable int seminarId, @PathVariable int classId){
 
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
     }
 
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/present",method = RequestMethod.GET)
     public ResponseEntity getNiceStateStudentList(@PathVariable int seminarId, @PathVariable int classId){
         List<UserVO> listAttdent = new ArrayList<UserVO>();
@@ -55,6 +58,7 @@ public class AttendanceController {
         }
     }
 
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/late",method = RequestMethod.GET)
     public ResponseEntity getLateStudentList(@PathVariable int seminarId, @PathVariable int classId){
         List<UserVO> listLate = new ArrayList<UserVO>();
@@ -76,6 +80,7 @@ public class AttendanceController {
         }
     }
 
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/absent",method = RequestMethod.GET)
     public ResponseEntity getAbsentStudentList(@PathVariable int seminarId, @PathVariable int classId){
         List<UserVO> listAbsent = new ArrayList<UserVO>();
@@ -94,7 +99,7 @@ public class AttendanceController {
             return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listAbsent);
         }
     }
-
+    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/{studentId}",method = RequestMethod.GET)
     public ResponseEntity callInRoll(@PathVariable int seminarId, @PathVariable int classId, @PathVariable int studentId){
 

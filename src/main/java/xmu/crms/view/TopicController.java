@@ -41,21 +41,23 @@ public class TopicController {
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topic);
 		}
 	}
-	@PreAuthorize("hasRole('STUDENT')")
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{topicId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateTopicById(@PathVariable int topicId) {
 
 		return ResponseEntity.status(204).body(null);
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{topicId}", method = DELETE)
 	@ResponseBody
 	public ResponseEntity deleteTopicById(@PathVariable int topicId) {
 
 		return ResponseEntity.status(204).body(null);
 	}
-	
+
+	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{topicId}/group", method = GET)
 	@ResponseBody
 	public ResponseEntity getGroupsByTopicId(@PathVariable int topicId) {
