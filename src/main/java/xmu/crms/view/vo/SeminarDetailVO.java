@@ -1,6 +1,6 @@
 package xmu.crms.view.vo;
 
-public class SeminarDetail {
+public class SeminarDetailVO {
 	private int id;
 	private String name;
 	private String site;
@@ -8,10 +8,10 @@ public class SeminarDetail {
 	private String endTime;
 	private String teacherName;
 	private String teacherEmail;
-	public SeminarDetail(int id, String name, 
-			String site, String startTime, 
-			String endTime, String teacherName,
-			String teacherEmail) {
+	public SeminarDetailVO(int id, String name,
+						   String site, String startTime,
+						   String endTime, String teacherName,
+						   String teacherEmail) {
 		super();
 		this.id = id;
 		this.name = name;
@@ -22,7 +22,7 @@ public class SeminarDetail {
 		this.teacherEmail = teacherEmail;
 	}
 
-	public SeminarDetail() {
+	public SeminarDetailVO() {
 	}
 
 	public int getId() {
@@ -69,7 +69,7 @@ public class SeminarDetail {
 	}
 	@Override
 	public String toString() {
-		return "SeminarDetail [id=" + id + 
+		return "SeminarDetailVO [id=" + id +
 				", name=" + name + ", site=" + site + 
 				", startTime=" + startTime + ", endTime=" + 
 				endTime + ", teacherName=" + teacherName + 

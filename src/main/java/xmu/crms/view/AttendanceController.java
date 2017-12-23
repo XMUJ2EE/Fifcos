@@ -140,7 +140,7 @@ public class AttendanceController {
         }else {
             attend = "absence";
         }
-        String status = "\"status:\"" + attend;
+        String status = "{\"status\":\"" + attend + "\"}";
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(status);
     }
 

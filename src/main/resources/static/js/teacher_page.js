@@ -120,7 +120,15 @@ function teainfo(){
         }
     });
 }
-
+function logout(){
+    if(localStorage.jwt){
+        localStorage.removeItem("jwt");
+        window.location.href='/login';
+    }
+    else{
+         window.location.href='/login';
+    }
+}
 /*----------------------------teacher/baseinfo_update-------------------------------*/
 function getteainfo(){  //get techer information
         $.ajax({
@@ -128,7 +136,11 @@ function getteainfo(){  //get techer information
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
+        error:function(){
+            // alert("错误");
+        },
         success: function (data,textStatus,xhr) {
+            // alert("成功");
             if(xhr.status==200){
                 var Gender;
                 var Title;
@@ -390,7 +402,7 @@ function classlist(){
                     }
                     str+='<div class=\"block\" id=\"'+data[i].id+'\" onclick=\"jumpclassdetail(this.id)\"><div class=\"blockFont\">'+data[i].name+'</div></div>'
                     if(i==data.length-1){
-                         str+='<div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/class/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>'
+                        str+='<div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/class/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>'
                     }
             }
             content.innerHTML=str;

@@ -12,6 +12,16 @@ public class Seminar {
 	private Date startTime;
 	private Date endTime;
 
+	public Seminar(BigInteger id, String name, String description, Course course, Boolean fixed, Date startTime, Date endTime) {
+		this.id = id;
+		this.name = name;
+		this.description = description;
+		this.course = course;
+		this.fixed = fixed;
+		this.startTime = startTime;
+		this.endTime = endTime;
+	}
+
 	public BigInteger getId() {
 		return id;
 	}

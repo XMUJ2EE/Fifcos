@@ -1,30 +1,18 @@
 package xmu.crms.view.vo;
 
-import java.math.BigInteger;
-
 public class CourseVO {
-    private BigInteger id;
     private String name;
-    private BigInteger numClass;
-    private BigInteger numStudent;
+    private String description;
     private String startTime;
     private String endTime;
+    private proportions proportions;
 
-    public CourseVO(BigInteger id, String name, BigInteger numClass, BigInteger numStudent, String startTime, String endTime) {
-        this.id = id;
+    public CourseVO(String name, String description, String startTime, String endTime, proportions proportions) {
         this.name = name;
-        this.numClass = numClass;
-        this.numStudent = numStudent;
+        this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
+        this.proportions = proportions;
     }
 
     public String getName() {
@@ -35,20 +23,12 @@ public class CourseVO {
         this.name = name;
     }
 
-    public BigInteger getNumClass() {
-        return numClass;
+    public String getDescription() {
+        return description;
     }
 
-    public void setNumClass(BigInteger numClass) {
-        this.numClass = numClass;
-    }
-
-    public BigInteger getNumStudent() {
-        return numStudent;
-    }
-
-    public void setNumStudent(BigInteger numStudent) {
-        this.numStudent = numStudent;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getStartTime() {
@@ -65,5 +45,13 @@ public class CourseVO {
 
     public void setEndTime(String endTime) {
         this.endTime = endTime;
+    }
+
+    public proportions getProportions() {
+        return proportions;
+    }
+
+    public void setProportions(proportions proportions) {
+        this.proportions = proportions;
     }
 }
