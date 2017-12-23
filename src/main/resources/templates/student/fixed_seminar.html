@@ -14,9 +14,9 @@
             课堂管理系统
           </div>
           <div class="icon">
-              <img src="/Img/home.png">首页
-              <img src="/Img/help.png">帮助
-              <img src="/Img/exit.png">退出
+              <img src="/img/home.png"><a onclick="window.location.href='/student/profile'">首页</a>
+              <img src="/img/help.png"><a>帮助</a>
+              <img src="/img/exit.png"><a onclick="window.location.href='/login'">退出</a>
           </div>
           <div class="clear"></div>
         </div>
@@ -53,7 +53,7 @@
                         <div class="smallblock"><div class="blockFont">话题A</div></div>
 					</div>
                     <div class="item">
-                        <button class="uploadbutton">上传报告</button>
+                        <button class="uploadbutton" onclick="return showDiv();">上传报告</button>
 				    </div>
 					<div class="item">
                         <button class="viewscorebutton" onclick="window.location.href='/student/course/'+getCookie('coursecurrent')+'/seminar/'+getCookie('seminarCurrent')+'/grade'">查看分数</button>
@@ -63,9 +63,73 @@
             </div>
             <div class="clear"></div>
         </div>
+
+
+        <!--<div id="Idiv" style="display:none; position:absolute; z-index:1000; background:#67a3d9;" onclick="showDiv();">-->
+            <!--<div id="mou_head" style="width:100px; height:10px;z-index:1001; position:absolute;">这个是用来实现拖层</div>-->
+            <!--<input type="button" value="关闭" onclick="closeDiv();" />-->
+        <!--</div>-->
     <!-- jquery.js-->
     <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student-innercourse.js -->
     <script src ="/js/student-innercourse.js"></script>
+        <!--jwt.js-->
+        <script src="/js/jwt.js"></script>
+
+        <!--<script>function showDiv()-->
+        <!--{-->
+            <!--var Idiv     = document.getElementById("Idiv");-->
+            <!--var mou_head = document.getElementById('mou_head');-->
+            <!--Idiv.style.display = "block";-->
+
+            <!--Idiv.style.left=(document.documentElement.clientWidth-Idiv.clientWidth)/2+document.documentElement.scrollLeft+"px";-->
+            <!--Idiv.style.top =(document.documentElement.clientHeight-Idiv.clientHeight)/2+document.documentElement.scrollTop-50+"px";-->
+
+            <!--var procbg = document.createElement("div"); -->
+            <!--procbg.setAttribute("id","mybg"); -->
+            <!--procbg.style.background = "#000000";-->
+            <!--procbg.style.width = "100%";-->
+            <!--procbg.style.height = "100%";-->
+            <!--procbg.style.position = "fixed";-->
+            <!--procbg.style.top = "0";-->
+            <!--procbg.style.left = "0";-->
+            <!--procbg.style.zIndex = "500";-->
+            <!--procbg.style.opacity = "0.6";-->
+            <!--procbg.style.filter = "Alpha(opacity=70)";-->
+
+            <!--document.body.appendChild(procbg);-->
+            <!--document.body.style.overflow = "hidden"; -->
+
+
+            <!--var posX;-->
+            <!--var posY;-->
+            <!--mou_head.onmousedown=function(e)-->
+            <!--{-->
+                <!--if(!e) e = window.event; //IE-->
+                <!--posX = e.clientX - parseInt(Idiv.style.left);-->
+                <!--posY = e.clientY - parseInt(Idiv.style.top);-->
+                <!--document.onmousemove = mousemove;-->
+            <!--}-->
+            <!--document.onmouseup = function()-->
+            <!--{-->
+                <!--document.onmousemove = null;-->
+            <!--}-->
+            <!--function mousemove(ev)-->
+            <!--{-->
+                <!--if(ev==null) ev = window.event;//IE-->
+                <!--Idiv.style.left = (ev.clientX - posX) + "px";-->
+                <!--Idiv.style.top = (ev.clientY - posY) + "px";-->
+            <!--}-->
+        <!--}-->
+        <!--function closeDiv()-->
+        <!--{-->
+            <!--var Idiv=document.getElementById("Idiv");-->
+            <!--Idiv.style.display="none";-->
+            <!--document.body.style.overflow = "auto"; -->
+            <!--var body = document.getElementsByTagName("body");-->
+            <!--var mybg = document.getElementById("mybg");-->
+            <!--body[0].removeChild(mybg);-->
+        <!--}-->
+        <!--</script>-->
 </body>
 </html>

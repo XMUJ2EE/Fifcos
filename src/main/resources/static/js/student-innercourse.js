@@ -28,26 +28,7 @@ function jumpTopic(id1){//jump to specific topicF
     window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+getCookie("seminarCurrent")+'/topic?type='+getCookie("groupingmethodCurrent");
 }
 
-// function jumpTopicR(id1){//jump to specific topicR
-//     var tid = id1;
-//     updateCookie('topicCurrent',tid);
-//     location.href="random_topic";
-// }
-
-function getcid(){//get classid from cookie
-    var Cookie=document.cookie;
-    var arrCookie=Cookie.split(";"); //cookie split
-    var classCurrent;
-    for(var i=0;i<arrCookie.length;i++){
-        var arr=arrCookie[i].split("=");
-        if('classcurrent'==arr[0]){
-            classCurrent=arr[1];
-            break;
-        }
-    }
-    return classCurrent;
-}
-// //-----------------------------StudentCourseInformation--------------------------------------
+//-----------------------------StudentCourseInformation--------------------------------------
 
 function courseinfo(){//show CourseInformation
         $.ajax({
@@ -64,14 +45,16 @@ function courseinfo(){//show CourseInformation
                 coursename.innerHTML = data.name;
                 updateCookie("description",data.description);
                 updateCookie("coursename",data.name);
-                //document.cookie = 'description='+ data.description;
-                //document.cookie = 'coursename='+ data.name;
             }
-            else if(xhr.status == 400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
             }
-            else{
-                 alert("未找到课程");
+        },
+        statusCode: {
+            404: function () {
+                alert("未找到课程");
             }
         }
     });
@@ -93,6 +76,11 @@ function courseinfo(){//show CourseInformation
                         str += '<div class="block"><div class="blockFont" onclick="jumpSeminar(this.id)" id="'+data[i].id+';'+data[i].groupingMethod+'">'+data[i].name+'</div></div>';
                 }
                 seminar.innerHTML = contenthead+str+contenttail;
+            }
+        },
+        statusCode: {
+            401: function () {
+                alert("课程信息获取失败");
             }
         }
     });
@@ -124,11 +112,14 @@ function seminarinfoF(){//show seminar info(fixed)
                 }
                 topics.innerHTML = str;
             }
-            else if(xhr.status == 400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
             }
-            else{
-                 alert("未找到讨论课");
+        }, statusCode: {
+            404: function () {
+                alert("未找到讨论课");
             }
         }
     });
@@ -161,13 +152,15 @@ function seminarinfoR(){//show seminar info(random)
                 }
                 topics.innerHTML = str;
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式");
+                }
+            }, statusCode: {
+                404: function () {
+                    alert("未找到讨论课");
+                }
             }
-            else{
-                 alert("未找到讨论课");
-            }
-        }
     });
         $.ajax({
         type:'get',
@@ -192,16 +185,19 @@ function seminarinfoR(){//show seminar info(random)
                 }
                 $("#randomteam").html(teaminfohead+str2);
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式");
+                }
+            }, statusCode: {
+                403: function () {
+                    alert("老师无法使用本API");
+                }
+            }, statusCode: {
+                404: function () {
+                    alert("讨论课未分组");
+                }
             }
-            else if(xhr.status == 403){
-                alert(" 老师无法使用本API");
-            }
-            else{
-                 alert("讨论课尚未分组");
-            }
-        }
     });
 }
 
@@ -219,16 +215,19 @@ function selecttopic(id1){// select topic
                 alert("成功");
                 window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+getCookie("seminarCurrent")+'?type='+getCookie("groupingmethodCurrent");
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式或话题已满");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式或话题已满");
+                }
+            }, statusCode: {
+                403: function () {
+                    alert("权限不足（不是该小组的组长）");
+                }
+            }, statusCode: {
+                404: function () {
+                    alert("小组不存在");
+                }
             }
-            else if(xhr.status == 403){
-                alert("权限不足（不是该小组的组长）");
-            }
-            else{
-                alert("小组不存在");
-            }
-        }
     });
 }
 
@@ -251,13 +250,15 @@ function topicinfoF(){//  show topic information(fixed)
                 $("#groupmemberlimit").html(data.groupMemberLimit);
                 select.innerHTML = '<div class="modifyButton" onclick="selecttopic(this.id)" id="'+data.id+'"> 选择话题 </div>'
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式");
+                }
+            }, statusCode: {
+                404: function () {
+                    alert("未找到讨论课");
+                }
             }
-            else{
-                 alert("未找到讨论课");
-            }
-        }
     });
 }
 
@@ -280,13 +281,15 @@ function topicinfoR(){// show topic information(random)
                 $("#grouplimit").html(data.groupLimit);
                 $("#groupmemberlimit").html(data.groupMemberLimit);
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式");
+                }
+            }, statusCode: {
+                404: function () {
+                    alert("未找到讨论课");
+                }
             }
-            else{
-                 alert("未找到讨论课");
-            }
-        }
     });
 }
 
@@ -317,13 +320,15 @@ function groupinfo(){// showgroup list
                 }
                 table.innerHTML = tablehead+leader+str;
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式");
+                }
+            }, statusCode: {
+                403: function () {
+                    alert("教师访问此API");
+                }
             }
-            else{
-                alert("教师访问此API");
-            }
-        }
     });
 }
 
@@ -355,13 +360,15 @@ function groupmodinfo(){// showgroup list
                 }
                 $("[name='table1']").html(tablehead+leader+str);
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式");
+                }
+            }, statusCode: {
+                403: function () {
+                    alert("教师访问此API");
+                }
             }
-            else{
-                alert("教师访问此API");
-            }
-        }
     });
     $.ajax({
         type:'get',
@@ -383,10 +390,12 @@ function groupmodinfo(){// showgroup list
                 }
                 $("[name='table2']").html(tablehead+str);
             }
-            else if(xhr.status == 400){
+        }, statusCode: {
+            400: function () {
                 alert("错误的ID格式");
             }
-            else{
+        }, statusCode: {
+            404: function () {
                 alert("未找到该班级");
             }
         }
@@ -425,11 +434,13 @@ function groupinfosearch(){//search
                 }
                 $("[name='table2']").html(tablehead+str);
             }
-            else if(xhr.status == 400){
+        }, statusCode: {
+            400: function () {
                 alert("错误的ID格式");
             }
-            else{
-                alert("教师访问此API");
+        }, statusCode: {
+            404: function () {
+                alert("未找到该班级");
             }
         }
     });
@@ -447,13 +458,16 @@ function groupinfoadd(name){//add student
                 alert("成功!");
                 location.reload();
             }
-            else if(xhr.status == 400){
+        }, statusCode: {
+            400: function () {
                 alert("错误的ID格式、待添加的学生不存在");
             }
-            else if(xhr.status == 403){
+        }, statusCode: {
+            403: function () {
                 alert("权限不足（不是该小组的成员）");
             }
-            else{
+        }, statusCode: {
+            409: function () {
                 alert("待添加学生已经在小组里了");
             }
         }
@@ -473,14 +487,20 @@ function groupinforemove(name){//remove student
                 alert("成功!");
                 location.reload();
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式、待添加的学生不存在");
-            }
-            else if(xhr.status == 403){
-                alert("权限不足（不是该小组的成员）");
-            }
             else{
                 alert("待添加学生已经在小组里了");
+            }
+        }, statusCode: {
+            400: function () {
+                alert("错误的ID格式、待移除的学生不存在");
+            }
+        }, statusCode: {
+            403: function () {
+                alert("权限不足（不是该小组的成员）");
+            }
+        }, statusCode: {
+            409: function () {
+                alert("待移除学生不在小组里");
             }
         }
     });
@@ -508,13 +528,15 @@ function gradeinfo(){//StudentViewGroupPage  showgroup grade list
                 }
                 $("#studenttable").html(tablehead+str);
             }
-            else if(xhr.status == 400){
-                alert("错误的ID格式");
+        }, statusCode: {
+                400: function () {
+                    alert("错误的ID格式");
+                }
+            }, statusCode: {
+                404: function () {
+                    alert("当前没有正在进行的讨论课");
+                }
             }
-            else{
-                alert("当前没有正在进行的讨论课");
-            }
-        }
-    });
+        });
 }
 
