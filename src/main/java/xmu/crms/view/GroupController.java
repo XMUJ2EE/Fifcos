@@ -15,15 +15,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.ResponseBody;
+import xmu.crms.entity.Seminar;
 import xmu.crms.entity.SeminarGroup;
-import xmu.crms.exception.GroupNotFoundException;
-import xmu.crms.exception.TopicNotFoundException;
-import xmu.crms.service.GradeService;
-import xmu.crms.service.SeminarGroupService;
-import xmu.crms.service.TopicService;
-import xmu.crms.service.impl.GradeServiceImpl;
-import xmu.crms.view.vo.GroupGradeVO;
-import xmu.crms.view.vo.PresentationGradeVO;
+import xmu.crms.entity.User;
+import xmu.crms.exception.*;
+import xmu.crms.service.*;
 
 /**
  * @author wang
@@ -35,10 +31,12 @@ import xmu.crms.view.vo.PresentationGradeVO;
 public class GroupController {
 	@Autowired
 	GradeService gradeService;
-//	@Autowired
-//	SeminarGroupService seminarGroupService;
-//	@Autowired
-//	TopicService topicService;
+	//@Autowired
+	SeminarGroupService seminarGroupService;
+	//@Autowired
+	FixGroupService fixGroupService;
+	@Autowired
+	UserService userService;
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}", method = GET)
@@ -48,20 +46,44 @@ public class GroupController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 
+
 	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}/resign", method = PUT)
 	@ResponseBody
 	public ResponseEntity resignGroupLeader(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-
-		return ResponseEntity.status(204).body(null);
+		try {
+			User user = userService.getUserByUserId(BigInteger.valueOf(request.get("id")));
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body(null);
+		}
+		try {
+			seminarGroupService.resignLeaderById(BigInteger.valueOf(groupId), BigInteger.valueOf(request.get("id")));
+			return ResponseEntity.status(204).body(null);
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		}
 	}
+
 
 	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}/assign", method = PUT)
 	@ResponseBody
 	public ResponseEntity assignGroupLeader(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-
-		return ResponseEntity.status(204).body(null);
+		try {
+			seminarGroupService.assignLeaderById(BigInteger.valueOf(groupId), BigInteger.valueOf(request.get("id")));
+			return ResponseEntity.status(204).body(null);
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body(null);
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		} catch (InvalidOperationException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(409).body(null);
+		}
 	}
 
 
@@ -69,40 +91,77 @@ public class GroupController {
 	@RequestMapping(value = "/{groupId}/add", method = PUT)
 	@ResponseBody
 	public ResponseEntity addGroupMember(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-
-		return ResponseEntity.status(204).body(null);
+		try {
+			seminarGroupService.insertSeminarGroupMemberById(BigInteger.valueOf(request.get("id")), BigInteger.valueOf(groupId));
+			return ResponseEntity.status(204).body(null);
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		} catch (InvalidOperationException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(403).body(null);
+		}
 	}
+
 
 	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}/remove", method = PUT)
 	@ResponseBody
 	public ResponseEntity removeGroupMember(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
-
-		return ResponseEntity.status(204).body(null);
+        try {
+            SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId));
+            fixGroupService.deleteFixGroupUserById(seminarGroup.getFixGroup().getId(), BigInteger.valueOf(request.get("id")));
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(204).body(null);
+        } catch (FixGroupNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(204).body(null);
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(204).body(null);
+        }
+        return ResponseEntity.status(204).body(null);
 	}
+
 
 	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}/topic", method = POST)
 	@ResponseBody
-	public ResponseEntity selectTopic(@PathVariable int groupId, @RequestBody Map<String, Integer> request)
-			throws GroupNotFoundException, TopicNotFoundException {
-//		int id = request.get("id");
-//		if (seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)) == null) {
+	public ResponseEntity selectTopic(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
+		try {
+			seminarGroupService.insertTopicByGroupId(BigInteger.valueOf(groupId), BigInteger.valueOf(request.get("id")));
+			String url = "{\"url\":" + "\"/group/" + String.valueOf(groupId) + "/topic/" + String.valueOf(request.get("id")) + "\"}";
+			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(url);
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).body(null);
+		}
+	}
+
+
+//	@PreAuthorize("hasRole('STUDENT')")
+//	@RequestMapping(value = "/{groupId}/topic/{topicId}", method = DELETE)
+//	@ResponseBody
+//	public ResponseEntity deselectTopic(@PathVariable int groupId, @PathVariable int topicId) {
+//		try {
+//			fixGroupService.deleteTopicByGroupId(BigInteger.valueOf(groupId));
+//			return ResponseEntity.status(204).body(null);
+//		} catch (FixGroupNotFoundException e) {
+//			e.printStackTrace();
 //			return ResponseEntity.status(404).body(null);
-//		}else {
-//			seminarGroupService.insertTopicByGroupId(BigInteger.valueOf(groupId), BigInteger.valueOf(id));
-			return ResponseEntity.status(201).body(null);
+//		} catch (IllegalArgumentException e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(400).body(null);
 //		}
+//	}
 
-	}
-
-	@PreAuthorize("hasRole('STUDENT')")
-	@RequestMapping(value = "/{groupId}/topic/{topicId}", method = DELETE)
-	@ResponseBody
-	public ResponseEntity deselectTopic(@PathVariable int groupId, @PathVariable int topicId) {
-
-		return ResponseEntity.status(204).body(null);
-	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}/grade", method = GET)
@@ -110,7 +169,7 @@ public class GroupController {
 	public ResponseEntity getGradeByGroupId(@PathVariable int groupId) {
 		SeminarGroup seminarGroup = null;
 		try {
-			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(groupId));
+			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(groupId));
 		} catch (GroupNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -121,13 +180,15 @@ public class GroupController {
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarGroup);
 		}
 	}
+
+
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}/grade/report", method = PUT)
 	@ResponseBody
 	public ResponseEntity finalGradeByGroupId(@PathVariable int groupId, @RequestBody Map<String, Integer> request) {
 		SeminarGroup seminarGroup = null;
 		try {
-			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(groupId));
+			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(groupId));
 		} catch (GroupNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -143,6 +204,8 @@ public class GroupController {
 			return ResponseEntity.status(204).body(null);
 		}
 	}
+
+
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}/grade/presentation/{studentId}", method = PUT)
 	@ResponseBody
@@ -150,7 +213,7 @@ public class GroupController {
 
 		SeminarGroup seminarGroup = null;
 		try {
-			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(groupId));
+			seminarGroup = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(groupId));
 		} catch (GroupNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -31,43 +31,30 @@ public class GradeServiceImpl implements GradeService {
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
     @Override
-    public Boolean deleteStudentScoreGroupByTopicId(BigInteger topicId) {
-        try{
+    public void deleteStudentScoreGroupByTopicId(BigInteger topicId) throws IllegalArgumentException{
             gradeMapper.deleteStudentScoreGroupByTopicId(topicId);
-        }catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+
     }
 
     @Override
-    public SeminarGroup getSeminarGroupBySeminarGroupId(BigInteger userId, BigInteger seminarGroupId)
+    public SeminarGroup getSeminarGroupBySeminarGroupId(BigInteger seminarGroupId)
             throws GroupNotFoundException, IllegalArgumentException{
-        return gradeMapper.getSeminarGradeBySeminarGroupId(userId, seminarGroupId);
+        return gradeMapper.getSeminarGradeBySeminarGroupId(seminarGroupId);
     }
 
     @Override
-    public Boolean insertGroupGradeByUserId(BigInteger topicId, BigInteger userId, BigInteger groupId, BigInteger grade) throws IllegalArgumentException{
-        try{
+    public void insertGroupGradeByUserId(BigInteger topicId, BigInteger userId, BigInteger groupId, BigInteger grade) throws IllegalArgumentException{
             BigInteger seminarGroupTopicId = gradeMapper.getSeminarGroupTopicId(topicId, groupId);
             gradeMapper.insertGroupGradeByUserId(userId, seminarGroupTopicId, grade);
-        }catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+
     }
 
     @Override
-    public Boolean updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade) {
-        try{
+    public void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade)
+            throws GroupNotFoundException, IllegalArgumentException{
+
             gradeMapper.updateGroupByGroupId(seminarGroupId, grade);
-        }catch (IllegalArgumentException e) {
-            e.printStackTrace();
-            return false;
-        }
-        return true;
+
     }
 
     @Override

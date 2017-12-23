@@ -2,19 +2,19 @@ package xmu.crms.entity;
 
 import java.math.BigInteger;
 import java.util.Date;
+import java.util.HashMap;
 
 public class Event {
+
     private BigInteger id;
-    private String bean;
-    private String parameter;
+
     private Date time;
 
-    public Event(BigInteger id, String bean, String parameter, Date time) {
-        this.id = id;
-        this.bean = bean;
-        this.parameter = parameter;
-        this.time = time;
-    }
+    private String beanName;
+
+    private String methodName;
+
+    private HashMap<BigInteger, String> paramMap;
 
     public BigInteger getId() {
         return id;
@@ -24,22 +24,6 @@ public class Event {
         this.id = id;
     }
 
-    public String getBean() {
-        return bean;
-    }
-
-    public void setBean(String bean) {
-        this.bean = bean;
-    }
-
-    public String getParameter() {
-        return parameter;
-    }
-
-    public void setParameter(String parameter) {
-        this.parameter = parameter;
-    }
-
     public Date getTime() {
         return time;
     }
@@ -47,4 +31,53 @@ public class Event {
     public void setTime(Date time) {
         this.time = time;
     }
+
+    public String getBeanName() {
+        return beanName;
+    }
+
+    public void setBeanName(String beanName) {
+        this.beanName = beanName;
+    }
+
+    public HashMap<BigInteger, String> getParamMap() {
+        return paramMap;
+    }
+
+    public void setParamMap(HashMap<BigInteger, String> paramMap) {
+        this.paramMap = paramMap;
+    }
+
+    public Event() {
+
+    }
+
+    public Event(BigInteger id, Date time, String beanName, String methodName, HashMap<BigInteger, String> paramMap) {
+        super();
+        this.id = id;
+        this.time = time;
+        this.beanName = beanName;
+        this.methodName = methodName;
+        this.paramMap = paramMap;
+    }
+
+
+    public String getMethodName() {
+        return methodName;
+    }
+
+    public void setMethodName(String methodName) {
+        this.methodName = methodName;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Event [id=" + id +
+                ", time=" + time +
+                ", beanName=" + beanName +
+                ", methodName=" + methodName +
+                ", paramMap=" + paramMap + "]";
+    }
+
 }

@@ -14,12 +14,11 @@ import xmu.crms.exception.UserNotFoundException;
 
 
 /**
- *
  * @author zhouzhongjun
  * @version 2.10
- *
  */
 public interface SeminarGroupService {
+
 
 	/**
 	 * 按seminarGroupId删除SeminarGroupMember信息.
@@ -116,8 +115,7 @@ public interface SeminarGroupService {
 	 * @return BigInteger 若创建成功返回该小组的id，失败则返回-1
 	 * @exception IllegalArgumentException 信息不合法，id格式错误
 	 */
-	BigInteger insertSeminarGroupBySeminarId(BigInteger seminarId,
-											 SeminarGroup seminarGroup) throws IllegalArgumentException;
+	BigInteger insertSeminarGroupBySeminarId(BigInteger seminarId, SeminarGroup seminarGroup) throws IllegalArgumentException;
 
 	/**
 	 * 创建小组成员信息.
@@ -126,8 +124,7 @@ public interface SeminarGroupService {
 	 * @param seminarGroupMember 小组成员信息
 	 * @return BigInteger 若创建成功返回该小组成员表的id，失败则返回-1
 	 */
-	BigInteger insertSeminarGroupMemberByGroupId(BigInteger groupId,
-												 SeminarGroupMember seminarGroupMember);
+	BigInteger insertSeminarGroupMemberByGroupId(BigInteger groupId, SeminarGroupMember seminarGroupMember);
 
 
 	/**
@@ -138,8 +135,7 @@ public interface SeminarGroupService {
 	 * @see SeminarGroupService #deleteSeminarGroupMemberBySeminarGroupId(BigInteger seminarGroupId)
 	 * @exception IllegalArgumentException 信息不合法，id格式错误
 	 */
-	void deleteSeminarGroupByGroupId(BigInteger seminarGroupId) throws
-			IllegalArgumentException;
+	void deleteSeminarGroupByGroupId(BigInteger seminarGroupId) throws IllegalArgumentException;
 
 
 	/**
@@ -152,8 +148,7 @@ public interface SeminarGroupService {
 	 * @exception IllegalArgumentException (信息不合法，id格式错误)
 	 * @exception GroupNotFoundException (未找到小组)
 	 */
-	SeminarGroup getSeminarGroupByGroupId(BigInteger groupId) throws
-			IllegalArgumentException,GroupNotFoundException;
+	SeminarGroup getSeminarGroupByGroupId(BigInteger groupId) throws IllegalArgumentException,GroupNotFoundException;
 
 	/**
 	 * 获取学生所在讨论课队长.
@@ -166,8 +161,7 @@ public interface SeminarGroupService {
 	 * @see SeminarGroupService #getSeminarGroupLeaderByGroupId(BigInteger groupId)
 	 * @exception IllegalArgumentException 信息不合法，id格式错误
 	 */
-	BigInteger getSeminarGroupLeaderById(BigInteger userId, BigInteger seminarId)
-			throws IllegalArgumentException;
+	BigInteger getSeminarGroupLeaderById(BigInteger userId, BigInteger seminarId) throws IllegalArgumentException;
 
 
 	/**

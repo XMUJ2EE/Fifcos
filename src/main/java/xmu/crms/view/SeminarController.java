@@ -15,9 +15,12 @@ import xmu.crms.entity.Seminar;
 import xmu.crms.entity.Topic;
 import xmu.crms.exception.SeminarNotFoundException;
 import xmu.crms.service.SeminarService;
+import xmu.crms.service.TopicService;
 import xmu.crms.view.vo.*;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 
@@ -25,23 +28,23 @@ import java.math.BigInteger;
 
 public class SeminarController {
 //	@Autowired
-//	SeminarService seminarService;
+	SeminarService seminarService;
+//	@Autowired
+	TopicService topicService;
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarById(@PathVariable int seminarId) {
-		Seminar seminar = new Seminar();
-//		try {
-//			seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
-//		} catch (SeminarNotFoundException e) {
-//			e.printStackTrace();
-//		}
-		if (seminar == null) {
-			return ResponseEntity.status(404).body(null);
-		}else {
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
+		try {
+			Seminar seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
+		} catch (SeminarNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}
+
+
+		return ResponseEntity.status(204).build();
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
@@ -56,18 +59,11 @@ public class SeminarController {
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}", method = DELETE)
 	public ResponseEntity deleteSeminarById(@PathVariable int seminarId) {
-//		Seminar seminar;
-//		try {
-//			seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
-//			if (seminar == null) {
-//				return ResponseEntity.status(404).build();
-//			} else {
-//				seminarService.deleteSeminarBySeminarId(BigInteger.valueOf(seminarId));
-//				return ResponseEntity.status(204).build();
-//			}
-//		} catch (SeminarNotFoundException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			seminarService.deleteSeminarBySeminarId(BigInteger.valueOf(seminarId));
+		} catch (SeminarNotFoundException e) {
+			e.printStackTrace();
+		}
 		return ResponseEntity.status(204).build();
 	}
 
@@ -83,21 +79,37 @@ public class SeminarController {
 	@RequestMapping(value = "/{seminarId}/detail", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarDetail(@PathVariable int seminarId) {
-
-		return ResponseEntity.status(200).body(null);
+		Seminar seminar = null;
+		SeminarDetailVO seminarDetailVO = null;
+		try {
+			seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
+			seminarDetailVO = new SeminarDetailVO(seminar.getId().intValue(), seminar.getName(), null, seminar.getStartTime().toString(),
+					seminar.getEndTime().toString(), seminar.getCourse().getTeacher().getName(), seminar.getCourse().getTeacher().getEmail());
+		} catch (SeminarNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		}
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
 	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}/topic", method = GET)
 	@ResponseBody
 	public ResponseEntity getTopicBySeminarId(@PathVariable int seminarId) {
-
-		return ResponseEntity.status(200).body(null);
+		List<Topic> listTopic = new ArrayList<Topic>();
+		try{
+			listTopic = topicService.listTopicBySeminarId(BigInteger.valueOf(seminarId));
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listTopic);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		}
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}/topic", method = POST)
 	public ResponseEntity addTopicBySeminarId(@PathVariable int seminarId){
+
 		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(new Object(){public int id=257;});
 	}
 

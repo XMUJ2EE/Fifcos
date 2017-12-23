@@ -1,35 +1,20 @@
 package xmu.crms.view.vo;
 
-import java.math.BigInteger;
-import java.util.List;
-
 public class SeminarVO {
-    private String id;
     private String name;
     private String description;
     private String groupingMethod;
     private String startTime;
     private String endTime;
-    private List<TopicVO> topics;
+    private proportions proportions;
 
-    public SeminarVO(String id, String name, String description,
-                     String groupingMethod, String startTime, String endTime,
-                     List<TopicVO> topics) {
-        this.id = id;
+    public SeminarVO(String name, String description, String groupingMethod, String startTime, String endTime, xmu.crms.view.vo.proportions proportions) {
         this.name = name;
         this.description = description;
         this.groupingMethod = groupingMethod;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.topics = topics;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+        this.proportions = proportions;
     }
 
     public String getName() {
@@ -72,11 +57,23 @@ public class SeminarVO {
         this.endTime = endTime;
     }
 
-    public List<TopicVO> getTopics() {
-        return topics;
+    public xmu.crms.view.vo.proportions getProportions() {
+        return proportions;
     }
 
-    public void setTopics(List<TopicVO> topics) {
-        this.topics = topics;
+    public void setProportions(xmu.crms.view.vo.proportions proportions) {
+        this.proportions = proportions;
+    }
+
+    @Override
+    public String toString() {
+        return "SeminarVO{" +
+                "name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", groupingMethod='" + groupingMethod + '\'' +
+                ", startTime='" + startTime + '\'' +
+                ", endTime='" + endTime + '\'' +
+                ", proportions=" + proportions +
+                '}';
     }
 }

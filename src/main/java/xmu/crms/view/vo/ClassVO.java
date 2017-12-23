@@ -26,4 +26,12 @@ public class ClassVO {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "ClassVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }
