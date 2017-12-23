@@ -18,6 +18,16 @@ function getusername(){//getusername from cookie
     return username;
 }
 
+function logout(){
+    if(localStorage.jwt){
+        localStorage.removeItem("jwt");
+        window.location.href='/login';
+    }
+    else{
+        window.location.href='/login';
+    }
+}
+
 //----------------------------StudentbindPage-------------------------------
 
 function stubind(){//StudentbindPage bindstu-updatestuinfo

@@ -28,6 +28,16 @@ function jumpTopic(id1){//jump to specific topicF
     window.location.href='/student/course/'+getCookie("coursecurrent")+'/seminar/'+getCookie("seminarCurrent")+'/topic?type='+getCookie("groupingmethodCurrent");
 }
 
+function logout(){
+    if(localStorage.jwt){
+        localStorage.removeItem("jwt");
+        window.location.href='/login';
+    }
+    else{
+        window.location.href='/login';
+    }
+}
+
 //-----------------------------StudentCourseInformation--------------------------------------
 
 function courseinfo(){//show CourseInformation
