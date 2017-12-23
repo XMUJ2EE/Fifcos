@@ -95,7 +95,7 @@
 
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into user_info(phone, wechat_id, openid, avatar, password,
-        school_id, `name`, gender, `type`, `number`, education, title, email)
+        school_id, name, gender, `type`, `number`, education, title, email)
         values (#{phone}, #{wechatId}, #{openid}, #{avatar}, #{password}, #{school.id}, #{name}, #{gender},
         #{type}, #{number}, #{education}, #{title}, #{email})
     </insert>

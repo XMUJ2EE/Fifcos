@@ -41,7 +41,7 @@ public class FifcosAuthenticationProvider implements AuthenticationProvider{
             }else if(type == 1){
                 typeString = "teacher";
             }
-            return new FifcosAuthenticationToken(((UserDetailsImpl) userDetails).getNumber(),username,
+            return new FifcosAuthenticationToken(((UserDetailsImpl) userDetails).getId(),((UserDetailsImpl) userDetails).getNumber(),username,
                     fifcosAuthenticationToken.getPassword(),typeString,
                     simpleGrantedAuthority);
          }
