@@ -38,7 +38,7 @@ public class GradeServiceTest {
     public void testListSeminarGradeBySeminarGroupId() {
         SeminarGroup list = null;
         try {
-            list = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1), BigInteger.valueOf(1));
+            list = gradeService.getSeminarGroupBySeminarGroupId(BigInteger.valueOf(1));
         } catch (GroupNotFoundException e) {
             e.printStackTrace();
         }

@@ -74,8 +74,19 @@
         <association property="leader" column="leader_id" javaType="User" select="getUserByUserId" />
         <association property="seminar" column="seminar_id" javaType="Seminar" select="getSeminarBySeminarId" />
         <association property="classInfo" column="class_id" javaType="ClassInfo"  select="getClassInfoByClassId" />
+        <association property="fixGroup" column="fix_group_id" javaType="FixGroup" select="getFixGroupByFixGroupId" />
     </resultMap>
 
+    <resultMap id="fixGroupResultMap" type="FixGroup">
+        <id property="id" column="id" />
+        <association property="classInfo" column="class_id" javaType="ClassInfo" select="getClassInfoByClassId" />
+        <association property="leader" column="leader_id" javaType="User" select="getUserByUserId" />
+    </resultMap>
+
+    <select id="getFixGroupByFixGroupId" parameterType="java.math.BigInteger" resultMap="fixGroupResultMap">
+        select id, class_id, leader_id from fix_group
+        where id = #{fixGroupId}
+    </select>
 
     <select id="getClassInfoByClassId" parameterType="java.math.BigInteger" resultMap="classInfoResultMap">
         select id, `name`, site, class_time, description, report_percentage, presentation_percentage,

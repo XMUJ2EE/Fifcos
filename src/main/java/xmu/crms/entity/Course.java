@@ -15,7 +15,24 @@ public class Course {
 	private Integer fivePointPercentage;
 	private Integer fourPointPercentage;
 	private Integer threePointPercentage;
-	
+
+	public Course(BigInteger id, String name, Date startDate, Date endDate,
+				  User teacher, String description, Integer reportPercentage,
+				  Integer presentationPercentage, Integer fivePointPercentage,
+				  Integer fourPointPercentage, Integer threePointPercentage) {
+		this.id = id;
+		this.name = name;
+		this.startDate = startDate;
+		this.endDate = endDate;
+		this.teacher = teacher;
+		this.description = description;
+		this.reportPercentage = reportPercentage;
+		this.presentationPercentage = presentationPercentage;
+		this.fivePointPercentage = fivePointPercentage;
+		this.fourPointPercentage = fourPointPercentage;
+		this.threePointPercentage = threePointPercentage;
+	}
+
 	public BigInteger getId() {
 		return id;
 	}

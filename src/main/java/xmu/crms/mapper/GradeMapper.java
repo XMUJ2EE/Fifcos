@@ -24,12 +24,18 @@ public interface GradeMapper {
 
     /**
      * 查看组的讨论课成绩
-     * @param userId
      * @param seminarGroupId
      * @return
      */
-    SeminarGroup getSeminarGradeBySeminarGroupId(@Param("userId") BigInteger userId,
-                                                  @Param("seminarGroupId") BigInteger seminarGroupId);
+    SeminarGroup getSeminarGradeBySeminarGroupId(BigInteger seminarGroupId);
+
+
+    /**
+     * 获取FixGroup
+     * @param fixGroupId
+     * @return
+     */
+    FixGroup getFixGroupByFixGroupId(BigInteger fixGroupId);
 
 
     /**

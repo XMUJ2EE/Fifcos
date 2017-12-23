@@ -8,15 +8,26 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
-import xmu.crms.entity.SeminarGroup;
+import xmu.crms.entity.ClassInfo;
+import xmu.crms.entity.Course;
+import xmu.crms.entity.Seminar;
+import xmu.crms.exception.CourseNotFoundException;
+import xmu.crms.service.ClassService;
+import xmu.crms.service.CourseService;
 import xmu.crms.service.GradeService;
+import xmu.crms.service.SeminarService;
+import xmu.crms.view.vo.*;
 
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
  * Course Controller
- * @author Xuezhang.Liu
+ * @author wang
  *
  */
 
@@ -26,13 +37,17 @@ public class CourseController {
 
 	@Autowired
 	GradeService gradeService;
-//	CourseService courseService;
+	//@Autowired
+	CourseService courseService;
+	//@Autowired
+	ClassService classService;
+	//@Autowired
+	SeminarService seminarService;
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(method = GET)
 	@ResponseBody
 	public ResponseEntity getUserCourses() {
-
 		String a = "[\n" +
 				"  {\n" +
 				"    \"id\": 1,\n" +
@@ -57,7 +72,20 @@ public class CourseController {
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(method = POST)
 	@ResponseBody
-	public ResponseEntity createCourse() {
+	public ResponseEntity createCourse(@RequestBody CourseVO courseVO) {
+//		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+//		Date startTime = null;
+//		Date endTime = null;
+//		try {
+//			startTime = simpleDateFormat.parse(courseVO.getStartTime());
+//			endTime = simpleDateFormat.parse(courseVO.getEndTime());
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+//		Course course = new Course(null, courseVO.getName(), startTime, endTime,
+//				null, courseVO.getDescription(), courseVO.getProportions().getReport(), courseVO.getProportions().getPresentation(),
+//				courseVO.getProportions().getA(), courseVO.getProportions().getB(), courseVO.getProportions().getC());
+
 		String a = "{\n" +
 				"  \"id\": 23\n" +
 				"}";
@@ -68,6 +96,19 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getCourseById(@PathVariable int courseId) {
+//		GetCourseVO getCourseVO = null;
+//		try {
+//			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
+//			getCourseVO = new GetCourseVO(course.getId().intValue(), course.getName(), course.getDescription(),
+//					course.getTeacher().getName(), course.getTeacher().getEmail());
+//		} catch (CourseNotFoundException e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(404).body(null);
+//		} catch (IllegalArgumentException e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(400).body(null);
+//		}
+
 		String a = "{\n" +
 				"  \"id\": 23,\n" +
 				"  \"name\": \"OOAD\",\n" +
@@ -82,24 +123,57 @@ public class CourseController {
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}", method = PUT)
 	@ResponseBody
-	public ResponseEntity updateCourseById(@PathVariable int courseId) {
-		String a = "";
+	public ResponseEntity updateCourseById(@PathVariable int courseId, @RequestBody CourseVO courseVO) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date startTime = null;
+		Date endTime = null;
+		try {
+			startTime = simpleDateFormat.parse(courseVO.getStartTime());
+			endTime = simpleDateFormat.parse(courseVO.getEndTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Course course = new Course(null, courseVO.getName(), startTime, endTime,
+				null, courseVO.getDescription(), courseVO.getProportions().getReport(), courseVO.getProportions().getPresentation(),
+				courseVO.getProportions().getA(), courseVO.getProportions().getB(), courseVO.getProportions().getC());
+		courseService.updateCourseByCourseId(BigInteger.valueOf(courseId), course);
 		return ResponseEntity.status(204).build();
-
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}", method = DELETE)
 	@ResponseBody
 	public ResponseEntity deleteCourseById(@PathVariable int courseId) {
-		String a = "";
-		return ResponseEntity.status(204).build();
+		try{
+			courseService.deleteCourseByCourseId(BigInteger.valueOf(courseId));
+			return ResponseEntity.status(204).build();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).build();
+		}
 	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{courseId}/class", method = GET)
 	@ResponseBody
 	public ResponseEntity getClassListByCourseId(@PathVariable int courseId) {
+		List<ClassVO> list = new ArrayList<ClassVO>();
+		List<ClassInfo> listClass = new ArrayList<ClassInfo>();
+//		try {
+//			listClass = classService.listClassByCourseId(BigInteger.valueOf(courseId));
+//		} catch (CourseNotFoundException e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(404).body(null);
+//		}
+//		for (ClassInfo listClas : listClass) {
+//			ClassVO classVO = new ClassVO(listClas.getId(), listClas.getName());
+//			list.add(classVO);
+//		}
+		for (int i=0; i<1; i++) {
+			ClassVO classVO = new ClassVO(BigInteger.valueOf(45), "周三12节");
+			list.add(classVO);
+		}
+		ClassVO classVO = new ClassVO(BigInteger.valueOf(45), "周三12节");
 		String a = "[\n" +
 				"  {\n" +
 				"    \"id\": 45,\n" +
@@ -118,7 +192,8 @@ public class CourseController {
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}/class", method = POST)
 	@ResponseBody
-	public ResponseEntity createClassByCourseId(@PathVariable int courseId) {
+	public ResponseEntity createClassByCourseId(@PathVariable int courseId, @RequestBody ClassCreateVO classCreateVO) {
+		ClassInfo classInfo = new ClassInfo();
 		String a = "{\n" +
 				"  \"id\": 45\n" +
 				"}";
@@ -129,6 +204,14 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}/seminar", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarsByCourseId(@PathVariable int courseId) {
+//		List<Seminar> listSeminar = new ArrayList<Seminar>();
+//		try {
+//			listSeminar = seminarService.listSeminarByCourseId(BigInteger.valueOf(courseId));
+//		} catch (CourseNotFoundException e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(404).body(null);
+//		}
+
 		String a = "[\n" +
 				"  {\n" +
 				"    \"id\": 29,\n" +
@@ -153,9 +236,25 @@ public class CourseController {
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
-	@RequestMapping(value = "/{courseId}/seminar", method = POST)
+	@RequestMapping(value = "/{courseId}/seminar/create", method = POST)
 	@ResponseBody
-	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId) {
+	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId, @RequestBody SeminarVO seminarVO) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date startTime = null;
+		Date endTime = null;
+		try {
+			startTime = simpleDateFormat.parse(seminarVO.getStartTime());
+			endTime = simpleDateFormat.parse(seminarVO.getEndTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		Seminar seminar = new Seminar(null, seminarVO.getName(), seminarVO.getDescription(),
+				null, seminarVO.getGroupingMethod().equals("fixed"), startTime, endTime);
+		try {
+			seminarService.insertSeminarByCourseId(BigInteger.valueOf(courseId), seminar);
+		} catch (CourseNotFoundException e) {
+			e.printStackTrace();
+		}
 		String a = "{\n" +
 				"  \"id\": 32\n" +
 				"}";
