@@ -52,8 +52,8 @@ public class UserServiceTest {
     @Test
     public void testInsertUser() throws UserDuplicatedException{
         School school = new School(BigInteger.valueOf(1), "重庆大学", "直辖市", "重庆");
-        User user = new User(null, "18156812606", null, null, "/img/mads.png", "123456", "邱明",
-                school, 0, 1, "24522345", 3, null, "mad.s@qq.com");
+        User user = new User(null, "18156812607", null, null, "/img/mads.png", "123456", "邱明",
+                school, 0, 1, "245223424524524555", 3, null, "mad.s@qq.com");
         try{
             User fakeUser = userService.signUpPhone(user);
             System.out.println(fakeUser.toString());

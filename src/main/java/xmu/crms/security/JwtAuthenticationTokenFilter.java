@@ -7,8 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
+import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.util.JwtTokenUtil;
 
 import javax.servlet.FilterChain;
@@ -16,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.List;
 
 /**
@@ -40,7 +43,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse,
-                                    FilterChain filterChain) throws ServletException, IOException {
+                                    FilterChain filterChain) throws ServletException, IOException, UsernameNotFoundException {
         String authHeader = httpServletRequest.getHeader(this.tokenHeader);
         if (authHeader != null && authHeader.startsWith(tokenHead)) {
             System.out.println("auth header"+authHeader);
@@ -53,7 +56,6 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 
                     UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
-
                     if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                         String type;
                         if (userDetails.getType() == 0) {
@@ -65,7 +67,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         if(simpleGrantedAuthority == null){
                             logger.info("no role ");
                         }
-                        FifcosAuthenticationToken authentication = new FifcosAuthenticationToken(userDetails.getNumber(),
+                        FifcosAuthenticationToken authentication = new FifcosAuthenticationToken(userDetails.getId(), userDetails.getNumber(),
                                 userDetails.getPhone(),
                                 userDetails.getPassword(),
                                 type,

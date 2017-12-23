@@ -59,10 +59,10 @@ public class UserServiceImpl implements UserService {
     public User signUpPhone(User user) throws UserDuplicatedException {
         User fakeUser = userMapper.getUserByNumber(user.getNumber());
         if(fakeUser != null && fakeUser.getPhone() != null && fakeUser.getPhone() != ""){
-            throw new UserDuplicatedException("用户已存在");
+            throw new UserDuplicatedException("学号已存在");
         }
         userMapper.insertUser(user);
-        return userMapper.getUserByNumber(user.getNumber());
+        return userMapper.getUserByUserId(user.getId());
     }
 
     @Override

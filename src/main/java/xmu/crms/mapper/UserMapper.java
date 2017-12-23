@@ -35,7 +35,7 @@ public interface UserMapper {
      *
      * @param user
      */
-    void insertUser(User user);
+    int insertUser(User user);
 
     /**
      * 根据id解绑用户，就是置手机号为空
