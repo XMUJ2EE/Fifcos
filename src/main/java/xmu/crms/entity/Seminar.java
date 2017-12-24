@@ -1,6 +1,10 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.SeminarVO;
+
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Seminar {
@@ -11,6 +15,21 @@ public class Seminar {
 	private Boolean fixed;
 	private Date startTime;
 	private Date endTime;
+
+	public Seminar(SeminarVO seminarVO) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		this.id = null;
+		this.name = seminarVO.getName();
+		this.description = seminarVO.getDescription();
+		this.course = null;
+		this.fixed = seminarVO.getGroupingMethod().equals("fixed");
+		try {
+			this.startTime = simpleDateFormat.parse(seminarVO.getStartTime());
+			this.endTime = simpleDateFormat.parse(seminarVO.getEndTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public Seminar(BigInteger id, String name, String description, Course course, Boolean fixed, Date startTime, Date endTime) {
 		this.id = id;

@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.ClassCreateVO;
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -15,7 +17,39 @@ public class ClassInfo {
 	private Integer fivePointPercentage;
 	private Integer fourPointPercentage;
 	private Integer threePointPercentage;
-	
+
+	public ClassInfo(ClassCreateVO classCreateVO) {
+		this.id = null;
+		this.name = classCreateVO.getName();
+		this.course = null;
+		this.site = classCreateVO.getSite();
+		this.classTime = classCreateVO.getTime();
+		this.description = null;
+		this.reportPercentage = classCreateVO.getProportions().getReport();
+		this.presentationPercentage = classCreateVO.getProportions().getPresentation();
+		this.fivePointPercentage = classCreateVO.getProportions().getA();
+		this.fourPointPercentage = classCreateVO.getProportions().getB();
+		this.threePointPercentage = classCreateVO.getProportions().getC();
+	}
+
+	public ClassInfo(BigInteger id, String name, Course course,
+					 String site, String classTime, String description,
+					 Integer reportPercentage, Integer presentationPercentage,
+					 Integer fivePointPercentage, Integer fourPointPercentage,
+					 Integer threePointPercentage) {
+		this.id = id;
+		this.name = name;
+		this.course = course;
+		this.site = site;
+		this.classTime = classTime;
+		this.description = description;
+		this.reportPercentage = reportPercentage;
+		this.presentationPercentage = presentationPercentage;
+		this.fivePointPercentage = fivePointPercentage;
+		this.fourPointPercentage = fourPointPercentage;
+		this.threePointPercentage = threePointPercentage;
+	}
+
 	public BigInteger getId() {
 		return id;
 	}

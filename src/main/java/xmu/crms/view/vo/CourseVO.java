@@ -1,5 +1,9 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.Course;
+
+import java.text.SimpleDateFormat;
+
 public class CourseVO {
     private String name;
     private String description;
@@ -7,7 +11,17 @@ public class CourseVO {
     private String endTime;
     private proportions proportions;
 
-    public CourseVO(String name, String description, String startTime, String endTime, proportions proportions) {
+    public CourseVO(Course course) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.name = course.getName();
+        this.description = course.getDescription();
+        this.startTime = simpleDateFormat.format(course.getStartDate());
+        this.endTime = simpleDateFormat.format(course.getEndDate());
+        this.proportions = new proportions(course.getReportPercentage(), course.getPresentationPercentage(),
+                course.getThreePointPercentage(), course.getFourPointPercentage(), course.getFivePointPercentage());
+    }
+
+    public CourseVO(String name, String description, String startTime, String endTime, xmu.crms.view.vo.proportions proportions, String teacherName, String teacherEmail) {
         this.name = name;
         this.description = description;
         this.startTime = startTime;
@@ -47,11 +61,11 @@ public class CourseVO {
         this.endTime = endTime;
     }
 
-    public proportions getProportions() {
+    public xmu.crms.view.vo.proportions getProportions() {
         return proportions;
     }
 
-    public void setProportions(proportions proportions) {
+    public void setProportions(xmu.crms.view.vo.proportions proportions) {
         this.proportions = proportions;
     }
 }

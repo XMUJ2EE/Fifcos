@@ -1,6 +1,10 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.CourseVO;
+
 import java.math.BigInteger;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class Course {
@@ -15,6 +19,25 @@ public class Course {
 	private Integer fivePointPercentage;
 	private Integer fourPointPercentage;
 	private Integer threePointPercentage;
+
+	public Course(CourseVO courseVO) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		this.id = null;
+		this.name = courseVO.getName();
+		try {
+			this.startDate = simpleDateFormat.parse(courseVO.getStartTime());
+			this.endDate = simpleDateFormat.parse(courseVO.getEndTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		this.teacher = null;
+		this.description = courseVO.getDescription();
+		this.reportPercentage = courseVO.getProportions().getReport();
+		this.presentationPercentage = courseVO.getProportions().getPresentation();
+		this.fivePointPercentage = courseVO.getProportions().getA();
+		this.fourPointPercentage = courseVO.getProportions().getB();
+		this.threePointPercentage = courseVO.getProportions().getC();
+	}
 
 	public Course(BigInteger id, String name, Date startDate, Date endDate,
 				  User teacher, String description, Integer reportPercentage,
