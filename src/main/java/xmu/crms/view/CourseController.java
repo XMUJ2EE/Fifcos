@@ -170,17 +170,17 @@ public class CourseController {
 //			list.add(classVO);
 //		}
 		for (int i=0; i<1; i++) {
-			ClassVO classVO = new ClassVO(BigInteger.valueOf(45), "周三12节");
+			ClassVO classVO = new ClassVO(BigInteger.valueOf(1), "周三12节");
 			list.add(classVO);
 		}
-		ClassVO classVO = new ClassVO(BigInteger.valueOf(45), "周三12节");
+		ClassVO classVO = new ClassVO(BigInteger.valueOf(1), "周三12节");
 		String a = "[\n" +
 				"  {\n" +
-				"    \"id\": 45,\n" +
+				"    \"id\": 1,\n" +
 				"    \"name\": \"周三1-2节\"\n" +
 				"  },\n" +
 				"  {\n" +
-				"    \"id\": 48,\n" +
+				"    \"id\": 2,\n" +
 				"    \"name\": \"周三3-4节\"\n" +
 				"  }\n" +
 				"]";
