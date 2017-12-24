@@ -527,8 +527,6 @@ function createclass(){
              $(".smallSelect3").empty();
              var option = $("<option>").val("九十节").text("九十节");
              $(".smallSelect3").append(option);
-             option=$("<option>").val("九十节").text("九十节");
-             $(".smallSelect3").append(option);
          }
      });
  });
