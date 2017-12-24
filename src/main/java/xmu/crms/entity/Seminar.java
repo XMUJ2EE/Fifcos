@@ -12,6 +12,9 @@ public class Seminar {
 	private Date startTime;
 	private Date endTime;
 
+	public Seminar() {
+	}
+
 	public Seminar(BigInteger id, String name, String description, Course course, Boolean fixed, Date startTime, Date endTime) {
 		this.id = id;
 		this.name = name;

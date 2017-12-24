@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.SeminarGroupMapper" >
+
+    <!--<select id="listSeminarByCourseId" resultType="SeminarMap">-->
+    <!--SELECT * FROM seminar WHERE course_id = #{courseId}-->
+    <!--</select>-->
+    <resultMap type="School" id="School">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city" />
+    </resultMap>
+    <select id="getSchoolById" resultMap="School">
+        SELECT *
+        FROM school
+        WHERE id=#{id}
+    </select>
+    <resultMap type="User" id="User">
+        <id property="id" column="id"/>
+        <result property="phone" column="phone"/>
+        <result property="wechatId" column="wechat_id"/>
+        <result property="openid" column="openid"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="name" column="name"/>
+        <result property="gender" column="gender"/>
+        <result property="type" column="type"/>
+        <result property="number" column="number"/>
+        <result property="education" column="education"/>
+        <result property="title" column="title"/>
+        <result property="email" column="email"/>
+        <association property="school" column="school_id" select="getSchoolById"/>
+    </resultMap>
+    <resultMap type="Course" id="Course">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="startDate" column="start_date"/>
+        <result property="endDate" column="end_date"/>
+        <result property="description" column="description"/>
+        <result property="reportPercentage" column="report_percentage"/>
+        <result property="presentationPercentage" column="presentation_percentage"/>
+        <result property="fivePointPercentage" column="five_point_percentage"/>
+        <result property="fourPointPercentage" column="four_point_percentage"/>
+        <result property="threePointPercentage" column="three_point_percentage"/>
+        <association property="teacher" column="teacher_id"  select="getUserById"/>
+    </resultMap>
+    <resultMap type="Seminar" id="Seminar">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="fixed" column="is_fixed"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+        <association property="course" column="course_id" select="getCourseById"/>
+    </resultMap>
+    <select id="getCourseById" resultMap="Course">
+        SELECT *
+        FROM course
+        WHERE id=#{id}
+    </select>
+    <resultMap type="ClassInfo" id="ClassInfo">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="site" column="site"/>
+        <result property="classTime" column="class_time"/>
+        <result property="description" column="description"/>
+        <result property="reportPercentage" column="report_percentage"/>
+        <result property="presentationPercentage" column="presentation_percentage"/>
+        <result property="fivePointPercentage" column="five_point_percentage"/>
+        <result property="fourPointPercentage" column="four_point_percentage"/>
+        <result property="threePointPercentage" column="three_point_percentage"/>
+        <association property="course" column="course_id" select="getCourseById"/>
+    </resultMap>
+    <select id="getClassInfoById" resultMap="ClassInfo">
+        SELECT *
+        FROM class_info
+        WHERE id=#{id}
+    </select>
+    <resultMap type="SeminarGroup" id="SeminarGroup">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="report" column="report"/>
+        <result property="reportGrade" column="report_grade"/>
+        <result property="presentationGrade" column="presentation_grade"/>
+        <result property="finalGrade" column="final_grade"/>
+        <association property="seminar" resultMap="Seminar"/>
+        <association property="classInfo" column="classInfo_id" select="getClassInfoById"/>
+        <association property="leader" column="leader_id" select="getUserById"/>
+    </resultMap>
+    <resultMap type="SeminarGroupMember" id="SeminarGroupMember">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <association property="seminarGroup" column="seminar_group_id" select="getSeminarGroupById"/>
+        <association property="student" column="student_id" select="getUserById"/>
+    </resultMap>
+    <resultMap type="Topic" id="Topic">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="name" column="name"/>
+        <result property="desciption" column="desciption"/>
+        <result property="groupNumberLimit" column="group_number_limit"/>
+        <result property="groupStudentLimit" column="group_student_limit"/>
+        <association property="seminar" column="seminar_id" select="getSeminarById"/>
+    </resultMap>
+    <resultMap type="SeminarGroupTopic" id="SeminarGroupTopic">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="presentationGrade" column="presentation_grade"/>
+        <association property="topic" column="topic_id" select="getTopicById"/>
+        <association property="seminarGroup" column="seminar_group_id" select="getSeminarGroupById"/>
+    </resultMap>
+    <update id="assignLeaderById" >
+        UPDATE seminar_group SET leader_id=NULL
+        WHERE id=#{groupId,jdbcType=BIGINT}
+        <if test="userId != null">
+            AND leader_id=#{userId,jdbcType=BIGINT}
+        </if>
+    </update>
+    <select id="getUserIdByUserId"  resultType="java.math.BigInteger">
+        SELECT id
+        FROM user_info
+        WHERE id=#{userId,jdbcType=BIGINT}
+    </select>
+    <!--void automaticallyGrouping(@Param("seminarId")BigInteger seminarId, @Param("classId")BigInteger classId)-->
+    <!--throws IllegalArgumentException,ClassesNotFoundException,SeminarNotFoundException;-->
+
+    <!--void deleteSeminarGroupByGroupId(@Param("seminarGroupId")BigInteger seminarGroupId)-->
+    <!--throws IllegalArgumentException;-->
+    <delete id="deleteSeminarGroupByGroupId" >
+        DELETE FROM seminar_group
+        WHERE id = #{seminarGroupId,jdbcType=BIGINT}
+    </delete>
+    <!--void deleteSeminarGroupBySeminarId(@Param("seminarId")BigInteger seminarId)-->
+    <!--throws IllegalArgumentException;-->
+    <delete id="deleteSeminarGroupBySeminarId" >
+        DELETE FROM seminar_group
+        WHERE seminar_id = #{seminarId,jdbcType=BIGINT}
+    </delete>
+    <!--void deleteSeminarGroupMemberBySeminarGroupId(BigInteger seminarGroupId);-->
+    <delete id="deleteSeminarGroupMemberBySeminarGroupId" >
+        DELETE FROM seminar_group_member
+        WHERE seminar_group_id = #{seminarGroupId}
+    </delete>
+    <!--SeminarGroup getSeminarGroupByGroupId(@Param("groupId")BigInteger groupId)-->
+    <!--throws IllegalArgumentException,GroupNotFoundException;-->
+    <select id="getSeminarGroupByGroupId"  resultMap="SeminarGroup">
+        SELECT *
+        FROM seminar_group
+        WHERE id=#{groupId,jdbcType=BIGINT}
+    </select>
+    <!--SeminarGroup getSeminarGroupIdBySeminarIdAndUserId(@Param("seminarId")BigInteger seminarId, @Param("userId")BigInteger userId)-->
+    <!--throws IllegalArgumentException,GroupNotFoundException;-->
+    <select id="getSeminarGroupIdBySeminarIdAndUserId"  resultType="java.math.BigInteger">
+        SELECT seminar_group_id
+        FROM seminar_group_member
+        WHERE id=#{seminarId,jdbcType=BIGINT}
+        <if test="userId != null">
+            AND student_id=#{userId,jdbcType=BIGINT}
+        </if>
+    </select>
+    <!--BigInteger getSeminarGroupLeaderByGroupId(@Param("groupId") BigInteger groupId)-->
+    <!--throws IllegalArgumentException,GroupNotFoundException;-->
+    <select id="getSeminarGroupLeaderByGroupId"  resultType="java.math.BigInteger">
+        SELECT leader_id
+        FROM seminar_group
+        WHERE id=#{groupId,jdbcType=BIGINT}
+    </select>
+    <!--BigInteger getSeminarGroupLeaderById(@Param("userId")BigInteger userId, @Param("seminarId")BigInteger seminarId)-->
+
+    <!--throws IllegalArgumentException;-->
+
+    <!--BigInteger insertSeminarGroupBySeminarId(@Param("seminarId")BigInteger seminarId, @Param("seminarGroup")SeminarGroup seminarGroup)-->
+    <!--throws IllegalArgumentException;-->
+    <insert id="insertSeminarGroupBySeminarId" parameterType="SeminarGroup">
+        <!--<selectKey keyProperty="id" order="AFTER" resultType="java.math.BigInteger">-->
+            <!--SELECT LAST_INSERT_ID() AS id-->
+        <!--</selectKey>-->
+        INSERT INTO seminar_group(seminar_id,report_garde,presentation_grade,final_grade,leader_id,class_id)
+        VALUES(#{seminar.id,jdbcType=BIGINT},#{reportGrade},#{presentationGrade},#{finalGrade},#{leader.id,jdbcType=BIGINT},#{classInfo.id,jdbcType=BIGINT})
+    </insert>
+    <!--List<SeminarGroup> listSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId)-->
+    <!--throws IllegalArgumentException,SeminarNotFoundException;-->
+    <select id="listSeminarGroupBySeminarId"  resultMap="SeminarGroup">
+        SELECT *
+        FROM seminar_group
+        WHERE seminar_id=#{seminarId,jdbcType=BIGINT}
+    </select>
+    <select id="getSeminarIdBySeminarId"  resultType="java.math.BigInteger">
+        SELECT id
+        FROM seminar
+        WHERE id=#{seminarId,jdbcType=BIGINT}
+    </select>
+    <insert id="insertSeminarGroupMemberById" >
+        INSERT INTO seminar_group_member(seminar_group_id, student_id)
+        VALUES(#{groupId},#{userId})
+    </insert>
+    <!--resultMap=seminarGroup-->
+    <select id="getSeminarGroupById" resultMap="SeminarGroup">
+        SELECT *
+        FROM seminar_group
+        WHERE id=#{id}
+    </select>
+
+
+    <select id="getUserById" resultMap="User">
+        SELECT *
+        FROM user_info
+        WHERE id=#{id}
+    </select>
+
+    <select id="getSeminarGroupMemberByStudentIdAndSeminarGroupId" resultMap="SeminarGroupMember">
+        SELECT *
+        FROM seminar_group_member
+        WHERE student_id = #{studentId} AND seminar_group_id = #{seminarGroupId}
+    </select>
+
+    <!--ResultMap = SeminarGroupMemberResult-->
+    <select id="listSeminarGroupIdByStudentId" resultMap="SeminarGroupMember">
+        SELECT *
+        FROM seminar_group_member
+        WHERE student_id = #{studentId}
+    </select>
+
+    <select id="listGroupIdByTopicId" resultType="java.math.BigInteger">
+        SELECT seminar_group_id
+        FROM seminar_group_topic
+        WHERE topic_id = #{topicId}
+    </select>
+
+    <select id="getSeminarById" resultMap="Seminar">
+        SELECT *
+        FROM seminar
+        WHERE id=#{id}
+    </select>
+
+    <!--ResultMap = Topic-->
+    <select id="getTopicById" resultMap="Topic">
+        SELECT *
+        FROM topic
+        WHERE id=#{id}
+    </select>
+
+    <!--ResultMap = SeminarGroupTopicResult-->
+    <select id="listGroupByTopicId" resultMap="SeminarGroupTopic">
+        SELECT *
+        FROM seminar_group_topic
+        WHERE topic_id = #{topicId}
+    </select>
+
+    <insert id="insertSeminarGroupTopicByTopicIdAndSeminarGroupId">
+        INSERT INTO seminar_group_topic(topic_id,seminar_group_id)
+        VALUES (#{topicId},#{seminarGroupId})
+    </insert>
+
+    <update id="resignLeaderById">
+        UPDATE
+        seminar_group
+        SET
+        leader_id = null
+        WHERE
+        id = #{groupId}
+    </update>
+
+</mapper>

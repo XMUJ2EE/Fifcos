@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.FixGroupMapper">
+
+    <resultMap id="userResultMap" type="xmu.crms.entity.User">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="phone" property="phone" jdbcType="CHAR"/>
+        <result column="wechat_id" property="wechatId" jdbcType="VARCHAR"/>
+        <result column="openid" property="openid" jdbcType="VARCHAR"/>
+        <result column="avatar" property="avatar" jdbcType="VARCHAR"/>
+        <result column="password" property="password" jdbcType="VARCHAR" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="gender" property="gender" jdbcType="TINYINT" />
+        <result column="type" property="type" jdbcType="TINYINT" />
+        <result column="number" property="number" jdbcType="TINYINT" />
+        <result column="education" property="education" jdbcType="TINYINT" />
+        <result column="title" property="title" jdbcType="VARCHAR" />
+        <result column="email" property="email" jdbcType="VARCHAR" />
+        <association column="school_id" property="school" javaType="xmu.crms.entity.School"  select="selectSchoolById"/>
+    </resultMap>
+
+    <resultMap id="schoolResultMap" type="xmu.crms.entity.School">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="province" property="province" jdbcType="VARCHAR" />
+        <result column="city" property="city" jdbcType="VARCHAR" />
+    </resultMap>
+
+    <resultMap id="fixGroupResultMap" type="xmu.crms.entity.FixGroup">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <association column="class_id" property="classInfo" javaType="xmu.crms.entity.ClassInfo" select="selectClassInfoById"/>
+        <association column="leader_id" property="leader" javaType="xmu.crms.entity.User" select="selectUserById"/>
+    </resultMap>
+
+    <resultMap id="classInfoResultMap" type="xmu.crms.entity.ClassInfo">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="site" property="site" jdbcType="VARCHAR" />
+        <result column="class_time" property="classTime" jdbcType="VARCHAR" />
+        <result column="description" property="description" jdbcType="VARCHAR" />
+        <result column="report_percentage" property="reportPercentage" jdbcType="TINYINT" />
+        <result column="presentation_percentage" property="presentationPercentage" jdbcType="TINYINT" />
+        <result column="five_point_percentage" property="fivePointPercentage" jdbcType="TINYINT" />
+        <result column="four_point_percentage" property="fourPointPercentage" jdbcType="TINYINT" />
+        <result column="three_point_percentage" property="threePointPercentage" jdbcType="TINYINT" />
+        <association column="course_id" property="course" javaType="xmu.crms.entity.Course" select="selectCourseById"/>
+    </resultMap>
+
+    <resultMap id="courseResultMap" type="xmu.crms.entity.Course">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="start_date" property="startDate" jdbcType="DATE"/>
+        <result column="end_date" property="endDate" jdbcType="DATE"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="report_percentage" property="reportPercentage" jdbcType="TINYINT" />
+        <result column="presentation_percentage" property="presentationPercentage" jdbcType="TINYINT" />
+        <result column="five_point_percentage" property="fivePointPercentage" jdbcType="TINYINT" />
+        <result column="four_point_percentage" property="fourPointPercentage" jdbcType="TINYINT" />
+        <result column="three_point_percentage" property="threePointPercentage" jdbcType="TINYINT" />
+        <association column="teacher_id" property="teacher" javaType="xmu.crms.entity.User" select="selectUserById"/>
+    </resultMap>
+
+    <resultMap id="fixGroupMemberResultMap" type="xmu.crms.entity.FixGroupMember">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <association column="fix_group_id" property="fixGroup" javaType="xmu.crms.entity.FixGroup" select="selectFixGroupById"/>
+        <association column="student_id" property="student" javaType="xmu.crms.entity.User" select="selectUserById"/>
+    </resultMap>
+
+
+    <!--添加固定分组（班级里）-->
+    <insert id="insertFixGroupByClassId" useGeneratedKeys="true" keyProperty="id" >
+        INSERT INTO fix_group(class_id, leader_id) VALUES (#{class_id},#{leader_id})
+    </insert>
+    <!--删除固定分组某个组的所有小组成员-->
+    <delete id="deleteFixGroupMemberByFixGroupId" >
+        DELETE FROM fix_group_member WHERE fix_group_id=#{fix_group_id}
+    </delete>
+    <!--删除固定分组某个组的成员-->
+    <delete id="deleteFixGroupUserById">
+        DELETE FROM fix_group_member WHERE student_id=#{student_id} AND fix_group_id=#{fix_group_id}
+    </delete>
+    <!--获得某个固定小组成员-->
+    <select id="listFixGroupMemberByGroupId" resultMap="userResultMap">
+        SELECT user_info.id,phone,wechat_id,openid,avatar,password,name,school_id,gender,type,number,education,title,email
+        FROM user_info,fix_group_member
+        WHERE fix_group_member.student_id=user_info.id
+        AND fix_group_member.fix_group_id=#{fix_group_id}
+    </select>
+    <select id="selectSchoolById" resultMap="schoolResultMap">
+        SELECT id, name, province, city
+        FROM school
+        WHERE id=#{id}
+    </select>
+    <!--获得某个班级下的所有固定小组-->
+    <select id="listFixGroupByClassId" resultMap="fixGroupResultMap">
+        SELECT id,class_id,leader_id
+        FROM fix_group
+        WHERE class_id=#{class_id}
+    </select>
+    <select id="selectClassInfoById" resultMap="classInfoResultMap">
+        SELECT id,name,course_id,description,site,class_time,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
+        FROM class_info
+        WHERE id=#{id}
+    </select>
+    <select id="selectCourseById" resultMap="courseResultMap">
+        SELECT id,name,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
+        FROM course
+        WHERE id=#{id}
+    </select>
+    <select id="selectUserById" resultMap="userResultMap">
+        SELECT id,phone,wechat_id,openid,avatar,password,name,school_id,gender,type,number,education,title,email
+        FROM user_info
+        WHERE id=#{id}
+    </select>
+    <!--删除班级的所有固定小组-->
+    <delete id="deleteFixGroupByClassId" >
+        DELETE FROM fix_group WHERE class_id=#{class_id}
+    </delete>
+    <!--删除某个固定小组-->
+    <delete id="deleteFixGroupByGroupId" >
+        DELETE FROM fix_group WHERE id=#{group_id}
+    </delete>
+    <!--修改某个固定小组-->
+    <update id="updateFixGroupByGroupId">
+        UPDATE fix_group SET class_id=#{fixGroupBO.classInfo.id},
+        leader_id=#{fixGroupBO.leader.id}
+        WHERE id=#{group_id}
+    </update>
+    <!--获得某条固定小组成员信息-->
+    <select id="listFixGroupByGroupId" resultMap="fixGroupMemberResultMap">
+        SELECT id,fix_group_id,student_id
+        FROM fix_group_member
+        WHERE fix_group_id=#{fix_group_id}
+    </select>
+    <select id="selectFixGroupById" resultMap="fixGroupResultMap">
+        SELECT id,class_id,leader_id
+        FROM fix_group
+        WHERE id=#{fix_group_id}
+    </select>
+
+    <!--添加固定分组某个组的组员-->
+    <insert id="insertStudentIntoGroup" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO fix_group_member(fix_group_id, student_id) VALUES (#{fix_group_id},#{student_id})
+    </insert>
+
+    <!--获得学生所在固定小组（针对某个课程班级）-->
+    <select id="getFixedGroupById" resultMap="fixGroupResultMap">
+        SELECT id,class_id,leader_id
+        FROM fix_group
+        WHERE class_id=#{class_id}
+              AND id=(SELECT fix_group_id FROM fix_group_member
+                      WHERE student_id=#{student_id})
+    </select>
+
+    <!--将固定小组名单复制到讨论课小组名单-->
+    <insert id="fixedGroupToSeminarGroup" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO seminar_group(seminar_id,class_id,leader_id)
+                SELECT #{seminar_id},class_id,leader_id FROM fix_group WHERE id=#{fix_group_id};
+    </insert>
+    <insert id="fixedGroupMemberToSeminarGroupMember" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO seminar_group_member(seminar_group_id, student_id)
+                SELECT #{seminar_group_id},student_id FROM fix_group_member WHERE fix_group_id=#{fix_group_id};
+    </insert>
+
+
+    <!--自定义接口：通过fixGroupId获得fixGroup-->
+    <select id="getFixGroupByFixGroupId" resultMap="fixGroupResultMap">
+        SELECT id,class_id,leader_id
+        FROM fix_group
+        WHERE id=#{fix_group_id}
+    </select>
+
+</mapper>
+

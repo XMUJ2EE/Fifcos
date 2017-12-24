@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.SchoolVO;
+
 import java.math.BigInteger;
 
 public class School {
@@ -9,6 +11,13 @@ public class School {
 	private String city;
 
 	public School() {
+	}
+
+	public School(SchoolVO schoolVO) {
+		this.id = null;
+		this.name = schoolVO.getName();
+		this.province = null;
+		this.city = null;
 	}
 
 	public School(BigInteger id, String name, String province, String city) {

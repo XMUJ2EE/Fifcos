@@ -1,20 +1,20 @@
-package xmu.crms.service;
+package xmu.crms.dao;
 
 import java.math.BigInteger;
 import java.util.List;
 
-import xmu.crms.entity.*;
-import xmu.crms.exception.*;
-
+import xmu.crms.entity.SeminarGroupTopic;
+import xmu.crms.entity.Topic;
+import xmu.crms.exception.TopicNotFoundException;
+import xmu.crms.service.GradeService;
+import xmu.crms.service.TopicService;
 
 /**
- * @author Yexiaona
- * @version 2.20
+ * @author HuXingBo
  */
-
-public interface TopicService {
-
-    /**
+public interface TopicDao {
+	
+	/**
      * 按topicId获取topic.
      * <p>按topicId获取topic<br>
      *
@@ -45,7 +45,7 @@ public interface TopicService {
      * @param topicId 要删除的topic的topicId
      * @throws IllegalArgumentException Id格式错误时抛出
      * @throws TopicNotFoundException 未找到该话题
-     * @author unknown
+     * @author xingb
      */
     void deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException,TopicNotFoundException;
 
@@ -88,13 +88,12 @@ public interface TopicService {
     /**
      * 按topicId删除SeminarGroupTopic表信息.
      * <p>删除seminar_group_topic表中选择了某个话题的全部记录<br>
-     *
      * @param topicId 讨论课Id
      * @throws IllegalArgumentException topicId格式错误
      * @author zhouzhongjun
      */
     void deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException;
-
+    
     /**
      * 按话题id和小组id获取讨论课小组选题信息（包括该小组该话题展示成绩）
      * <p>按话题id和小组id获取讨论课小组选题信息（包括该小组该话题展示成绩）<br>
@@ -102,17 +101,17 @@ public interface TopicService {
      * @param groupId
      * @return SeminarGroupTopic
      * @throws IllegalArgumentException
-     * @author unknown
+     * @author xingb
      */
     SeminarGroupTopic getSeminarGroupTopicById(BigInteger topicId, BigInteger groupId) throws IllegalArgumentException;
-
+    
     /**
      * 根据小组id获取该小组该堂讨论课所有选题信息
      * <p>根据小组id获取该小组该堂讨论课所有选题信息<br>
      * @param groupId
      * @return List<SeminarGroupTopic> 该小组该堂讨论课选题列表
      * @throws IllegalArgumentException groupId格式错误
-     * @author unknown
+     * @author xingb
      */
     List<SeminarGroupTopic> listSeminarGroupTopicByGroupId(BigInteger groupId) throws IllegalArgumentException;
 
@@ -130,5 +129,5 @@ public interface TopicService {
      * @see GradeService   #deleteStudentScoreGroupByTopicId(BigInteger seminarGroupTopicId)
      */
     void deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException;
-
+	
 }

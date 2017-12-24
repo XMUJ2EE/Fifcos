@@ -6,11 +6,7 @@ import java.util.List;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupMember;
 import xmu.crms.entity.User;
-import xmu.crms.exception.ClassesNotFoundException;
-import xmu.crms.exception.GroupNotFoundException;
-import xmu.crms.exception.InvalidOperationException;
-import xmu.crms.exception.SeminarNotFoundException;
-import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.exception.*;
 
 
 /**
@@ -40,7 +36,7 @@ public interface SeminarGroupService {
 	 *@exception UserNotFoundException (不存在该学生)
 	 *@exception InvalidOperationException （待添加学生已经在小组里了）
 	 */
-	BigInteger insertSeminarGroupMemberById(BigInteger userId,BigInteger groupId)
+	void insertSeminarGroupMemberById(BigInteger userId,BigInteger groupId)
 			throws IllegalArgumentException,GroupNotFoundException,UserNotFoundException,
 			InvalidOperationException;
 
@@ -202,7 +198,7 @@ public interface SeminarGroupService {
 	 * @exception GroupNotFoundException 未找到小组
 	 */
 	List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws
-			IllegalArgumentException,GroupNotFoundException;
+			IllegalArgumentException,TopicNotFoundException;
 
 	/**
 	 * 小组按id选择话题.
@@ -214,7 +210,7 @@ public interface SeminarGroupService {
 	 * @exception IllegalArgumentException GroupId、TopicId格式错误时抛出
 	 * @exception GroupNotFoundException 该小组不存在时抛出
 	 */
-	BigInteger insertTopicByGroupId(BigInteger groupId, BigInteger topicId) throws
+	void insertTopicByGroupId(BigInteger groupId, BigInteger topicId) throws
 			IllegalArgumentException,GroupNotFoundException;
 
 

@@ -1,25 +1,32 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.School;
+
+import java.math.BigInteger;
+
 /**
  * @author mads
  */
 public class SchoolVO {
-    private int id;
+    private BigInteger id;
     private String name;
 
-    public SchoolVO() {
+
+    public SchoolVO(School school) {
+        this.id = school.getId();
+        this.name = school.getName();
     }
 
-    public SchoolVO(int id, String name) {
+    public SchoolVO(BigInteger id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public int getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

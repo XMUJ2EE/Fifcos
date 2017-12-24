@@ -1,4 +1,4 @@
-package xmu.crms.service;
+package xmu.crms.dao;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -12,7 +12,7 @@ import xmu.crms.exception.*;
  * @version 2.10
  *
  */
-public interface ClassService {
+public interface ClassDao {
 	/**
 	 * 按classId删除CourseSelection表的一条记录 .
 	 * 
@@ -71,6 +71,7 @@ public interface ClassService {
 	 * @param classId 班级ID
 	 * @param newClass 修改后的班级
      * @exception ClassNotFoundException 无此班级Id
+     * 
 	 */
 	 void updateClassByClassId(BigInteger classId,ClassInfo newClass)
 	         throws ClassNotFoundException;

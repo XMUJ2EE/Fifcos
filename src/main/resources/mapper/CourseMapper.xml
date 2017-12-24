@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="xmu.crms.mapper.CourseMapper">
+	<!--根据老师的用户名查找Course<List>-->
+	<resultMap type="xmu.crms.entity.Course" id="CourseResult">
+		<id column="id" property="id"/>
+		<result column="name" property="name"/>
+		<result column="start_date" property="startDate"/>
+		<result column="end_date" property="endDate"/>
+		<result column="decription" property="decription"/>
+		<result column="report_percentage" property="reportPercentage"/>
+		<result column="presentation_percentage" property="presentationPercentage"/>
+		<result column="five_point_percentage" property="fivePointPercentage"/>
+		<result column="four_point_percentage" property="fourPointPercentage"/>
+		<result column="three_point_percentage" property="threePointPercentage"/>
+		<!--<association column="teacher_id" property="teacher" javaType="xmu.crms.entity.User" select="UserMapper.getUserByUserId">
+		</association>-->
+	</resultMap>
+	<!--<select id="getTeacherById" parameterType="java.math.BigInteger" resultType="xmu.crms.entity.User">
+		select id,phone,wechat_id,openid,avatar,password,name,school_id,gender,type,number,education,title,email
+		from user_info
+		where id = #{id}
+	</select>-->
+	<select id="listCourseByUserId" resultMap="CourseResult">
+		select id,name,start_date,end_date,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
+		from course
+		where teacher_id = #{id}
+	</select>
+
+	<insert id="insertCourseByUserId" parameterType="xmu.crms.entity.Course" useGeneratedKeys="true" keyProperty="id">
+		insert into
+		course(
+		`name`,
+		start_date,
+		end_date,
+		teacher_id,
+		description,
+		report_percentage,
+		presentation_percentage,
+		five_point_percentage,
+		four_point_percentage,
+		three_point_percentage)
+		values(
+		#{name},
+		#{startDate},
+		#{endDate},
+		#{teacher.id},
+		#{description},
+		#{reportPercentage},
+		#{presentationPercentage},
+		#{fivePointPercentage},
+		#{fourPointPercentage},
+		#{threePointPercentage}
+		)
+	</insert>
+
+	<select id="getCourseByCourseId" parameterType="java.math.BigInteger" resultMap="CourseResult">
+		select id,name,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
+		from course
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	
+	<update id="updateCourseByCourseId">
+		update course
+		set 
+		<if test="name!=null">`name` = #{name,jdbcType=VARCHAR},</if>
+		start_date = #{startDate,jdbcType=DATE},
+		end_date = #{endDate,jdbcType=DATE},
+		teacher_id = #{teacher.id,jdbcType=BIGINT},
+		description = #{description,jdbcType=VARCHAR},
+		report_percentage = #{reportPercentage,jdbcType=INTEGER},
+		presentation_percentage = #{presentationPercentage,jdbcType=INTEGER},
+		five_point_percentage = #{fivePointPercentage,jdbcType=INTEGER},
+		four_point_percentage = #{fourPointPercentage,jdbcType=INTEGER},
+		three_point_percentage = #{threePointPercentage,jdbcType=INTEGER}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	
+	<delete id="deleteCourseByCourseId" parameterType="java.math.BigInteger"> 
+		delete from course
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+
+	<select id="listCourseByCourseName" parameterType="java.lang.String" resultMap="CourseResult">
+		select id,name,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
+		from course
+		where name = #{name,jdbcType=VARCHAR}
+	</select>
+
+	<!--<select id="listClassByCourseName" parameterType="java.lang.String" resultMap="CourseResult">
+		select id,name,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
+		from course
+		where name = #{name,jdbcType=VARCHAR}
+	</select>-->
+
+
+</mapper>

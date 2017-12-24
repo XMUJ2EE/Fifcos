@@ -10,7 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import xmu.crms.entity.User;
 import xmu.crms.exception.ClassesNotFoundException;
+import xmu.crms.service.ClassService;
 import xmu.crms.service.UserService;
+import xmu.crms.service.impl.ClassServiceImpl;
 import xmu.crms.view.vo.ClassStudentVO;
 
 import java.math.BigInteger;
@@ -28,6 +30,9 @@ import java.util.List;
 public class ClassController {
 
 	@Autowired
+	ClassServiceImpl classService;
+
+	@Autowired
 	UserService userService;
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
@@ -35,7 +40,6 @@ public class ClassController {
 	@ResponseBody
 	public ResponseEntity getClassesByUserId(@RequestParam(value = "courseName", required = false) String courseName,
 														  @RequestParam(value = "courseTeacher", required = false) String teacherName) {
-
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 
@@ -43,6 +47,7 @@ public class ClassController {
 	@RequestMapping(value="/{classId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getClassById(@PathVariable int classId) {
+
 
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
