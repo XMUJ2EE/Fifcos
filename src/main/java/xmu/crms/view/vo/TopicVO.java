@@ -1,16 +1,28 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.Topic;
+
+import java.math.BigInteger;
+
+/**
+ * @author mads
+ */
 public class TopicVO {
 
-    private int id;
+    private BigInteger id;
     private String name;
 
-    public TopicVO(int id, String name) {
+    public TopicVO() {
+    }
+
+    public TopicVO(BigInteger id, String name) {
         this.id = id;
         this.name = name;
     }
 
-    public TopicVO() {
+    public TopicVO(Topic topic) {
+        this.id = topic.getId();
+        this.name = topic.getName();
     }
 
     @Override
@@ -21,11 +33,11 @@ public class TopicVO {
                 '}';
     }
 
-    public int getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

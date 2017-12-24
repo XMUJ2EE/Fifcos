@@ -214,7 +214,7 @@ public class CourseController {
 
 		String a = "[\n" +
 				"  {\n" +
-				"    \"id\": 29,\n" +
+				"    \"id\": 1,\n" +
 				"    \"name\": \"界面原型设计\",\n" +
 				"    \"description\": \"界面原型设计\",\n" +
 				"    \"groupingMethod\": \"fixed\",\n" +
@@ -223,7 +223,7 @@ public class CourseController {
 				"    \"grade\": 4\n" +
 				"  },\n" +
 				"  {\n" +
-				"    \"id\": 32,\n" +
+				"    \"id\": 2,\n" +
 				"    \"name\": \"概要设计\",\n" +
 				"    \"description\": \"模型层与数据库设计\",\n" +
 				"    \"groupingMethod\": \"random\",\n" +
@@ -238,18 +238,18 @@ public class CourseController {
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}/seminar/create", method = POST)
 	@ResponseBody
-	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId, @RequestBody SeminarVO seminarVO) {
+	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId, @RequestBody SeminarUpdateVO seminarUpdateVO) {
 		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 		Date startTime = null;
 		Date endTime = null;
 		try {
-			startTime = simpleDateFormat.parse(seminarVO.getStartTime());
-			endTime = simpleDateFormat.parse(seminarVO.getEndTime());
+			startTime = simpleDateFormat.parse(seminarUpdateVO.getStartTime());
+			endTime = simpleDateFormat.parse(seminarUpdateVO.getEndTime());
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		Seminar seminar = new Seminar(null, seminarVO.getName(), seminarVO.getDescription(),
-				null, seminarVO.getGroupingMethod().equals("fixed"), startTime, endTime);
+		Seminar seminar = new Seminar(null, seminarUpdateVO.getName(), seminarUpdateVO.getDescription(),
+				null, seminarUpdateVO.getGroupingMethod().equals("fixed"), startTime, endTime);
 		try {
 			seminarService.insertSeminarByCourseId(BigInteger.valueOf(courseId), seminar);
 		} catch (CourseNotFoundException e) {

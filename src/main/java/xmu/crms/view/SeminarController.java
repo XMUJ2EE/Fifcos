@@ -16,42 +16,44 @@ import xmu.crms.entity.Topic;
 import xmu.crms.exception.SeminarNotFoundException;
 import xmu.crms.service.SeminarService;
 import xmu.crms.service.TopicService;
+import xmu.crms.service.impl.SeminarServiceImpl;
 import xmu.crms.view.vo.*;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author mads
+ */
+
 @Controller
-
 @RequestMapping("/seminar")
-
 public class SeminarController {
-//	@Autowired
-	SeminarService seminarService;
-//	@Autowired
+	@Autowired
+	SeminarServiceImpl seminarService;
+
+	@Autowired
 	TopicService topicService;
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}", method = GET)
 	@ResponseBody
-	public ResponseEntity getSeminarById(@PathVariable int seminarId) {
+	public ResponseEntity getSeminarById(@PathVariable BigInteger seminarId) {
 		try {
-			Seminar seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
+			Seminar seminar = seminarService.getSeminarBySeminarId(seminarId);
+			List<Topic> topics = topicService.listTopicBySeminarId(seminarId);
+			SeminarVO seminarVO = new SeminarVO(seminar, topics);
+			return ResponseEntity.status(200).body(seminarVO);
 		} catch (SeminarNotFoundException e) {
-			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
-
-
-		return ResponseEntity.status(204).build();
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateSeminarById(@PathVariable int seminarId) {
-
 
 		return ResponseEntity.status(204).build();
 	}

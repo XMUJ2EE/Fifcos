@@ -42,21 +42,6 @@ public interface SeminarService {
 	void deleteSeminarByCourseId(BigInteger courseId) throws IllegalArgumentException,
 			CourseNotFoundException;
 
-
-	/**
-	 * 获得学生相关的某个讨论课的信息.
-	 * ＜p＞通过，学生用户id和讨论课id获得学生某个讨论课的详细信息<br>(包括讨论课信息教师信息).
-	 * @author CaoXingmei
-	 * @param seminarId 讨论课的id
-	 * @param userId 学生的id
-	 * @return 教师信息
-	 * @exception IllegalArgumentException SeminarId 格式错误时抛出
-	 * @exception SeminarNotFoundException 该讨论课不存在时抛出
-	 */
-	User getSeminarDetailBySeminarId(BigInteger seminarId, BigInteger userId)
-			throws IllegalArgumentException,SeminarNotFoundException;
-
-
 	/**
 	 * 用户通过讨论课id获得讨论课的信息.
 	 * <p>用户通过讨论课id获得讨论课的信息（包括讨论课名称、讨论课描述、分组方式、开始时间、结束时间）<br>

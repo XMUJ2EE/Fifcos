@@ -4,7 +4,7 @@
 <mapper namespace="xmu.crms.mapper.TopicMapper">
 	
 	<!-- ServiceFun:getTopicByTopicId -->
-	<resultMap type="xmu.crms.entity.Topic" id="TopicResultMap">
+	<resultMap type="Topic" id="TopicResultMap">
     	<id column="id" property="id"/>
     	<result column="name" property="name"/>
     	<result column="description" property="description"/>
@@ -13,7 +13,7 @@
     	<association column="seminar_id" property="seminar" select="selectSeminarBySeminarId"></association>
     </resultMap>
     
-    <resultMap type="xmu.crms.entity.Seminar" id="SeminarResultMap">
+    <resultMap type="Seminar" id="SeminarResultMap">
     	<id column="id" property="id"/>
     	<result column="name" property="name"/>
     	<result column="description" property="description"/>
@@ -23,7 +23,7 @@
     	<association column="course_id" property="course" select="selectCourseByCourseId"></association>
     </resultMap>
     
-    <resultMap type="xmu.crms.entity.Course" id="CourseResultMap">
+    <resultMap type="Course" id="CourseResultMap">
     	<id column="id" property="id"/>
     	<result column="name" property="name"/>
     	<result column="start_date" property="startDate"/>
@@ -37,7 +37,7 @@
     	<association column="teacher_id" property="teacher" select="selectUserByUserId"></association>
     </resultMap>
     
-    <resultMap type="xmu.crms.entity.User" id="UserResultMap">
+    <resultMap type="User" id="UserResultMap">
     	<id column="id" property="id"/>
     	<result column="phone" property="phone"/>
     	<result column="wechat_id" property="wechatId"/>

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import xmu.crms.entity.ClassInfo;
@@ -41,7 +42,29 @@ public class ClassController {
 	@ResponseBody
 	public ResponseEntity getClassesByUserId(@RequestParam(value = "courseName", required = false) String courseName,
 														  @RequestParam(value = "courseTeacher", required = false) String teacherName) {
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
+//		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+//		List<ClassInfo> classInfos = classService.list
+		String test = "[\n" +
+				"  {\n" +
+				"    \"id\": 1,\n" +
+				"    \"name\": \"周三1-2节\",\n" +
+				"    \"numStudent\": 60,\n" +
+				"    \"time\": \"周三1-2、周五1-2\",\n" +
+				"    \"site\": \"公寓405\",\n" +
+				"    \"courseName\": \"OOAD\",\n" +
+				"    \"courseTeacher\": \"邱明\"\n" +
+				"  },\n" +
+				"  {\n" +
+				"    \"id\": 2,\n" +
+				"    \"name\": \"一班\",\n" +
+				"    \"numStudent\": 60,\n" +
+				"    \"time\": \"周三34节 周五12节\",\n" +
+				"    \"site\": \"海韵202\",\n" +
+				"    \"courseName\": \".Net 平台开发\",\n" +
+				"    \"courseTeacher\": \"杨律青\"\n" +
+				"  }\n" +
+				"]";
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(test);
 	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
@@ -121,8 +144,26 @@ public class ClassController {
 	@RequestMapping(value="/{classId}/classgroup", method = GET)
 	@ResponseBody
 	public ResponseEntity getGroupByClassId(@PathVariable int classId) {
-
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
+		String a = "{\n" +
+				"  \"leader\": {\n" +
+				"    \"id\": 2757,\n" +
+				"    \"name\": \"张三\",\n" +
+				"    \"number\": \"23320152202333\"\n" +
+				"  },\n" +
+				"  \"members\": [\n" +
+				"    {\n" +
+				"      \"id\": 2756,\n" +
+				"      \"name\": \"李四\",\n" +
+				"      \"number\": \"23320152202443\"\n" +
+				"    },\n" +
+				"    {\n" +
+				"      \"id\": 2777,\n" +
+				"      \"name\": \"王五\",\n" +
+				"      \"number\": \"23320152202433\"\n" +
+				"    }\n" +
+				"  ]\n" +
+				"}";
+		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(a);
 	}
 
 	@PreAuthorize("hasRole('STUDENT')")

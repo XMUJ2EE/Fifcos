@@ -92,12 +92,6 @@ public interface SeminarGroupMapper {
     List<BigInteger> listGroupIdByTopicId(BigInteger topicId);
     //throw
 
-
-
-
-
-
-
     /**
      *根据id获取topic
      *

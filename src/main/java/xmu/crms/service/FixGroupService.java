@@ -5,9 +5,13 @@ import java.util.List;
 
 import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.FixGroupMember;
+import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.User;
-import xmu.crms.exception.*;
 import xmu.crms.exception.ClazzNotFoundException;
+import xmu.crms.exception.FixGroupNotFoundException;
+import xmu.crms.exception.InvalidOperationException;
+import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.exception.SeminarNotFoundException;
 
 /**
  * @author ZhouChulun YeHongjie Heqi Aixing

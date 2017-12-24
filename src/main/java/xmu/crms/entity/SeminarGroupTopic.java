@@ -7,7 +7,17 @@ public class SeminarGroupTopic {
 	private Topic topic;
 	private SeminarGroup seminarGroup;
 	private Integer presentationGrade;
-	
+
+	public SeminarGroupTopic() {
+	}
+
+	public SeminarGroupTopic(BigInteger id, Topic topic, SeminarGroup seminarGroup, Integer presentationGrade) {
+		this.id = id;
+		this.topic = topic;
+		this.seminarGroup = seminarGroup;
+		this.presentationGrade = presentationGrade;
+	}
+
 	public BigInteger getId() {
 		return id;
 	}
@@ -33,4 +43,13 @@ public class SeminarGroupTopic {
 		this.presentationGrade = presentationGrade;
 	}
 
+	@Override
+	public String toString() {
+		return "SeminarGroupTopic{" +
+				"id=" + id +
+				", topic=" + topic +
+				", seminarGroup=" + seminarGroup +
+				", presentationGrade=" + presentationGrade +
+				'}';
+	}
 }

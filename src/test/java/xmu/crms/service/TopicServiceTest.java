@@ -27,7 +27,7 @@ public class TopicServiceTest {
 	@Test
 	public void testGetTopicByTopicId() throws IllegalArgumentException, TopicNotFoundException {
 		Topic topic=topicService.getTopicByTopicId(new BigInteger("1"));
-		Assert.assertNotNull(topic);
+		System.out.println(topic.toString());
 	}
 	
 	@Test
@@ -49,7 +49,7 @@ public class TopicServiceTest {
 	@Test
 	public void testListTopicBySeminarId() {
 		List<Topic> topics=topicService.listTopicBySeminarId(new BigInteger("1"));
-		Assert.assertNotNull(topics.get(0));	
+		System.out.println(topics.toString());
 	}
 	
 	@Test
@@ -78,13 +78,13 @@ public class TopicServiceTest {
 	@Test
 	public void testGetSeminarGroupTopicById() {
 		SeminarGroupTopic seminarGroupTopic=topicService.getSeminarGroupTopicById(new BigInteger("1"), new BigInteger("1"));
-		Assert.assertNotNull(seminarGroupTopic);
+		System.out.println(seminarGroupTopic.toString());
 	}
 	
 	@Test
 	public void testListSeminarGroupTopicByGroupId() {
 		List<SeminarGroupTopic> seminarGroupTopics=topicService.listSeminarGroupTopicByGroupId(new BigInteger("1"));
-		Assert.assertNotNull(seminarGroupTopics);
+		System.out.println(seminarGroupTopics);
 	}
 	
 	@Test

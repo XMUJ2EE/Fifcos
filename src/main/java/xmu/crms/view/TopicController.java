@@ -10,11 +10,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.Topic;
 import xmu.crms.exception.TopicNotFoundException;
+import xmu.crms.service.SeminarGroupService;
 import xmu.crms.service.TopicService;
+import xmu.crms.view.vo.TopicDetailVO;
 
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  * @author wang
@@ -26,23 +30,27 @@ import java.math.BigInteger;
 @RequestMapping("/topic")
 
 public class TopicController {
-//	@Autowired
-//	TopicService topicService;
+	@Autowired
+	TopicService topicService;
+
+	@Autowired
+	SeminarGroupService seminarGroupService;
 
 	@PreAuthorize("hasRole('STUDENT') or hasRole('TEACHER')")
 	@RequestMapping(value = "/{topicId}", method = GET)
 	@ResponseBody
-	public ResponseEntity getTopicById(@PathVariable int topicId) {
-		Topic topic = new Topic();
-//		try {
-//			topic = topicService.getTopicByTopicId(BigInteger.valueOf(topicId));
-//		} catch (TopicNotFoundException e) {
-//			e.printStackTrace();
-//		}
-		if (topic == null) {
-			return ResponseEntity.status(404).body(null);
-		}else {
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topic);
+	public ResponseEntity getTopicById(@PathVariable BigInteger topicId) {
+		try {
+			Topic topic = topicService.getTopicByTopicId(topicId);
+			List<SeminarGroup> seminarGroups = seminarGroupService.listGroupByTopicId(topicId);
+			System.out.println(seminarGroups.size());
+			Integer groupLeft = topic.getGroupNumberLimit()-seminarGroups.size();
+			System.out.println(groupLeft.toString());
+			TopicDetailVO topicDetailVO = new TopicDetailVO(topic, groupLeft);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topicDetailVO);
+		} catch (TopicNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}
 	}
 	@PreAuthorize("hasRole('TEACHER')")

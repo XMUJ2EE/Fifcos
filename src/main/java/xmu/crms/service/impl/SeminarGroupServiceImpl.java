@@ -303,7 +303,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
             for (int i = 0;i<seminarGroupId.size();i++){
                   seminarGroup = seminarGroupMapper.getSeminarGroupByGroupId(seminarGroupId.get(i));
             seminarGroups.add(seminarGroup);
-      }
+            }
             return seminarGroups;
       }
 

@@ -225,4 +225,6 @@ public interface ClassService {
 		 */
 		 BigInteger CallInRollById(Location location)
 	             throws SeminarNotFoundException,ClazzNotFoundException;
+
+
 }

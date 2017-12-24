@@ -14,8 +14,8 @@
 		<result column="five_point_percentage" property="fivePointPercentage"/>
 		<result column="four_point_percentage" property="fourPointPercentage"/>
 		<result column="three_point_percentage" property="threePointPercentage"/>
-		<!--<association column="teacher_id" property="teacher" javaType="xmu.crms.entity.User" select="UserMapper.getUserByUserId">
-		</association>-->
+		<association column="teacher_id" property="teacher" javaType="User" select="UserMapper.getUserByUserId">
+		</association>
 	</resultMap>
 	<!--<select id="getTeacherById" parameterType="java.math.BigInteger" resultType="xmu.crms.entity.User">
 		select id,phone,wechat_id,openid,avatar,password,name,school_id,gender,type,number,education,title,email
