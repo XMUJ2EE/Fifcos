@@ -11,7 +11,7 @@ import java.util.List;
 
 @Service("schoolService")
 public class SchoolServiceImpl implements SchoolService{
-	@Autowired 
+	@Autowired(required = false)
 	private SchoolMapper schoolMapper;
 	
     public List<School> listSchoolByCity(String city){
@@ -20,7 +20,7 @@ public class SchoolServiceImpl implements SchoolService{
     }
 
    
-    public Boolean insertSchool(School school){
+    public BigInteger insertSchool(School school){
 
     	return schoolMapper.insertSchool(school);
     }

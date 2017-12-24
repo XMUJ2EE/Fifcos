@@ -9,7 +9,7 @@ public interface SchoolMapper {
 
 	List<School> listSchoolByCity(String city);
 	
-	Boolean insertSchool(School school);
+	BigInteger insertSchool(School school);
 	
 	List<String> listProvince();
 	

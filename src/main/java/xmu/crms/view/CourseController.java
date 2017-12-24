@@ -10,6 +10,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sun.plugin.liveconnect.SecurityContextHelper;
+import xmu.crms.dao.ClassDao;
+import xmu.crms.dao.CourseDao;
 import xmu.crms.entity.*;
 import xmu.crms.exception.ClazzNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
@@ -35,15 +37,15 @@ import java.util.Map;
 @RequestMapping("/course")
 public class CourseController {
 
-	@Autowired
+	@Autowired(required = false)
 	GradeService gradeService;
-	//@Autowired
+	@Autowired(required = false)
 	CourseService courseService;
-	//@Autowired
+	@Autowired(required = false)
 	ClassService classService;
-	//@Autowired
+	@Autowired(required = false)
 	SeminarService seminarService;
-	//@Autowired
+	@Autowired(required = false)
 	UserService userService;
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
