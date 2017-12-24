@@ -1,11 +1,21 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.Course;
+
 public class GetCourseVO {
     private int id;
     private String name;
     private String description;
     private String teacherName;
     private String teacherEmail;
+
+    public GetCourseVO(Course course) {
+        this.id = course.getId().intValue();
+        this.name = course.getName();
+        this.description = course.getDescription();
+        this.teacherName = course.getTeacher().getName();
+        this.teacherEmail = course.getTeacher().getEmail();
+    }
 
     public GetCourseVO(int id, String name, String description, String teacherName, String teacherEmail) {
         this.id = id;

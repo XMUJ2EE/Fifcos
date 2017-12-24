@@ -145,7 +145,7 @@ public class SeminarServiceImpl implements SeminarService {
      * @exception CourseNotFoundException 该课程不存在时抛出
      */
     @Override
-    public void insertSeminarByCourseId(BigInteger courseId, Seminar seminar) throws
+    public BigInteger insertSeminarByCourseId(BigInteger courseId, Seminar seminar) throws
             IllegalArgumentException,CourseNotFoundException{
         //未找到该课程
         if(seminarMapper.getCourseById(courseId)==null){
@@ -155,6 +155,6 @@ public class SeminarServiceImpl implements SeminarService {
         course.setId(courseId);
         seminar.setCourse(course);
         //return seminarMapper.insertSeminarByCourseId(seminar);
-        seminarMapper.insertSeminarByCourseId(seminar);
+        return seminarMapper.insertSeminarByCourseId(seminar);
     }
 }

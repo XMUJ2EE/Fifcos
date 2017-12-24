@@ -92,7 +92,7 @@ public interface SeminarService {
 	 * @exception IllegalArgumentException CourseId 格式错误时抛出
 	 * @exception CourseNotFoundException 该课程不存在时抛出
 	 */
-	void insertSeminarByCourseId(BigInteger courseId, Seminar seminar) throws
+	BigInteger insertSeminarByCourseId(BigInteger courseId, Seminar seminar) throws
 			IllegalArgumentException,CourseNotFoundException;
 
 }
