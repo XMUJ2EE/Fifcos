@@ -91,21 +91,21 @@ function teainfo(){
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
                 $("#teaNum").html('教工号：'+'<span>'+data.number+'</span>');
                 $("#name").html('姓名：'+'<span>'+data.name+'</span>');
-                if(data.gender=='0'){
-                    Gender="男";
-                }
-                else {
-                    Gender="女";
-                }
-                if(data.title=='1'){
-                    Title="教授";
-                }
-                else{
-                    Title="副教授";
-                }
-                $("#gender").html ('性别：'+'<span>'+Gender+'</span>');
+                // if(data.gender=='0'){
+                //     Gender="男";
+                // }
+                // else {
+                //     Gender="女";
+                // }
+                // if(data.title=='1'){
+                //     Title="教授";
+                // }
+                // else{
+                //     Title="副教授";
+                // }
+                $("#gender").html ('性别：'+'<span>'+data.gender+'</span>');
                 $("#school").html('学校：'+'<span>'+data.school.name+'</span>');
-                $("#title").html ('职称：'+'<span>'+Title+'</span>');
+                $("#title").html ('职称：'+'<span>'+data.title+'</span>');
                 $("#email").html ('邮箱：'+'<span>'+data.email+'</span>');
                 $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
@@ -144,25 +144,25 @@ function getteainfo(){  //get techer information
         success: function (data,textStatus,xhr) {
             // alert("成功");
             if(xhr.status==200){
-                var Gender;
-                var Title;
-                if(data.gender=='0'){
-                    Gender="男";
-                }
-                else {
-                    Gender="女";
-                }
-                if(data.title=='1'){
-                    Title="教授";
-                }
-                else{
-                    Title="副教授";
-                }
+                // var Gender;
+                // var Title;
+                // if(data.gender=='0'){
+                //     Gender="男";
+                // }
+                // else {
+                //     Gender="女";
+                // }
+                // if(data.title=='1'){
+                //     Title="教授";
+                // }
+                // else{
+                //     Title="副教授";
+                // }
                 $("input[name='name']").val(data.name);
                 $("input[name='idnum']").val(data.number);
-                $("input[name='sex']").attr("value",Gender);
+                $("input[name='sex']").attr("value",data.gender);
                 $("input[name='school']").attr("value",data.school.name);
-                $("input[name='title']").attr("value",Title);
+                $("input[name='title']").attr("value",data.title);
                 $("input[name='e-mail']").attr("value",data.email);
                 $("input[name='phone']").attr("value",data.phone);
             }
@@ -183,11 +183,13 @@ function getteainfo(){  //get techer information
 function teainfomod(){
          var ata = {
             name:$("#name").val(),
+            number: $("#idnum").val(),
             gender:$("#gender").val(),
             title:$("#title").val(),
             email:$("#eMail").val(),
+            avatar: "/avatar/3486.png",
+            schoolt:$("#school").val(),
             phone:$("#phone").val(),
-            avatar: "/avatar/3486.png"
         }
         $.ajax({
         type:'put',
@@ -196,11 +198,13 @@ function teainfomod(){
         contentType: "application/json;",
         data: JSON.stringify(ata),
         success: function (data,textStatus,xhr) {
-            console.log(xhr.status);
             if(xhr.status==204){
                 alert("修改成功!");
                 window.location.href='/teacher/home';
             }
+        },
+        error:function(data,textStatus,xhr){
+            alert("修改失败!");
         },
         statusCode:{
             400: function (){
