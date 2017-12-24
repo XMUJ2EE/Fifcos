@@ -11,7 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import sun.plugin.liveconnect.SecurityContextHelper;
 import xmu.crms.entity.*;
-import xmu.crms.exception.ClassesNotFoundException;
+import xmu.crms.exception.ClazzNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.service.*;
@@ -63,12 +63,14 @@ public class CourseController {
 				UserCourseVO userCourseVO = new UserCourseVO(aListCourse, classInfoList.size(), userList.size());
 				userCourseVOList.add(userCourseVO);
 			}
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userCourseVOList);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
-		} catch (ClassesNotFoundException e) {
+			return ResponseEntity.status(400).build();
+		} catch (ClazzNotFoundException e) {
 			e.printStackTrace();
+			return ResponseEntity.status(403).build();
 		}
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userCourseVOList);
 	}
 
 
@@ -93,14 +95,14 @@ public class CourseController {
 		try {
 			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
 			getCourseVO = new GetCourseVO(course);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(getCourseVO);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(404).body(null);
+			return ResponseEntity.status(404).build();
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(400).body(null);
+			return ResponseEntity.status(400).build();
 		}
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(getCourseVO);
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
@@ -130,12 +132,12 @@ public class CourseController {
 	@ResponseBody
 	public ResponseEntity getClassListByCourseId(@PathVariable int courseId) {
 		List<ClassVO> list = new ArrayList<ClassVO>();
-		List<ClassInfo> listClass = new ArrayList<ClassInfo>();
+		List<ClassInfo> listClass;
 		try {
 			listClass = classService.listClassByCourseId(BigInteger.valueOf(courseId));
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(404).body(null);
+			return ResponseEntity.status(404).build();
 		}
 		for (ClassInfo listClas : listClass) {
 			ClassVO classVO = new ClassVO(listClas.getId(), listClas.getName());
@@ -157,10 +159,11 @@ public class CourseController {
 			ClassInfo classInfo = new ClassInfo(classCreateVO);
 			id = classService.insertClassById(userId, BigInteger.valueOf(courseId), classInfo).intValue();
 			result.put("id", id);
+			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}
-		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
@@ -183,15 +186,15 @@ public class CourseController {
 	@ResponseBody
 	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId, @RequestBody SeminarVO seminarVO) {
 		Map<String, Integer> result = null;
-		int id;
 		Seminar seminar = new Seminar(seminarVO);
 		try {
-			id = seminarService.insertSeminarByCourseId(BigInteger.valueOf(courseId), seminar).intValue();
+			int id = seminarService.insertSeminarByCourseId(BigInteger.valueOf(courseId), seminar).intValue();
 			result.put("id", id);
+			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}
-		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 	}
 
 

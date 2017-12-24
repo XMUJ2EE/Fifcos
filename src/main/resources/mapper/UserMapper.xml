@@ -3,19 +3,19 @@
 <mapper namespace="xmu.crms.mapper.UserMapper">
 
     <resultMap id="userResultMap" type="User">
-        <id  property="id" column="id"/>
-        <result property="phone" column="phone" />
-        <result property="wechatId" column="wechat_id" />
-        <result property="openid" column="openid" />
-        <result property="avatar" column="avatar" />
-        <result property="password" column="password" />
-        <result property="name" column="name" />
-        <result property="gender" column="gender" />
-        <result property="type" column="type" />
-        <result property="number" column="number" />
-        <result property="education" column="education" />
-        <result property="title" column="title" />
-        <result property="email" column="email" />
+        <id  property="id" column="id" javaType="java.math.BigInteger"/>
+        <result property="phone" column="phone" javaType="java.lang.String" />
+        <result property="wechatId" column="wechat_id" javaType="java.lang.String"/>
+        <result property="openid" column="openid" javaType="java.lang.String"/>
+        <result property="avatar" column="avatar" javaType="java.lang.String"/>
+        <result property="password" column="password" javaType="java.lang.String"/>
+        <result property="name" column="name" javaType="java.lang.String"/>
+        <result property="gender" column="gender" javaType="int"/>
+        <result property="type" column="type" javaType="int"/>
+        <result property="number" column="number" javaType="java.lang.String"/>
+        <result property="education" column="education" javaType="int"/>
+        <result property="title" column="title" javaType="int"/>
+        <result property="email" column="email" javaType="java.lang.String"/>
         <association property="school" column="school_id" javaType="School" select="getSchoolById">
         </association>
     </resultMap>
@@ -95,7 +95,7 @@
 
     <insert id="insertUser" parameterType="User" useGeneratedKeys="true" keyProperty="id">
         insert into user_info(phone, wechat_id, openid, avatar, password,
-        school_id, `name`, gender, `type`, `number`, education, title, email)
+        school_id, name, gender, `type`, `number`, education, title, email)
         values (#{phone}, #{wechatId}, #{openid}, #{avatar}, #{password}, #{school.id}, #{name}, #{gender},
         #{type}, #{number}, #{education}, #{title}, #{email})
     </insert>

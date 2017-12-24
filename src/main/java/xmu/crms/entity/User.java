@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.UserDetailVO;
+
 import java.math.BigInteger;
 
 public class User {
@@ -20,6 +22,25 @@ public class User {
 
 	public User() {
 	}
+
+	public User(UserDetailVO userDetailVO) {
+		this.id = null;
+		this.phone = null;
+		this.wechatId = null;
+		this.openid = null;
+		this.avatar = userDetailVO.getAvator();
+		this.password = null;
+		this.name = userDetailVO.getName();
+		this.school = new School(userDetailVO.getSchool());
+		this.gender = userDetailVO.getGender().equals("男")?0:1;
+		this.type = null;
+		this.number = null;
+		this.education =
+				(userDetailVO.getEducation().equals("本科"))?1:
+						(userDetailVO.getEducation().equals("研究生"))?2:
+								(userDetailVO.getEducation().equals("博士"))?3:0;
+	}
+
 	public User(BigInteger id, String phone, String wechatId, String openid, String avatar, String password, String name, School school, Integer gender, Integer type, String number, Integer education, Integer title, String email) {
 		this.id = id;
 		this.phone = phone;

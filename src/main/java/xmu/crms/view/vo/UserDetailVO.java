@@ -1,27 +1,58 @@
 package xmu.crms.view.vo;
 
 
+import xmu.crms.entity.User;
+
+import java.math.BigInteger;
+
 /**
  * @author mads
  */
 public class UserDetailVO {
 
-    private int id;
-    private int type;
+    private BigInteger id;
+    private String type;
     private String name;
     private String number;
     private String phone;
     private String email;
-    private int gender;
+    private String gender;
     private SchoolVO school;
     private String title;
+    private String education;
     private String avator;
 
-    public UserDetailVO() {
+    public UserDetailVO(User user) {
+        this.education = user.getEducation() == null ? "未设置" :
+                        (user.getEducation() == 1 ? "本科" :
+                        (user.getEducation() == 2 ? "研究生" : "博士"));
+        this.id = user.getId();
+        this.type = user.getType() == 0 ? "student" : "teacher";
+        this.name = user.getName();
+        this.number = user.getNumber();
+        this.phone = user.getPhone();
+        this.email = user.getEmail();
+        this.gender = (user.getGender() == null || user.getGender() == 0) ? "男" : "女";
+        this.school = new SchoolVO(user.getSchool().getId(), user.getSchool().getName());
+        this.title = (user.getTitle() == null || user.getTitle() == 0) ? "非教授" : "教授";
+        this.avator = user.getAvatar();
     }
 
-    public UserDetailVO(int id, int type, String name, String number, String phone, String email, int gender, SchoolVO school, String title, String avator) {
+    public UserDetailVO(BigInteger id, String type, String name, String number, String phone, String email, String gender, String school, String title, String education, String avator) {
+        this.id = id;
+        this.type = type;
+        this.name = name;
+        this.number = number;
+        this.phone = phone;
+        this.email = email;
+        this.gender = gender;
+        this.school = new SchoolVO(null,school);
+        this.title = title;
+        this.education = education;
+        this.avator = avator;
+    }
 
+    public UserDetailVO(BigInteger id, String type, String name, String number, String phone, String email, String gender, SchoolVO school, String title, String education, String avator) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -31,22 +62,31 @@ public class UserDetailVO {
         this.gender = gender;
         this.school = school;
         this.title = title;
+        this.education = education;
         this.avator = avator;
     }
 
-    public int getId() {
+    public String getEducation() {
+        return education;
+    }
+
+    public void setEducation(String education) {
+        this.education = education;
+    }
+
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 
-    public int getType() {
+    public String getType() {
         return type;
     }
 
-    public void setType(int type) {
+    public void setType(String type) {
         this.type = type;
     }
 
@@ -82,11 +122,11 @@ public class UserDetailVO {
         this.email = email;
     }
 
-    public int getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(int gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
@@ -94,8 +134,8 @@ public class UserDetailVO {
         return school;
     }
 
-    public void setSchool(SchoolVO schoolVO) {
-        this.school = schoolVO;
+    public void setSchool(SchoolVO school) {
+        this.school = school;
     }
 
     public String getTitle() {
@@ -118,13 +158,13 @@ public class UserDetailVO {
     public String toString() {
         return "UserDetailVO{" +
                 "id=" + id +
-                ", type=" + type +
+                ", type='" + type + '\'' +
                 ", name='" + name + '\'' +
                 ", number='" + number + '\'' +
                 ", phone='" + phone + '\'' +
                 ", email='" + email + '\'' +
-                ", gender=" + gender +
-                ", schoolVO=" + school +
+                ", gender='" + gender + '\'' +
+                ", school=" + school +
                 ", title='" + title + '\'' +
                 ", avator='" + avator + '\'' +
                 '}';

@@ -39,6 +39,9 @@ public class Course {
 		this.threePointPercentage = courseVO.getProportions().getC();
 	}
 
+	public Course() {
+	}
+
 	public Course(BigInteger id, String name, Date startDate, Date endDate,
 				  User teacher, String description, Integer reportPercentage,
 				  Integer presentationPercentage, Integer fivePointPercentage,

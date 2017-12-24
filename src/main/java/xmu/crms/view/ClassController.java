@@ -8,9 +8,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.User;
-import xmu.crms.exception.ClassesNotFoundException;
+import xmu.crms.exception.ClazzNotFoundException;
 import xmu.crms.service.UserService;
+import xmu.crms.service.impl.ClassServiceImpl;
+import xmu.crms.view.vo.ClassDetailVO;
 import xmu.crms.view.vo.ClassStudentVO;
 
 import java.math.BigInteger;
@@ -28,6 +31,9 @@ import java.util.List;
 public class ClassController {
 
 	@Autowired
+	ClassServiceImpl classService;
+
+	@Autowired
 	UserService userService;
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
@@ -35,16 +41,23 @@ public class ClassController {
 	@ResponseBody
 	public ResponseEntity getClassesByUserId(@RequestParam(value = "courseName", required = false) String courseName,
 														  @RequestParam(value = "courseTeacher", required = false) String teacherName) {
-
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value="/{classId}", method = GET)
 	@ResponseBody
-	public ResponseEntity getClassById(@PathVariable int classId) {
+	public ResponseEntity getClassById(@PathVariable BigInteger classId) {
 
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
+		try{
+			ClassInfo classInfo = classService.getClassByClassId(classId);
+
+			List<User> users = userService.listUserByClassId(classId, null, null);
+			ClassDetailVO classDetailVO = new ClassDetailVO(classInfo, users.size());
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(classDetailVO);
+		}catch (ClazzNotFoundException e){
+			return ResponseEntity.status(404).contentType(MediaType.APPLICATION_JSON_UTF8).build();
+		}
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
@@ -66,13 +79,13 @@ public class ClassController {
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value="/{classId}/student", method = GET)
 	@ResponseBody
-	public ResponseEntity getStudentListByClassId(@PathVariable int classId,
+	public ResponseEntity getStudentListByClassId(@PathVariable BigInteger classId,
 										  @RequestParam(value = "numBeginWith",required = false) String numBeginWith,
 										  @RequestParam(value = "nameBeginWith",required = false) String nameBeginWith) {
 		List<User> list = new ArrayList<User>();
 		try {
-			list = userService.listUserByClassId(BigInteger.valueOf(classId), numBeginWith, nameBeginWith);
-		} catch (ClassesNotFoundException e) {
+			list = userService.listUserByClassId(classId, numBeginWith, nameBeginWith);
+		} catch (ClazzNotFoundException e) {
 			e.printStackTrace();
 		}
 		if (list.isEmpty()) {

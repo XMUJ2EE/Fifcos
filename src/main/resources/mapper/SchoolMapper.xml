@@ -1,0 +1,26 @@
+
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="SchoolMapper">
+    <select id="listSchoolByCity" resultType="School">
+        select * from school WHERE city=#{city}
+    </select>
+    
+    <insert id="insertSchool" parameterType="School">
+    	insert into school (name,province,city) values(#{name},#{province},#{city})
+    </insert>
+    
+    <select id="listProvince" resultType="String" >
+    	select province from school
+    </select>
+    
+    <select id="listCity" resultType="String">
+    	select city from school WHERE province=#{province}
+    </select>
+    
+    <select id="getSchoolBySchoolId" resultType="School">
+        select * from school WHERE id=#{id}
+    </select>
+    
+</mapper>

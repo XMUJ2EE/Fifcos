@@ -4,6 +4,7 @@ import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 
 import javax.security.auth.Subject;
+import java.math.BigInteger;
 import java.util.Collection;
 
 /**
@@ -11,10 +12,19 @@ import java.util.Collection;
  * @date
  */
 public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
+    private BigInteger id;
     private String number;
     private String phone;
     private String password;
     private String type;
+
+    public BigInteger getId() {
+        return id;
+    }
+
+    public void setId(BigInteger id) {
+        this.id = id;
+    }
 
     public String getNumber() {
         return number;
@@ -51,6 +61,7 @@ public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
     // 认证之前
     public FifcosAuthenticationToken(String phone, String password) {
         super(null);
+        this.id=null;
         this.phone = phone;
         this.password = password;
         this.type = null;
@@ -58,8 +69,9 @@ public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     // 认证之后，带一个type
-    public FifcosAuthenticationToken( String number,String phone, String password, String type, Collection<? extends GrantedAuthority> authorities) {
+    public FifcosAuthenticationToken(BigInteger id, String number,String phone, String password, String type, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
+        this.id = id;
         this.number = number;
         this.phone = phone;
         this.password = password;
@@ -74,6 +86,6 @@ public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
 
     @Override
     public Object getPrincipal() {
-        return this.phone;
+        return this.id;
     }
 }

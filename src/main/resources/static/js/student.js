@@ -18,9 +18,19 @@ function getusername(){//getusername from cookie
     return username;
 }
 
+function logout(){
+    if(localStorage.jwt){
+        localStorage.removeItem("jwt");
+        window.location.href='/login';
+    }
+    else{
+        window.location.href='/login';
+    }
+}
+
 //----------------------------StudentbindPage-------------------------------
 
-function stubind(){//StudentbindPage bindstu-updatestuinfo
+function stubind(){ //StudentbindPage bindstu-updatestuinfo
     var Gender = $("input[type='radio']:checked").val();
     var ata = {
         name:$("#name").val(),
@@ -41,10 +51,12 @@ function stubind(){//StudentbindPage bindstu-updatestuinfo
                 alert("成功!");
                 window.location.href="/student/profile";
             }
-            else{
-                alert("信息不合法");
-            }
+        },
+        statusCode:{
+        400: function (){
+            alert("信息不合法");
         }
+    }
     });
 }
 
@@ -68,7 +80,9 @@ function stuinfo(){ //StudentHomePage showstuinfo
                 $("#email").html('邮箱：'+'<span>'+data.email+'</span>');
                 $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
-            else{
+        },
+        statusCode:{
+            401: function (){//statuscode unknown
                 alert("获取信息失败");
             }
         }
@@ -95,7 +109,9 @@ function stumodinfo(){//StudentInfoModifyPage getstuinfo
                 $("#email").val(data.email);
                 $("#phone").val(data.phone);
             }
-            else{
+        },
+        statusCode:{
+            401: function (){//statuscode unknown
                 alert("获取信息失败");
             }
         }
@@ -123,7 +139,9 @@ function stuinfomod(){//StudentInfoModifyPage updatestuinfo
                 alert("修改成功!");
                 window.location.href="/student/profile";
             }
-            else{
+        },
+        statusCode: {
+            400: function () {
                 alert("信息不合法");
             }
         }
@@ -152,11 +170,12 @@ function getcourseid(name){//StudentCourse_List store course id
                 for(var i=0;i<data.length;i++){
                     if(data[i].name == name){
                         courseid = data[i].id;
-                        //console.log(courseid);
                     }
                 }
             }
-            else{
+        },
+        statusCode: {
+            401: function () {
                 alert("courseid查询失败！");
             }
         }
@@ -183,7 +202,9 @@ function classinfo(){//StudentCourse_List showclassinfo
                 }
                 content.innerHTML=str;
             }
-            else{
+        },
+        statusCode: {
+            401: function () {
                 alert("classinfo查询失败！");
             }
         }
@@ -202,15 +223,21 @@ function dropclass(id){//StudentCourseHome dropclass();
                 alert("成功");
                 window.location.href = "/student/courses";
             }
-            else if(xhr.status == 400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
                 window.location.href = "/student/courses";
             }
-            else if(xhr.status = 403){
+        },
+        statusCode: {
+            403: function () {
                 alert("学生无法为他人退课");
                 window.location.href = "/student/courses";
             }
-            else{
+        },
+        statusCode: {
+            404: function () {
                 alert("不存在这个选课或不存在这个学生、班级");
                 window.location.href = "/student/courses";
             }
@@ -242,6 +269,11 @@ function classlist(){//StudenCourseSelectPage classlist
                 }
                 content.innerHTML = contenthead+str;
             }
+        },
+        statusCode: {
+            401: function () {
+                alert("获取课程失败");
+            }
         }
     });
 }
@@ -254,17 +286,23 @@ function selectclass(id1){//StudenCourseSelectPage selectclass
         dataType: "json",
         contentType: "application/json;",
         data: JSON.stringify(ata),
-        success: function (data,status){
-            if(status == "Created"){
+        success: function (data,status,xhr){
+            if(xhr.status == 201){
                 alert("成功");
             }
-            else if(status == "Bad Request"){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
             }
-            else if(status == "Forbidden"){
+        },
+        statusCode: {
+            403: function () {
                 alert("学生无法为他人选课");
             }
-            else{
+        },
+        statusCode: {
+            409: function () {
                 alert("已选过同课程的课");
             }
         }
@@ -301,6 +339,11 @@ function classlistsearch(){//StudenCourseSelectPage classlist(searched)
                         '<td class="tabletext">班级人数：'+data[i].numStudent+'</td>  <td class="tabletext">'+data[i].time+'</td></tr></table></div></div>';
                 }
                 content.innerHTML = contenthead+str;
+            }
+        },
+        statusCode: {
+            401: function () {
+                alert("查询失败");
             }
         }
     });
