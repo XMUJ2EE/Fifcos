@@ -1,32 +1,48 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.ClassInfo;
+
 import java.math.BigInteger;
 
 public class ClassDetailVO {
-    private BigInteger id;
     private String name;
-    private BigInteger numStudent;
+    private int numStudent;
     private String time;
     private String site;
-    private String courseName;
-    private String courseTeacher;
+    private String classTime;
+    private Integer reportPercentage;
+    private Integer presentationPercentage;
+    private Integer fivePointPercentage;
+    private Integer fourPointPercentage;
+    private Integer threePointPercentage;
 
-    public ClassDetailVO(BigInteger id, String name, BigInteger numStudent, String time, String site, String courseName, String courseTeacher) {
-        this.id = id;
+    public ClassDetailVO() {
+    }
+
+    public ClassDetailVO(ClassInfo classInfo, int numStudent) {
+        this.name = classInfo.getName();
+        this.numStudent = numStudent;
+        this.time = classInfo.getClassTime();
+        this.site = classInfo.getSite();
+        this.classTime = classInfo.getClassTime();
+        this.reportPercentage = classInfo.getReportPercentage();
+        this.presentationPercentage = classInfo.getPresentationPercentage();
+        this.fivePointPercentage = classInfo.getFivePointPercentage();
+        this.fourPointPercentage = classInfo.getFourPointPercentage();
+        this.threePointPercentage = classInfo.getThreePointPercentage();
+    }
+
+    public ClassDetailVO(String name, int numStudent, String time, String site, String classTime, Integer reportPercentage, Integer presentationPercentage, Integer fivePointPercentage, Integer fourPointPercentage, Integer threePointPercentage) {
         this.name = name;
         this.numStudent = numStudent;
         this.time = time;
         this.site = site;
-        this.courseName = courseName;
-        this.courseTeacher = courseTeacher;
-    }
-
-    public BigInteger getId() {
-        return id;
-    }
-
-    public void setId(BigInteger id) {
-        this.id = id;
+        this.classTime = classTime;
+        this.reportPercentage = reportPercentage;
+        this.presentationPercentage = presentationPercentage;
+        this.fivePointPercentage = fivePointPercentage;
+        this.fourPointPercentage = fourPointPercentage;
+        this.threePointPercentage = threePointPercentage;
     }
 
     public String getName() {
@@ -37,11 +53,11 @@ public class ClassDetailVO {
         this.name = name;
     }
 
-    public BigInteger getNumStudent() {
+    public int getNumStudent() {
         return numStudent;
     }
 
-    public void setNumStudent(BigInteger numStudent) {
+    public void setNumStudent(int numStudent) {
         this.numStudent = numStudent;
     }
 
@@ -61,19 +77,67 @@ public class ClassDetailVO {
         this.site = site;
     }
 
-    public String getCourseName() {
-        return courseName;
+    public String getClassTime() {
+        return classTime;
     }
 
-    public void setCourseName(String courseName) {
-        this.courseName = courseName;
+    public void setClassTime(String classTime) {
+        this.classTime = classTime;
     }
 
-    public String getCourseTeacher() {
-        return courseTeacher;
+    public Integer getReportPercentage() {
+        return reportPercentage;
     }
 
-    public void setCourseTeacher(String courseTeacher) {
-        this.courseTeacher = courseTeacher;
+    public void setReportPercentage(Integer reportPercentage) {
+        this.reportPercentage = reportPercentage;
+    }
+
+    public Integer getPresentationPercentage() {
+        return presentationPercentage;
+    }
+
+    public void setPresentationPercentage(Integer presentationPercentage) {
+        this.presentationPercentage = presentationPercentage;
+    }
+
+    public Integer getFivePointPercentage() {
+        return fivePointPercentage;
+    }
+
+    public void setFivePointPercentage(Integer fivePointPercentage) {
+        this.fivePointPercentage = fivePointPercentage;
+    }
+
+    public Integer getFourPointPercentage() {
+        return fourPointPercentage;
+    }
+
+    public void setFourPointPercentage(Integer fourPointPercentage) {
+        this.fourPointPercentage = fourPointPercentage;
+    }
+
+    public Integer getThreePointPercentage() {
+        return threePointPercentage;
+    }
+
+    public void setThreePointPercentage(Integer threePointPercentage) {
+        this.threePointPercentage = threePointPercentage;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassDetailVO{" +
+                "name='" + name + '\'' +
+                ", numStudent=" + numStudent +
+                ", time='" + time + '\'' +
+                ", site='" + site + '\'' +
+                ", classTime='" + classTime + '\'' +
+                ", reportPercentage=" + reportPercentage +
+                ", presentationPercentage=" + presentationPercentage +
+                ", fivePointPercentage=" + fivePointPercentage +
+                ", fourPointPercentage=" + fourPointPercentage +
+                ", threePointPercentage=" + threePointPercentage +
+                '}';
     }
 }

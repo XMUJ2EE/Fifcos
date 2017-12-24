@@ -1,17 +1,17 @@
 package xmu.crms.service;
 
+import xmu.crms.entity.*;
+import xmu.crms.exception.*;
+
 import java.math.BigInteger;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import xmu.crms.entity.*;
-import xmu.crms.exception.*;
-
 /**
  *
- * @author Heqi
- * @version 2.10
+ * @author zhouzhongjun CaoXingmei YeHongjie
+ * @version 2.00
  *
  */
 public interface SeminarService {
@@ -34,14 +34,27 @@ public interface SeminarService {
 	 * @author zhouzhongjun
 	 * @param courseId 课程Id
 	 * @see SeminarService #listSemiarByCourseId(BigInteger courseId)
-	 * @see TopicService   #deleteTopicBySeminarId(BigInteger seminarId)
 	 * @see SeminarGroupService  #deleteSeminarGroupBySeminarId(BigInteger seminarId)
 	 * @return true删除成功 false删除失败
 	 * @exception IllegalArgumentException CourseId 格式错误时抛出
 	 * @exception CourseNotFoundException 该课程不存在时抛出
 	 */
-	Boolean deleteSeminarByCourseId(BigInteger courseId) throws IllegalArgumentException,
+	void deleteSeminarByCourseId(BigInteger courseId) throws IllegalArgumentException,
 			CourseNotFoundException;
+
+
+	/**
+	 * 获得学生相关的某个讨论课的信息.
+	 * ＜p＞通过，学生用户id和讨论课id获得学生某个讨论课的详细信息<br>(包括讨论课信息教师信息).
+	 * @author CaoXingmei
+	 * @param seminarId 讨论课的id
+	 * @param userId 学生的id
+	 * @return 教师信息
+	 * @exception IllegalArgumentException SeminarId 格式错误时抛出
+	 * @exception SeminarNotFoundException 该讨论课不存在时抛出
+	 */
+	User getSeminarDetailBySeminarId(BigInteger seminarId, BigInteger userId)
+			throws IllegalArgumentException,SeminarNotFoundException;
 
 
 	/**
@@ -63,40 +76,38 @@ public interface SeminarService {
 	 * @author CaoXingmei
 	 * @param seminarId 讨论课的id
 	 * @param seminar 讨论课信息
-	 * @return true(修改成功), false(修改失败)
 	 * @exception IllegalArgumentException SeminarId 格式错误时抛出
 	 * @exception SeminarNotFoundException 该讨论课不存在时抛出
 	 */
-	Boolean updateSeminarBySeminarId(BigInteger seminarId, Seminar seminar) throws
+	void updateSeminarBySeminarId(BigInteger seminarId, Seminar seminar) throws
 			IllegalArgumentException,SeminarNotFoundException;
 
 
-	/**
+	/**finish
 	 * 按讨论课id删除讨论课.
 	 * <p>用户（老师）通过seminarId删除讨论课<br>(包括删除讨论课包含的topic信息和小组信息).
 	 * @author CaoXingmei
 	 * @param seminarId 讨论课的id
 	 * @return true(删除成功), false(删除失败)
 	 * @see SeminarGroupService #deleteSeminarGroupBySeminarId(BigInteger seminarId)
-	 * @see TopicService#deleteTopicBySeminarId(BigInteger seminarId)
 	 * @exception IllegalArgumentException SeminarId 格式错误时抛出
 	 * @exception SeminarNotFoundException 该讨论课不存在时抛出
 	 */
-	Boolean deleteSeminarBySeminarId(BigInteger seminarId) throws
+	void deleteSeminarBySeminarId(BigInteger seminarId) throws
 			IllegalArgumentException,SeminarNotFoundException;
 
 
 	/**
-	 * 新增讨论课.
+	 *
 	 * <p>用户（老师）在指定的课程下创建讨论课<br>
-	 * @author YeHongjie
+	 * @author YeHongjie新增讨论课.
 	 * @param courseId 课程的id
 	 * @param seminar 讨论课信息
 	 * @return seminarId 若创建成功返回创建的讨论课id，失败则返回-1
 	 * @exception IllegalArgumentException CourseId 格式错误时抛出
 	 * @exception CourseNotFoundException 该课程不存在时抛出
 	 */
-	BigInteger insertSeminarByCourseId(BigInteger courseId, Seminar seminar) throws
+	void insertSeminarByCourseId(BigInteger courseId, Seminar seminar) throws
 			IllegalArgumentException,CourseNotFoundException;
 
 }

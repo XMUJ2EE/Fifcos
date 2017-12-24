@@ -1,20 +1,29 @@
-package xmu.crms.service;
+package xmu.crms.service.impl;
 
 import java.math.BigInteger;
+import java.util.Iterator;
 import java.util.List;
 
-import xmu.crms.entity.*;
-import xmu.crms.exception.*;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import xmu.crms.dao.TopicDao;
+import xmu.crms.entity.SeminarGroupTopic;
+import xmu.crms.entity.Topic;
+import xmu.crms.exception.TopicNotFoundException;
+import xmu.crms.mapper.TopicMapper;
+import xmu.crms.service.GradeService;
+import xmu.crms.service.TopicService;
 
 /**
- * @author Yexiaona
- * @version 2.20
+ * @author HuXingBo
  */
+@Service("TopicService")
+public class TopicServiceImpl implements TopicService{
+	@Autowired
+	private TopicDao topicDao;
 
-public interface TopicService {
-
-    /**
+	/**
      * 按topicId获取topic.
      * <p>按topicId获取topic<br>
      *
@@ -24,9 +33,12 @@ public interface TopicService {
      * @throws IllegalArgumentException Id格式错误时抛出
      * @author aixing
      */
-    Topic getTopicByTopicId(BigInteger topicId) throws TopicNotFoundException, IllegalArgumentException;
+	@Override
+	public Topic getTopicByTopicId(BigInteger topicId) throws TopicNotFoundException, IllegalArgumentException {
+		return topicDao.getTopicByTopicId(topicId);
+	}
 
-    /**
+	/**
      * 根据topicId修改topic.
      * <p>根据topicId修改topic<br>
      *
@@ -36,21 +48,27 @@ public interface TopicService {
      * @throws IllegalArgumentException Id格式错误或topic格式错误时抛出
      * @author aixing
      */
-    void updateTopicByTopicId(BigInteger topicId, Topic topic) throws TopicNotFoundException, IllegalArgumentException;
+	@Override
+	public void updateTopicByTopicId(BigInteger topicId, Topic topic)
+			throws TopicNotFoundException, IllegalArgumentException {
+		topicDao.updateTopicByTopicId(topicId, topic);
+	}
 
-    /**
+	/**
      * 删除topic.
      * <p>删除topic表中相应讨论课的topic<br>
      * 
      * @param topicId 要删除的topic的topicId
      * @throws IllegalArgumentException Id格式错误时抛出
      * @throws TopicNotFoundException 未找到该话题
-     * @author unknown
+     * @author xingb
      */
-    void deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException,TopicNotFoundException;
+	@Override
+	public void deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException, TopicNotFoundException {
+		topicDao.deleteTopicByTopicId(topicId);
+	}
 
-
-    /**
+	/**
      * 按seminarId获取Topic.
      * <p>按seminarId获取Topic<br>
      *
@@ -59,9 +77,12 @@ public interface TopicService {
      * @throws IllegalArgumentException Id格式错误时抛出
      * @author zhouzhongjun
      */
-    List<Topic> listTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException;
+	@Override
+	public List<Topic> listTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
+		return topicDao.listTopicBySeminarId(seminarId);
+	}
 
-    /**
+	/**
      * 根据讨论课Id和topic信息创建一个话题.
      * <p>根据讨论课Id和topic信息创建一个话题<br>
      *
@@ -71,9 +92,12 @@ public interface TopicService {
      * @throws IllegalArgumentException Id格式错误或topic格式错误时抛出
      * @author aixing
      */
-    BigInteger insertTopicBySeminarId(BigInteger seminarId, Topic topic) throws IllegalArgumentException;
+	@Override
+	public BigInteger insertTopicBySeminarId(BigInteger seminarId, Topic topic) throws IllegalArgumentException {
+		return topicDao.insertTopicBySeminarId(seminarId, topic);
+	}
 
-    /**
+	/**
      * 小组取消选择话题.
      * <p>小组取消选择话题  <br>
      * <p>删除seminar_group_topic表的一条记录<br>
@@ -83,41 +107,52 @@ public interface TopicService {
      * @throws IllegalArgumentException groupId格式错误或topicId格式错误时抛出
      * @author zhouzhongjun
      */
-    void deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException;
+	@Override
+	public void deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException {
+		topicDao.deleteSeminarGroupTopicById(groupId, topicId);
+	}
 
-    /**
+	/**
      * 按topicId删除SeminarGroupTopic表信息.
      * <p>删除seminar_group_topic表中选择了某个话题的全部记录<br>
-     *
      * @param topicId 讨论课Id
      * @throws IllegalArgumentException topicId格式错误
      * @author zhouzhongjun
      */
-    void deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException;
+	@Override
+	public void deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException {
+		topicDao.deleteSeminarGroupTopicByTopicId(topicId);
+	}
 
-    /**
+	/**
      * 按话题id和小组id获取讨论课小组选题信息（包括该小组该话题展示成绩）
      * <p>按话题id和小组id获取讨论课小组选题信息（包括该小组该话题展示成绩）<br>
      * @param topicId
      * @param groupId
      * @return SeminarGroupTopic
      * @throws IllegalArgumentException
-     * @author unknown
+     * @author xingb
      */
-    SeminarGroupTopic getSeminarGroupTopicById(BigInteger topicId, BigInteger groupId) throws IllegalArgumentException;
+	@Override
+	public SeminarGroupTopic getSeminarGroupTopicById(BigInteger topicId, BigInteger groupId)
+			throws IllegalArgumentException {
+		return topicDao.getSeminarGroupTopicById(topicId, groupId);
+	}
 
-    /**
+	/**
      * 根据小组id获取该小组该堂讨论课所有选题信息
      * <p>根据小组id获取该小组该堂讨论课所有选题信息<br>
      * @param groupId
      * @return List<SeminarGroupTopic> 该小组该堂讨论课选题列表
      * @throws IllegalArgumentException groupId格式错误
-     * @author unknown
+     * @author xingb
      */
-    List<SeminarGroupTopic> listSeminarGroupTopicByGroupId(BigInteger groupId) throws IllegalArgumentException;
+	@Override
+	public List<SeminarGroupTopic> listSeminarGroupTopicByGroupId(BigInteger groupId) throws IllegalArgumentException {
+		return topicDao.listSeminarGroupTopicByGroupId(groupId);
+	}
 
-
-    /**
+	/**
      * 按seminarId删除话题.
      * <p>删除某讨论课下的所有Topic<br>
      * <p>根据seminarId获得topic信息，然后再根据topic删除seninargrouptopic信息和根据seminarGroupTopicId删除StudentScoreGroup信息，最后再根据删除topic信息<br>
@@ -129,6 +164,9 @@ public interface TopicService {
      * @see TopicService #deleteSeminarGroupTopicByTopicId(BigInteger topicId)
      * @see GradeService   #deleteStudentScoreGroupByTopicId(BigInteger seminarGroupTopicId)
      */
-    void deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException;
-
+	@Override
+	public void deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
+		topicDao.deleteTopicBySeminarId(seminarId);
+	}
+	
 }

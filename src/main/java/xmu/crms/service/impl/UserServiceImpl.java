@@ -107,7 +107,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<User> listUserByClassId(BigInteger classId, String numBeginWith, String nameBeginWith) throws ClassesNotFoundException {
+    public List<User> listUserByClassId(BigInteger classId, String numBeginWith, String nameBeginWith) throws ClazzNotFoundException {
         try{
             List<User> users = userMapper.listUserByClassId(BigInteger.valueOf(1));
             return users;

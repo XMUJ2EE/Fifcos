@@ -1,4 +1,4 @@
-package xmu.crms.service;
+package xmu.crms.dao;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -12,7 +12,7 @@ import xmu.crms.exception.*;
  * @version 2.10
  *
  */
-public interface ClassService {
+public interface ClassDao {
 	/**
 	 * 按classId删除CourseSelection表的一条记录 .
 	 * 
@@ -30,8 +30,6 @@ public interface ClassService {
 	 * @param courseName 课程名称
 	 * @param teacherName 教师名称
 	 * @return List 班级列表
-	 * @see CourseService #listClassByCourseName(String courseName)
-	 * @see CourseService #listClassByTeacherName(String teacherName)
 	 * @exception UserNotFoundException 无此姓名的教师
 	 * @exception CourseNotFoundException 无此名称的课程
 	 */
@@ -71,6 +69,7 @@ public interface ClassService {
 	 * @param classId 班级ID
 	 * @param newClass 修改后的班级
      * @exception ClazzNotFoundException 无此班级Id
+     * 
 	 */
 	 void updateClassByClassId(BigInteger classId,ClassInfo newClass)
 	         throws ClazzNotFoundException;
@@ -82,9 +81,6 @@ public interface ClassService {
 	 * 
 	 * @author yexiaona
 	 * @param classId 班级ID
-	 * @see ClassService #deleteCourseSelectionById(BigInteger classId,User user)
-	 * @see FixGroupService #deleteFixGroupByClassId(BigInteger classId)
-	 * @see SeminarGroupService #deleteSeminarGroupByClaaId(BigInteger classId)
      * @exception ClazzNotFoundException 无此班级Id
 	 */
 	 void deleteClassByClassId(BigInteger classId)
@@ -156,9 +152,6 @@ public interface ClassService {
 	 * 
 	 * @author zhouzhongjun
 	 * @param courseId 课程Id
-	 * @see ClassService #listClassByCourseId(BigInteger courseId)
-	 * @see ClassService #deleteClasssSelectionByClassId(BigInteger classId)
-	 * @see FixGroupService #deleteFixGroupByClassId(BigInteger ClassId)
      * @exception CourseNotFoundException 无此Id的课程
 	 */
 	 void deleteClassByCourseId(BigInteger courseId) throws 

@@ -16,6 +16,9 @@ public class Course {
 	private Integer fourPointPercentage;
 	private Integer threePointPercentage;
 
+	public Course() {
+	}
+
 	public Course(BigInteger id, String name, Date startDate, Date endDate,
 				  User teacher, String description, Integer reportPercentage,
 				  Integer presentationPercentage, Integer fivePointPercentage,
