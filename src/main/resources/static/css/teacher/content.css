@@ -163,7 +163,25 @@
         margin-right: 2%;
         border: 1px solid black;
       }
-      .smallSelect{
+      .smallSelect1{
+        width: 15%;
+        height: 70%;
+        margin-right: 2%;
+        border: 1px solid black;
+      }
+       .smallSelect2{
+        width: 15%;
+        height: 70%;
+        margin-right: 2%;
+        border: 1px solid black;
+      }
+       .smallSelect3{
+        width: 15%;
+        height: 70%;
+        margin-right: 2%;
+        border: 1px solid black;
+      }
+        .smallSelect{
         width: 15%;
         height: 70%;
         margin-right: 2%;

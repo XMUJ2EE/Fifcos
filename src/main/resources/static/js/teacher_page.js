@@ -466,10 +466,12 @@ function backtocourse(){
     window.location.href='/teacher/course/'+getCookie("courseDetail")
 }
 function createclass(){
-   var ata = {
+    var classtime="";
+    classtime=$("#week").val()+$("#day").val()+$("#jie").val();
+    var ata = {
         name:$("#classname").val(),
         site:$("#classsite").val(),
-        time:$("#classtime").val(),
+        time:classtime,
         proportions:{
             report:$("#report").val(),
             presentation:$("#presentation").val(),
@@ -503,6 +505,33 @@ function createclass(){
     });
 
 }
+
+ $(function(){  //选择上课时间select级联显示(class_update与class_create页面都用到这个)
+    $(".smallSelect2").change(function() {
+        var selected_value = $(this).val();
+        if(selected_value == "上午"){
+             $(".smallSelect3").empty();
+             var option = $("<option>").val("一二节").text("一二节");
+             $(".smallSelect3").append(option);
+             option=$("<option>").val("三四节").text("三四节");
+             $(".smallSelect3").append(option);
+         }
+         else if(selected_value == "下午"){
+            $(".smallSelect3").empty();
+             var option = $("<option>").val("五六节").text("五六节");
+             $(".smallSelect3").append(option);
+             option=$("<option>").val("七八节").text("七八节");
+             $(".smallSelect3").append(option);
+         }
+         else{
+             $(".smallSelect3").empty();
+             var option = $("<option>").val("九十节").text("九十节");
+             $(".smallSelect3").append(option);
+             option=$("<option>").val("九十节").text("九十节");
+             $(".smallSelect3").append(option);
+         }
+     });
+ });
 /*----------------------------teacher/seminar_create-------------------------------*/
 function createseminar(){
      var ata = {
@@ -620,7 +649,13 @@ function getclassdetail(){
                 // alert("获取成功");
                 $("input[name='className']").attr("value",data.name);
                 $("input[name='numStudent']").attr("value",data.numStudent);
-                $("input[name='time']").attr("value",data.time);
+                var week,day,jie;
+                week=data.time[0]+data.time[1]+data.time[2];  //找到星期几的字符
+                day=data.time[3]+data.time[4];//找到上午/下午的字符
+                jie=data.time[5]+data.time[6]+data.time[7]; //找到节次(jie)的字符
+                $(".smallSelect1").val(week);  //此处修改了css的类名
+                $(".smallSelect2").val(day);
+                $(".smallSelect3").val(jie);
                 $("input[name='site']").attr("value",data.site);
                 $("input[name='report']").attr("value",data.proportions.report);
                 $("input[name='presentation']").attr("value",data.proportions.presentation);
@@ -641,10 +676,12 @@ function getclassdetail(){
 }
 
 function classinfomod(){
+        classtime=$("#week").val()+$("#day").val()+$("#jie").val();
+        alert(classtime);
         var ata = {
         name:$("#className").val(),
         numStudent:$("#numStudent").val(),
-        time:$('#time').val(),
+        time:classtime,
         site:$("#site").val(),
         roster:"/roster/周三12班.xlsx",
         proportions:{
