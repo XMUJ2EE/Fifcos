@@ -119,7 +119,7 @@
         WHERE id=#{userId,jdbcType=BIGINT}
     </select>
     <!--void automaticallyGrouping(@Param("seminarId")BigInteger seminarId, @Param("classId")BigInteger classId)-->
-    <!--throws IllegalArgumentException,ClassesNotFoundException,SeminarNotFoundException;-->
+    <!--throws IllegalArgumentException,ClazzNotFoundException,SeminarNotFoundException;-->
 
     <!--void deleteSeminarGroupByGroupId(@Param("seminarGroupId")BigInteger seminarGroupId)-->
     <!--throws IllegalArgumentException;-->

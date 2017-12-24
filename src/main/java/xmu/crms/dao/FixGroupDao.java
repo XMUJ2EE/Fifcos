@@ -45,19 +45,19 @@ public class FixGroupDao {
         return null;
     }
 
-    public List<FixGroup> listFixGroupByClassId(BigInteger classId) throws IllegalArgumentException, ClassesNotFoundException {
+    public List<FixGroup> listFixGroupByClassId(BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException {
         List<FixGroup> list=fixGroupMapper.listFixGroupByClassId(classId);
         if(list==null) {
-            throw new ClassesNotFoundException("该班级没有固定分组");
+            throw new ClazzNotFoundException("该班级没有固定分组");
         }
         return list;
     }
 
-    public void deleteFixGroupByClassId(BigInteger classId) throws IllegalArgumentException, ClassesNotFoundException{
+    public void deleteFixGroupByClassId(BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException {
         //删掉小组成员表
         List<FixGroup> listFixGroup=listFixGroupByClassId(classId);
         if(listFixGroup==null) {
-            throw new ClassesNotFoundException("该班级没有固定分组");
+            throw new ClazzNotFoundException("该班级没有固定分组");
         }
         for(int i=0;i<listFixGroup.size();i++) {
             fixGroupMapper.deleteFixGroupMemberByFixGroupId(listFixGroup.get(i).getId());
@@ -102,10 +102,10 @@ public class FixGroupDao {
         return null;
     }
 
-    public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws IllegalArgumentException, ClassesNotFoundException {
+    public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException {
         FixGroup fixGroup=fixGroupMapper.getFixedGroupById(userId,classId);
         if(fixGroup==null) {
-            throw new ClassesNotFoundException("没有找到该学生在该班级的固定小组");
+            throw new ClazzNotFoundException("没有找到该学生在该班级的固定小组");
         }
         return fixGroup;
     }

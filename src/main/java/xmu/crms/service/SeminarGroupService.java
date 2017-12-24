@@ -169,11 +169,11 @@ public interface SeminarGroupService {
 	 * @param classId 班级的id
 	 * @see UserService #listAttendanceById(BigInteger classId, BigInteger seminarId);
 	 * @exception IllegalArgumentException 信息不合法，id格式错误
-	 * @exception ClassesNotFoundException 未找到班级
+	 * @exception ClazzNotFoundException 未找到班级
 	 * @exception SeminarNotFoundException 未找到讨论课
 	 */
 	void automaticallyGrouping(BigInteger seminarId,BigInteger classId) throws
-			IllegalArgumentException,ClassesNotFoundException,SeminarNotFoundException;
+			IllegalArgumentException,ClazzNotFoundException,SeminarNotFoundException;
 
 
 	/**

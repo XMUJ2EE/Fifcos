@@ -2,7 +2,6 @@ package xmu.crms.service;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.springframework.stereotype.Service;
 import xmu.crms.exception.*;
 import xmu.crms.entity.*;
 
@@ -110,9 +109,9 @@ public interface CourseService {
 	 * @see UserService #listUserIdByUserName(String userName)
 	 * @see CourseService #listClassByUserId(BigInteger userId)
 	 * @throws UserNotFoundException 没有找到用户
-	 * @throws ClassesNotFoundException 没有找到班级
+	 * @throws ClazzNotFoundException 没有找到班级
 	 */
-	List<ClassInfo> listClassByTeacherName(String teacherName) throws UserNotFoundException,ClassesNotFoundException;
+	List<ClassInfo> listClassByTeacherName(String teacherName) throws UserNotFoundException,ClazzNotFoundException;
 
 
 	/**

@@ -30,8 +30,6 @@ public interface ClassDao {
 	 * @param courseName 课程名称
 	 * @param teacherName 教师名称
 	 * @return List 班级列表
-	 * @see CourseService #listClassByCourseName(String courseName)
-	 * @see CourseService #listClassByTeacherName(String teacherName)
 	 * @exception UserNotFoundException 无此姓名的教师
 	 * @exception CourseNotFoundException 无此名称的课程
 	 */
@@ -57,10 +55,10 @@ public interface ClassDao {
 	 * @author yexiaona
 	 * @param classId 班级ID
 	 * @return ClassBO 班级
-	 * @exception ClassNotFoundException 无此班级Id
+	 * @exception ClazzNotFoundException 无此班级Id
 	 */
 	 ClassInfo getClassByClassId(BigInteger classId) 
-	             throws ClassNotFoundException;
+	             throws ClazzNotFoundException;
 
 	/**
 	 * 按班级id和班级修改班级信息.
@@ -70,11 +68,11 @@ public interface ClassDao {
 	 * @author yexiaona
 	 * @param classId 班级ID
 	 * @param newClass 修改后的班级
-     * @exception ClassNotFoundException 无此班级Id
+     * @exception ClazzNotFoundException 无此班级Id
      * 
 	 */
 	 void updateClassByClassId(BigInteger classId,ClassInfo newClass)
-	         throws ClassNotFoundException;
+	         throws ClazzNotFoundException;
 
 	/**
 	 * 按班级id删除班级.
@@ -83,13 +81,10 @@ public interface ClassDao {
 	 * 
 	 * @author yexiaona
 	 * @param classId 班级ID
-	 * @see ClassService #deleteCourseSelectionById(BigInteger classId,User user)
-	 * @see FixGroupService #deleteFixGroupByClassId(BigInteger classId)
-	 * @see SeminarGroupService #deleteSeminarGroupByClaaId(BigInteger classId)
-     * @exception ClassNotFoundException 无此班级Id
+     * @exception ClazzNotFoundException 无此班级Id
 	 */
 	 void deleteClassByClassId(BigInteger classId)
-	         throws ClassNotFoundException;
+	         throws ClazzNotFoundException;
 
 	/**
 	 * 学生按班级id选择班级.
@@ -101,10 +96,10 @@ public interface ClassDao {
 	 * @param classId 班级id
 	 * @return courseSelectionId 选课记录id
      * @exception UserNotFoundException 无此姓名的教师
-     * @exception ClassNotFoundException 无此Id的班级
+     * @exception ClazzNotFoundException 无此Id的班级
 	 */
 	 BigInteger insertCourseSelectionById(BigInteger userId, BigInteger classId) throws
-	         UserNotFoundException,ClassNotFoundException;
+	         UserNotFoundException,ClazzNotFoundException;
 
 	/**
 	 * 学生按班级id取消选择班级.
@@ -115,10 +110,10 @@ public interface ClassDao {
 	 * @param userId 用户id
 	 * @param classId  班级id
      * @exception UserNotFoundException 无此姓名的教师
-     * @exception ClassNotFoundException 无此Id的班级
+     * @exception ClazzNotFoundException 无此Id的班级
 	 */
 	 void deleteCourseSelectionById(BigInteger userId, BigInteger classId) throws
-             UserNotFoundException,ClassNotFoundException;
+             UserNotFoundException,ClazzNotFoundException;
 
 	/**
 	 * 老师获取该班级签到状态.
@@ -157,9 +152,6 @@ public interface ClassDao {
 	 * 
 	 * @author zhouzhongjun
 	 * @param courseId 课程Id
-	 * @see ClassService #listClassByCourseId(BigInteger courseId)
-	 * @see ClassService #deleteClasssSelectionByClassId(BigInteger classId)
-	 * @see FixGroupService #deleteFixGroupByClassId(BigInteger ClassId)
      * @exception CourseNotFoundException 无此Id的课程
 	 */
 	 void deleteClassByCourseId(BigInteger courseId) throws 
@@ -170,9 +162,9 @@ public interface ClassDao {
 	 * 
 	 * @author zhouzhongjun
 	 * @param classId 班级Id
-	 * @exception ClassNotFoundException 无此Id的班级
+	 * @exception ClazzNotFoundException 无此Id的班级
 	 */
-	 void deleteScoreRuleById(BigInteger classId) throws ClassNotFoundException;
+	 void deleteScoreRuleById(BigInteger classId) throws ClazzNotFoundException;
 
 	/**
 	 * 查询评分规则.
@@ -182,9 +174,9 @@ public interface ClassDao {
 	 * @author YeHongjie
 	 * @param classId  班级id
 	 * @return ProportionBO 返回评分规则，若未找到对应评分规则返回空（null)
-     * @exception ClassNotFoundException 无此Id的班级
+     * @exception ClazzNotFoundException 无此Id的班级
 	 */
-	 ClassInfo getScoreRule(BigInteger classId) throws ClassNotFoundException;
+	 ClassInfo getScoreRule(BigInteger classId) throws ClazzNotFoundException;
 
 	/**
 	 * 新增评分规则.
@@ -196,10 +188,10 @@ public interface ClassDao {
 	 * @param proportions  评分规则
 	 * @return scoreRuleId 若创建成功则返回该评分规则的id，失败则返回-1
 	 * @exception InvalidOperationException 班级信息不合法
-     * @exception ClassNotFoundException 无此Id的班级 
+     * @exception ClazzNotFoundException 无此Id的班级 
 	 */
 	 BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions)
-	             throws InvalidOperationException,ClassNotFoundException;
+	             throws InvalidOperationException,ClazzNotFoundException;
 
 	/**
 	 * 修改评分规则.
@@ -210,10 +202,10 @@ public interface ClassDao {
 	 * @param classId 班级id
 	 * @param proportions 评分规则
      * @exception InvalidOperationException 班级信息不合法
-     * @exception ClassNotFoundException 无此Id的班级 
+     * @exception ClazzNotFoundException 无此Id的班级 
 	 */
 	 void updateScoreRule(BigInteger classId, ClassInfo proportions)
-             throws InvalidOperationException,ClassNotFoundException;
+             throws InvalidOperationException,ClazzNotFoundException;
 	 
 	 /**
 		 * 老师发起签到.
@@ -222,8 +214,8 @@ public interface ClassDao {
 		 * @param location 当前讨论课班级的签到状态记录
 		 * @return 返回location表的新记录的id
 	     * @exception SeminarNotFoundException 讨论课没有找到
-	     * @exception ClassNotFoundException 无此Id的班级 
+	     * @exception ClazzNotFoundException 无此Id的班级 
 		 */
 		 BigInteger CallInRollById(Location location)
-	             throws SeminarNotFoundException,ClassNotFoundException;
+	             throws SeminarNotFoundException,ClazzNotFoundException;
 }

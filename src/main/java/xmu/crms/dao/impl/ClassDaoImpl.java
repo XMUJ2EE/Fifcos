@@ -46,21 +46,23 @@ public class ClassDaoImpl implements ClassDao {
 
     /*已测试-已经实现*/
     @Override
-    public ClassInfo getClassByClassId(BigInteger classId) throws ClassNotFoundException {
-        ClassInfo fclass = new ClassInfo();
-        fclass = classMapper.getClassByClassId(classId);
-        return fclass;
+    public ClassInfo getClassByClassId(BigInteger classId) throws ClazzNotFoundException {
+        ClassInfo fakeClass = classMapper.getClassByClassId(classId);
+        if(fakeClass == null){
+            throw new ClazzNotFoundException("未找到班级:"+classId.toString());
+        }
+        return fakeClass;
     }
 
     /*已经测试-已经实现*/
     @Override
     public void updateClassByClassId(BigInteger classId, ClassInfo newClass)
-            throws ClassNotFoundException {
+            throws ClazzNotFoundException {
         if (classId == null){
-            throw new ClassNotFoundException("没有找到相应的班级id");
+            throw new ClazzNotFoundException("没有找到相应的班级id");
         }
         if (newClass == null){
-            throw new ClassNotFoundException("无法获得班级相应的信息");
+            throw new ClazzNotFoundException("无法获得班级相应的信息");
         }
         classMapper.updateClassByClassId(classId, newClass);
 
@@ -68,20 +70,20 @@ public class ClassDaoImpl implements ClassDao {
 
     /*已经测试-已经实现*/
     @Override
-    public void deleteClassByClassId(BigInteger classId) throws ClassNotFoundException {
+    public void deleteClassByClassId(BigInteger classId) throws ClazzNotFoundException {
         classMapper.deleteClassByClassId(classId);
     }
 
     /*已经测试*/
     @Override
-    public BigInteger insertCourseSelectionById(BigInteger userId, BigInteger classId) throws UserNotFoundException, ClassNotFoundException {
+    public BigInteger insertCourseSelectionById(BigInteger userId, BigInteger classId) throws UserNotFoundException, ClazzNotFoundException {
         int integer = classMapper.insertCourseSelectionById(userId, classId);
         return BigInteger.valueOf(integer);
     }
 
     /*已经测试-已经实现*/
     @Override
-    public void deleteCourseSelectionById(BigInteger userId, BigInteger classId) throws UserNotFoundException, ClassNotFoundException {
+    public void deleteCourseSelectionById(BigInteger userId, BigInteger classId) throws UserNotFoundException, ClazzNotFoundException {
         classMapper.deleteCourseSelectionById(userId, classId);
     }
 
@@ -114,19 +116,19 @@ public class ClassDaoImpl implements ClassDao {
 
     /*已经测试-已经实现*/
     @Override
-    public void deleteScoreRuleById(BigInteger classId) throws ClassNotFoundException {
+    public void deleteScoreRuleById(BigInteger classId) throws ClazzNotFoundException {
         classMapper.deleteScoreRuleById(classId);
     }
 
     /*已测试-已经实现*/
     @Override
-    public ClassInfo getScoreRule(BigInteger classId) throws ClassNotFoundException {
+    public ClassInfo getScoreRule(BigInteger classId) throws ClazzNotFoundException {
         return classMapper.getScoreRule(classId);
     }
 
     /*已经测试-已经实现*/
     @Override
-    public BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions) throws InvalidOperationException, ClassNotFoundException {
+    public BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions) throws InvalidOperationException, ClazzNotFoundException {
         if (!(proportions instanceof ClassInfo)){
             throw new InvalidOperationException("传入参数错误");
         }
@@ -136,14 +138,14 @@ public class ClassDaoImpl implements ClassDao {
 
     /*已经测试-已经实现*/
     @Override
-    public void updateScoreRule(BigInteger classId, ClassInfo proportions) throws InvalidOperationException, ClassNotFoundException {
+    public void updateScoreRule(BigInteger classId, ClassInfo proportions) throws InvalidOperationException, ClazzNotFoundException {
 
         classMapper.updateScoreRule(classId, proportions);
     }
 
     /*已经测试-已经实现*/
     @Override
-    public BigInteger CallInRollById(Location location) throws SeminarNotFoundException, ClassNotFoundException {
+    public BigInteger CallInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
         classMapper.CallInRollById(location);
         return location.getId();
     }

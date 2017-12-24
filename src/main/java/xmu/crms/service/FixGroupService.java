@@ -5,13 +5,9 @@ import java.util.List;
 
 import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.FixGroupMember;
-import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.User;
-import xmu.crms.exception.ClassesNotFoundException;
-import xmu.crms.exception.FixGroupNotFoundException;
-import xmu.crms.exception.InvalidOperationException;
-import xmu.crms.exception.UserNotFoundException;
-import xmu.crms.exception.SeminarNotFoundException;
+import xmu.crms.exception.*;
+import xmu.crms.exception.ClazzNotFoundException;
 
 /**
  * @author ZhouChulun YeHongjie Heqi Aixing
@@ -79,11 +75,11 @@ public interface FixGroupService {
      * @param classId 班级Id
      * @return List 固定分组列表
      * @throws IllegalArgumentException 信息不合法，id格式错误
-     * @throws ClassesNotFoundException 未找到班级
+     * @throws ClazzNotFoundException 未找到班级
      * @author zhouzhongjun
      */
     public List<FixGroup> listFixGroupByClassId(BigInteger classId) throws
-            IllegalArgumentException, ClassesNotFoundException;
+            IllegalArgumentException, ClazzNotFoundException;
 
     /**
      * 按classId删除FixGroup
@@ -91,13 +87,13 @@ public interface FixGroupService {
      *
      * @param classId 班级Id
      * @throws IllegalArgumentException 信息不合法，id格式错误
-     * @throws ClassesNotFoundException 未找到班级
+     * @throws ClazzNotFoundException 未找到班级
      * @author zhouzhongjun
      * @see FixGroupService #listFixGroupByClassId(BigInteger classId)
      * @see FixGroupService #deleteFixGroupMemberByFixGroupId(BigInteger fixGroupId)
      */
     public void deleteFixGroupByClassId(BigInteger classId) throws
-            IllegalArgumentException, ClassesNotFoundException;
+            IllegalArgumentException, ClazzNotFoundException;
 
     /**
      * 删除固定小组.
@@ -165,13 +161,13 @@ public interface FixGroupService {
      * @param classId 班级id
      * @return FixGroup 返回班级固定小组的信息
      * @throws IllegalArgumentException 信息不合法，id格式错误
-     * @throws ClassesNotFoundException 未找到小组
+     * @throws ClazzNotFoundException 未找到小组
      * @throws UserNotFoundException    不存在该学生
      * @author heqi
      * @see UserService#getUserByUserId(BigInteger UserId)
      */
     public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws
-            IllegalArgumentException, ClassesNotFoundException, UserNotFoundException;
+            IllegalArgumentException, ClazzNotFoundException, UserNotFoundException;
 
 
     /**

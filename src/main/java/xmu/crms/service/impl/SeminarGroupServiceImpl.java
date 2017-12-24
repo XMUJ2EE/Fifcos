@@ -95,7 +95,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
             seminarGroupMapper.assignLeaderById(groupId,userId);
       }
       @Override
-      public void automaticallyGrouping(BigInteger seminarId, BigInteger classId) throws IllegalArgumentException, ClassesNotFoundException, SeminarNotFoundException {
+      public void automaticallyGrouping(BigInteger seminarId, BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException, SeminarNotFoundException {
       }
       /**
        * 删除讨论课小组.

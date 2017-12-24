@@ -45,28 +45,28 @@ public class ClassServiceImpl implements ClassService{
 		 return classDao.listClassByCourseId(courseId);
 	}
 	@Override
-	 public ClassInfo getClassByClassId(BigInteger classId) throws ClassNotFoundException 
+	 public ClassInfo getClassByClassId(BigInteger classId) throws ClazzNotFoundException
 	 {
 		return classDao.getClassByClassId(classId);
 	}
 	@Override
-	 public void updateClassByClassId(BigInteger classId,ClassInfo newClass) throws ClassNotFoundException
+	 public void updateClassByClassId(BigInteger classId,ClassInfo newClass) throws ClazzNotFoundException
 	 {
 		 classDao.updateClassByClassId(classId,newClass);
 		 
 	 }
 	@Override
-	 public void deleteClassByClassId(BigInteger classId) throws ClassNotFoundException
+	 public void deleteClassByClassId(BigInteger classId) throws ClazzNotFoundException
 	 {
 		 classDao.deleteClassByClassId(classId);
 	 }
 	@Override
-	 public BigInteger insertCourseSelectionById(BigInteger userId, BigInteger classId) throws ClassNotFoundException, UserNotFoundException
+	 public BigInteger insertCourseSelectionById(BigInteger userId, BigInteger classId) throws ClazzNotFoundException, UserNotFoundException
 	 {
 		 return classDao.insertCourseSelectionById(userId, classId);
 	 }
 	@Override
-	 public void deleteCourseSelectionById(BigInteger userId, BigInteger classId) throws ClassNotFoundException, UserNotFoundException
+	 public void deleteCourseSelectionById(BigInteger userId, BigInteger classId) throws ClazzNotFoundException, UserNotFoundException
 	 {
 		 classDao.deleteCourseSelectionById(userId, classId);
 	 }
@@ -89,27 +89,27 @@ public class ClassServiceImpl implements ClassService{
 		 classDao.deleteClassByCourseId(courseId);
 	 }
 	@Override
-	 public void deleteScoreRuleById(BigInteger classId) throws ClassNotFoundException
+	 public void deleteScoreRuleById(BigInteger classId) throws ClazzNotFoundException
 	 {
 		 classDao.deleteScoreRuleById(classId);
 	 }
 	@Override
-	 public ClassInfo getScoreRule(BigInteger classId) throws ClassNotFoundException
+	 public ClassInfo getScoreRule(BigInteger classId) throws ClazzNotFoundException
 	 {
 		 return classDao.getScoreRule(classId);
 	 }
 	@Override
-	 public BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions) throws ClassNotFoundException, InvalidOperationException
+	 public BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions) throws ClazzNotFoundException, InvalidOperationException
 	 {
 		 return classDao.insertScoreRule(classId, proportions);
 	 }
 	@Override
-	 public void updateScoreRule(BigInteger classId, ClassInfo proportions) throws ClassNotFoundException, InvalidOperationException
+	 public void updateScoreRule(BigInteger classId, ClassInfo proportions) throws ClazzNotFoundException, InvalidOperationException
 	 {
 		 classDao.updateScoreRule(classId, proportions);
 	 }
 	@Override
-	 public BigInteger CallInRollById(Location location) throws SeminarNotFoundException, ClassNotFoundException {
+	 public BigInteger CallInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
 			return classDao.CallInRollById(location);
 		}
 	

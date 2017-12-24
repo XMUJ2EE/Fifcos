@@ -90,7 +90,7 @@ public class CourseDao {
 //    }
 //
 //    public List<ClassInfo> listClassByTeacherName(String teacherName)
-//            throws UserNotFoundException,ClassesNotFoundException {
+//            throws UserNotFoundException,ClazzNotFoundException {
 //        // TODO Auto-generated method stub
 //        List<ClassInfo> classInfoList = courseMapper.listClassByTeacherName(teacherName);
 //        return classInfoList;

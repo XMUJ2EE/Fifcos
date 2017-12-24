@@ -32,7 +32,7 @@ public interface UserService {
 	 * @param classId 班级的id
 	 * @param seminarId 讨论课id
 	 * @return list 当堂课签到信息
-	 * @exception ClassesNotFoundException 未找到班级
+	 * @exception ClazzNotFoundException 未找到班级
 	 * @exception SeminarNotFoundException 未找到讨论课
 	 */
 	 List<Attendance> listAttendanceById(BigInteger classId, BigInteger seminarId)
@@ -119,11 +119,11 @@ public interface UserService {
 	 * @param numBeginWith 学号开头
 	 * @param nameBeginWith 姓名开头
 	 * @return list 用户列表
-	 * @exception ClassesNotFoundException throws when 未找到对应班级
+	 * @exception ClazzNotFoundException throws when 未找到对应班级
 	 */	
 	 List<User> listUserByClassId(BigInteger classId,String numBeginWith,
 	           String nameBeginWith) throws
-	            ClassesNotFoundException;
+			 ClazzNotFoundException;
 	
 
 	/**
