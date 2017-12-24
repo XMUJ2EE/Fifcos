@@ -138,26 +138,8 @@ function getteainfo(){  //get techer information
         url: '/me',
         dataType: "json",
         contentType: "application/json;",
-        error:function(){
-            // alert("错误");
-        },
         success: function (data,textStatus,xhr) {
-            // alert("成功");
             if(xhr.status==200){
-                // var Gender;
-                // var Title;
-                // if(data.gender=='0'){
-                //     Gender="男";
-                // }
-                // else {
-                //     Gender="女";
-                // }
-                // if(data.title=='1'){
-                //     Title="教授";
-                // }
-                // else{
-                //     Title="副教授";
-                // }
                 $("input[name='name']").val(data.name);
                 $("input[name='idnum']").val(data.number);
                 $("input[name='sex']").attr("value",data.gender);
@@ -184,12 +166,12 @@ function teainfomod(){
          var ata = {
             name:$("#name").val(),
             number: $("#idnum").val(),
+            email:$("#eMail").val(),
             gender:$("#gender").val(),
             title:$("#title").val(),
-            email:$("#eMail").val(),
             avatar: "/avatar/3486.png",
-            schoolt:$("#school").val(),
-            phone:$("#phone").val(),
+            // school:$("#school").val(),
+            // phone:$("#phone").val()
         }
         $.ajax({
         type:'put',
@@ -202,9 +184,6 @@ function teainfomod(){
                 alert("修改成功!");
                 window.location.href='/teacher/home';
             }
-        },
-        error:function(data,textStatus,xhr){
-            alert("修改失败!");
         },
         statusCode:{
             400: function (){
@@ -582,6 +561,9 @@ function classinfo(){
                 $("#numStudent").html(data.numStudent);
             }
     },
+    // error:function (data,textStatus,xhr) {
+    //     alert("获取失败");
+    // },
     statusCode: {
         400: function () {
             alert("错误的ID格式");
@@ -600,9 +582,6 @@ function deleteclass(){
         data: JSON.stringify(ata),
         dataType: "json",
         contentType: "application/json;",
-        // error:function (data,textStatus,xhr){
-        //     alert("wrong");
-        // },
         success: function (data,textStatus,xhr){
             if(xhr.status == 204){
                 alert("成功");

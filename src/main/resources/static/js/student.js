@@ -30,7 +30,7 @@ function logout(){
 
 //----------------------------StudentbindPage-------------------------------
 
-function stubind(){//StudentbindPage bindstu-updatestuinfo
+function stubind(){ //StudentbindPage bindstu-updatestuinfo
     var Gender = $("input[type='radio']:checked").val();
     var ata = {
         name:$("#name").val(),
