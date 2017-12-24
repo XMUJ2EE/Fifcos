@@ -66,7 +66,9 @@ function teabind(){
                 alert("成功!");
                 window.location.href='/teacher/home'; //跳转到教师信息的那个页
             }
-            else{
+        },
+        statusCode:{
+            400: function (){
                 alert("信息不合法");
             }
         }
@@ -89,21 +91,21 @@ function teainfo(){
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
                 $("#teaNum").html('教工号：'+'<span>'+data.number+'</span>');
                 $("#name").html('姓名：'+'<span>'+data.name+'</span>');
-                if(data.gender=='0'){
-                    Gender="男";
-                }
-                else {
-                    Gender="女";
-                }
-                if(data.title=='1'){
-                    Title="教授";
-                }
-                else{
-                    Title="副教授";
-                }
-                $("#gender").html ('性别：'+'<span>'+Gender+'</span>');
+                // if(data.gender=='0'){
+                //     Gender="男";
+                // }
+                // else {
+                //     Gender="女";
+                // }
+                // if(data.title=='1'){
+                //     Title="教授";
+                // }
+                // else{
+                //     Title="副教授";
+                // }
+                $("#gender").html ('性别：'+'<span>'+data.gender+'</span>');
                 $("#school").html('学校：'+'<span>'+data.school.name+'</span>');
-                $("#title").html ('职称：'+'<span>'+Title+'</span>');
+                $("#title").html ('职称：'+'<span>'+data.title+'</span>');
                 $("#email").html ('邮箱：'+'<span>'+data.email+'</span>');
                 $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
@@ -142,30 +144,37 @@ function getteainfo(){  //get techer information
         success: function (data,textStatus,xhr) {
             // alert("成功");
             if(xhr.status==200){
-                var Gender;
-                var Title;
-                if(data.gender=='0'){
-                    Gender="男";
-                }
-                else {
-                    Gender="女";
-                }
-                if(data.title=='1'){
-                    Title="教授";
-                }
-                else{
-                    Title="副教授";
-                }
+                // var Gender;
+                // var Title;
+                // if(data.gender=='0'){
+                //     Gender="男";
+                // }
+                // else {
+                //     Gender="女";
+                // }
+                // if(data.title=='1'){
+                //     Title="教授";
+                // }
+                // else{
+                //     Title="副教授";
+                // }
                 $("input[name='name']").val(data.name);
                 $("input[name='idnum']").val(data.number);
-                $("input[name='sex']").attr("value",Gender);
+                $("input[name='sex']").attr("value",data.gender);
                 $("input[name='school']").attr("value",data.school.name);
-                $("input[name='title']").attr("value",Title);
+                $("input[name='title']").attr("value",data.title);
                 $("input[name='e-mail']").attr("value",data.email);
                 $("input[name='phone']").attr("value",data.phone);
             }
-            else{
-                alert("获取信息失败");
+        },
+        statusCode:{
+            401: function () {
+                alert("未登录!");
+                window.location.href="/login";
+            },
+            403:function () {
+                alert("未登录!");
+                window.location.href="/login";
             }
         }
     });
@@ -174,11 +183,13 @@ function getteainfo(){  //get techer information
 function teainfomod(){
          var ata = {
             name:$("#name").val(),
+            number: $("#idnum").val(),
             gender:$("#gender").val(),
             title:$("#title").val(),
             email:$("#eMail").val(),
+            avatar: "/avatar/3486.png",
+            schoolt:$("#school").val(),
             phone:$("#phone").val(),
-            avatar: "/avatar/3486.png"
         }
         $.ajax({
         type:'put',
@@ -187,12 +198,16 @@ function teainfomod(){
         contentType: "application/json;",
         data: JSON.stringify(ata),
         success: function (data,textStatus,xhr) {
-            console.log(xhr.status);
             if(xhr.status==204){
                 alert("修改成功!");
                 window.location.href='/teacher/home';
             }
-            else{
+        },
+        error:function(data,textStatus,xhr){
+            alert("修改失败!");
+        },
+        statusCode:{
+            400: function (){
                 alert("信息不合法");
             }
         }
@@ -231,8 +246,10 @@ function courselist(){
                 }
                 content.innerHTML=str;
             }
-            else{
-                alert("courselist查询失败！");
+        },
+        statusCode:{
+            401: function (){//statuscode unknown
+                alert("获取信息失败");
             }
         }
     });
@@ -254,18 +271,20 @@ function deletecourse(cid){
             if(xhr.status == 204){
                 alert("成功");
             }
-            else if(xhr.status == 400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
-            }
-            else if(xhr.status == 403){
+            },
+            403: function () {
                 alert("用户权限不足");
-            }
-            else{
+            },
+            404: function () {
                 alert("未找到课程");
             }
         }
     });
-    courselist();
+    courselist();  //删除完再加载
 }
 
 /*----------------------------teacher/course_create-------------------------------*/
@@ -297,7 +316,9 @@ function createcourse(){    //TeacherCreateCourse
                 window.location.href="/teacher/courses";  //返回展示老师课程list的页面
                 return "23";  //API上说返回新建课程的ID，不知道该如何分配得到课程的ID
             }
-            else{
+        },
+        statusCode: {
+            403: function () {  //statuscode unknown
                 alert("用户权限不足");
             }
         }
@@ -318,7 +339,9 @@ function getcourseinfo(){  //get course information when updating it
                 $("input[name='coursename']").attr("value",data.name);
                 $("input[name='courseinfo']").attr("value",data.description);
             }
-            else{
+        },
+        statusCode:{
+            401: function (){ //statuscode unknown
                 alert("获取信息失败");
             }
         }
@@ -351,7 +374,9 @@ function courseinfomod(){
                 alert("修改成功!");
                 window.location.href="/teacher/courses";
             }
-            else{
+        },
+        statusCode: {
+            403: function () {
                 alert("用户权限不足");
             }
         }
@@ -372,12 +397,13 @@ function courseintroduce(){
             $("#courseName").html(data.name);
             $("#courseIntroduction").html(data.description);
         }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到课程");
-
         }
     }
 });
@@ -407,12 +433,13 @@ function classlist(){
             }
             content.innerHTML=str;
         }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到课程");
-
         }
     }
 });
@@ -442,12 +469,13 @@ function seminarlist(){
             }
             content.innerHTML=str;
         }
-        else if(xhr.staus==400){
+    },
+     statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到课程");
-
         }
     }
 });
@@ -484,10 +512,12 @@ function createclass(){
                 alert("创建成功!");
                backtocourse();  //返回显示课程下的班级列表/讨论课列表
             }
-            else if(xhr.status==403){
+        },
+        statusCode: {
+            403: function () {
                 alert("用户权限不足");
-            }
-            else{
+            },
+            404: function () {
                 alert("未找到课程");
             }
         }
@@ -522,7 +552,9 @@ function createseminar(){
                 alert("创建成功!");
                 backtocourse(); //返回显示课程下的班级列表/讨论课列表
             }
-            else{
+        },
+        statusCode: {
+            403: function () {
                 alert("用户权限不足");
             }
         }
@@ -549,12 +581,13 @@ function classinfo(){
                 $("#three").html(data.proportions.a+'%');
                 $("#numStudent").html(data.numStudent);
             }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到班级");
-
         }
     }
 });
@@ -575,13 +608,15 @@ function deleteclass(){
                 alert("成功");
                 backtocourse();  //页面跳转
             }
-            else if(xhr.status == 400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
-            }
-            else if(xhr.status == 403){
+            },
+            403: function () {
                 alert("用户权限不足");
-            }
-            else{
+            },
+            404: function () {
                 alert("未找到班级");
             }
         }
@@ -614,11 +649,13 @@ function getclassdetail(){
                 $("input[name='four']").attr("value",data.proportions.b);
                 $("input[name='three']").attr("value",data.proportions.a);
             }
-            else if(xhr.status==400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
-            }
-            else{
-                alert("未找到讨论课");
+            },
+            404: function () {
+                alert("未找到班级");
             }
         }
     });
@@ -651,11 +688,13 @@ function classinfomod(){
                 alert("修改成功!");
                 window.location.href='/teacher/course/'+getCookie("courseDetail")+'/class/'+getCookie("classDetail");
             }
-            else if(xhr.status==400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
-            }
-            else{
-                alert("未找到讨论课");
+            },
+            404: function () {
+                alert("未找到班级");
             }
         }
     });
@@ -677,12 +716,13 @@ function seminarinfo(){
                 $("#startTime").html(data.startTime);
                 $("#endTime").html(data.endTime);
             }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
-            alert("未找到班级");
-
+        },
+        404: function () {
+            alert("未找到讨论课");
         }
     }
 });
@@ -709,12 +749,13 @@ function gettopiclist(){
             }
             content.innerHTML=str;
         }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到讨论课");
-
         }
     }
 });
@@ -732,13 +773,15 @@ function deleteseminar(){
             alert("删除成功");
             backtocourse();  //页面跳转
         }
-        else if(xhr.status == 400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else if(xhr.status == 403){
+        },
+        403: function () {
             alert("用户权限不足");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到班级");
         }
     }
@@ -771,10 +814,12 @@ function getseminardetail(){
                 $("input[name='startTime']").attr("value",data.startTime);
                 $("input[name='endTime']").attr("value",data.endTime);
             }
-            else if(xhr.status==400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
-            }
-            else{
+            },
+            404: function () {
                 alert("未找到讨论课");
             }
         }
@@ -809,10 +854,12 @@ function seminarinfomod(){
                 // alert(getCookie("seminarDetail"));
                 window.location.href='/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail");
             }
-            else if(xhr.status==400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
-            }
-            else{
+            },
+            404: function () {
                 alert("未找到讨论课");
             }
         }
@@ -834,12 +881,13 @@ function topicinfo(){
                 $("#groupMemberLimit").html(data.groupMemberLimit);
                 $("#groupLeft").html(data.groupLeft);
             }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到话题");
-
         }
     }
 });
@@ -860,13 +908,15 @@ function deletetopic(){
             alert("删除成功");
             backtoseminar();  //页面跳转
         }
-        else if(xhr.status == 400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else if(xhr.status == 403){
+        },
+        403: function () {
             alert("用户权限不足");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到班级");
         }
     }
@@ -894,12 +944,13 @@ function gettopicdetail(){
                 $("#groupLimit").val(data.groupLimit);
                 $("#groupMemberLimit").val(data.groupMemberLimit);
             }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
+        },
+        404: function () {
             alert("未找到话题");
-
         }
     }
 });
@@ -926,11 +977,13 @@ function updatetopic(){
                 // alert(getCookie("seminarDetail"));
                 backtotopic();
             }
-            else if(xhr.status==400){
+        },
+        statusCode: {
+            400: function () {
                 alert("错误的ID格式");
-            }
-            else{
-                alert("未找到讨论课");
+            },
+            404: function () {
+                alert("未找到话题");
             }
         }
     });
@@ -957,7 +1010,9 @@ function createtopic(){
                 alert("创建成功!");
                 backtoseminar();  //页面跳转
             }
-            else{
+        },
+        statusCode: {
+            403: function () {
                 alert("用户权限不足");
             }
         }
@@ -993,12 +1048,13 @@ function getreportlist(){
             }
             content.innerHTML=str;
         }
-        else if(xhr.staus==400){
+    },
+    statusCode: {
+        400: function () {
             alert("错误的ID格式");
-        }
-        else{
-            alert("未找到讨论课");
-
+        },
+        404: function () {
+            alert("未找到小组");
         }
     }
 });
