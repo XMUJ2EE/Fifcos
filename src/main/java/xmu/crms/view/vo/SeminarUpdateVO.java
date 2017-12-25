@@ -6,9 +6,9 @@ public class SeminarUpdateVO {
     private String groupingMethod;
     private String startTime;
     private String endTime;
-    private proportions proportions;
+    private Proportions proportions;
 
-    public SeminarUpdateVO(String name, String description, String groupingMethod, String startTime, String endTime, xmu.crms.view.vo.proportions proportions) {
+    public SeminarUpdateVO(String name, String description, String groupingMethod, String startTime, String endTime, Proportions proportions) {
         this.name = name;
         this.description = description;
         this.groupingMethod = groupingMethod;
@@ -57,11 +57,11 @@ public class SeminarUpdateVO {
         this.endTime = endTime;
     }
 
-    public xmu.crms.view.vo.proportions getProportions() {
+    public Proportions getProportions() {
         return proportions;
     }
 
-    public void setProportions(xmu.crms.view.vo.proportions proportions) {
+    public void setProportions(Proportions proportions) {
         this.proportions = proportions;
     }
 
