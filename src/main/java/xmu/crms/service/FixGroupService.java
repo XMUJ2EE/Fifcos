@@ -154,7 +154,7 @@ public interface FixGroupService {
      */
 
     public BigInteger insertStudentIntoGroup(BigInteger userId, BigInteger groupId) throws
-            IllegalArgumentException, FixGroupNotFoundException, UserNotFoundException,
+            IllegalArgumentException, FixGroupNotFoundException, UserNotFoundException,ClazzNotFoundException,
             InvalidOperationException;
 
     /**

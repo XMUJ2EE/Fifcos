@@ -3,7 +3,7 @@
 
 <mapper namespace="xmu.crms.mapper.CourseMapper">
 	<!--根据老师的用户名查找Course<List>-->
-	<resultMap type="xmu.crms.entity.Course" id="CourseResult">
+	<resultMap type="Course" id="CourseResult">
 		<id column="id" property="id"/>
 		<result column="name" property="name"/>
 		<result column="start_date" property="startDate"/>
@@ -14,21 +14,10 @@
 		<result column="five_point_percentage" property="fivePointPercentage"/>
 		<result column="four_point_percentage" property="fourPointPercentage"/>
 		<result column="three_point_percentage" property="threePointPercentage"/>
-		<association column="teacher_id" property="teacher" javaType="xmu.crms.entity.User" select="getUserByUserId">
+		<association column="teacher_id" property="teacher" javaType="User" select="getUserByUserId">
 		</association>
 	</resultMap>
-	<!--<select id="getTeacherById" parameterType="java.math.BigInteger" resultType="xmu.crms.entity.User">
-		select id,phone,wechat_id,openid,avatar,password,name,school_id,gender,type,number,education,title,email
-		from user_info
-		where id = #{id}
-	</select>-->
-	<select id="listCourseByUserId" resultMap="CourseResult">
-		select id,name,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
-		from course
-		where teacher_id = #{id}
-	</select>
-
-	<resultMap id="UserResult" type="xmu.crms.entity.User">
+	<resultMap id="UserResult" type="User">
 		<id column="id" property="id"/>
 		<result column="phone" property="phone"/>
 		<result column="wechat_id" property="wechatId"/>
@@ -44,18 +33,25 @@
 		<result column="email" property="email"/>
 		<association column="school_id" property="school" javaType="xmu.crms.entity.School" select="getSchoolById"/>
 	</resultMap>
-	<select id="getUserByUserId" resultMap="UserResult">
-		select id,phone,wechat_id,openid,avatar,password,name,school_id,gender,type,number,education,title,email
-		from user_info
-		where id = #{teacher_id}
-	</select>
 
-	<resultMap id="SchoolResult" type="xmu.crms.entity.School">
+	<resultMap id="SchoolResult" type="School">
 		<id column="id" property="id"/>
 		<result column="name" property="name"/>
 		<result column="province" property="province"/>
 		<result column="city" property="city"/>
 	</resultMap>
+
+	<select id="listCourseByUserId" resultMap="CourseResult">
+		select id,name,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
+		from course
+		where teacher_id = #{id}
+	</select>
+
+	<select id="getUserByUserId" resultMap="UserResult">
+		select id,phone,wechat_id,openid,avatar,password,name,school_id,gender,type,number,education,title,email
+		from user_info
+		where id = #{teacher_id}
+	</select>
 	<select id="getSchoolById" resultMap="SchoolResult">
 		select id,name,province,city
 		from school
@@ -99,15 +95,15 @@
 		update course
 		set 
 		<if test="name!=null">`name` = #{name,jdbcType=VARCHAR},</if>
-		<if test="start_date!=null"> start_date = #{startDate,jdbcType=DATE},</if>
-		<if test="end_date!=null"> end_date = #{endDate,jdbcType=DATE},</if>
-		<if test="teacher_id!=null"> teacher_id = #{teacher.id,jdbcType=BIGINT},</if>
+		<if test="startDate!=null"> start_date = #{startDate,jdbcType=DATE},</if>
+		<if test="endDate!=null"> end_date = #{endDate,jdbcType=DATE},</if>
+		<if test="id!=null"> teacher_id = #{teacher.id,jdbcType=BIGINT},</if>
 		<if test="description!=null"> description = #{description,jdbcType=VARCHAR},</if>
-		<if test="report_percentage!=null"> report_percentage = #{reportPercentage,jdbcType=INTEGER},</if>
-		<if test="presentation_percentage!=null"> presentation_percentage = #{presentationPercentage,jdbcType=INTEGER},</if>
-		<if test="five_point_percentage"> five_point_percentage = #{fivePointPercentage,jdbcType=INTEGER},</if>
-		<if test="four_point_percentage"> four_point_percentage = #{fourPointPercentage,jdbcType=INTEGER},</if>
-		<if test="three_point_percentage"> three_point_percentage = #{threePointPercentage,jdbcType=INTEGER}</if>
+		<if test="reportPercentage!=null"> report_percentage = #{reportPercentage,jdbcType=INTEGER},</if>
+		<if test="presentationPercentage!=null"> presentation_percentage = #{presentationPercentage,jdbcType=INTEGER},</if>
+		<if test="fivePointPercentage"> five_point_percentage = #{fivePointPercentage,jdbcType=INTEGER},</if>
+		<if test="fourPointPercentage"> four_point_percentage = #{fourPointPercentage,jdbcType=INTEGER},</if>
+		<if test="threePointPercentage"> three_point_percentage = #{threePointPercentage,jdbcType=INTEGER}</if>
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 	
@@ -121,12 +117,5 @@
 		from course
 		where name = #{name,jdbcType=VARCHAR}
 	</select>
-
-	<!--<select id="listClassByCourseName" parameterType="java.lang.String" resultMap="CourseResult">
-		select id,name,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage
-		from course
-		where name = #{name,jdbcType=VARCHAR}
-	</select>-->
-
 
 </mapper>

@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
 
     private String tokenHead = "Bearer ";
 
-    private String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx76ec7422a94c30ab&secret=b067de4ca07e611368058e427c035d05&grant_type=authorization_code";
+    private String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx0e1ff5086222b3e9&secret=a5903ceade04fcadcb39b3d23a3605d4&grant_type=authorization_code";
 
 
 
@@ -95,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Map<String, Object> weChatLogin(String code) throws IOException, UserDuplicatedException{
+    public Map<String, Object> weChatLogin(String code, Integer type) throws IOException, UserDuplicatedException{
         String reqUrl = url + "&js_code=" + code;
         StringBuffer json = new StringBuffer();
         try{
@@ -110,18 +110,26 @@ public class AuthServiceImpl implements AuthService {
         }catch (Exception e){
             e.printStackTrace();
         }
+        System.out.println(json.toString());
         Map<String, Object> auth = new ObjectMapper().readValue(json.toString(), Map.class);
+        if((String)auth.get("errcode") != null){
+            throw new IllegalArgumentException("参数错误");
+        }
         User user = authMapper.getUserByOpenId((String)auth.get("openid"));
         // 用户还没有注册， 帮他注册一个只有openid的账号，小程序端跳到绑定页面，然后补全其他信息
-        User userNew = new User((String)auth.get("openid"));
+        System.out.println((String)auth.get("openid"));
+        User userNew = new User((String)auth.get("openid"), type);
+
         if(user == null){
             userService.signUpPhone(userNew);
             auth.put("status", "unbind");
         }
-        BigInteger userId = authMapper.getUserByOpenId((String)auth.get("openid")).getId();
+        User userF = authMapper.getUserByOpenId((String)auth.get("openid"));
+        BigInteger userId = userF.getId();
         auth.put("userId", userId);
 
-        FifcosAuthenticationToken upToken = new FifcosAuthenticationToken((String)auth.get("openid"));
+        FifcosAuthenticationToken upToken = new FifcosAuthenticationToken((String)auth.get("openid"), type);
+        System.out.println(type);
         final Authentication authentication = fifcosAuthenticationProvider.authenticate(upToken);
         SecurityContextHolder.getContext().setAuthentication(authentication);
 

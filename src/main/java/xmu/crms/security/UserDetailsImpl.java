@@ -113,4 +113,17 @@ public class UserDetailsImpl implements UserDetails,Serializable {
     public String getName() {
         return name;
     }
+
+    @Override
+    public String toString() {
+        return "UserDetailsImpl{" +
+                "id=" + id +
+                ", openid='" + openid + '\'' +
+                ", phone='" + phone + '\'' +
+                ", password='" + password + '\'' +
+                ", type=" + type +
+                ", number='" + number + '\'' +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

@@ -52,7 +52,7 @@ public interface TopicMapper {
 	 * @return Boolean
 	 * @author xingb
 	 */
-	public Boolean deleteStudentScoreGroupById(@Param("seminarGroupTopicIds")List<BigInteger> seminarGroupTopicIds);
+	public int deleteStudentScoreGroupById(@Param("seminarGroupTopicIds")List<BigInteger> seminarGroupTopicIds);
 	
 	/**
 	 * ServiceFun:deleteTopicByTopicId
@@ -70,7 +70,7 @@ public interface TopicMapper {
 	 * @return Boolean
 	 * @author xingb
 	 */
-	public Boolean deleteTopicByTopicId(@Param("topicId")BigInteger topicId);
+	public int deleteTopicByTopicId(@Param("topicId")BigInteger topicId);
 	
 	/**
 	 * ServiceFun:listTopicBySeminarId
@@ -104,7 +104,7 @@ public interface TopicMapper {
 	 * @return Boolean
 	 * @author xingb
 	 */
-	public Boolean deleteSeminarGroupTopicById(@Param("groupId")BigInteger groupId,@Param("topicId")BigInteger topicId);
+	public int deleteSeminarGroupTopicById(@Param("groupId")BigInteger groupId,@Param("topicId")BigInteger topicId);
 	
 	/**
 	 * ServiceFun:deleteTopicById
@@ -113,7 +113,7 @@ public interface TopicMapper {
 	 * @return Boolean
 	 * @author xingb
 	 */
-	public Boolean deleteSeminarGroupTopicByTopicId(BigInteger topicId);
+	public int deleteSeminarGroupTopicByTopicId(BigInteger topicId);
 	
 	/**
 	 * ServiceFun:listSeminarGroupTopicByGroupId

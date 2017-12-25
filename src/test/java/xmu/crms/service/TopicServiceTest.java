@@ -20,78 +20,84 @@ import xmu.crms.exception.TopicNotFoundException;
 @SpringBootTest
 @Transactional
 @Rollback
+// done
 public class TopicServiceTest {
 	@Autowired
 	private TopicService topicService;
 	
 	@Test
 	public void testGetTopicByTopicId() throws IllegalArgumentException, TopicNotFoundException {
-		Topic topic=topicService.getTopicByTopicId(new BigInteger("1"));
+		Topic topic=topicService.getTopicByTopicId(new BigInteger("3"));
+		Assert.assertNotNull(topic);
 		System.out.println(topic.toString());
 	}
 	
 	@Test
 	public void testUpdateTopicByTopicId() throws IllegalArgumentException, TopicNotFoundException {
-		Topic topic=topicService.getTopicByTopicId(new BigInteger("15"));
+		Topic topic=topicService.getTopicByTopicId(new BigInteger("3"));
+		topic.setSerial("A");
 		topic.setName("话题15");
-		topic.setDescription("话题15描述");
+		topic.setDescription("话题说明7");
 		topic.setGroupNumberLimit(9);
 		topic.setGroupStudentLimit(5);
-		//Assert.assertEquals(true,topicService.updateTopicByTopicId(new BigInteger("15"), topic));
+		Assert.assertNotEquals(0,topicService.updateTopicByTopicId(new BigInteger("3"), topic));
 	}
 	
 	@Test
 	@Rollback(true)
-	public void testDeleteTopicByTopicId() {
-		//Assert.assertEquals(true,topicService.deleteTopicByTopicId(new BigInteger("4")));
+	public void testDeleteTopicByTopicId() throws IllegalArgumentException, TopicNotFoundException {
+		Assert.assertNotEquals(0,topicService.deleteTopicByTopicId(new BigInteger("3")));
 	}
 	
 	@Test
 	public void testListTopicBySeminarId() {
-		List<Topic> topics=topicService.listTopicBySeminarId(new BigInteger("1"));
+		List<Topic> topics=topicService.listTopicBySeminarId(new BigInteger("2"));
+		Assert.assertNotNull(topics.get(0));
 		System.out.println(topics.toString());
 	}
 	
 	@Test
 	public void testInsertTopicBySeminarId() {
 		Topic topic=new Topic();
-		topic.setName("话题14");
-		topic.setDescription("话题14描述");
+		topic.setSerial("B");
+		topic.setName("话题7");
+		topic.setDescription("话题7描述");
 		topic.setGroupNumberLimit(4);
 		topic.setGroupStudentLimit(5);
-		BigInteger insert=topicService.insertTopicBySeminarId(new BigInteger("1"), topic);
+		BigInteger insert=topicService.insertTopicBySeminarId(new BigInteger("3"), topic);
 		System.out.println(topic.getId());
 		System.out.println(insert);
 		Assert.assertNotNull(insert);
 	}
 	
 	@Test
-	public void testDeleteTopicById() {
-		//Assert.assertEquals(true,topicService.deleteTopicById(new BigInteger("36"), new BigInteger("6")));
+	public void testDeleteSeminarGroupTopicById() {
+		Assert.assertNotEquals(0,topicService.deleteSeminarGroupTopicById(new BigInteger("18"), new BigInteger("2")));
 	}
 	
 	@Test
 	public void testDeleteSeminarGroupTopicByTopicId() {
-		//Assert.assertEquals(true,topicService.deleteSeminarGroupTopicByTopicId(new BigInteger("6")));
+		Assert.assertNotEquals(0,topicService.deleteSeminarGroupTopicByTopicId(new BigInteger("4")));
 	}
 	
 	@Test
 	public void testGetSeminarGroupTopicById() {
-		SeminarGroupTopic seminarGroupTopic=topicService.getSeminarGroupTopicById(new BigInteger("1"), new BigInteger("1"));
-		System.out.println(seminarGroupTopic.toString());
+		SeminarGroupTopic seminarGroupTopic=topicService.getSeminarGroupTopicById(new BigInteger("3"), new BigInteger("19"));
+		Assert.assertNotNull(seminarGroupTopic);
+		System.out.println(seminarGroupTopic);
 	}
 	
 	@Test
 	public void testListSeminarGroupTopicByGroupId() {
 		List<SeminarGroupTopic> seminarGroupTopics=topicService.listSeminarGroupTopicByGroupId(new BigInteger("1"));
-		System.out.println(seminarGroupTopics);
+		Assert.assertNotNull(seminarGroupTopics);
+		System.out.println(seminarGroupTopics.toString());
 	}
 	
 	@Test
 	@Rollback(true)
 	public void testDeleteTopicBySeminarId() {
-		//Assert.assertEquals(true,topicService.deleteTopicBySeminarId(new BigInteger("2")));
+		Assert.assertNotEquals(0,topicService.deleteTopicBySeminarId(new BigInteger("2")));
 	}
-	
 	
 }

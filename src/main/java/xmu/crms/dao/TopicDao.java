@@ -32,22 +32,24 @@ public interface TopicDao {
      *
      * @param topicId 讨论课的ID
      * @param topic   修改后的讨论课
+     * @return int
      * @throws TopicNotFoundException   无此小组或Id错误
      * @throws IllegalArgumentException Id格式错误或topic格式错误时抛出
      * @author aixing
      */
-    void updateTopicByTopicId(BigInteger topicId, Topic topic) throws TopicNotFoundException, IllegalArgumentException;
+    int updateTopicByTopicId(BigInteger topicId, Topic topic) throws TopicNotFoundException, IllegalArgumentException;
 
     /**
      * 删除topic.
      * <p>删除topic表中相应讨论课的topic<br>
      * 
      * @param topicId 要删除的topic的topicId
+     * @return int
      * @throws IllegalArgumentException Id格式错误时抛出
      * @throws TopicNotFoundException 未找到该话题
      * @author xingb
      */
-    void deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException,TopicNotFoundException;
+    int deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException,TopicNotFoundException;
 
 
     /**
@@ -80,19 +82,21 @@ public interface TopicDao {
      *
      * @param groupId 小组Id
      * @param topicId 话题Id
+     * @return int
      * @throws IllegalArgumentException groupId格式错误或topicId格式错误时抛出
      * @author zhouzhongjun
      */
-    void deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException;
+    int deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException;
 
     /**
      * 按topicId删除SeminarGroupTopic表信息.
      * <p>删除seminar_group_topic表中选择了某个话题的全部记录<br>
      * @param topicId 讨论课Id
+     * @return int
      * @throws IllegalArgumentException topicId格式错误
      * @author zhouzhongjun
      */
-    void deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException;
+    int deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException;
     
     /**
      * 按话题id和小组id获取讨论课小组选题信息（包括该小组该话题展示成绩）
@@ -122,12 +126,13 @@ public interface TopicDao {
      * <p>根据seminarId获得topic信息，然后再根据topic删除seninargrouptopic信息和根据seminarGroupTopicId删除StudentScoreGroup信息，最后再根据删除topic信息<br>
      *
      * @param seminarId 讨论课Id
+     * @return int
      * @throws IllegalArgumentException seminarId格式错误
      * @author zhouzhongjun
      * @see TopicService #listTopicBySeminarId(BigInteger seminarId)
      * @see TopicService #deleteSeminarGroupTopicByTopicId(BigInteger topicId)
      * @see GradeService   #deleteStudentScoreGroupByTopicId(BigInteger seminarGroupTopicId)
      */
-    void deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException;
+    int deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException;
 	
 }

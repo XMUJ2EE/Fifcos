@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="xmu.crms.mapper.TimerMapper">
+
+    <resultMap id="EventMapper" type="xmu.crms.entity.Event">
+        <id column="id" property="id" jdbcType="BIGINT" />
+        <result column="bean_name" property="beanName" jdbcType="VARCHAR" />
+        <result column="method_name" property="methodName" jdbcType="VARCHAR" />
+        <result column="parameter" property="parameter" jdbcType="VARCHAR" />
+        <result column="time" property="time" javaType="java.sql.Timestamp" jdbcType="TIMESTAMP" />
+    </resultMap>
+
+    <insert id="insertEvent" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO event(bean_name, method_name, parameter, `time`) VALUES (#{bean_name},#{method_name},#{parameter},#{time})
+    </insert>
+
+    <update id="updateEvent">
+        UPDATE event SET time=#{time} WHERE id=#{id}
+    </update>
+
+    <select id="selectEvent" resultMap="EventMapper">
+        SELECT id,bean_name,method_name,parameter,time FROM event WHERE time  &lt; #{now}
+    </select>
+
+    <delete id="deleteEvent">
+        DELETE FROM event WHERE id=#{id}
+    </delete>
+
+</mapper>

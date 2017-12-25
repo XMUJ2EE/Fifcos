@@ -6,6 +6,7 @@ import xmu.crms.entity.*;
 import xmu.crms.exception.*;
 import xmu.crms.mapper.FixGroupMapper;
 
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -53,7 +54,7 @@ public class FixGroupDao {
         return list;
     }
 
-    public void deleteFixGroupByClassId(BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException {
+    public void deleteFixGroupByClassId(BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException{
         //删掉小组成员表
         List<FixGroup> listFixGroup=listFixGroupByClassId(classId);
         if(listFixGroup==null) {
@@ -67,7 +68,7 @@ public class FixGroupDao {
     }
 
     public void deleteFixGroupByGroupId(BigInteger groupId) throws IllegalArgumentException, FixGroupNotFoundException {
-        if(getFixGroupByFixGroupId(groupId)){
+        if(getFixGroupByFixGroupId(groupId)!=null){
             fixGroupMapper.deleteFixGroupByGroupId(groupId);
             fixGroupMapper.deleteFixGroupMemberByFixGroupId(groupId);
         }
@@ -88,18 +89,31 @@ public class FixGroupDao {
         return list;
     }
 
-    public Integer insertStudentIntoGroup(BigInteger userId, BigInteger groupId) throws IllegalArgumentException, FixGroupNotFoundException,
-            InvalidOperationException {
-        if(getFixGroupByFixGroupId(groupId)){
-            List<User> users=fixGroupMapper.listFixGroupMemberByGroupId(groupId);
-            for(int i=0;i<users.size();i++) {
-                if (users.get(i).getId().equals(userId)) {
-                    throw new InvalidOperationException("要添加的学生已经在固定分组里了");
+    public Integer insertStudentIntoGroup(BigInteger userId, BigInteger groupId) throws IllegalArgumentException, FixGroupNotFoundException,ClazzNotFoundException, InvalidOperationException {
+        if(getFixGroupByFixGroupId(groupId)!=null){
+            ClassInfo classInfo = getFixGroupByFixGroupId(groupId).getClassInfo();
+            if (classInfo == null) {
+                throw new ClazzNotFoundException("未找到Group id 为："+groupId.toString()+"的班级！");
+            }
+            BigInteger classId = classInfo.getId();
+            //找到该班级下所有固定分组
+            List<FixGroup> fixGroupList=listFixGroupByClassId(classId);
+            //搜索每个固定分组下的成员
+            if(fixGroupList == null){
+                throw new FixGroupNotFoundException("未找到班级id："+classId.toString()+"的固定小组");
+            }
+            for(int i=0;i<fixGroupList.size();i++){
+                List<FixGroupMember> members=listFixGroupByGroupId(fixGroupList.get(i).getId());
+                for(int j=0;j<members.size();j++){
+                    if(members.get(j).getId().equals(userId)){
+                        throw new InvalidOperationException("要添加的学生已经在固定分组里了");
+                        }
                 }
             }
             return fixGroupMapper.insertStudentIntoGroup(userId,groupId);
+        }else{
+            throw new FixGroupNotFoundException("没找到固定小组id：" + groupId.toString());
         }
-        return null;
     }
 
     public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException {
@@ -111,18 +125,18 @@ public class FixGroupDao {
     }
 
     public void fixedGroupToSeminarGroup(BigInteger semianrId, BigInteger fixedGroupId) throws IllegalArgumentException, FixGroupNotFoundException {
-        if(getFixGroupByFixGroupId(fixedGroupId)){
+        if(getFixGroupByFixGroupId(fixedGroupId)!=null){
             BigInteger seminarGroupId=BigInteger.valueOf(fixGroupMapper.fixedGroupToSeminarGroup(semianrId,fixedGroupId));
             fixGroupMapper.fixedGroupMemberToSeminarGroupMember(seminarGroupId,fixedGroupId);
         }
     }
 
     /**借助的方法 通过id获得固定小组*/
-    public Boolean getFixGroupByFixGroupId(BigInteger fixGroupId) throws IllegalArgumentException, FixGroupNotFoundException{
+    public FixGroup getFixGroupByFixGroupId(BigInteger fixGroupId) throws IllegalArgumentException, FixGroupNotFoundException{
         FixGroup fixGroup=fixGroupMapper.getFixGroupByFixGroupId(fixGroupId);
         if(fixGroup==null) {
             throw new FixGroupNotFoundException("没有找到该id对应的固定小组");
         }
-        return true;
+        return fixGroup;
     }
 }

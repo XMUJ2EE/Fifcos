@@ -9,6 +9,7 @@ import xmu.crms.entity.*;
 import xmu.crms.service.impl.SeminarServiceImpl;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * @author YellowPure
  * @date 2017/12/21
  */
+// done 20171225 18.53
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SeminarServiceTest {
@@ -23,20 +25,33 @@ public class SeminarServiceTest {
     @Autowired
     SeminarService seminarServiceImpl;
 
+    @Autowired
+    TimerService timerService;
+
+
+
     @Test
-    public void insertSeminarByCourseId() throws Exception{
+    public void insertSeminarByCourseId(){
         Seminar seminar = new Seminar();
         seminar.setDescription("讨论课介绍");
         seminar.setEndTime(new Date());
         seminar.setStartTime(new Date());
         seminar.setFixed(true);
-        seminar.setName("讨论课名称");
-        seminarServiceImpl.insertSeminarByCourseId(new BigInteger("2"),seminar);
+        seminar.setName("讨论课4");
+        try{
+            seminarServiceImpl.insertSeminarByCourseId(new BigInteger("1"),seminar);
+            timerService.scheduled();
+            seminarServiceImpl.insertSeminarByCourseId(new BigInteger("1"),seminar);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
     public void listSeminarByCourseId() throws Exception{
         List<Seminar> list = seminarServiceImpl.listSeminarByCourseId(new BigInteger("1"));
+        System.out.println(list);
     }
 
     @Test
@@ -50,7 +65,7 @@ public class SeminarServiceTest {
     }
     @Test
     public void deleteSeminarBySeminarId() throws Exception{
-        seminarServiceImpl.deleteSeminarBySeminarId(new BigInteger("7"));
+        seminarServiceImpl.deleteSeminarBySeminarId(new BigInteger("4"));
     }
     @Test
     public void updateSeminarBySeminarId() throws Exception{

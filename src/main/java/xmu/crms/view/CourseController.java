@@ -17,6 +17,7 @@ import xmu.crms.exception.ClazzNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.security.FifcosAuthenticationToken;
+import xmu.crms.mapper.GradeMapper;
 import xmu.crms.service.*;
 import xmu.crms.view.vo.*;
 
@@ -38,7 +39,9 @@ import java.util.*;
 @RequestMapping("/course")
 public class CourseController {
 
-	@Autowired
+	@Autowired(required = false)
+	TimerService timerService;
+	@Autowired(required = false)
 	GradeService gradeService;
 	@Autowired
 	CourseService courseService;
@@ -218,7 +221,7 @@ public class CourseController {
 			Map<String, Integer> result = new HashMap<String, Integer>();
 			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
 			ClassInfo classInfo = new ClassInfo(classCreateVO);
-			int id = classService.insertClassById(userId, BigInteger.valueOf(courseId), classInfo).intValue();
+			int id = classService.insertClassById(BigInteger.valueOf(courseId), classInfo).intValue();
 			result.put("id", id);
 			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 		} catch (CourseNotFoundException e) {
@@ -258,6 +261,7 @@ public class CourseController {
 		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<SeminarGroup> listSeminarGroup = new ArrayList<SeminarGroup>();
 		List<SeminarAndGradeVO> listSeminarAndGradeVO = new ArrayList<SeminarAndGradeVO>();
+
 		listSeminarGroup = gradeService.listSeminarGradeByCourseId(userId, BigInteger.valueOf(courseId));
 		System.out.println(listSeminarGroup);
 		for (SeminarGroup seminarGroup : listSeminarGroup) {

@@ -107,11 +107,8 @@
         <association property="seminarGroup" column="seminar_group_id" select="getSeminarGroupById"/>
     </resultMap>
     <update id="assignLeaderById" >
-        UPDATE seminar_group SET leader_id=NULL
+        UPDATE seminar_group SET leader_id= #{userId,jdbcType=BIGINT}
         WHERE id=#{groupId,jdbcType=BIGINT}
-        <if test="userId != null">
-            AND leader_id=#{userId,jdbcType=BIGINT}
-        </if>
     </update>
     <select id="getUserIdByUserId"  resultType="java.math.BigInteger">
         SELECT id
@@ -120,7 +117,11 @@
     </select>
     <!--void automaticallyGrouping(@Param("seminarId")BigInteger seminarId, @Param("classId")BigInteger classId)-->
     <!--throws IllegalArgumentException,ClazzNotFoundException,SeminarNotFoundException;-->
-
+    <select id="listStudentIdBySeminarIdAndClassId"  resultType="java.math.BigInteger">
+        SELECT student_id
+        FROM attendance
+        WHERE seminar_id=#{seminarId,jdbcType=BIGINT} AND class_id=#{classId,jdbcType=BIGINT}
+    </select>
     <!--void deleteSeminarGroupByGroupId(@Param("seminarGroupId")BigInteger seminarGroupId)-->
     <!--throws IllegalArgumentException;-->
     <delete id="deleteSeminarGroupByGroupId" >
@@ -138,12 +139,23 @@
         DELETE FROM seminar_group_member
         WHERE seminar_group_id = #{seminarGroupId}
     </delete>
+
+    <delete id="deleteSeminarGroupMemberByuId" >
+        DELETE FROM seminar_group_member
+        WHERE seminar_group_id = #{groupId,jdbcType=BIGINT} AND student_id = #{userId,jdbcType=BIGINT}
+    </delete>
     <!--SeminarGroup getSeminarGroupByGroupId(@Param("groupId")BigInteger groupId)-->
     <!--throws IllegalArgumentException,GroupNotFoundException;-->
     <select id="getSeminarGroupByGroupId"  resultMap="SeminarGroup">
         SELECT *
         FROM seminar_group
         WHERE id=#{groupId,jdbcType=BIGINT}
+    </select>
+
+    <select id="listSeminarGroupMemberByGroupId"  resultMap="SeminarGroupMember">
+        SELECT *
+        FROM seminar_group_member
+        WHERE seminar_group_id=#{groupId,jdbcType=BIGINT}
     </select>
     <!--SeminarGroup getSeminarGroupIdBySeminarIdAndUserId(@Param("seminarId")BigInteger seminarId, @Param("userId")BigInteger userId)-->
     <!--throws IllegalArgumentException,GroupNotFoundException;-->
@@ -168,12 +180,17 @@
 
     <!--BigInteger insertSeminarGroupBySeminarId(@Param("seminarId")BigInteger seminarId, @Param("seminarGroup")SeminarGroup seminarGroup)-->
     <!--throws IllegalArgumentException;-->
-    <insert id="insertSeminarGroupBySeminarId" parameterType="SeminarGroup">
-        <!--<selectKey keyProperty="id" order="AFTER" resultType="java.math.BigInteger">-->
-            <!--SELECT LAST_INSERT_ID() AS id-->
-        <!--</selectKey>-->
-        INSERT INTO seminar_group(seminar_id,report_garde,presentation_grade,final_grade,leader_id,class_id)
+    <insert id="insertSeminarGroupBySeminarId" useGeneratedKeys="true" keyProperty="id" parameterType="SeminarGroup">
+        INSERT INTO seminar_group(seminar_id,report_grade,presentation_grade,final_grade,leader_id,class_id)
         VALUES(#{seminar.id,jdbcType=BIGINT},#{reportGrade},#{presentationGrade},#{finalGrade},#{leader.id,jdbcType=BIGINT},#{classInfo.id,jdbcType=BIGINT})
+    </insert>
+
+    <insert id="insertSeminarGroupMemberByGroupId" parameterType="java.math.BigInteger">
+        <!--<selectKey keyProperty="id" order="AFTER" resultType="java.math.BigInteger">-->
+        <!--SELECT LAST_INSERT_ID() AS id-->
+        <!--</selectKey>-->
+        INSERT INTO seminar_group_member(seminar_group_id,student_id)
+        VALUES(#{groupId,jdbcType=BIGINT},#{seminarGroupMember.id,jdbcType=BIGINT})
     </insert>
     <!--List<SeminarGroup> listSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId)-->
     <!--throws IllegalArgumentException,SeminarNotFoundException;-->

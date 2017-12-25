@@ -14,6 +14,7 @@ public class TestController {
     @RequestMapping("/whoami")
     public Object whoIm()
     {
+
         return SecurityContextHolder.getContext().getAuthentication().getPrincipal();
     }
 }

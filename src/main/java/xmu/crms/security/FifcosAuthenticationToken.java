@@ -90,13 +90,13 @@ public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
     }
 
     // 小程序认证之前
-    public FifcosAuthenticationToken(String openid){
+    public FifcosAuthenticationToken(String openid, Integer type){
         super(null);
         this.id = null;
         this.openid = openid;
         this.phone = null;
         this.password = null;
-        this.type = null;
+        this.type = (type==0?"student":"teacher" );
         super.setAuthenticated(false);
     }
     // 小程序认证之后

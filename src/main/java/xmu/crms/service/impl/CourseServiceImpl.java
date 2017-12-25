@@ -76,16 +76,14 @@ public class CourseServiceImpl implements CourseService {
 		if(!(courseId.intValue() > 0)) {
 			throw new IllegalArgumentException("课程ID格式错误");
 		}
-		/*if(courseDaoImpl.deleteCourseByCourseId(courseId) == 0)
-			throw new CourseNotFoundException("没有找到课程！");*/
 		courseDao.deleteCourseByCourseId(courseId);
 		try{
-		seminarServiceImpl.deleteSeminarByCourseId(courseId);
-		classServiceImpl.deleteClassByCourseId(courseId);
+			seminarServiceImpl.deleteSeminarByCourseId(courseId);
+			classServiceImpl.deleteClassByCourseId(courseId);
 		}
 		catch(Exception e)
 		{
-			
+			e.printStackTrace();
 		}
 		
 	}
