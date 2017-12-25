@@ -73,11 +73,11 @@ public class GradeServiceTest {
 
     @Test
     public void testCountPresentationGrade() {
-        gradeService.countPresentationGrade(BigInteger.valueOf(1), BigInteger.valueOf(1));
+        gradeService.countPresentationGrade(BigInteger.valueOf(1));
     }
 
     @Test
-    public void testCountGroupGradeBySerminarId() {
-        gradeService.countGroupGradeBySerminarId(BigInteger.valueOf(1), BigInteger.valueOf(1));
+    public void testCountGroupGradeBySeminarId() {
+        gradeService.countGroupGradeBySeminarId(BigInteger.valueOf(1));
     }
 }

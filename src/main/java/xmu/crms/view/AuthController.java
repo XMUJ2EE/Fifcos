@@ -100,7 +100,7 @@ public class AuthController {
         }
         Map<String, Object> o = new ObjectMapper().readValue(code, Map.class);
         try{
-            Map<String, Object> ne = authService.weChatLogin((String)o.get("code"));
+            Map<String, Object> ne = authService.weChatLogin((String)o.get("code"), (Integer)o.get("type"));
             return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(ne);
         }catch (UserDuplicatedException e){
             return ResponseEntity.status(403).build();

@@ -9,6 +9,7 @@ import xmu.crms.entity.*;
 import xmu.crms.service.impl.SeminarServiceImpl;
 
 import java.math.BigInteger;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -24,15 +25,27 @@ public class SeminarServiceTest {
     @Autowired
     SeminarService seminarServiceImpl;
 
+    @Autowired
+    TimerService timerService;
+
+
+
     @Test
-    public void insertSeminarByCourseId() throws Exception{
+    public void insertSeminarByCourseId(){
         Seminar seminar = new Seminar();
         seminar.setDescription("讨论课介绍");
         seminar.setEndTime(new Date());
         seminar.setStartTime(new Date());
         seminar.setFixed(true);
         seminar.setName("讨论课4");
-        seminarServiceImpl.insertSeminarByCourseId(new BigInteger("2"),seminar);
+        try{
+            seminarServiceImpl.insertSeminarByCourseId(new BigInteger("1"),seminar);
+            timerService.scheduled();
+            seminarServiceImpl.insertSeminarByCourseId(new BigInteger("1"),seminar);
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test

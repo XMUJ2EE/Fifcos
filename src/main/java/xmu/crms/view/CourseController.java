@@ -16,6 +16,7 @@ import xmu.crms.entity.*;
 import xmu.crms.exception.ClazzNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.mapper.GradeMapper;
 import xmu.crms.service.*;
 import xmu.crms.view.vo.*;
 
@@ -36,7 +37,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/course")
 public class CourseController {
-
+	@Autowired(required = false)
+	TimerService timerService;
 	@Autowired(required = false)
 	GradeService gradeService;
 	@Autowired(required = false)
@@ -93,6 +95,7 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getCourseById(@PathVariable int courseId) {
+
 		GetCourseVO getCourseVO = null;
 		try {
 			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
@@ -175,6 +178,7 @@ public class CourseController {
 		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<SeminarGroup> listSeminarGroup = new ArrayList<SeminarGroup>();
 		List<SeminarAndGradeVO> listSeminarAndGradeVO = new ArrayList<SeminarAndGradeVO>();
+
 		listSeminarGroup = gradeService.listSeminarGradeByCourseId(userId, BigInteger.valueOf(courseId));
 		for (SeminarGroup seminarGroup : listSeminarGroup) {
 			SeminarAndGradeVO seminarAndGradeVO = new SeminarAndGradeVO(seminarGroup);

@@ -97,12 +97,11 @@ public interface GradeService {
 	 * <p>条件: 讨论课已结束<br>*GradeService<br>
 	 *
 	 * @param seminarId      讨论课ID
-	 * @param seminarGroupId 小组ID
 	 * @throws IllegalArgumentException seminarId或seminarGroupId格式错误
 	 * @author qinlingyun
 	 */
-	@CrmsEvent(table = "seminar", timeColumn = "end_time", paramColumns = {"id"})
-	void countPresentationGrade(BigInteger seminarId, BigInteger seminarGroupId) throws IllegalArgumentException;
+
+	void countPresentationGrade(BigInteger seminarId) throws IllegalArgumentException;
 
 
 	/**
@@ -111,9 +110,9 @@ public interface GradeService {
 	 * <p>条件: 讨论课已结束，展示得分已算出<br>*GradeService<br>
 	 *
 	 * @param seminarId      讨论课ID
-	 * @param seminarGroupId 小组ID
+
 	 * @throws IllegalArgumentException seminarId或seminarGroupId格式错误
 	 * @author qinlingyun
 	 */
-	void countGroupGradeBySerminarId(BigInteger seminarId, BigInteger seminarGroupId) throws IllegalArgumentException;
+	void countGroupGradeBySeminarId(BigInteger seminarId) throws IllegalArgumentException;
 }

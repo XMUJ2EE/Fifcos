@@ -155,7 +155,7 @@ public class ClassServiceTest {
 	@Test
 	public void testEndCallRollById() throws SeminarNotFoundException, ClazzNotFoundException
 	{
-		int update=classService.endCallRollById(new BigInteger("3"), new BigInteger("1"));
+		int update=classService.endCallRollById(new BigInteger("1"), new BigInteger("1"));
 		Assert.assertNotEquals(0,update);
 	}
 

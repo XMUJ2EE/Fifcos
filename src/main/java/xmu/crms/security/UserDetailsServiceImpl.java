@@ -30,6 +30,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
 
     public UserDetails loadUserByOpenId(String openid) throws UsernameNotFoundException{
         UserDetailsImpl userDetails = userMapper.getUserByOpenId(openid);
+        System.out.println(userDetails.toString());
         if(userDetails == null){
             throw new UsernameNotFoundException("未找到openId 对应用户");
         }

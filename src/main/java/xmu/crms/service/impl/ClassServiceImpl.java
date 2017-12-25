@@ -1,10 +1,13 @@
 package xmu.crms.service.impl;
 
 import java.math.BigInteger;
+
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -28,7 +31,8 @@ import java.math.BigInteger;
 public class ClassServiceImpl implements ClassService{
 	@Autowired
 	private ClassDao classDao;
-
+	@Autowired
+	SeminarGroupServiceImpl seminarGroupService;
 	@Override
 	public int deleteClassSelectionByClassId(BigInteger classId) throws ClazzNotFoundException{
 		return classDao.deleteClassSelectionByClassId(classId);
@@ -109,14 +113,18 @@ public class ClassServiceImpl implements ClassService{
 		return classDao.updateScoreRule(classId, proportions);
 	}
 
-	@Override
-	public BigInteger callInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
-		return classDao.callInRollById(location);
-	}
 
 	@Override
+	public BigInteger callInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
+		 return classDao.callInRollById(location);
+
+
+	}
+	@Override
 	public int endCallRollById(BigInteger seminarId, BigInteger classId) throws SeminarNotFoundException, ClazzNotFoundException {
-		return classDao.endCallRollById(seminarId, classId);
+		int status =  classDao.endCallRollById(seminarId, classId);
+		seminarGroupService.automaticallyGrouping(seminarId, classId);
+		return status;
 	}
 
 	@Override

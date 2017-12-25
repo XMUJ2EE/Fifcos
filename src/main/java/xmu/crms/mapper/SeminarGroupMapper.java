@@ -50,10 +50,10 @@ public interface SeminarGroupMapper {
 
 
 
-    BigInteger insertSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId, @Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
+    int insertSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId, @Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
 
 
-    List<SeminarGroup> listGroupByTopicId(@Param("topicId") BigInteger topicId)
+    List<SeminarGroupTopic> listGroupByTopicId(@Param("topicId") BigInteger topicId)
             throws IllegalArgumentException,GroupNotFoundException;
     String insertTopicByGroupId(@Param("groupId") BigInteger groupId, @Param("topicId") BigInteger topicId)
             throws IllegalArgumentException,GroupNotFoundException;
@@ -72,13 +72,13 @@ public interface SeminarGroupMapper {
 
     BigInteger getSeminarGroupIdBySeminarIdAndUserId(@Param("seminarId") BigInteger seminarId, @Param("userId") BigInteger userId);
     BigInteger getSeminarGroupLeaderByGroupId(@Param("groupId") BigInteger groupId);
-
-    void insertSeminarGroupBySeminarId(SeminarGroup seminarGroup);
+    List<SeminarGroupMember> listSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId);
+    int insertSeminarGroupBySeminarId(SeminarGroup seminarGroup);
     List<SeminarGroup> listSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId);
     BigInteger getUserIdByUserId(@Param("userId") BigInteger userId);
-
+    void deleteSeminarGroupMemberByuId(@Param("groupId")BigInteger grouId, @Param("userId")BigInteger userId);
     BigInteger getSeminarIdBySeminarId(@Param("seminarId") BigInteger seminarId);
-
+    List<BigInteger> listStudentIdBySeminarIdAndClassId(@Param("seminarId")BigInteger SeminarId,@Param("classId")BigInteger ClassId);
     /**
      *获取某学生所有的讨论课小组.
      *

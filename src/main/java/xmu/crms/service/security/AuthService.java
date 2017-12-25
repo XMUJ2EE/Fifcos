@@ -39,7 +39,7 @@ public interface AuthService {
      * @return
      * @throws IOException
      */
-    Map<String, Object> weChatLogin(String code) throws IOException, UserDuplicatedException;
+    Map<String, Object> weChatLogin(String code, Integer type) throws IOException, UserDuplicatedException;
 
 
 }

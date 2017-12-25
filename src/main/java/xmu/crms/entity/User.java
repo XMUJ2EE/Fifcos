@@ -23,8 +23,9 @@ public class User {
 	public User() {
 	}
 
-	public User(String openid){
+	public User(String openid, Integer type){
 		this.openid = openid;
+		this.type = type;
 	}
 	public User(UserDetailVO userDetailVO) {
 		this.id = null;
