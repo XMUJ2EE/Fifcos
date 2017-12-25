@@ -152,10 +152,10 @@ function stuinfomod(){//StudentInfoModifyPage updatestuinfo
 var courseid = '';
 
 function jumpCourse(id){
-    var cid = document.getElementById("course").getAttribute("name");
-    updateCookie('classcurrent',id);
-    updateCookie('coursecurrent',cid);
-    window.location.href="/student/course/"+cid;
+    var cid = document.getElementById("course").getAttribute("name")
+    updateCookie('classcurrent',cid);
+    updateCookie('coursecurrent',id);
+    window.location.href="/student/course/"+id;
 }
 
 function getcourseid(name){//StudentCourse_List store course id
@@ -172,6 +172,7 @@ function getcourseid(name){//StudentCourse_List store course id
                         courseid = data[i].id;
                     }
                 }
+                return courseid;
             }
         },
         statusCode: {
@@ -185,18 +186,17 @@ function getcourseid(name){//StudentCourse_List store course id
 function classinfo(){//StudentCourse_List showclassinfo
         $.ajax({
         type:'get',
-        url: '/class',
+        url: '/course/student',
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status,xhr) {
             if(xhr.status == 200){
                 var content=document.getElementById("classcontent");
                 var str="";
+                str+='<div class="title">课程信息</div><hr class="line"/>'
                 for(var i=0;i<data.length;i++){
-                        var cid = getcourseid(data[i].courseName);
-                        //document.cookie = 'course'+i+'='+cid;
-                        str += '<div class="title">课程信息</div><hr class="line"/><div class="main_box_right_content" ><h3 class="classtitle"><span id="course" name="'+courseid+'">'+data[i].courseName+
-                        '</span><button id="'+data[i].id+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo" onclick="jumpCourse(this.id)" id="'+data[i].id+'"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].name+
+                        str += '<div class="main_box_right_content" ><h3 class="classtitle"><span id="course" name="'+data[i].classId+'">'+data[i].courseName+
+                        '</span><button id="'+data[i].courseId+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo" onclick="jumpCourse(this.id)" id="'+data[i].courseId+'"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].className+
                         '</span></td><td class="tabletext" id="site">课程地点：'+data[i].site+
                         '</td></tr><tr><td class="tabletext" id="teacher">教师：'+data[i].courseTeacher+'</td><td class="tabletext"></td></tr></table></div></div>';
                 }

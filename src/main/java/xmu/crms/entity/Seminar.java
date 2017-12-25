@@ -1,5 +1,6 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.SeminarUpdateVO;
 import xmu.crms.view.vo.SeminarVO;
 
 import java.math.BigInteger;
@@ -28,6 +29,22 @@ public class Seminar {
             this.endTime = simpleDateFormat.parse(seminarVO.getEndTime());
         } catch (ParseException e) {
             e.printStackTrace();
+        }
+    }
+
+    public Seminar(SeminarUpdateVO seminarUpdateVO) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        this.id = null;
+        this.name = seminarUpdateVO.getName();
+        this.description = seminarUpdateVO.getDescription();
+        this.course = null;
+        this.fixed = seminarUpdateVO.getGroupingMethod().equals("fixed");
+        try {
+            this.startTime = simpleDateFormat.parse(seminarUpdateVO.getStartTime());
+            this.endTime = simpleDateFormat.parse(seminarUpdateVO.getEndTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+            System.out.println("error!!");
         }
     }
 

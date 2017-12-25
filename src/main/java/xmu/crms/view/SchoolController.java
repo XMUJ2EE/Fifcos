@@ -31,20 +31,7 @@ public class SchoolController {
     @ResponseBody
     public ResponseEntity getSchoolList(@PathParam("city") String city) {
         List<School> schools = schoolService.listSchoolByCity(city);
-        String school = "[\n" +
-                "  {\n" +
-                "    \"id\": 32,\n" +
-                "    \"name\": \"厦门大学\",\n" +
-                "    \"province\": \"福建\",\n" +
-                "    \"city\": \"厦门\"\n" +
-                "  },\n" +
-                "  {\n" +
-                "    \"id\": 37,\n" +
-                "    \"name\": \"厦门软件学院\",\n" +
-                "    \"province\": \"福建\",\n" +
-                "    \"city\": \"厦门\"\n" +
-                "  }\n" +
-                "]";
+
         return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(schools);
     }
 
@@ -64,13 +51,7 @@ public class SchoolController {
     public ResponseEntity getProvince() {
         List<String> provinces = new ArrayList<String>();
         provinces = schoolService.listProvince();
-        String province = "[\n" +
-                "  \"北京\",\n" +
-                "  \"天津\",\n" +
-                "  \"河北省\",\n" +
-                "  \"……\",\n" +
-                "  \"澳门特别行政区\"\n" +
-                "]";
+
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(provinces);
     }
 
@@ -80,13 +61,7 @@ public class SchoolController {
     public  ResponseEntity getCity(@PathParam("province") String province) {
         List<String> citys = new ArrayList<String>();
         citys = schoolService.listCity(province);
-        String city = "[\n" +
-                "  \"北京\",\n" +
-                "  \"天津\",\n" +
-                "  \"河北省\",\n" +
-                "  \"……\",\n" +
-                "  \"澳门特别行政区\"\n" +
-                "]";
+
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(citys);
     }
 }

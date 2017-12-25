@@ -182,7 +182,7 @@
         select `id`, `phone`, `password`, `type`, `name` from user_info where phone = #{phone}
     </select>
 
-    <select id="getUserByOpenId" parameterType="java.lang.String" resultMap="UserDetailResultMap">
+    <select id="getUserByOpenId" parameterType="java.lang.String" resultMap="userDetailResultMap">
         select `id`, `phone`, `password`, `type`, `name`, `openid` from user_info where openid = #{openid}
     </select>
 </mapper>

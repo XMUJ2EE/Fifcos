@@ -1,8 +1,13 @@
 package xmu.crms.view.vo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import xmu.crms.entity.Course;
+import xmu.crms.entity.School;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
+import java.util.Map;
 
 public class CourseVO {
     private String name;
@@ -21,12 +26,28 @@ public class CourseVO {
                 course.getThreePointPercentage(), course.getFourPointPercentage(), course.getFivePointPercentage());
     }
 
-    public CourseVO(String name, String description, String startTime, String endTime, Proportions proportions, String teacherName, String teacherEmail) {
+    public CourseVO(String name, String description, String startTime, String endTime, Proportions proportions) {
         this.name = name;
         this.description = description;
         this.startTime = startTime;
         this.endTime = endTime;
         this.proportions = proportions;
+    }
+
+    public CourseVO(String courseJson) throws IOException{
+        Map<String , Object> course = new ObjectMapper().readValue(courseJson, Map.class);
+        this.description = (String)course.get("description");
+        this.name = (String)course.get("name");
+        this.startTime = (String)course.get("startTime");
+        System.out.println(startTime);
+        this.endTime = (String)course.get("endTime");
+        System.out.println(endTime);
+        HashMap<String, Object> proportion = (HashMap) course.get("proportions");
+        System.out.println(proportion.toString());
+        Proportions p = new Proportions( Integer.parseInt(proportion.get("report").toString()), Integer.parseInt(proportion.get("presentation").toString()),
+                Integer.parseInt(proportion.get("c").toString()), Integer.parseInt(proportion.get("b").toString()),
+                Integer.parseInt(proportion.get("a").toString()));
+        this.proportions = new Proportions(p);
     }
 
     public String getName() {

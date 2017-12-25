@@ -72,7 +72,8 @@
                         </div>
                         <div class="item">
                           <label class="itemName">导入学生名单:</label>
-                          <button class="selectFile">选择文件</button>
+                          <!--<button class="selectFile" id="selectFile">选择文件</button>-->
+                            <input type="file" id="file">
                         </div>
                         <div class="item">
                           <button class="submit" onclick="return updateclass();">修改</button>
@@ -96,5 +97,10 @@
     <!-- student.js -->
     <script src ="/js/teacher_page.js"></script>
      <script src ="/js/jwt.js"></script>
+<!--<script type="text/javascript">-->
+    <!--$("#selectFile").click(function () {-->
+        <!--$('#file').click();-->
+    <!--})-->
+<!--</script>-->
 </body>
 </html>

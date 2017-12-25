@@ -1,6 +1,8 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.AddTopicVO;
 import xmu.crms.view.vo.TopicDetailVO;
+import xmu.crms.view.vo.TopicUpdateVO;
 
 import java.math.BigInteger;
 
@@ -17,6 +19,26 @@ public class Topic {
 	private Seminar seminar;
 
 	public Topic() {
+	}
+
+	public Topic(TopicUpdateVO topicUpdateVO) {
+		this.id = null;
+		this.serial = null;
+		this.name = topicUpdateVO.getName();
+		this.description = topicUpdateVO.getDescription();
+		this.groupNumberLimit = topicUpdateVO.getGroupLimit();
+		this.groupStudentLimit = topicUpdateVO.getGroupMemberLimit();
+		this.seminar = new Seminar();
+	}
+
+	public Topic(AddTopicVO addTopicVO) {
+		this.id = null;
+		this.serial = addTopicVO.getSerial();
+		this.name = addTopicVO.getName();
+		this.description = addTopicVO.getDescription();
+		this.groupNumberLimit = addTopicVO.getGroupLimit();
+		this.groupStudentLimit = addTopicVO.getGroupMemberLimit();
+		this.seminar = null;
 	}
 
 	public Topic(TopicDetailVO topicDetailVO) {

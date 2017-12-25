@@ -6,22 +6,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import xmu.crms.entity.Seminar;
-import xmu.crms.entity.Topic;
+import org.springframework.web.bind.annotation.*;
+import xmu.crms.entity.*;
+import xmu.crms.exception.GroupNotFoundException;
 import xmu.crms.exception.SeminarNotFoundException;
+import xmu.crms.exception.TopicNotFoundException;
+import xmu.crms.service.SeminarGroupService;
 import xmu.crms.service.SeminarService;
 import xmu.crms.service.TopicService;
 import xmu.crms.service.impl.SeminarServiceImpl;
 import xmu.crms.view.vo.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author mads
@@ -36,6 +41,9 @@ public class SeminarController {
 	@Autowired
 	TopicService topicService;
 
+	@Autowired
+	SeminarGroupService seminarGroupService;
+
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}", method = GET)
 	@ResponseBody
@@ -44,7 +52,7 @@ public class SeminarController {
 			Seminar seminar = seminarService.getSeminarBySeminarId(seminarId);
 			List<Topic> topics = topicService.listTopicBySeminarId(seminarId);
 			SeminarVO seminarVO = new SeminarVO(seminar, topics);
-			return ResponseEntity.status(200).body(seminarVO);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarVO);
 		} catch (SeminarNotFoundException e) {
 			return ResponseEntity.status(404).build();
 		}
@@ -53,9 +61,15 @@ public class SeminarController {
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}", method = PUT)
 	@ResponseBody
-	public ResponseEntity updateSeminarById(@PathVariable int seminarId) {
-
-		return ResponseEntity.status(204).build();
+	public ResponseEntity updateSeminarById(@PathVariable int seminarId, @RequestBody SeminarUpdateVO seminarUpdateVO) {
+		Seminar seminar = new Seminar(seminarUpdateVO);
+		try {
+			seminarService.updateSeminarBySeminarId(BigInteger.valueOf(seminarId), seminar);
+			return ResponseEntity.status(204).build();
+		} catch (SeminarNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
@@ -63,15 +77,19 @@ public class SeminarController {
 	public ResponseEntity deleteSeminarById(@PathVariable int seminarId) {
 		try {
 			seminarService.deleteSeminarBySeminarId(BigInteger.valueOf(seminarId));
+			return ResponseEntity.status(204).build();
 		} catch (SeminarNotFoundException e) {
 			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}
-		return ResponseEntity.status(204).build();
 	}
 
 	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}/my", method = GET)
 	public ResponseEntity getSeminarWithMe(@PathVariable int seminarId) {
+		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+
 
 
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
@@ -81,39 +99,64 @@ public class SeminarController {
 	@RequestMapping(value = "/{seminarId}/detail", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarDetail(@PathVariable int seminarId) {
-		Seminar seminar = null;
-		SeminarDetailVO seminarDetailVO = null;
-		try {
-			seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
-			seminarDetailVO = new SeminarDetailVO(seminar.getId().intValue(), seminar.getName(), null, seminar.getStartTime().toString(),
-					seminar.getEndTime().toString(), seminar.getCourse().getTeacher().getName(), seminar.getCourse().getTeacher().getEmail());
-		} catch (SeminarNotFoundException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(404).body(null);
-		}
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
+//		try {
+//			Seminar seminar = null;
+//			SeminarDetailVO seminarDetailVO = null;
+//			seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
+//
+//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
+//		} catch (SeminarNotFoundException e) {
+//			e.printStackTrace();
+//			return ResponseEntity.status(404).body(null);
+//		}
+		return ResponseEntity.status(404).build();
 	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}/topic", method = GET)
 	@ResponseBody
 	public ResponseEntity getTopicBySeminarId(@PathVariable int seminarId) {
-		List<Topic> listTopic = new ArrayList<Topic>();
 		try{
-			listTopic = topicService.listTopicBySeminarId(BigInteger.valueOf(seminarId));
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listTopic);
+			List<Topic> listTopic = topicService.listTopicBySeminarId(BigInteger.valueOf(seminarId));
+			List<GetTopicVO> getTopicVOS = new ArrayList<GetTopicVO>();
+			for (Topic topic : listTopic) {
+				List<String> groupList = new ArrayList<String>();
+				List<SeminarGroup> seminarGroups = seminarGroupService.listGroupByTopicId(topic.getId());
+				for (SeminarGroup seminarGroup : seminarGroups) {
+					String group = seminarGroup.getId().toString();
+					groupList.add(group);
+				}
+				GetTopicVO getTopicVO = new GetTopicVO(topic.getId(), topic.getSerial(), topic.getName(),
+						topic.getDescription(), topic.getGroupNumberLimit(), topic.getGroupStudentLimit(), groupList);
+				getTopicVOS.add(getTopicVO);
+			}
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(getTopicVOS);
 		} catch (IllegalArgumentException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(404).body(null);
+			return ResponseEntity.status(404).build();
+		} catch (TopicNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}/topic", method = POST)
-	public ResponseEntity addTopicBySeminarId(@PathVariable int seminarId){
-
-		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(new Object(){public int id=257;});
+	public ResponseEntity addTopicBySeminarId(@PathVariable int seminarId, HttpServletRequest httpServletRequest) throws IOException {
+		BufferedReader br = httpServletRequest.getReader();
+		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String str, wholeStr = "";
+		while((str = br.readLine()) != null){
+			wholeStr += str;
+		}
+		AddTopicVO addTopicVO = new AddTopicVO(wholeStr);
+		Topic topic = new Topic(addTopicVO);
+		BigInteger id = topicService.insertTopicBySeminarId(BigInteger.valueOf(seminarId), topic);
+		Map<String, BigInteger> result = new HashMap<String, BigInteger>();
+		result.put("id", id);
+		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 	}
+
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{seminarId}/group", method = GET)
@@ -123,6 +166,8 @@ public class SeminarController {
 															  @RequestParam(value = "classId", required = false)Integer classId) {
 
 
+
+
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 
@@ -130,10 +175,31 @@ public class SeminarController {
 	@RequestMapping(value = "/{seminarId}/group/my", method = GET)
 	@ResponseBody
 	public ResponseEntity getMyGroupBySeminarId(@PathVariable int seminarId){
-
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
+		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		try {
+			Seminar seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
+			SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupById(BigInteger.valueOf(seminarId), userId);
+			List<User> member = seminarGroupService.listSeminarGroupMemberByGroupId(seminarGroup.getId());
+			UserVO leader = new UserVO(seminarGroup.getLeader());
+			List<UserVO> members = new ArrayList<UserVO>();
+			for (User user : member) {
+				UserVO userVO = new UserVO(user);
+				members.add(userVO);
+			}
+			List<SeminarGroupTopic> list = topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
+			List<TopicVO> topics = new ArrayList<TopicVO>();
+			for (SeminarGroupTopic seminarGroupTopic : list) {
+				TopicVO topicVO = new TopicVO(seminarGroupTopic.getTopic().getId(), seminarGroupTopic.getTopic().getName());
+				topics.add(topicVO);
+			}
+			MyGroupVO myGroupVO = new MyGroupVO(seminarGroup.getId(), seminarGroup.getId().toString(), leader, members, topics);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(myGroupVO);
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		} catch (SeminarNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
 	}
-
-
-
 }

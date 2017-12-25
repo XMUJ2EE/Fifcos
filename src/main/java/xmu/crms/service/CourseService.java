@@ -24,7 +24,7 @@ public interface CourseService {
 	 * @throws IllegalArgumentException userId格式错误时抛出
 	 * @throws CourseNotFoundException 未找到课程
 	 */
-	List<Course> listCourseByUserId(BigInteger userId)throws IllegalArgumentException,CourseNotFoundException ;
+	List<Course> listCourseByUserId(BigInteger userId)throws IllegalArgumentException,CourseNotFoundException;
 
 
 	/**

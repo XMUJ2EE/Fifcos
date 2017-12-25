@@ -43,7 +43,7 @@ function logout(){
 function courseinfo(){//show CourseInformation
         $.ajax({
         type:'get',
-        url: '/course/'+getCookie("coursecurrent"),
+        url: '/course/student/'+getCookie("coursecurrent"),
         dataType: "json",
         contentType: "application/json;",
             async:"false",

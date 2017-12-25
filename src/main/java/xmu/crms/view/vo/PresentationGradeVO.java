@@ -24,4 +24,12 @@ public class PresentationGradeVO {
     public void setGrade(int grade) {
         this.grade = grade;
     }
+
+    @Override
+    public String toString() {
+        return "PresentationGradeVO{" +
+                "topicId=" + topicId +
+                ", grade=" + grade +
+                '}';
+    }
 }

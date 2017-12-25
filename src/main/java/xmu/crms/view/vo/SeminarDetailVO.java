@@ -1,13 +1,27 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.Seminar;
+
+import java.text.SimpleDateFormat;
+
 public class SeminarDetailVO {
 	private int id;
 	private String name;
-	private String site;
 	private String startTime;
 	private String endTime;
+	private String site;
 	private String teacherName;
 	private String teacherEmail;
+
+	public SeminarDetailVO(Seminar seminar) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		this.id = seminar.getId().intValue();
+		this.name = seminar.getName();
+		this.startTime = simpleDateFormat.format(seminar.getStartTime());
+		this.endTime = simpleDateFormat.format(seminar.getEndTime());
+
+	}
+
 	public SeminarDetailVO(int id, String name,
 						   String site, String startTime,
 						   String endTime, String teacherName,

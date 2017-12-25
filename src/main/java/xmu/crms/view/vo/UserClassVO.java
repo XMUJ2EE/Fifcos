@@ -24,7 +24,7 @@ public class UserClassVO {
         this.time = classInfo.getClassTime();
         this.site = classInfo.getSite();
         this.courseName = classInfo.getCourse().getName();
-        this.courseName = classInfo.getCourse().getTeacher().getName();
+        this.courseTeacher = classInfo.getCourse().getTeacher().getName();
     }
 
     public UserClassVO(BigInteger id, String name, Integer numStudent, String time, String site, String courseName, String courseTeacher) {

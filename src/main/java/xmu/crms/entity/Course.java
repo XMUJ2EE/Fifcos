@@ -39,6 +39,25 @@ public class Course {
 		this.threePointPercentage = courseVO.getProportions().getC();
 	}
 
+	public Course(CourseVO courseVO, User teacher) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		this.id = null;
+		this.name = courseVO.getName();
+		try {
+			this.startDate = simpleDateFormat.parse(courseVO.getStartTime());
+			this.endDate = simpleDateFormat.parse(courseVO.getEndTime());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		this.teacher = teacher;
+		this.description = courseVO.getDescription();
+		this.reportPercentage = courseVO.getProportions().getReport();
+		this.presentationPercentage = courseVO.getProportions().getPresentation();
+		this.fivePointPercentage = courseVO.getProportions().getA();
+		this.fourPointPercentage = courseVO.getProportions().getB();
+		this.threePointPercentage = courseVO.getProportions().getC();
+	}
+
 	public Course() {
 	}
 

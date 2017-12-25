@@ -99,7 +99,7 @@ and user_info.name=#{teacherName} and course.id=class_info.course_id;
 </select>
 
     <select id="listClassByCourseId" resultMap="ClassInfoResultMap">
-select class_info.* from class_info  where  class_info.course_id=#{courseId.longValue()};
+select class_info.* from class_info  where  class_info.course_id=#{courseId};
 </select>
 
     <select id="getClassByClassId" parameterType="java.math.BigInteger" resultMap="ClassInfoResultMap">
@@ -196,7 +196,7 @@ delete from class_info where course_id=#{courseId};
 	values(null,null,null,null,null);
 </insert>
 
-    <select id="listClassByUserId">
+    <select id="listClassByUserId" resultType="java.math.BigInteger">
         select class_id from course_selection where student_id=#{id}
     </select>
 </mapper>

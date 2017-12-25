@@ -14,6 +14,14 @@ public class Proportions {
     public Proportions() {
     }
 
+    public Proportions(Proportions proportions) {
+        this.report = proportions.getReport();
+        this.presentation = proportions.getPresentation();
+        this.c = proportions.getC();
+        this.b = proportions.getB();
+        this.a = proportions.getA();
+    }
+
     public Proportions(int report, int presentation, int c, int b, int a) {
         this.report = report;
         this.presentation = presentation;

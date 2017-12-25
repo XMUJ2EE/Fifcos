@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,9 +20,14 @@ import xmu.crms.entity.Topic;
 import xmu.crms.exception.TopicNotFoundException;
 import xmu.crms.service.SeminarGroupService;
 import xmu.crms.service.TopicService;
+import xmu.crms.view.vo.GetTopicVO;
 import xmu.crms.view.vo.GroupVO;
 import xmu.crms.view.vo.TopicDetailVO;
+import xmu.crms.view.vo.TopicUpdateVO;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -52,7 +58,12 @@ public class TopicController {
 			System.out.println(seminarGroups.size());
 			Integer groupLeft = topic.getGroupNumberLimit()-seminarGroups.size();
 			System.out.println(groupLeft.toString());
-			TopicDetailVO topicDetailVO = new TopicDetailVO(topic, groupLeft);
+			List<String> groupList = new ArrayList<String>();
+			for (SeminarGroup seminarGroup : seminarGroups) {
+				String group = seminarGroup.getId().toString();
+				groupList.add(group);
+			}
+			TopicDetailVO topicDetailVO = new TopicDetailVO(topic, groupLeft, groupList);
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(topicDetailVO);
 		} catch (TopicNotFoundException e) {
 			e.printStackTrace();
@@ -63,10 +74,17 @@ public class TopicController {
 	@RequestMapping(value = "/{topicId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateTopicById(@PathVariable BigInteger topicId,
-										  @RequestBody TopicDetailVO topicDetailVO) {
+										  HttpServletRequest httpServletRequest) throws IOException {
 		try{
+			BufferedReader br = httpServletRequest.getReader();
+			BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String str, wholeStr = "";
+			while((str = br.readLine()) != null){
+				wholeStr += str;
+			}
+			TopicUpdateVO topicUpdateVO = new TopicUpdateVO(wholeStr);
 			Topic topic = topicService.getTopicByTopicId(topicId);
-			topicService.updateTopicByTopicId(topicId, new Topic(topicDetailVO));
+			topicService.updateTopicByTopicId(topicId, new Topic(topicUpdateVO));
 			return ResponseEntity.status(204).build();
 		}catch (TopicNotFoundException e){
 			return ResponseEntity.status(404).build();

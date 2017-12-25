@@ -1,20 +1,36 @@
 package xmu.crms.view.vo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.Map;
+
 public class SeminarUpdateVO {
     private String name;
     private String description;
     private String groupingMethod;
     private String startTime;
     private String endTime;
-    private Proportions proportions;
 
-    public SeminarUpdateVO(String name, String description, String groupingMethod, String startTime, String endTime, Proportions proportions) {
+    public SeminarUpdateVO(String name, String description, String groupingMethod, String startTime, String endTime) {
         this.name = name;
         this.description = description;
         this.groupingMethod = groupingMethod;
         this.startTime = startTime;
         this.endTime = endTime;
-        this.proportions = proportions;
+    }
+
+    public SeminarUpdateVO() {
+
+    }
+
+    public SeminarUpdateVO(String seminarJson) throws IOException {
+        Map<String , Object> seminar = new ObjectMapper().readValue(seminarJson, Map.class);
+        this.name = (String) seminar.get("name");
+        this.description = (String) seminar.get("description");
+        this.groupingMethod = (String) seminar.get("groupingMethod");
+        this.startTime = (String) seminar.get("startTime");
+        this.endTime = (String) seminar.get("endTime");
     }
 
     public String getName() {
@@ -57,14 +73,6 @@ public class SeminarUpdateVO {
         this.endTime = endTime;
     }
 
-    public Proportions getProportions() {
-        return proportions;
-    }
-
-    public void setProportions(Proportions proportions) {
-        this.proportions = proportions;
-    }
-
     @Override
     public String toString() {
         return "SeminarUpdateVO{" +
@@ -73,7 +81,6 @@ public class SeminarUpdateVO {
                 ", groupingMethod='" + groupingMethod + '\'' +
                 ", startTime='" + startTime + '\'' +
                 ", endTime='" + endTime + '\'' +
-                ", proportions=" + proportions +
                 '}';
     }
 }

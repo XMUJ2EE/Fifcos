@@ -121,9 +121,9 @@
         WHERE
           id=#{id}
     </select>
-    <insert id="insertSeminarByCourseId" >
+    <insert id="insertSeminarByCourseId" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO
-          seminar(name,description,course_id,is_fixed,start_time,end_time)
+          seminar(`name`,description,course_id,is_fixed,start_time,end_time)
         VALUES (#{name},#{description},#{course.id},#{fixed},#{startTime},#{endTime})
     </insert>
 

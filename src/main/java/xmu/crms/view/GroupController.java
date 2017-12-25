@@ -34,7 +34,7 @@ public class GroupController {
 	GradeService gradeService;
 	@Autowired
 	SeminarGroupService seminarGroupService;
-	@Autowired(required = false)
+	@Autowired
 	FixGroupService fixGroupService;
 	@Autowired
 	UserService userService;
@@ -44,17 +44,19 @@ public class GroupController {
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{groupId}", method = GET)
 	@ResponseBody
-	public ResponseEntity getGroupById(@PathVariable int groupId, @RequestParam Boolean embedTopics, @RequestParam Boolean embedGrade) {
-		if (embedTopics && embedGrade) {
-			try {
-				List<User> member = seminarGroupService.listSeminarGroupMemberByGroupId(BigInteger.valueOf(groupId));
-				UserVO leader = new UserVO(seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)).getLeader());
-				List<UserVO> members = new ArrayList<UserVO>();
-				for (User user : member) {
-					UserVO userVO = new UserVO(user);
-					members.add(userVO);
-				}
-				SeminarGroup group = seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId));
+	public ResponseEntity getGroupById(@PathVariable int groupId,
+									   @RequestParam(value = "embedTopics",required = false) Boolean embedTopics,
+									   @RequestParam(value = "embedGrade", required = false) Boolean embedGrade) {
+		try {
+			List<User> member = seminarGroupService.listSeminarGroupMemberByGroupId(BigInteger.valueOf(groupId));
+			UserVO leader = new UserVO(seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)).getLeader());
+			List<UserVO> members = new ArrayList<UserVO>();
+			for (User user : member) {
+				UserVO userVO = new UserVO(user);
+				members.add(userVO);
+			}
+			SeminarGroup group = seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId));
+			if (embedTopics && embedGrade) {
 				List<SeminarGroupTopic> list = topicService.listSeminarGroupTopicByGroupId(BigInteger.valueOf(groupId));
 				List<TopicVO> topics = new ArrayList<TopicVO>();
 				for (SeminarGroupTopic seminarGroupTopic : list) {
@@ -70,21 +72,8 @@ public class GroupController {
 				GroupMemberTopicGradeVO groupDetail = new GroupMemberTopicGradeVO(group.getId().intValue(), group.getId().toString(),
 						leader, members, topics, groupGradeVO, "");
 				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(groupDetail);
-			} catch (GroupNotFoundException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(404).build();
 			}
-		}
-		else if (embedTopics && !embedGrade) {
-			try {
-				List<User> member = seminarGroupService.listSeminarGroupMemberByGroupId(BigInteger.valueOf(groupId));
-				UserVO leader = new UserVO(seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)).getLeader());
-				List<UserVO> members = new ArrayList<UserVO>();
-				for (User user : member) {
-					UserVO userVO = new UserVO(user);
-					members.add(userVO);
-				}
-				SeminarGroup group = seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId));
+			else if (embedTopics && !embedGrade) {
 				GroupVO groupVO = new GroupVO(group);
 				List<SeminarGroupTopic> list = topicService.listSeminarGroupTopicByGroupId(BigInteger.valueOf(groupId));
 				List<TopicVO> topics = new ArrayList<TopicVO>();
@@ -94,22 +83,8 @@ public class GroupController {
 				}
 				GroupDetailsVO groupDetailsVO = new GroupDetailsVO(groupVO, leader, members, topics, "");
 				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(groupDetailsVO);
-			} catch (GroupNotFoundException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(404).build();
 			}
-		}
-		else if (!embedTopics && embedGrade) {
-			List<User> member = null;
-			try {
-				member = seminarGroupService.listSeminarGroupMemberByGroupId(BigInteger.valueOf(groupId));
-				UserVO leader = new UserVO(seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)).getLeader());
-				List<UserVO> members = new ArrayList<UserVO>();
-				for (User user : member) {
-					UserVO userVO = new UserVO(user);
-					members.add(userVO);
-				}
-				SeminarGroup group = seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId));
+			else if (!embedTopics && embedGrade) {
 				List<PresentationGradeVO> topicList = new ArrayList<PresentationGradeVO>();
 				List<SeminarGroupTopic> list = topicService.listSeminarGroupTopicByGroupId(BigInteger.valueOf(groupId));
 				for (SeminarGroupTopic s : list) {
@@ -120,27 +95,14 @@ public class GroupController {
 				GroupMemberGradeVO groupDetail = new GroupMemberGradeVO(group.getId().intValue(), group.getId().toString(),
 						leader, members, groupGradeVO, "");
 				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(groupDetail);
-			} catch (GroupNotFoundException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(404).build();
-			}
-		} else {
-			try {
-				List<User> member = seminarGroupService.listSeminarGroupMemberByGroupId(BigInteger.valueOf(groupId));
-				UserVO leader = new UserVO(seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId)).getLeader());
-				List<UserVO> members = new ArrayList<UserVO>();
-				for (User user : member) {
-					UserVO userVO = new UserVO(user);
-					members.add(userVO);
-				}
-				SeminarGroup group = seminarGroupService.getSeminarGroupByGroupId(BigInteger.valueOf(groupId));
+			} else {
 				GroupMembersVO groupMembersVO = new GroupMembersVO(group.getId().intValue(),
 						group.getId().toString(), leader, members, "");
 				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(groupMembersVO);
-			} catch (GroupNotFoundException e) {
-				e.printStackTrace();
-				return ResponseEntity.status(404).build();
 			}
+		} catch (GroupNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}
 	}
 

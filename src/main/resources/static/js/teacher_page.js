@@ -210,7 +210,7 @@ function courselist(){
                     if(i==0){
                         str+='<div class=\"title\">课程信息</div><hr class=\"line\"/>'
                     }
-                        str+='<div class=\"main_box_right_content\"><h3 class=\"classtitle\" id=\"name\">'
+                        str+='<div class=\"main_box_right_content\" id="data[i].id"><h3 class=\"classtitle\" id=\"name\">'
                               +' <span id="course">'+data[i].name
                               +'</span><button type=\"submit\"  onclick=\"deletecourse('+data[i].id+')\">删除课程</button>'
                              // +'<button onclick="window.location.href=\'/teacher/course/'+data[i].id+'/update\'\" >修改课程</button></h3>'
@@ -249,6 +249,7 @@ function deletecourse(cid){
         success: function (data,textStatus,xhr){
             if(xhr.status == 204){
                 alert("成功");
+                // document.getElementById(cid).style.display = none;
             }
         },
         statusCode: {
@@ -398,18 +399,23 @@ function classlist(){
            // alert("获取成功");
             var content=document.getElementById("classcontent");   //获取外围容器
             var str="";
+            str+='<div class=\"title\">课程班级</div>'
+                +'<div class=\"returnButton\"  onclick=\"window.location.href=\'/teacher/courses\'\">返回上一页</div>'
+                +'<div class=\"line\"></div>'
+                +'<div class=\"blockBody\" id=\"classtitle\">'
             for(var i=0;i<data.length;i++){
-                    if(i==0){
-                    str+='<div class=\"title\">课程班级</div>'
-                    +'<div class=\"returnButton\"  onclick=\"window.location.href=\'/teacher/courses\'\">返回上一页</div>'
-                    +'<div class=\"line\"></div>'
-                    +'<div class=\"blockBody\" id=\"classtitle\">'
-                    }
+                    // if(i==0){
+                    // str+='<div class=\"title\">课程班级</div>'
+                    // +'<div class=\"returnButton\"  onclick=\"window.location.href=\'/teacher/courses\'\">返回上一页</div>'
+                    // +'<div class=\"line\"></div>'
+                    // +'<div class=\"blockBody\" id=\"classtitle\">'
+                    // }
                     str+='<div class=\"block\" id=\"'+data[i].id+'\" onclick=\"jumpclassdetail(this.id)\"><div class=\"blockFont\">'+data[i].name+'</div></div>'
-                    if(i==data.length-1){
-                        str+='<div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/class/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>'
-                    }
+                    // if(i==data.length-1){
+                    //     str+='<div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/class/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>'
+                    // }
             }
+            str+='<div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/class/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>'
             content.innerHTML=str;
         }
     },
@@ -428,24 +434,27 @@ function classlist(){
 function seminarlist(){
     $.ajax({
     type:'get',
-    url: '/course/'+getCookie("courseDetail")+'/seminar',
+    url: '/course/'+getCookie("courseDetail")+'/teacher/seminar',
    // url: '/course/'+1+'/seminar',
     dataType: "json",
     contentType: "application/json;",
     success: function (data,textStatus,xhr) {
         if(xhr.status == 200){
-            //alert("获取成功");
+            // alert("获取成功");
             var content=document.getElementById("seminarcontent");   //获取外围容器
             var str="";
+            str+='<div class="title">讨论课</div><div class="line"></div><div class="blockBody">';
             for(var i=0;i<data.length;i++){
-                    if(i==0){
-                     str+='<div class="title">讨论课</div><div class="line"></div><div class="blockBody">'
-                    }
+                    // if(i==0){
+                    //  str+='<div class="title">讨论课</div><div class="line"></div><div class="blockBody">'
+                    // }
+                   alert(data[i].name);
                     str+='<div class="block"  id=\"'+data[i].id+'\" onclick=\"jumpseminardetail(this.id)\"><div class="blockFont">'+data[i].name+'</div></div>'
-                    if(i==data.length-1){
-                         str+='  <div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/create\'\"> <img class="addImg" src="/img/smalladd.png" alt="添加"></div> </div> </div>'
-                    }
+                    // if(i==data.length-1){
+                    //      str+=' <div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>\'
+                    // }
             }
+            str+='<div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>';
             content.innerHTML=str;
         }
     },
@@ -481,6 +490,7 @@ function createclass(){
         }
 
       }
+      // alert("55");
         $.ajax({
         type:'post',
         url: '/course/'+getCookie("courseDetail")+'/class',
@@ -636,6 +646,7 @@ function backtoclass(){
     window.location.href='/teacher/course/'+getCookie("courseDetail")+'/class/'+getCookie("classDetail")
 }
 
+
 function getclassdetail(){
       $.ajax({
         type:'get',
@@ -675,13 +686,13 @@ function getclassdetail(){
 
 function classinfomod(){
         classtime=$("#week").val()+$("#day").val()+$("#jie").val();
-        alert(classtime);
+        // alert(classtime);
         var ata = {
         name:$("#className").val(),
         numStudent:$("#numStudent").val(),
         time:classtime,
         site:$("#site").val(),
-        roster:"/roster/周三12班.xlsx",
+        roster:$('#file').val(),
         proportions:{
             report:$("#report").val(),
             presentation:$("#presentation").val(),
@@ -893,7 +904,7 @@ function topicinfo(){
                 $("#description").html(data.description);
                 $("#groupLimit").html(data.groupLimit);
                 $("#groupMemberLimit").html(data.groupMemberLimit);
-                $("#groupLeft").html(data.groupLeft);
+                $("#groupLeft").html(data.groupList+" ");
             }
     },
     statusCode: {

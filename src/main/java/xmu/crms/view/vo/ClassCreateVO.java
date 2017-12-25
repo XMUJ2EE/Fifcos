@@ -1,5 +1,10 @@
 package xmu.crms.view.vo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 public class ClassCreateVO {
@@ -13,6 +18,23 @@ public class ClassCreateVO {
         this.site = site;
         this.time = time;
         this.proportions = proportions;
+    }
+
+    public ClassCreateVO() {
+
+    }
+
+    public ClassCreateVO(String classJson) throws IOException {
+        Map<String , Object> classcreate = new ObjectMapper().readValue(classJson, Map.class);
+        this.name = (String) classcreate.get("name");
+        this.site = (String) classcreate.get("site");
+        this.time = (String) classcreate.get("time");
+        HashMap<String, Object> proportion = (HashMap) classcreate.get("proportions");
+        System.out.println(proportion.toString());
+        Proportions p = new Proportions( Integer.parseInt(proportion.get("report").toString()), Integer.parseInt(proportion.get("presentation").toString()),
+                Integer.parseInt(proportion.get("c").toString()), Integer.parseInt(proportion.get("b").toString()),
+                Integer.parseInt(proportion.get("a").toString()));
+        this.proportions = new Proportions(p);
     }
 
     public String getName() {

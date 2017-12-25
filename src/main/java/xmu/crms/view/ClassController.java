@@ -73,6 +73,7 @@ public class ClassController {
 
 			List<User> users = userService.listUserByClassId(classId, null, null);
 			ClassDetailVO classDetailVO = new ClassDetailVO(classInfo, users.size());
+			System.out.println(classDetailVO);
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(classDetailVO);
 		}catch (ClazzNotFoundException e){
 			return ResponseEntity.status(404).contentType(MediaType.APPLICATION_JSON_UTF8).build();

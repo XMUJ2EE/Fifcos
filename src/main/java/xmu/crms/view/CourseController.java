@@ -16,16 +16,17 @@ import xmu.crms.entity.*;
 import xmu.crms.exception.ClazzNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.security.FifcosAuthenticationToken;
 import xmu.crms.service.*;
 import xmu.crms.view.vo.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Course Controller
@@ -37,18 +38,18 @@ import java.util.Map;
 @RequestMapping("/course")
 public class CourseController {
 
-	@Autowired(required = false)
+	@Autowired
 	GradeService gradeService;
-	@Autowired(required = false)
+	@Autowired
 	CourseService courseService;
-	@Autowired(required = false)
+	@Autowired
 	ClassService classService;
-	@Autowired(required = false)
+	@Autowired
 	SeminarService seminarService;
-	@Autowired(required = false)
+	@Autowired
 	UserService userService;
 
-	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
+	@PreAuthorize("hasRole('TEACHER') ")
 	@RequestMapping(method = GET)
 	@ResponseBody
 	public ResponseEntity getUserCourses() {
@@ -56,6 +57,7 @@ public class CourseController {
 		List<UserCourseVO> userCourseVOList = new ArrayList<UserCourseVO>();
 		try {
 			List<Course> listCourse = courseService.listCourseByUserId(userId);
+			System.out.println(listCourse.toString());
 			for (Course aListCourse : listCourse) {
 				List<ClassInfo> classInfoList = classService.listClassByCourseId(aListCourse.getId());
 				List<User> userList = new ArrayList<User>();
@@ -74,29 +76,74 @@ public class CourseController {
 			return ResponseEntity.status(403).build();
 		}
 	}
+	@PreAuthorize("hasRole('STUDENT')")
+	@RequestMapping(value = "/student",method = GET)
+	@ResponseBody
+	public ResponseEntity getStudentCourses() {
+		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		List<UserCourseVO> userCourseVOList = new ArrayList<UserCourseVO>();
+		try {
+			List<ClassInfo> classInfoList = classService.listClassByUserId(userId);
+			List<StudentClassVO> studentClassVOS = new ArrayList<>();
+			for(ClassInfo classInfo:classInfoList){
+				studentClassVOS.add(new StudentClassVO(classInfo));
+			}
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentClassVOS);
+		} catch (ClazzNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(403).build();
+		}
+	}
 
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(method = POST)
 	@ResponseBody
-	public ResponseEntity createCourse(@RequestBody CourseVO courseVO) {
-		Course course = new Course(courseVO);
-		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		int id = courseService.insertCourseByUserId(userId, course).intValue();
-		Map<String, Integer> result = null;
-		result.put("id", id);
-		return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
+	public ResponseEntity createCourse(HttpServletRequest httpServletRequest) throws IOException {
+		try {
+			BufferedReader br = httpServletRequest.getReader();
+			BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+			String str, wholeStr = "";
+			while((str = br.readLine()) != null){
+				wholeStr += str;
+			}
+			CourseVO courseVO = new CourseVO(wholeStr);
+			User teacher = userService.getUserByUserId(userId);
+			Course course = new Course(courseVO, teacher);
+			int id = courseService.insertCourseByUserId(userId, course).intValue();
+			Map<String, Integer> result = new HashMap<String, Integer>();
+			result.put("id", id);
+			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
+		} catch (UserNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
 	}
 
+	@PreAuthorize("hasRole('STUDENT')")
+	@RequestMapping(value = "/student/{courseId}", method = GET)
+	@ResponseBody
+	public ResponseEntity getStudentCourseById(@PathVariable int courseId) {
+		try {
+			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
+			GetCourseVO getCourseVO = new GetCourseVO(course);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(getCourseVO);
+		} catch (CourseNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).build();
+		}
+	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{courseId}", method = GET)
 	@ResponseBody
 	public ResponseEntity getCourseById(@PathVariable int courseId) {
-		GetCourseVO getCourseVO = null;
 		try {
 			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
-			getCourseVO = new GetCourseVO(course);
+			GetCourseVO getCourseVO = new GetCourseVO(course);
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(getCourseVO);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
@@ -110,8 +157,15 @@ public class CourseController {
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}", method = PUT)
 	@ResponseBody
-	public ResponseEntity updateCourseById(@PathVariable int courseId, @RequestBody CourseVO courseVO) {
-		Course course = new Course(courseVO);
+	public ResponseEntity updateCourseById(@PathVariable int courseId, HttpServletRequest httpServletRequest) throws IOException {
+        BufferedReader br = httpServletRequest.getReader();
+        BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        CourseVO courseVO = new CourseVO(wholeStr);
+	    Course course = new Course(courseVO);
 		courseService.updateCourseByCourseId(BigInteger.valueOf(courseId), course);
 		return ResponseEntity.status(204).build();
 	}
@@ -133,33 +187,38 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}/class", method = GET)
 	@ResponseBody
 	public ResponseEntity getClassListByCourseId(@PathVariable int courseId) {
-		List<ClassVO> list = new ArrayList<ClassVO>();
-		List<ClassInfo> listClass;
 		try {
+			List<ClassVO> list = new ArrayList<ClassVO>();
+			List<ClassInfo> listClass = new ArrayList<ClassInfo>();
 			listClass = classService.listClassByCourseId(BigInteger.valueOf(courseId));
+			for (ClassInfo listClas : listClass) {
+				ClassVO classVO = new ClassVO(listClas.getId(), listClas.getName());
+				list.add(classVO);
+			}
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(list);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
-		for (ClassInfo listClas : listClass) {
-			ClassVO classVO = new ClassVO(listClas.getId(), listClas.getName());
-			list.add(classVO);
-		}
-		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(list);
 	}
 
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(value = "/{courseId}/class", method = POST)
 	@ResponseBody
-	public ResponseEntity createClassByCourseId(@PathVariable int courseId, @RequestBody ClassCreateVO classCreateVO) throws UserNotFoundException {
-		int id;
-		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-		Map<String, Integer> result = null;
+	public ResponseEntity createClassByCourseId(@PathVariable int courseId, HttpServletRequest httpServletRequest) throws UserNotFoundException, IOException {
 		try {
+            BufferedReader br = httpServletRequest.getReader();
+            BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String str, wholeStr = "";
+            while((str = br.readLine()) != null){
+                wholeStr += str;
+            }
+            ClassCreateVO classCreateVO = new ClassCreateVO(wholeStr);
+			Map<String, Integer> result = new HashMap<String, Integer>();
 			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
 			ClassInfo classInfo = new ClassInfo(classCreateVO);
-			id = classService.insertClassById(userId, BigInteger.valueOf(courseId), classInfo).intValue();
+			int id = classService.insertClassById(userId, BigInteger.valueOf(courseId), classInfo).intValue();
 			result.put("id", id);
 			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 		} catch (CourseNotFoundException e) {
@@ -168,14 +227,39 @@ public class CourseController {
 		}
 	}
 
-	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
-	@RequestMapping(value = "/{courseId}/seminar", method = GET)
+    @PreAuthorize("hasRole('TEACHER')")
+    @RequestMapping(value = "/{courseId}/teacher/seminar", method = GET)
+    @ResponseBody
+    public ResponseEntity getSeminarsByCourseId(@PathVariable int courseId) throws IllegalArgumentException{
+        BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        try {
+            List<Seminar> seminarList = seminarService.listSeminarByCourseId(BigInteger.valueOf(courseId));
+            System.out.println(seminarList);
+//            List<SeminarGroup> listSeminarGroup = new ArrayList<SeminarGroup>();
+//            List<SeminarAndGradeVO> listSeminarAndGradeVO = new ArrayList<SeminarAndGradeVO>();
+//            listSeminarGroup = gradeService.listSeminarGradeByCourseId(userId, BigInteger.valueOf(courseId));
+//            System.out.println(listSeminarGroup);
+//            for (SeminarGroup seminarGroup : listSeminarGroup) {
+//                SeminarAndGradeVO seminarAndGradeVO = new SeminarAndGradeVO(seminarGroup);
+//                listSeminarAndGradeVO.add(seminarAndGradeVO);
+//            }
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarList);
+        } catch (CourseNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).build();
+        }
+    }
+
+
+	@PreAuthorize("hasRole('STUDENT')")
+	@RequestMapping(value = "/{courseId}/student/seminar", method = GET)
 	@ResponseBody
-	public ResponseEntity getSeminarsByCourseId(@PathVariable int courseId) throws IllegalArgumentException{
+	public ResponseEntity getStudentSeminarsByCourseId(@PathVariable int courseId) throws IllegalArgumentException{
 		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<SeminarGroup> listSeminarGroup = new ArrayList<SeminarGroup>();
 		List<SeminarAndGradeVO> listSeminarAndGradeVO = new ArrayList<SeminarAndGradeVO>();
 		listSeminarGroup = gradeService.listSeminarGradeByCourseId(userId, BigInteger.valueOf(courseId));
+		System.out.println(listSeminarGroup);
 		for (SeminarGroup seminarGroup : listSeminarGroup) {
 			SeminarAndGradeVO seminarAndGradeVO = new SeminarAndGradeVO(seminarGroup);
 			listSeminarAndGradeVO.add(seminarAndGradeVO);
@@ -184,23 +268,23 @@ public class CourseController {
 	}
 
 	@PreAuthorize("hasRole('TEACHER')")
-	@RequestMapping(value = "/{courseId}/seminar/create", method = POST)
+	@RequestMapping(value = "/{courseId}/seminar", method = POST)
 	@ResponseBody
-	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId, @RequestBody SeminarUpdateVO seminarUpdateVO) {
-		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-		Date startTime = null;
-		Date endTime = null;
+	public ResponseEntity createSeminarByCourseId(@PathVariable int courseId, HttpServletRequest httpServletRequest) throws IOException {
 		try {
-			startTime = simpleDateFormat.parse(seminarUpdateVO.getStartTime());
-			endTime = simpleDateFormat.parse(seminarUpdateVO.getEndTime());
-			Seminar seminar = new Seminar(null, seminarUpdateVO.getName(), seminarUpdateVO.getDescription(),
-				null, seminarUpdateVO.getGroupingMethod().equals("fixed"), startTime, endTime);
-			seminarService.insertSeminarByCourseId(BigInteger.valueOf(courseId), seminar);
-			return ResponseEntity.status(200).build();
+            BufferedReader br = httpServletRequest.getReader();
+            BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            String str, wholeStr = "";
+            while((str = br.readLine()) != null){
+                wholeStr += str;
+            }
+            SeminarUpdateVO seminarUpdateVO = new SeminarUpdateVO(wholeStr);
+			Map<String, BigInteger> result = new HashMap<String, BigInteger>();
+			Seminar seminar = new Seminar(seminarUpdateVO);
+			BigInteger id = seminarService.insertSeminarByCourseId(BigInteger.valueOf(courseId), seminar);
+			result.put("id", id);
+			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 		} catch (CourseNotFoundException e) {
-			e.printStackTrace();
-			return ResponseEntity.status(404).build();
-		}catch (ParseException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
