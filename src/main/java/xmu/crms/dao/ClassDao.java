@@ -218,4 +218,17 @@ public interface ClassDao {
 		 */
 		 BigInteger CallInRollById(Location location)
 	             throws SeminarNotFoundException,ClazzNotFoundException;
+
+	/**
+	 * 根据学生ID获取班级列表.
+	 * <p>根据学生ID获取班级列表<br>
+	 *
+	 * @param userId 学生ID
+	 * @return list 班级列表
+	 * @throws IllegalArgumentException userId格式错误时抛出或courseId格式错误时抛出
+	 * @throws ClazzNotFoundException   未找到班级
+	 * @author YeXiaona
+	 */
+	List<ClassInfo> listClassByUserId(BigInteger userId) throws IllegalArgumentException, ClazzNotFoundException;
+
 }

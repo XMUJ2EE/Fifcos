@@ -124,8 +124,15 @@
     </delete>
     <!--修改某个固定小组-->
     <update id="updateFixGroupByGroupId">
-        UPDATE fix_group SET class_id=#{fixGroupBO.classInfo.id},
-        leader_id=#{fixGroupBO.leader.id}
+        UPDATE fix_group
+        <set>
+            <if test="fixGroupBO.classInfo.id !=null">
+              class_id=#{fixGroupBO.classInfo.id},
+            </if>
+            <if test="fixGroupBO.leader.id !=null">
+              leader_id=#{fixGroupBO.leader.id}
+            </if>
+        </set>
         WHERE id=#{group_id}
     </update>
     <!--获得某条固定小组成员信息-->

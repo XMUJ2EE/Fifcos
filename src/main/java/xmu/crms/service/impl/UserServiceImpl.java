@@ -1,6 +1,7 @@
 package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import xmu.crms.entity.*;
 import xmu.crms.exception.*;
@@ -57,9 +58,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signUpPhone(User user) throws UserDuplicatedException {
-        User fakeUser = userMapper.getUserByNumber(user.getNumber());
-        if(fakeUser != null && fakeUser.getPhone() != null && fakeUser.getPhone() != ""){
-            throw new UserDuplicatedException("学号已存在");
+        if(user.getPhone() != null){
+            UserDetails fakeUser = userMapper.getUserByPhone(user.getPhone());
+            if(fakeUser != null){
+                throw new UserDuplicatedException("学号已存在");
+            }
         }
         userMapper.insertUser(user);
         return userMapper.getUserByUserId(user.getId());

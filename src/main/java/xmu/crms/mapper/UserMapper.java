@@ -155,4 +155,11 @@ public interface UserMapper {
      * @return
      */
     UserDetailsImpl getUserByPhone(@Param("phone") String phone);
+
+    /**
+     * 根据openid登录用
+     * @param openid
+     * @return
+     */
+    UserDetailsImpl getUserByOpenId(@Param("openid") String openid);
 }

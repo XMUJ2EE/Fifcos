@@ -44,18 +44,23 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest httpServletRequest,
                                     HttpServletResponse httpServletResponse,
                                     FilterChain filterChain) throws ServletException, IOException, UsernameNotFoundException {
+        String miniProgram = "miniprogram";
         String authHeader = httpServletRequest.getHeader(this.tokenHeader);
         if (authHeader != null && authHeader.startsWith(tokenHead)) {
-            System.out.println("auth header"+authHeader);
+            System.out.println("auth header: "+authHeader);
             final String authToken = authHeader.substring(tokenHead.length());
             try {
                 String username = jwtTokenUtil.getUsernameFromToken(authToken);
 
                 logger.info("checking authentication " + username);
-
+                UserDetailsImpl userDetails;
                 if (username != null && SecurityContextHolder.getContext().getAuthentication() == null) {
+                    if(miniProgram.equals(jwtTokenUtil.getAudienceFromToken(authToken))){
+                        userDetails = (UserDetailsImpl) userDetailsService.loadUserByOpenId(username);
+                    }else{
 
-                    UserDetailsImpl userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
+                        userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
+                    }
                     if (jwtTokenUtil.validateToken(authToken, userDetails)) {
                         String type;
                         if (userDetails.getType() == 0) {
@@ -67,15 +72,28 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
                         if(simpleGrantedAuthority == null){
                             logger.info("no role ");
                         }
-                        FifcosAuthenticationToken authentication = new FifcosAuthenticationToken(userDetails.getId(), userDetails.getNumber(),
-                                userDetails.getPhone(),
-                                userDetails.getPassword(),
-                                type,
-                                userDetails.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
-                                httpServletRequest));
-                        logger.info("authenticated user " + username + ", setting security context");
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
+                        if(miniProgram.equals(jwtTokenUtil.getAudienceFromToken(authToken))){
+                            FifcosAuthenticationToken authentication = new FifcosAuthenticationToken(userDetails.getOpenid(),
+                                    userDetails.getId(), userDetails.getNumber(),
+                                    userDetails.getPhone(),
+                                    type,
+                                    userDetails.getAuthorities());
+                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                                    httpServletRequest));
+                            logger.info("authenticated mini user " + username + ", setting security context");
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }else{
+                            FifcosAuthenticationToken authentication = new FifcosAuthenticationToken(userDetails.getId(), userDetails.getNumber(),
+                                    userDetails.getPhone(),
+                                    userDetails.getPassword(),
+                                    type,
+                                    userDetails.getAuthorities());
+                            authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(
+                                    httpServletRequest));
+                            logger.info("authenticated user " + username + ", setting security context");
+                            SecurityContextHolder.getContext().setAuthentication(authentication);
+                        }
+
                     }
                 }
             } catch (Exception e) {

@@ -4,9 +4,12 @@ import xmu.crms.entity.ClassInfo;
 
 import java.math.BigInteger;
 
+/**
+ * @author mads
+ */
 public class ClassDetailVO {
     private String name;
-    private int numStudent;
+    private Integer numStudent;
     private String time;
     private String site;
     private String classTime;

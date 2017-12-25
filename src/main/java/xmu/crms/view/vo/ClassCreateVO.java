@@ -1,12 +1,14 @@
 package xmu.crms.view.vo;
 
+import java.util.Properties;
+
 public class ClassCreateVO {
     private String name;
     private String site;
     private String time;
-    private proportions proportions;
+    private Proportions proportions;
 
-    public ClassCreateVO(String name, String site, String time, xmu.crms.view.vo.proportions proportions) {
+    public ClassCreateVO(String name, String site, String time, Proportions proportions) {
         this.name = name;
         this.site = site;
         this.time = time;
@@ -37,11 +39,21 @@ public class ClassCreateVO {
         this.time = time;
     }
 
-    public xmu.crms.view.vo.proportions getProportions() {
+    public Proportions getProportions() {
         return proportions;
     }
 
-    public void setProportions(xmu.crms.view.vo.proportions proportions) {
+    public void setProportions(Proportions proportions) {
         this.proportions = proportions;
+    }
+
+    @Override
+    public String toString() {
+        return "ClassCreateVO{" +
+                "name='" + name + '\'' +
+                ", site='" + site + '\'' +
+                ", time='" + time + '\'' +
+                ", proportions=" + proportions +
+                '}';
     }
 }

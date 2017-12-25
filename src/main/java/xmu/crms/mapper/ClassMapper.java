@@ -41,4 +41,6 @@ public interface ClassMapper {
     public void updateScoreRule(@Param("classId")BigInteger classId, @Param("proportions")ClassInfo proportions);
     
     public int CallInRollById(@Param("location")Location location);
+
+    public List<BigInteger> listClassByUserId(BigInteger userId);
 }

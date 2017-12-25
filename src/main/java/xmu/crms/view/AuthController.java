@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import xmu.crms.entity.School;
+import xmu.crms.exception.UserDuplicatedException;
 import xmu.crms.security.FifcosAuthenticationToken;
 import xmu.crms.entity.JwtAuthenticationResponse;
 import xmu.crms.entity.User;
@@ -98,8 +99,12 @@ public class AuthController {
             code += str;
         }
         Map<String, Object> o = new ObjectMapper().readValue(code, Map.class);
-        Map<String, Object> ne = authService.weChatLogin((String)o.get("code"));
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(ne);
+        try{
+            Map<String, Object> ne = authService.weChatLogin((String)o.get("code"));
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(ne);
+        }catch (UserDuplicatedException e){
+            return ResponseEntity.status(403).build();
+        }
     }
 
 }

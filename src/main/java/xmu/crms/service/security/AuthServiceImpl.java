@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.stereotype.Service;
+import xmu.crms.mapper.AuthMapper;
 import xmu.crms.security.FifcosAuthenticationProvider;
 import xmu.crms.security.FifcosAuthenticationToken;
 import xmu.crms.security.UserDetailsImpl;
@@ -27,6 +28,7 @@ import xmu.crms.util.JwtTokenUtil;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.math.BigInteger;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
@@ -49,6 +51,9 @@ public class AuthServiceImpl implements AuthService {
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private UserService userService;
+
+    @Autowired(required = false)
+    private AuthMapper authMapper;
 
     private String tokenHead = "Bearer ";
 
@@ -79,7 +84,6 @@ public class AuthServiceImpl implements AuthService {
         SecurityContextHolder.getContext().setAuthentication(authentication);
 
         Map<String, Object> claims = new HashMap<String, Object>();
-//        claims.put("id", ((FifcosAuthenticationToken)authentication).ge);
         claims.put("type", ((FifcosAuthenticationToken)authentication).getType());
         final String token = jwtTokenUtil.doGenerateToken(claims, ((FifcosAuthenticationToken)authentication).getPhone(),null);
         return token;
@@ -91,7 +95,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public Map<String, Object> weChatLogin(String code) throws IOException{
+    public Map<String, Object> weChatLogin(String code) throws IOException, UserDuplicatedException{
         String reqUrl = url + "&js_code=" + code;
         StringBuffer json = new StringBuffer();
         try{
@@ -107,8 +111,26 @@ public class AuthServiceImpl implements AuthService {
             e.printStackTrace();
         }
         Map<String, Object> auth = new ObjectMapper().readValue(json.toString(), Map.class);
-        System.out.println(auth.toString());
+        User user = authMapper.getUserByOpenId((String)auth.get("openid"));
+        // 用户还没有注册， 帮他注册一个只有openid的账号，小程序端跳到绑定页面，然后补全其他信息
+        User userNew = new User((String)auth.get("openid"));
+        if(user == null){
+            userService.signUpPhone(userNew);
+            auth.put("status", "unbind");
+        }
+        BigInteger userId = authMapper.getUserByOpenId((String)auth.get("openid")).getId();
+        auth.put("userId", userId);
 
+        FifcosAuthenticationToken upToken = new FifcosAuthenticationToken((String)auth.get("openid"));
+        final Authentication authentication = fifcosAuthenticationProvider.authenticate(upToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        Map<String, Object> claims = new HashMap<String, Object>();
+        claims.put("type", ((FifcosAuthenticationToken)authentication).getType());
+        final String token = jwtTokenUtil.doGenerateToken(claims, ((FifcosAuthenticationToken)authentication).getOpenid(),"miniprogram");
+        auth.put("jwt", token);
+
+        System.out.println(auth.toString());
         return auth;
     }
 }

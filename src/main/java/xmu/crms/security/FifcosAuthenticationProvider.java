@@ -25,27 +25,46 @@ public class FifcosAuthenticationProvider implements AuthenticationProvider{
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         FifcosAuthenticationToken fifcosAuthenticationToken =
                 (FifcosAuthenticationToken) authentication;
-        String username = fifcosAuthenticationToken.getPhone();
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if(!userDetails.getPassword().equals(fifcosAuthenticationToken.getPassword())){
-            throw new BadCredentialsException("密码错误");
+        UserDetails userDetails;
+        if(fifcosAuthenticationToken.getOpenid() == null) {
+            // web端认证
+            String username = fifcosAuthenticationToken.getPhone();
+            userDetails = userDetailsService.loadUserByUsername(username);
+            if (!userDetails.getPassword().equals(fifcosAuthenticationToken.getPassword())) {
+                throw new BadCredentialsException("密码错误");
+            }
+        }else {
+            //小程序端认证
+            String openid = fifcosAuthenticationToken.getOpenid();
+            userDetails = userDetailsService.loadUserByOpenId(openid);
         }
         List<SimpleGrantedAuthority> simpleGrantedAuthority = (List<SimpleGrantedAuthority>) userDetails.getAuthorities();
-        if(simpleGrantedAuthority == null){
+        if (simpleGrantedAuthority == null) {
             throw new BadCredentialsException("没有权限");
-        }else{
-            Integer type = ((UserDetailsImpl)userDetails).getType();
+        } else {
+            Integer type = ((UserDetailsImpl) userDetails).getType();
             String typeString = "";
-            if(type == 0){
+            if (type == 0) {
                 typeString = "student";
-            }else if(type == 1){
+            } else if (type == 1) {
                 typeString = "teacher";
             }
-            return new FifcosAuthenticationToken(((UserDetailsImpl) userDetails).getId(),((UserDetailsImpl) userDetails).getNumber(),username,
-                    fifcosAuthenticationToken.getPassword(),typeString,
-                    simpleGrantedAuthority);
-         }
+            if(((UserDetailsImpl) userDetails).getOpenid() == null){
+                return new FifcosAuthenticationToken(((UserDetailsImpl) userDetails).getId(),
+                        ((UserDetailsImpl) userDetails).getNumber(),
+                        ((UserDetailsImpl) userDetails).getPhone(),
+                        fifcosAuthenticationToken.getPassword(), typeString,
+                        simpleGrantedAuthority);
+            }else{
+                return new FifcosAuthenticationToken(((UserDetailsImpl) userDetails).getOpenid(),
+                        ((UserDetailsImpl) userDetails).getId(),
+                        ((UserDetailsImpl) userDetails).getNumber(),
+                        ((UserDetailsImpl) userDetails).getPhone()
+                        , typeString,
+                        simpleGrantedAuthority);
+            }
 
+        }
     }
 
     @Override

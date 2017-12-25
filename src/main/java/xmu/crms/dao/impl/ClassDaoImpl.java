@@ -149,4 +149,21 @@ public class ClassDaoImpl implements ClassDao {
         classMapper.CallInRollById(location);
         return location.getId();
     }
+
+    @Override
+    public List<ClassInfo> listClassByUserId(BigInteger userId)
+            throws IllegalArgumentException, ClazzNotFoundException {
+        List<ClassInfo> classInfos=new ArrayList();
+        if(!(userId instanceof BigInteger)) {
+            throw new IllegalArgumentException("userId格式错误");
+        }else{
+            List<BigInteger> classIds=classMapper.listClassByUserId(userId);
+            Iterator<BigInteger> it = classIds.iterator();
+            while(it.hasNext()) {
+                classInfos.add(classMapper.getClassByClassId(it.next()));
+            }
+        }
+        return classInfos;
+    }
+
 }

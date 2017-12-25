@@ -125,6 +125,16 @@ public class JwtTokenUtil implements Serializable {
         );
     }
 
+    public Boolean validateMiniToken(String token, UserDetails userDetails) {
+        UserDetailsImpl user = (UserDetailsImpl) userDetails;
+        final String username = getUsernameFromToken(token);
+        final Date created = getIssuedAtDateFromToken(token);
+        return (
+                username.equals(user.getOpenid())
+                        && !isTokenExpired(token)
+        );
+    }
+
     private Date calculateExpirationDate(Date createdDate) {
         return new Date(createdDate.getTime() + expiration * 1000);
     }

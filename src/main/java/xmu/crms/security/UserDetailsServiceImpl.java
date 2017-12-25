@@ -5,6 +5,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import xmu.crms.mapper.AuthMapper;
 import xmu.crms.mapper.UserMapper;
 
 /**
@@ -23,6 +24,14 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         UserDetailsImpl userDetails = userMapper.getUserByPhone(s);
         if(userDetails == null){
             throw new UsernameNotFoundException("未找到用户");
+        }
+        return userDetails;
+    }
+
+    public UserDetails loadUserByOpenId(String openid) throws UsernameNotFoundException{
+        UserDetailsImpl userDetails = userMapper.getUserByOpenId(openid);
+        if(userDetails == null){
+            throw new UsernameNotFoundException("未找到openId 对应用户");
         }
         return userDetails;
     }

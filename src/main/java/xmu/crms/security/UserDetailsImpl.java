@@ -13,11 +13,20 @@ import java.util.List;
 public class UserDetailsImpl implements UserDetails,Serializable {
 
     private BigInteger id;
+    private String openid;
     private String phone;
     private String password;
     private Integer type;
     private String number;
     private String name;
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
 
     public void setName(String name) {
         this.name = name;

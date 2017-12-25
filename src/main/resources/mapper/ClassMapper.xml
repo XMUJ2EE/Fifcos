@@ -1,111 +1,112 @@
 <!DOCTYPE mapper
-PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.crms.mapper.ClassMapper">
-<!--1-->
-<resultMap type="ClassInfo" id="ClassInfoResultMap">
-    <id column="id" property="id"/>
-    <result column="name" property="name"/>
-    <result column="site" property="site"/>
-    <result column="class_time" property="classTime"/>
-    <result column="report_percentage" property="reportPercentage"/>
-    <result column="presentation_percentage" property="presentationPercentage"/>
-    <result column="five_point_percentage" property="fivePointPercentage"/>
-    <result column="four_point_percentage" property="fourPointPercentage"/>
-    <result column="three_point_percentage" property="threePointPercentage"/>
-    <association column="course_id" property="course" select="selectCourseByCourseId"/>
-</resultMap>
-
-<resultMap type="Course" id="CourseResultMap">
-    	<id column="id" property="id"/>
-    	<result column="name" property="name"/>
-    	<result column="start_date" property="startDate"/>
-    	<result column="end_date" property="endDate"/>
-    	<result column="description" property="description"/>
-    	<result column="report_percentage" property="reportPercentage"/>
-    	<result column="presentation_percentage" property="presentationPercentage"/>
-    	<result column="five_point_percentage" property="fivePointPercentage"/>
-    	<result column="four_point_percentage" property="fourPointPercentage"/>
-    	<result column="three_point_percentage" property="threePointPercentage"/>
-    	<association column="teacher_id" property="teacher" select="selectTeacherByTeacherId"></association>
+    <!--1-->
+    <resultMap type="ClassInfo" id="ClassInfoResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="site" property="site"/>
+        <result column="class_time" property="classTime"/>
+        <result column="report_percentage" property="reportPercentage"/>
+        <result column="presentation_percentage" property="presentationPercentage"/>
+        <result column="five_point_percentage" property="fivePointPercentage"/>
+        <result column="four_point_percentage" property="fourPointPercentage"/>
+        <result column="three_point_percentage" property="threePointPercentage"/>
+        <association column="course_id" property="course" select="selectCourseByCourseId"/>
     </resultMap>
-    
- <resultMap type="User" id="UserResultMap">
-    	<id column="id" property="id"/>
-    	<result column="phone" property="phone"/>
-    	<result column="wechat_id" property="wechatId"/>
-    	<result column="openid" property="openid"/>
-    	<result column="avatar" property="avatar"/>
-    	<result column="password" property="password"/>
-    	<result column="name" property="name"/>
-    	<result column="gender" property="gender"/>
-    	<result column="type" property="type"/>
-    	<result column="number" property="number"/>
-    	<result column="education" property="education"/>
-    	<result column="title" property="title"/>
-    	<result column="email" property="email"/>
-    	<association column="school_id" property="school" select="selectSchoolBySchoolId"/>
-</resultMap>
-    
-<resultMap type="Location" id="LocationResultMap">
-    <id column="id" property="id"/>
-    <result column="longtitude" property="BigIntegeritude"/>
-    <result column="latitude" property="latitude"/>
-    <result column="status" property="status"/>
-    <association column="class_id" property="class" select="selectClassByClassId"/>
-    <association column="seminar_id" property="seminar" select="selectSeminarBySeminarId"/>
-</resultMap>
 
- <resultMap type="Seminar" id="SeminarResultMap">
-    	<id column="id" property="id"/>
-    	<result column="name" property="name"/>
-    	<result column="description" property="description"/>
-    	<result column="is_fixed" property="fixed"/>
-    	<result column="start_time" property="startTime"/>
-    	<result column="end_time" property="endTime"/>
-    	<association column="course_id" property="course" select="selectCourseByCourseId"></association>
-</resultMap>
+    <resultMap type="Course" id="CourseResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="start_date" property="startDate"/>
+        <result column="end_date" property="endDate"/>
+        <result column="description" property="description"/>
+        <result column="report_percentage" property="reportPercentage"/>
+        <result column="presentation_percentage" property="presentationPercentage"/>
+        <result column="five_point_percentage" property="fivePointPercentage"/>
+        <result column="four_point_percentage" property="fourPointPercentage"/>
+        <result column="three_point_percentage" property="threePointPercentage"/>
+        <association column="teacher_id" property="teacher" select="selectTeacherByTeacherId"></association>
+    </resultMap>
 
-    
+    <resultMap type="User" id="UserResultMap">
+        <id column="id" property="id"/>
+        <result column="phone" property="phone"/>
+        <result column="wechat_id" property="wechatId"/>
+        <result column="openid" property="openid"/>
+        <result column="avatar" property="avatar"/>
+        <result column="password" property="password"/>
+        <result column="name" property="name"/>
+        <result column="gender" property="gender"/>
+        <result column="type" property="type"/>
+        <result column="number" property="number"/>
+        <result column="education" property="education"/>
+        <result column="title" property="title"/>
+        <result column="email" property="email"/>
+        <association column="school_id" property="school" select="selectSchoolBySchoolId"/>
+    </resultMap>
+
+    <resultMap type="Location" id="LocationResultMap">
+        <id column="id" property="id"/>
+        <result column="longtitude" property="BigIntegeritude"/>
+        <result column="latitude" property="latitude"/>
+        <result column="status" property="status"/>
+        <association column="class_id" property="class" select="selectClassByClassId"/>
+        <association column="seminar_id" property="seminar" select="selectSeminarBySeminarId"/>
+    </resultMap>
+
+    <resultMap type="Seminar" id="SeminarResultMap">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="description" property="description"/>
+        <result column="is_fixed" property="fixed"/>
+        <result column="start_time" property="startTime"/>
+        <result column="end_time" property="endTime"/>
+        <association column="course_id" property="course" select="selectCourseByCourseId"></association>
+    </resultMap>
+
+
     <select id="selectSeminarBySeminarId" resultMap="SeminarResultMap">
     	select * from seminar where id=#{id}
     </select>
-    
+
     <select id="selectClassByClassId" resultMap="ClassInfoResultMap">
     		select * from class_info where id=#{id}
     </select>
-    
+
 
     <select id="selectSchoolBySchoolId" resultType="School">
     		select * from school where id=#{id}
     </select>
-    
+
     <select id="selectTeacherByTeacherId" resultMap="UserResultMap">
     		select * from user_info where id=#{id}
     </select>
-    
+
     <select id="selectCourseByCourseId" resultMap="CourseResultMap">
     		select * from course where id=#{id}
     </select>
 
-<delete id="deleteClassSelectionByClassId" >
+    <delete id="deleteClassSelectionByClassId">
 delete from course_selection where class_id=#{classId};
 </delete>
-<!--1-->
-<select id="listClassByName" resultMap="ClassInfoResultMap">
+    <!--1-->
+    <select id="listClassByName" resultMap="ClassInfoResultMap">
  select class_info.* from class_info,user_info,course 
 where course.name=#{courseName}  and course.teacher_id=user_info.id 
 and user_info.name=#{teacherName} and course.id=class_info.course_id;
 </select>
 
-<select id="listClassByCourseId" resultMap="ClassInfoResultMap">
+    <select id="listClassByCourseId" resultMap="ClassInfoResultMap">
 select class_info.* from class_info  where  class_info.course_id=#{courseId.longValue()};
 </select>
 
-<select id="getClassByClassId" parameterType="java.math.BigInteger" resultMap="ClassInfoResultMap">
+    <select id="getClassByClassId" parameterType="java.math.BigInteger" resultMap="ClassInfoResultMap">
 	select * from class_info where id=#{classId};
 </select>
-<update id="updateClassByClassId">
+
+    <update id="updateClassByClassId">
 	update class_info set name=#{newClass.name},
 	site=#{newClass.site},
 	course_id=#{newClass.course.id},
@@ -117,23 +118,23 @@ select class_info.* from class_info  where  class_info.course_id=#{courseId.long
 	where id=#{classId};
 </update>
 
-<delete id="deleteClassByClassId">
+    <delete id="deleteClassByClassId">
 delete from class_info where id=#{classId};
 </delete>
 
-<insert id="insertCourseSelectionById">
+    <insert id="insertCourseSelectionById">
 insert into course_selection(class_id,student_id) values(#{classId},#{userId});	
 </insert>
 
-<delete id="deleteCourseSelectionById">
+    <delete id="deleteCourseSelectionById">
 delete from course_selection where class_id=#{classId} and student_id=#{userId};
 </delete>
 
-<select id="getCallStatusById" resultMap="LocationResultMap">
+    <select id="getCallStatusById" resultMap="LocationResultMap">
    	select * from location where seminar_id=#{seminarId} and class_id=#{classId};
 </select>
 
-<insert id="insertClassById" useGeneratedKeys="true" keyProperty="classInfo.id">
+    <insert id="insertClassById" useGeneratedKeys="true" keyProperty="classInfo.id">
 insert into class_info(name,
 course_id,
 site,
@@ -154,12 +155,12 @@ values(#{classInfo.name},
 #{classInfo.threePointPercentage});
 </insert>
 
-<delete id="deleteClassByCourseId">
+    <delete id="deleteClassByCourseId">
 delete from class_info where course_id=#{courseId};
 </delete>
 
-<!--ScoreRule表已经删除,删除当作设置空值-->
-<update id="deleteScoreRuleById">
+    <!--ScoreRule表已经删除,删除当作设置空值-->
+    <update id="deleteScoreRuleById">
 	update class_info set report_percentage=null,
 	presentation_percentage=null,
 	five_point_percentage=null,
@@ -168,11 +169,11 @@ delete from class_info where course_id=#{courseId};
 	where id=#{classId};
 </update>
 
-<select id="getScoreRule" resultMap="ClassInfoResultMap">
+    <select id="getScoreRule" resultMap="ClassInfoResultMap">
 	select * from class_info where id=#{classId};
 </select>
-<!--ScoreRule表已经删除,插入当作设置-->
-<update id="insertScoreRule">
+    <!--ScoreRule表已经删除,插入当作设置-->
+    <update id="insertScoreRule">
 	update class_info set report_percentage=#{proportions.reportPercentage},
 	presentation_percentage=#{proportions.presentationPercentage},
 	five_point_percentage=#{proportions.fivePointPercentage},
@@ -181,7 +182,7 @@ delete from class_info where course_id=#{courseId};
 	where id=#{classId};
 </update>
 
-<update id="updateScoreRule">
+    <update id="updateScoreRule">
 	update class_info set report_percentage=#{proportions.reportPercentage},
 	presentation_percentage=#{proportions.presentationPercentage},
 	five_point_percentage=#{proportions.fivePointPercentage},
@@ -189,8 +190,13 @@ delete from class_info where course_id=#{courseId};
 	three_point_percentage=#{proportions.threePointPercentage}
 	where id=#{classId};
 </update>
-<insert id="CallInRollById" useGeneratedKeys="true" keyProperty="location.id">
+
+    <insert id="CallInRollById" useGeneratedKeys="true" keyProperty="location.id">
 	insert into location(class_id,seminar_id,longitude,latitude,status) 
 	values(null,null,null,null,null);
 </insert>
+
+    <select id="listClassByUserId">
+        select class_id from course_selection where student_id=#{id}
+    </select>
 </mapper>

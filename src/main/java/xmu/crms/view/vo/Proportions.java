@@ -1,13 +1,20 @@
 package xmu.crms.view.vo;
 
-public class proportions {
+/**
+ * @author mads
+ * @date 2017/12/24 21:51
+ */
+public class Proportions {
     private int report;
     private int presentation;
     private int c;
     private int b;
     private int a;
 
-    public proportions(int report, int presentation, int c, int b, int a) {
+    public Proportions() {
+    }
+
+    public Proportions(int report, int presentation, int c, int b, int a) {
         this.report = report;
         this.presentation = presentation;
         this.c = c;
@@ -53,5 +60,16 @@ public class proportions {
 
     public void setA(int a) {
         this.a = a;
+    }
+
+    @Override
+    public String toString() {
+        return "Proportions{" +
+                "report=" + report +
+                ", presentation=" + presentation +
+                ", c=" + c +
+                ", b=" + b +
+                ", a=" + a +
+                '}';
     }
 }

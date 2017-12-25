@@ -112,5 +112,12 @@ public class ClassServiceImpl implements ClassService{
 	 public BigInteger CallInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
 			return classDao.CallInRollById(location);
 		}
-	
+
+	@Override
+	public List<ClassInfo> listClassByUserId(BigInteger userId)
+			throws IllegalArgumentException, ClazzNotFoundException {
+		return classDao.listClassByUserId(userId);
+	}
+
+
 }

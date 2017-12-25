@@ -23,6 +23,9 @@ public class User {
 	public User() {
 	}
 
+	public User(String openid){
+		this.openid = openid;
+	}
 	public User(UserDetailVO userDetailVO) {
 		this.id = null;
 		this.phone = null;

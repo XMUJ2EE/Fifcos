@@ -9,6 +9,7 @@ import java.math.BigInteger;
  */
 public class TopicDetailVO {
     private BigInteger id;
+    private String serial;
     private String name;
     private String description;
     private int groupLimit;
@@ -21,19 +22,29 @@ public class TopicDetailVO {
     public TopicDetailVO(Topic topic, int groupLeft) {
         this.id = topic.getId();
         this.name = topic.getName();
+        this.serial = topic.getSerial();
         this.description = topic.getDescription();
         this.groupLimit = topic.getGroupNumberLimit();
         this.groupMemberLimit = topic.getGroupStudentLimit();
         this.groupLeft = groupLeft;
     }
 
-    public TopicDetailVO(BigInteger id, String name, String description, int groupLimit, int groupMemberLimit, int groupLeft) {
+    public TopicDetailVO(BigInteger id, String serial, String name, String description, int groupLimit, int groupMemberLimit, int groupLeft) {
         this.id = id;
+        this.serial = serial;
         this.name = name;
         this.description = description;
         this.groupLimit = groupLimit;
         this.groupMemberLimit = groupMemberLimit;
         this.groupLeft = groupLeft;
+    }
+
+    public String getSerial() {
+        return serial;
+    }
+
+    public void setSerial(String serial) {
+        this.serial = serial;
     }
 
     public int getGroupLeft() {

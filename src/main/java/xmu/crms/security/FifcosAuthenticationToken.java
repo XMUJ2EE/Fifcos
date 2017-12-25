@@ -13,10 +13,19 @@ import java.util.Collection;
  */
 public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
     private BigInteger id;
+    private String openid;
     private String number;
     private String phone;
     private String password;
     private String type;
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
 
     public BigInteger getId() {
         return id;
@@ -58,7 +67,7 @@ public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
         this.password = password;
     }
 
-    // 认证之前
+    // web认证之前
     public FifcosAuthenticationToken(String phone, String password) {
         super(null);
         this.id=null;
@@ -68,9 +77,10 @@ public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
         super.setAuthenticated(false);
     }
 
-    // 认证之后，带一个type
+    // web认证之后，带一个type
     public FifcosAuthenticationToken(BigInteger id, String number,String phone, String password, String type, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
+        this.openid = null;
         this.id = id;
         this.number = number;
         this.phone = phone;
@@ -79,6 +89,26 @@ public class FifcosAuthenticationToken extends AbstractAuthenticationToken {
         super.setAuthenticated(true);
     }
 
+    // 小程序认证之前
+    public FifcosAuthenticationToken(String openid){
+        super(null);
+        this.id = null;
+        this.openid = openid;
+        this.phone = null;
+        this.password = null;
+        this.type = null;
+        super.setAuthenticated(false);
+    }
+    // 小程序认证之后
+    public FifcosAuthenticationToken(String openid, BigInteger id, String number, String phone, String type, Collection<? extends GrantedAuthority> authorities){
+        super(authorities);
+        this.password = null;
+        this.openid = openid;
+        this.id = id;
+        this.number = number;
+        this.phone = phone;
+        this.type = type;
+    }
     @Override
     public Object getCredentials() {
         return null;

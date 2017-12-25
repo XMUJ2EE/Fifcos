@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.TopicDetailVO;
+
 import java.math.BigInteger;
 
 /**
@@ -7,6 +9,7 @@ import java.math.BigInteger;
  */
 public class Topic {
 	private BigInteger id;
+	private String serial;
 	private String name;
 	private String description;
 	private Integer groupNumberLimit;
@@ -16,13 +19,32 @@ public class Topic {
 	public Topic() {
 	}
 
-	public Topic(BigInteger id, String name, String description, Integer groupNumberLimit, Integer groupStudentLimit, Seminar seminar) {
+	public Topic(TopicDetailVO topicDetailVO) {
+		this.id = null;
+		this.serial = topicDetailVO.getSerial();
+		this.name = topicDetailVO.getName();
+		this.description = topicDetailVO.getDescription();
+		this.groupNumberLimit = topicDetailVO.getGroupLimit();
+		this.groupStudentLimit = topicDetailVO.getGroupMemberLimit();
+		this.seminar = null;
+	}
+
+	public Topic(BigInteger id, String serial, String name, String description, Integer groupNumberLimit, Integer groupStudentLimit, Seminar seminar) {
 		this.id = id;
+		this.serial = serial;
 		this.name = name;
 		this.description = description;
 		this.groupNumberLimit = groupNumberLimit;
 		this.groupStudentLimit = groupStudentLimit;
 		this.seminar = seminar;
+	}
+
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
 	}
 
 	public BigInteger getId() {
@@ -69,6 +91,7 @@ public class Topic {
 	public String toString() {
 		return "Topic{" +
 				"id=" + id +
+				", serial='" + serial + '\'' +
 				", name='" + name + '\'' +
 				", description='" + description + '\'' +
 				", groupNumberLimit=" + groupNumberLimit +
