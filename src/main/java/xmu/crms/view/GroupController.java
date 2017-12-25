@@ -58,7 +58,7 @@ public class GroupController {
 				List<SeminarGroupTopic> list = topicService.listSeminarGroupTopicByGroupId(BigInteger.valueOf(groupId));
 				List<TopicVO> topics = new ArrayList<TopicVO>();
 				for (SeminarGroupTopic seminarGroupTopic : list) {
-					TopicVO topicVO = new TopicVO(seminarGroupTopic.getTopic().getId().intValue(), seminarGroupTopic.getTopic().getName());
+					TopicVO topicVO = new TopicVO(seminarGroupTopic.getTopic().getId(), seminarGroupTopic.getTopic().getName());
 					topics.add(topicVO);
 				}
 				List<PresentationGradeVO> topicList = new ArrayList<PresentationGradeVO>();
@@ -89,7 +89,7 @@ public class GroupController {
 				List<SeminarGroupTopic> list = topicService.listSeminarGroupTopicByGroupId(BigInteger.valueOf(groupId));
 				List<TopicVO> topics = new ArrayList<TopicVO>();
 				for (SeminarGroupTopic seminarGroupTopic : list) {
-					TopicVO topicVO = new TopicVO(seminarGroupTopic.getTopic().getId().intValue(), seminarGroupTopic.getTopic().getName());
+					TopicVO topicVO = new TopicVO(seminarGroupTopic.getTopic().getId(), seminarGroupTopic.getTopic().getName());
 					topics.add(topicVO);
 				}
 				GroupDetailsVO groupDetailsVO = new GroupDetailsVO(groupVO, leader, members, topics, "");
