@@ -1,5 +1,7 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.SeminarGroup;
+
 public class GroupVO {
 
     private int id;
@@ -8,6 +10,10 @@ public class GroupVO {
     public GroupVO(int id, String name) {
         this.id = id;
         this.name = name;
+    }
+    public GroupVO(SeminarGroup seminarGroup) {
+        this.id = seminarGroup.getId().intValue();
+        this.name = seminarGroup.getId().toString();
     }
 
     public int getId() {

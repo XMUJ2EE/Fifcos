@@ -1,5 +1,7 @@
 package xmu.crms.view.vo;
 
+import xmu.crms.entity.User;
+
 import java.math.BigInteger;
 
 /**
@@ -9,7 +11,9 @@ public class UserVO {
     private BigInteger id;
     private String name;
 
-    public UserVO() {
+    public UserVO(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
     }
 
     public UserVO(BigInteger id, String name) {

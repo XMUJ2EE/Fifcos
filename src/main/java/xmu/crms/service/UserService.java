@@ -21,7 +21,7 @@ public interface UserService {
 	 * @param longitude 经度
 	 * @param latitude 纬度
 	 */
-	 void insertAttendanceById(BigInteger classId, BigInteger seminarId,
+	 BigInteger insertAttendanceById(BigInteger classId, BigInteger seminarId,
 	        BigInteger userId, double longitude, double latitude) throws
 	LocationNotFoundException, InvalidOperationException;
 	

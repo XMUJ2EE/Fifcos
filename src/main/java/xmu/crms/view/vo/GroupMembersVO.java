@@ -2,29 +2,18 @@ package xmu.crms.view.vo;
 
 import java.util.List;
 
-public class GroupDetailsVO {
+public class GroupMembersVO {
     private int id;
     private String name;
     private UserVO leader;
     private List<UserVO> members;
-    private List<TopicVO> topics;
     private String report;
 
-    public GroupDetailsVO(GroupVO groupVO, UserVO leader, List<UserVO> members, List<TopicVO> topics, String report) {
-        this.id = groupVO.getId();
-        this.name = groupVO.getName();
-        this.leader = leader;
-        this.members = members;
-        this.topics = topics;
-        this.report = report;
-    }
-
-    public GroupDetailsVO(int id, String name, UserVO leader, List<UserVO> members, List<TopicVO> topics, String report) {
+    public GroupMembersVO(int id, String name, UserVO leader, List<UserVO> members, String report) {
         this.id = id;
         this.name = name;
         this.leader = leader;
         this.members = members;
-        this.topics = topics;
         this.report = report;
     }
 
@@ -58,14 +47,6 @@ public class GroupDetailsVO {
 
     public void setMembers(List<UserVO> members) {
         this.members = members;
-    }
-
-    public List<TopicVO> getTopics() {
-        return topics;
-    }
-
-    public void setTopics(List<TopicVO> topics) {
-        this.topics = topics;
     }
 
     public String getReport() {
