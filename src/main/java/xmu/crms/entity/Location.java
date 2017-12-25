@@ -12,7 +12,10 @@ public class Location {
 	public final static Integer END=0;
 	public final static Integer CALLING=1;
 	public final static Integer BREAK=2;
-	
+
+	public Location() {
+	}
+
 	public BigInteger getId() {
 		return id;
 	}
@@ -50,4 +53,15 @@ public class Location {
 		this.status = status;
 	}
 
+	@Override
+	public String toString() {
+		return "Location{" +
+				"id=" + id +
+				", classInfo=" + classInfo +
+				", seminar=" + seminar +
+				", longitude=" + longitude +
+				", latitude=" + latitude +
+				", status=" + status +
+				'}';
+	}
 }

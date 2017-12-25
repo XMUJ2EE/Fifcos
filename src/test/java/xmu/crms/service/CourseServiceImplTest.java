@@ -25,6 +25,8 @@ import java.util.List;
  * @Description:
  * @Data: 2017/12/24 5:04
  */
+
+// test done ! 20171225 17.10
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class CourseServiceImplTest {
@@ -34,6 +36,8 @@ public class CourseServiceImplTest {
     ClassServiceImpl classServiceImpl;
     @Autowired
     UserServiceImpl userServiceImpl;
+    @Autowired
+    CourseService courseService;
     @Test
     public void listCourseByUserId() throws Exception {
         BigInteger userId = new BigInteger("1");
@@ -44,9 +48,9 @@ public class CourseServiceImplTest {
 
     @Test
     public void insertCourseByUserId() throws Exception {
-        BigInteger userId = new BigInteger("1");
+        BigInteger userId = new BigInteger("4");
         Course course = new Course();
-        course.setName("OOAD");
+        course.setName("OOAD2");
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         try {
             Date startDate = format.parse("2017-09-10");
@@ -111,9 +115,7 @@ public class CourseServiceImplTest {
 
     @Test
     public void deleteCourseByCourseId() throws Exception {
-        BigInteger courseId = new BigInteger("1");
-        int t = courseDao.deleteCourseByCourseId(courseId);
-        System.out.println(t);
+        courseService.deleteCourseByCourseId(BigInteger.valueOf(4));
     }
 
     @Test

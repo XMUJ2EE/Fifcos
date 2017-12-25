@@ -16,6 +16,7 @@ import java.util.List;
  * @author YellowPure
  * @date 2017/12/21
  */
+// done 20171225 18.53
 @RunWith(SpringRunner.class)
 @SpringBootTest
 public class SeminarServiceTest {
@@ -30,13 +31,14 @@ public class SeminarServiceTest {
         seminar.setEndTime(new Date());
         seminar.setStartTime(new Date());
         seminar.setFixed(true);
-        seminar.setName("讨论课名称");
+        seminar.setName("讨论课4");
         seminarServiceImpl.insertSeminarByCourseId(new BigInteger("2"),seminar);
     }
 
     @Test
     public void listSeminarByCourseId() throws Exception{
         List<Seminar> list = seminarServiceImpl.listSeminarByCourseId(new BigInteger("1"));
+        System.out.println(list);
     }
 
     @Test
@@ -50,7 +52,7 @@ public class SeminarServiceTest {
     }
     @Test
     public void deleteSeminarBySeminarId() throws Exception{
-        seminarServiceImpl.deleteSeminarBySeminarId(new BigInteger("7"));
+        seminarServiceImpl.deleteSeminarBySeminarId(new BigInteger("4"));
     }
     @Test
     public void updateSeminarBySeminarId() throws Exception{

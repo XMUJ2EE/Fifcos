@@ -6,7 +6,10 @@ public class FixGroupMember {
 	private BigInteger id;
 	private FixGroup fixGroup;
 	private User student;
-	
+
+	public FixGroupMember() {
+	}
+
 	public BigInteger getId() {
 		return id;
 	}
@@ -24,6 +27,15 @@ public class FixGroupMember {
 	}
 	public void setStudent(User student) {
 		this.student = student;
+	}
+
+	@Override
+	public String toString() {
+		return "FixGroupMember{" +
+				"id=" + id +
+				", fixGroup=" + fixGroup +
+				", student=" + student +
+				'}';
 	}
 
 }

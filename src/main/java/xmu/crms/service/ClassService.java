@@ -3,12 +3,18 @@ package xmu.crms.service;
 import java.math.BigInteger;
 import java.util.List;
 
-import xmu.crms.entity.*;
-import xmu.crms.exception.*;
+import xmu.crms.entity.ClassInfo;
+import xmu.crms.entity.Location;
+import xmu.crms.entity.User;
+import xmu.crms.exception.ClazzNotFoundException;
+import xmu.crms.exception.CourseNotFoundException;
+import xmu.crms.exception.InvalidOperationException;
+import xmu.crms.exception.SeminarNotFoundException;
+import xmu.crms.exception.UserNotFoundException;
 
 /**
  * @author aixing
- * @version 2.10
+ * @version 2.20
  */
 public interface ClassService {
     /**
@@ -17,7 +23,7 @@ public interface ClassService {
      * @param classId 班级Id
      * @author zhouzhongjun
      */
-    void deleteClassSelectionByClassId(BigInteger classId);
+    int deleteClassSelectionByClassId(BigInteger classId) throws ClazzNotFoundException;
 
     /**
      * 按课程名称和教师名称获取班级列表.
@@ -70,7 +76,7 @@ public interface ClassService {
      * @throws ClazzNotFoundException 无此班级Id
      * @author yexiaona
      */
-    void updateClassByClassId(BigInteger classId, ClassInfo newClass)
+    int updateClassByClassId(BigInteger classId, ClassInfo newClass)
             throws ClazzNotFoundException;
 
     /**
@@ -85,7 +91,7 @@ public interface ClassService {
      * @see FixGroupService #deleteFixGroupByClassId(BigInteger classId)
      * @see SeminarGroupService #deleteSeminarGroupByClaaId(BigInteger classId)
      */
-    void deleteClassByClassId(BigInteger classId)
+    int deleteClassByClassId(BigInteger classId)
             throws ClazzNotFoundException;
 
     /**
@@ -114,7 +120,7 @@ public interface ClassService {
      * @throws ClazzNotFoundException 无此Id的班级
      * @author yexiaona
      */
-    void deleteCourseSelectionById(BigInteger userId, BigInteger classId) throws
+    int deleteCourseSelectionById(BigInteger userId, BigInteger classId) throws
             UserNotFoundException, ClazzNotFoundException;
 
     /**
@@ -134,18 +140,16 @@ public interface ClassService {
     /**
      * 新建班级.
      * <p>
-     * 根据教师id和课程id新建班级<br>
+     * 根据课程id新建班级<br>
      *
-     * @param userId    教师id
      * @param courseId  课程id
      * @param classInfo 班级信息
      * @return classId 班级Id
-     * @throws UserNotFoundException   无此Id的教师
      * @throws CourseNotFoundException 无此Id的课程
-     * @author yexiaona
+     * @author ixing
      */
-    BigInteger insertClassById(BigInteger userId, BigInteger courseId, ClassInfo classInfo) throws
-            UserNotFoundException, CourseNotFoundException;
+    BigInteger insertClassById(BigInteger courseId, ClassInfo classInfo) throws
+            CourseNotFoundException;
 
     /**
      * 按courseId删除Class.
@@ -159,7 +163,7 @@ public interface ClassService {
      * @see ClassService #deleteClasssSelectionByClassId(BigInteger classId)
      * @see FixGroupService #deleteFixGroupByClassId(BigInteger ClassId)
      */
-    void deleteClassByCourseId(BigInteger courseId) throws
+    int deleteClassByCourseId(BigInteger courseId) throws
             CourseNotFoundException;
 
     /**
@@ -169,7 +173,7 @@ public interface ClassService {
      * @throws ClazzNotFoundException 无此Id的班级
      * @author zhouzhongjun
      */
-    void deleteScoreRuleById(BigInteger classId) throws ClazzNotFoundException;
+    int deleteScoreRuleById(BigInteger classId) throws ClazzNotFoundException;
 
     /**
      * 查询评分规则.
@@ -195,7 +199,7 @@ public interface ClassService {
      * @throws ClazzNotFoundException    无此Id的班级
      * @author YeHongjie
      */
-    BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions)
+    int insertScoreRule(BigInteger classId, ClassInfo proportions)
             throws InvalidOperationException, ClazzNotFoundException;
 
     /**
@@ -209,13 +213,13 @@ public interface ClassService {
      * @throws ClazzNotFoundException    无此Id的班级
      * @author YeHongjie
      */
-    void updateScoreRule(BigInteger classId, ClassInfo proportions)
+    int updateScoreRule(BigInteger classId, ClassInfo proportions)
             throws InvalidOperationException, ClazzNotFoundException;
 
     /**
      * 老师发起签到.
      * <p>往location表插入一条当前讨论课班级的签到状态<br>
-     *
+     * 
      * @param location 当前讨论课班级的签到状态记录
      * @return 返回location表的新记录的id
      * @throws SeminarNotFoundException 讨论课没有找到
@@ -225,16 +229,29 @@ public interface ClassService {
             throws SeminarNotFoundException, ClazzNotFoundException;
 
     /**
+     * 新增老师结束签到.
+     * <p>老师结束签到,修改当前讨论课班级的签到状态为已结束<br>
+     * 
+     * @author qinlingyun
+     * @param location 当前讨论课班级的签到状态记录
+     * @throws SeminarNotFoundException 讨论课没有找到
+     * @throws ClazzNotFoundException   无此Id的班级
+     */
+    int endCallRollById(BigInteger seminarId, BigInteger classId)
+            throws SeminarNotFoundException, ClazzNotFoundException;
+    
+    
+    
+    /**
      * 根据学生ID获取班级列表.
      * <p>根据学生ID获取班级列表<br>
      *
      * @param userId 学生ID
      * @return list 班级列表
      * @throws IllegalArgumentException userId格式错误时抛出或courseId格式错误时抛出
-     * @throws ClazzNotFoundException 未找到班级
+     * @throws ClazzNotFoundException   未找到班级
      * @author YeXiaona
      * @see ClassService #getClassByClassId(BigInteger classId)
      */
     List<ClassInfo> listClassByUserId(BigInteger userId) throws IllegalArgumentException, ClazzNotFoundException;
-
 }

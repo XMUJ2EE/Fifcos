@@ -1,4 +1,4 @@
-package xmu.crms.service.impl;
+package xmu.crms.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -8,9 +8,6 @@ import xmu.crms.entity.FixGroupMember;
 import xmu.crms.entity.Seminar;
 import xmu.crms.entity.User;
 import xmu.crms.exception.*;
-import xmu.crms.service.FixGroupService;
-import xmu.crms.service.SeminarService;
-import xmu.crms.service.UserService;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -78,7 +75,7 @@ public class FixGroupServiceImpl implements FixGroupService {
     }
 
     @Override
-    public BigInteger insertStudentIntoGroup(BigInteger userId, BigInteger groupId) throws IllegalArgumentException, FixGroupNotFoundException, UserNotFoundException, InvalidOperationException {
+    public BigInteger insertStudentIntoGroup(BigInteger userId, BigInteger groupId) throws IllegalArgumentException, FixGroupNotFoundException, UserNotFoundException, ClazzNotFoundException,InvalidOperationException {
         User user=userService.getUserByUserId(userId);
         if(user==null) {
             throw new UserNotFoundException("找不到该id对应的学生");

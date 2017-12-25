@@ -13,7 +13,6 @@ import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.FixGroupMember;
 import xmu.crms.entity.User;
 import xmu.crms.exception.*;
-import xmu.crms.service.impl.FixGroupServiceImpl;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -25,13 +24,16 @@ import static org.junit.Assert.*;
 /**
  * @author zhangchubing
  */
+
+// done 20171225 17.59
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
 @Rollback
 public class FixGroupServiceImplTest {
+
     @Autowired
-    private FixGroupServiceImpl fixGroupService;
+    private FixGroupService fixGroupService;
 
     @Test
     public void insertFixGroupByClassId() throws IllegalArgumentException, UserNotFoundException {
@@ -41,12 +43,12 @@ public class FixGroupServiceImplTest {
 
     @Test
     public void deleteFixGroupMemberByFixGroupId() throws IllegalArgumentException, FixGroupNotFoundException {
-        fixGroupService.deleteFixGroupMemberByFixGroupId(new BigInteger("18"));
+        fixGroupService.deleteFixGroupMemberByFixGroupId(new BigInteger("2"));
     }
 
     @Test
     public void deleteFixGroupUserById() throws IllegalArgumentException, FixGroupNotFoundException, UserNotFoundException{
-        fixGroupService.deleteFixGroupUserById(new BigInteger("16"),new BigInteger("80"));
+        fixGroupService.deleteFixGroupUserById(new BigInteger("3"),new BigInteger("13"));
     }
 
     @Test
@@ -69,12 +71,12 @@ public class FixGroupServiceImplTest {
 
     @Test
     public void deleteFixGroupByClassId() throws IllegalArgumentException, ClazzNotFoundException{
-        fixGroupService.deleteFixGroupByClassId(new BigInteger("2"));
+        fixGroupService.deleteFixGroupByClassId(new BigInteger("3"));
     }
 
     @Test
     public void deleteFixGroupByGroupId() throws IllegalArgumentException, FixGroupNotFoundException{
-        fixGroupService.deleteFixGroupByGroupId(new BigInteger("17"));
+        fixGroupService.deleteFixGroupByGroupId(new BigInteger("1"));
     }
 
     @Test
@@ -99,15 +101,22 @@ public class FixGroupServiceImplTest {
     }
 
     @Test
-    public void insertStudentIntoGroup() throws IllegalArgumentException, FixGroupNotFoundException, UserNotFoundException, InvalidOperationException {
-        fixGroupService.insertStudentIntoGroup(new BigInteger("100"),new BigInteger("37"));
+    public void insertStudentIntoGroup() {
+        try{
+            fixGroupService.insertStudentIntoGroup(new BigInteger("89"),new BigInteger("1"));
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test
-    public void getFixedGroupById() throws IllegalArgumentException, ClazzNotFoundException, UserNotFoundException {
-        FixGroup fixGroup=fixGroupService.getFixedGroupById(new BigInteger("10"),new BigInteger("2"));
-        Assert.assertNotNull(fixGroup);
-        System.out.println(fixGroup.getLeader().getName());
+    public void getFixedGroupById(){
+        try{
+            FixGroup fixGroup=fixGroupService.getFixedGroupById(new BigInteger("3"),new BigInteger("1"));
+            System.out.println(fixGroup.toString());
+        }catch (Exception e){
+            e.printStackTrace();
+        }
     }
 
     @Test

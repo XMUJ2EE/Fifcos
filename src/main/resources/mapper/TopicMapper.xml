@@ -4,8 +4,9 @@
 <mapper namespace="xmu.crms.mapper.TopicMapper">
 	
 	<!-- ServiceFun:getTopicByTopicId -->
-	<resultMap type="xmu.crms.entity.Topic" id="TopicResultMap">
+	<resultMap type="Topic" id="TopicResultMap">
     	<id column="id" property="id"/>
+    	<result column="serial" property="serial"/>
     	<result column="name" property="name"/>
     	<result column="description" property="description"/>
     	<result column="group_number_limit" property="groupNumberLimit"/>
@@ -13,7 +14,7 @@
     	<association column="seminar_id" property="seminar" select="selectSeminarBySeminarId"></association>
     </resultMap>
     
-    <resultMap type="xmu.crms.entity.Seminar" id="SeminarResultMap">
+    <resultMap type="Seminar" id="SeminarResultMap">
     	<id column="id" property="id"/>
     	<result column="name" property="name"/>
     	<result column="description" property="description"/>
@@ -23,7 +24,7 @@
     	<association column="course_id" property="course" select="selectCourseByCourseId"></association>
     </resultMap>
     
-    <resultMap type="xmu.crms.entity.Course" id="CourseResultMap">
+    <resultMap type="Course" id="CourseResultMap">
     	<id column="id" property="id"/>
     	<result column="name" property="name"/>
     	<result column="start_date" property="startDate"/>
@@ -37,7 +38,7 @@
     	<association column="teacher_id" property="teacher" select="selectUserByUserId"></association>
     </resultMap>
     
-    <resultMap type="xmu.crms.entity.User" id="UserResultMap">
+    <resultMap type="User" id="UserResultMap">
     	<id column="id" property="id"/>
     	<result column="phone" property="phone"/>
     	<result column="wechat_id" property="wechatId"/>
@@ -78,6 +79,7 @@
     <sql id="setTopicCondition">
     	<set>
     		<if test="topic.id != null and topic.id != ''">id=#{topic.id},</if>
+    		<if test="topic.serial != null and topic.serial != null">serial=#{topic.serial},</if>
     		<if test="topic.name != null and topic.name != null">name=#{topic.name},</if>
     		<if test="topic.description != null and topic.description != ''">description=#{topic.description},</if>
     		<if test="topic.groupNumberLimit != null and topic.groupNumberLimit != ''">group_number_limit=#{topic.groupNumberLimit},</if>
@@ -117,12 +119,14 @@
     <!-- ServiceFun:insertTopicBySeminarId -->
     <insert id="insertTopicBySeminarId" parameterType="xmu.crms.entity.Topic" useGeneratedKeys="true" keyProperty="topic.id">
     	insert into topic(
+    		serial,
     		name,
     		description,
     		group_number_limit,
     		group_student_limit,
     		seminar_id
     	)values(
+    		#{topic.serial},
     		#{topic.name},
     		#{topic.description},
     		#{topic.groupNumberLimit},
@@ -142,7 +146,7 @@
     </delete>
     
     <!-- ServiceFun:deleteTopicByTopicId -->
-    <resultMap type="xmu.crms.entity.SeminarGroupTopic" id="SeminarGroupTopicResultMap">
+    <resultMap type="SeminarGroupTopic" id="SeminarGroupTopicResultMap">
     	<id column="id" property="id"/>
     	<result column="presentation_grade" property="presentationGrade"/>
     	<association column="topic_id" property="topic" select="getTopicByTopicId"></association>

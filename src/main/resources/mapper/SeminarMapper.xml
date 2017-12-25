@@ -77,17 +77,16 @@
     </delete>
 
     <update id="updateSeminarBySeminarId">
-        UPDATE
-          seminar
-        SET
-          name = #{name},
-          description = #{description},
-          course_id = #{course.id},
-          is_fixed = #{fixed},
-          start_time = #{startTime},
-          end_time = #{endTime}
-        WHERE
-          id = #{id}
+        UPDATE seminar
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name !=null and name != '' ">name = #{name},</if>
+            <if test="description !=null and description != '' ">description = #{description},</if>
+            <if test="course !=null">course_id = #{course.id},</if>
+            <if test="fixed !=null and fixed != '' ">is_fixed = #{fixed},</if>
+            <if test="startTime !=null">start_time = #{startTime},</if>
+            <if test="endTime !=null">end_time = #{endTime},</if>
+        </trim>
+        WHERE id = #{id}
     </update>
 
     <select id="getSeminarGroupMemberByStudentId">

@@ -159,7 +159,7 @@ public class CourseController {
 		try {
 			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
 			ClassInfo classInfo = new ClassInfo(classCreateVO);
-			id = classService.insertClassById(userId, BigInteger.valueOf(courseId), classInfo).intValue();
+			id = classService.insertClassById(BigInteger.valueOf(courseId), classInfo).intValue();
 			result.put("id", id);
 			return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
 		} catch (CourseNotFoundException e) {

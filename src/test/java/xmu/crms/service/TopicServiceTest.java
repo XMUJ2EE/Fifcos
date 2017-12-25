@@ -26,25 +26,26 @@ public class TopicServiceTest {
 	
 	@Test
 	public void testGetTopicByTopicId() throws IllegalArgumentException, TopicNotFoundException {
-		Topic topic=topicService.getTopicByTopicId(new BigInteger("2"));
+		Topic topic=topicService.getTopicByTopicId(new BigInteger("3"));
 		Assert.assertNotNull(topic);
 		System.out.println(topic.toString());
 	}
 	
 	@Test
 	public void testUpdateTopicByTopicId() throws IllegalArgumentException, TopicNotFoundException {
-		Topic topic=topicService.getTopicByTopicId(new BigInteger("7"));
+		Topic topic=topicService.getTopicByTopicId(new BigInteger("3"));
+		topic.setSerial("A");
 		topic.setName("话题15");
 		topic.setDescription("话题说明7");
 		topic.setGroupNumberLimit(9);
 		topic.setGroupStudentLimit(5);
-		Assert.assertNotEquals(0,topicService.updateTopicByTopicId(new BigInteger("7"), topic));
+		Assert.assertNotEquals(0,topicService.updateTopicByTopicId(new BigInteger("3"), topic));
 	}
 	
 	@Test
 	@Rollback(true)
 	public void testDeleteTopicByTopicId() throws IllegalArgumentException, TopicNotFoundException {
-		Assert.assertNotEquals(0,topicService.deleteTopicByTopicId(new BigInteger("15")));
+		Assert.assertNotEquals(0,topicService.deleteTopicByTopicId(new BigInteger("3")));
 	}
 	
 	@Test
@@ -57,6 +58,7 @@ public class TopicServiceTest {
 	@Test
 	public void testInsertTopicBySeminarId() {
 		Topic topic=new Topic();
+		topic.setSerial("B");
 		topic.setName("话题7");
 		topic.setDescription("话题7描述");
 		topic.setGroupNumberLimit(4);
@@ -74,14 +76,14 @@ public class TopicServiceTest {
 	
 	@Test
 	public void testDeleteSeminarGroupTopicByTopicId() {
-		Assert.assertNotEquals(0,topicService.deleteSeminarGroupTopicByTopicId(new BigInteger("6")));
+		Assert.assertNotEquals(0,topicService.deleteSeminarGroupTopicByTopicId(new BigInteger("4")));
 	}
 	
 	@Test
 	public void testGetSeminarGroupTopicById() {
-		SeminarGroupTopic seminarGroupTopic=topicService.getSeminarGroupTopicById(new BigInteger("1"), new BigInteger("1"));
+		SeminarGroupTopic seminarGroupTopic=topicService.getSeminarGroupTopicById(new BigInteger("3"), new BigInteger("19"));
 		Assert.assertNotNull(seminarGroupTopic);
-		System.out.println(seminarGroupTopic.toString());
+		System.out.println(seminarGroupTopic);
 	}
 	
 	@Test

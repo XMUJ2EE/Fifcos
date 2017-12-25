@@ -111,7 +111,7 @@ public interface SeminarMapper {
      * @author YellowPure
      * @date 22:23 2017/12/20
      */
-    BigInteger insertSeminarByCourseId(Seminar seminar);
+    int insertSeminarByCourseId(Seminar seminar);
 
     /**
      *根据ID删除讨论课

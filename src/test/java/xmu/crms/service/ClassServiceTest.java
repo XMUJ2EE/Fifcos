@@ -13,7 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import xmu.crms.entity.*;
 import xmu.crms.exception.*;
-import xmu.crms.mapper.*;
+
+// test done! 17.08 20171215
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Transactional
@@ -21,24 +22,61 @@ import xmu.crms.mapper.*;
 public class ClassServiceTest {
 	@Autowired
 	private ClassService classService;
-
-	// TODO: 2017/12/25
-	//insert 
-/*
+	
+	/**
+	 * 测试select语句
+	 */
+	
 	@Test
-	public void testInsertCourseSelectionById() {
-		BigInteger userId=new BigInteger("100");
-		BigInteger classId=new BigInteger("100");
-		String insert=classService.insertCourseSelectionById(userId, classId);
-		Assert.assertNotNull(insert);
+	public void testListClassByName() throws UserNotFoundException, CourseNotFoundException {
+		List<ClassInfo> classInfos=classService.listClassByName("课程1", "邱明");
+		System.out.println(classInfos);
 	}
-*/
-/*
+	
 	@Test
-	public void testInsertClassById()
+	public void testListClassByCourseId() throws CourseNotFoundException {
+		List<ClassInfo> classInfos=classService.listClassByCourseId(new BigInteger("1"));
+		System.out.println(classInfos);
+	}
+	
+	@Test
+	public void testGetClassByClassId() throws ClazzNotFoundException {
+		ClassInfo classInfo=classService.getClassByClassId(new BigInteger("1"));
+		System.out.println(classInfo.toString());
+	}
+
+	@Test
+	public void testGetCallStatusById(){
+		try{
+			Location location=classService.getCallStatusById(new BigInteger("1"), new BigInteger("3"));
+			System.out.println(location.toString());
+		}catch (SeminarNotFoundException e){
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	public void testGetScoreRule() throws ClazzNotFoundException {
+		ClassInfo classInfo=classService.getScoreRule(new BigInteger("1"));
+		Assert.assertNotNull(classInfo);
+	}
+	
+	/**
+	 * 测试insert语句
+	 */
+	
+	@Test
+	public void testInsertCourseSelectionById() throws UserNotFoundException, ClazzNotFoundException {
+		BigInteger userId=new BigInteger("89");
+		BigInteger classId=new BigInteger("3");
+		BigInteger insert=classService.insertCourseSelectionById(userId, classId);
+		Assert.assertNotEquals(new BigInteger("0"),insert);
+	}
+
+	@Test
+	public void testInsertClassById() throws CourseNotFoundException
 	{
-		BigInteger userId=new BigInteger("200");
-		BigInteger courseId=new BigInteger("200");
+		BigInteger courseId=new BigInteger("3");
 		ClassInfo classInfo=new ClassInfo();
 		classInfo.setName("222");
 		classInfo.setReportPercentage(5);
@@ -46,25 +84,38 @@ public class ClassServiceTest {
 		classInfo.setFourPointPercentage(5);
 		classInfo.setThreePointPercentage(5);
 		classInfo.setPresentationPercentage(5);
-		int insert=classService.insertClassById(userId, courseId,classInfo);
-		Assert.assertNotNull(insert);
+		BigInteger insert=classService.insertClassById(courseId,classInfo);
+		Assert.assertNotEquals(new BigInteger("0"),insert);
 	}
-*/
-/////////////////////////************************下面一个存在测试问题的函数
-
+	
 	@Test
-	public void testGetClass(){
+	public void testCallInRollById()
+	{
+		ClassInfo classInfo=new ClassInfo();
+		classInfo.setId(new BigInteger("1"));
+		Seminar seminar=new Seminar();
+		seminar.setId(new BigInteger("3"));
+		Location location=new Location();
+		location.setLongitude(100.0);
+		location.setLatitude(100.0);
+		location.setClassInfo(classInfo);
+		location.setSeminar(seminar);
+		location.setStatus(1);
 		try{
-			ClassInfo classInfo = classService.getClassByClassId(BigInteger.valueOf(1));
-			System.out.println(classInfo.toString());
+			BigInteger insert=classService.callInRollById(location);
 		}catch (Exception e){
-			System.out.println(e.toString());
+			e.printStackTrace();
 		}
 	}
+	
+	/**
+	 * 测试update语句
+	 */
+	
 	@Test
-	public void testInsertScoreRule() throws ClassNotFoundException, InvalidOperationException
+	public void testInsertScoreRule() throws ClassNotFoundException, InvalidOperationException, ClazzNotFoundException
 	{
-		BigInteger classId=new BigInteger("3");
+		BigInteger classId=new BigInteger("7");
 		ClassInfo proportions=new ClassInfo();
 		proportions.setName("cccc");
 		proportions.setReportPercentage(4);
@@ -72,20 +123,14 @@ public class ClassServiceTest {
 		proportions.setFourPointPercentage(4);
 		proportions.setThreePointPercentage(4);
 		proportions.setReportPercentage(4);
-		try{
-
-			classService.insertScoreRule(classId, proportions);
-		}catch (ClazzNotFoundException e){
-			System.out.println(e.toString());
-		}
+		int insert=classService.insertScoreRule(classId, proportions);
+		Assert.assertNotEquals(0,insert);
 	}
-
-	//update
-/*
+	
 	@Test
-	public void testUpdateClassByClassId() throws ClassesNotFoundException
+	public void testUpdateClassByClassId() throws ClazzNotFoundException
 	{
-		BigInteger classId=new BigInteger("6");
+		BigInteger classId=new BigInteger("4");
 		ClassInfo proportions=new ClassInfo();
 		proportions.setName("111");
 		proportions.setReportPercentage(4);
@@ -93,58 +138,77 @@ public class ClassServiceTest {
 		proportions.setFourPointPercentage(4);
 		proportions.setThreePointPercentage(4);
 		proportions.setReportPercentage(4);
-		classService.updateClassByClassId(classId, proportions);
+		int update=classService.updateClassByClassId(classId, proportions);
+		Assert.assertNotEquals(0,update);
 	}
-	*/
-
-/*
+	
 	@Test
-	public void testupdateScoreRule()
+	public void testUpdateScoreRule() throws InvalidOperationException, ClazzNotFoundException
 	{
-		BigInteger classId=new BigInteger("500");
+		BigInteger classId=new BigInteger("7");
 		ClassInfo proportions=new ClassInfo();
-		classService.updateScoreRule(classId, proportions);
+		proportions.setFivePointPercentage(4);
+		int update=classService.updateScoreRule(classId, proportions);
+		Assert.assertNotEquals(0,update);
 	}
-*/
-/*
-	//delete
+	
 	@Test
-	public void testDeleteClassSelectionByClassId()
+	public void testEndCallRollById() throws SeminarNotFoundException, ClazzNotFoundException
 	{
-		classService.deleteClassSelectionByClassId(new BigInteger("200"));
+		int update=classService.endCallRollById(new BigInteger("3"), new BigInteger("1"));
+		Assert.assertNotEquals(0,update);
 	}
-*/
-/*
+
+	/**
+	 * 其实本质是update
+	 * @throws ClazzNotFoundException 
+	 */
 	@Test
-	public void testDeleteClassByClassId()
+	public void testDeleteScoreRuleById() throws ClazzNotFoundException
 	{
-		classService.deleteClassByClassId(new BigInteger("6"));
+		BigInteger classId=new BigInteger("7");
+		int update=classService.deleteScoreRuleById(classId);
+		Assert.assertNotEquals(0,update);
 	}
-*/
-/*
+	
+	/**
+	 * 测试delete语句
+	 * @throws ClazzNotFoundException 
+	 */
+
 	@Test
-	public void testDeleteCourseSelectionById()
+	public void testDeleteClassSelectionByClassId() throws ClazzNotFoundException
 	{
-		BigInteger userId=new BigInteger("100");
-		BigInteger classId=new BigInteger("100");
-		classService.deleteCourseSelectionById(userId, classId);
+		int delete=0;
+		delete=classService.deleteClassSelectionByClassId(new BigInteger("3"));
+		Assert.assertNotEquals(0,delete);
 	}
-*/
-/*
+
 	@Test
-	public void testDeleteClassByCourseId()
+	public void testDeleteClassByClassId() throws ClazzNotFoundException
 	{
-		BigInteger courseId=new BigInteger("200");
-		classService.deleteClassByCourseId(courseId);
+		int delete=0;
+		delete=classService.deleteClassByClassId(new BigInteger("2"));
+		Assert.assertNotEquals(0,delete);
 	}
-*/
-/*
-	//其实本质是update
+
 	@Test
-	public void testDeleteScoreRuleById()
+	public void testDeleteCourseSelectionById() throws UserNotFoundException, ClazzNotFoundException
 	{
+		int delete=0;
+		BigInteger userId=new BigInteger("89");
 		BigInteger classId=new BigInteger("2");
-		classService.deleteScoreRuleById(classId);
+		delete=classService.deleteCourseSelectionById(userId, classId);
+		Assert.assertNotEquals(0,delete);
 	}
-*/
+
+	@Test
+	public void testDeleteClassByCourseId() throws CourseNotFoundException
+	{
+		int delete=0;
+		BigInteger courseId=new BigInteger("3");
+		delete=classService.deleteClassByCourseId(courseId);
+		Assert.assertNotEquals(0,delete);
+	}
+
 }

@@ -155,6 +155,6 @@ public class SeminarServiceImpl implements SeminarService {
         course.setId(courseId);
         seminar.setCourse(course);
         //return seminarMapper.insertSeminarByCourseId(seminar);
-        return seminarMapper.insertSeminarByCourseId(seminar);
+        return BigInteger.valueOf(seminarMapper.insertSeminarByCourseId(seminar));
     }
 }

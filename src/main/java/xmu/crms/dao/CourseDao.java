@@ -39,8 +39,8 @@ public class CourseDao {
             throw new IllegalArgumentException("用户ID格式错误！");
         }
         course.getTeacher().setId(userId);
-        Integer courseId = courseMapper.insertCourseByUserId(course);
-        return BigInteger.valueOf(courseId);
+        courseMapper.insertCourseByUserId(course);
+        return BigInteger.valueOf(course.getId().intValue());
     }
 
     public Course getCourseByCourseId(BigInteger courseId)
