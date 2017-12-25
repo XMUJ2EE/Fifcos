@@ -21,6 +21,8 @@ import xmu.crms.mapper.*;
 public class ClassServiceTest {
 	@Autowired
 	private ClassService classService;
+
+	// TODO: 2017/12/25
 	//insert 
 /*
 	@Test

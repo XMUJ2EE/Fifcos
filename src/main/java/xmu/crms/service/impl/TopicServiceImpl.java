@@ -49,9 +49,9 @@ public class TopicServiceImpl implements TopicService{
      * @author aixing
      */
 	@Override
-	public void updateTopicByTopicId(BigInteger topicId, Topic topic)
+	public int updateTopicByTopicId(BigInteger topicId, Topic topic)
 			throws TopicNotFoundException, IllegalArgumentException {
-		topicDao.updateTopicByTopicId(topicId, topic);
+		return topicDao.updateTopicByTopicId(topicId, topic);
 	}
 
 	/**
@@ -64,8 +64,8 @@ public class TopicServiceImpl implements TopicService{
      * @author xingb
      */
 	@Override
-	public void deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException, TopicNotFoundException {
-		topicDao.deleteTopicByTopicId(topicId);
+	public int deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException, TopicNotFoundException {
+		return topicDao.deleteTopicByTopicId(topicId);
 	}
 
 	/**
@@ -108,8 +108,8 @@ public class TopicServiceImpl implements TopicService{
      * @author zhouzhongjun
      */
 	@Override
-	public void deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException {
-		topicDao.deleteSeminarGroupTopicById(groupId, topicId);
+	public int deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException {
+		return topicDao.deleteSeminarGroupTopicById(groupId, topicId);
 	}
 
 	/**
@@ -120,8 +120,8 @@ public class TopicServiceImpl implements TopicService{
      * @author zhouzhongjun
      */
 	@Override
-	public void deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException {
-		topicDao.deleteSeminarGroupTopicByTopicId(topicId);
+	public int deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException {
+		return topicDao.deleteSeminarGroupTopicByTopicId(topicId);
 	}
 
 	/**
@@ -165,8 +165,8 @@ public class TopicServiceImpl implements TopicService{
      * @see GradeService   #deleteStudentScoreGroupByTopicId(BigInteger seminarGroupTopicId)
      */
 	@Override
-	public void deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
-		topicDao.deleteTopicBySeminarId(seminarId);
+	public int deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
+		return topicDao.deleteTopicBySeminarId(seminarId);
 	}
 	
 }

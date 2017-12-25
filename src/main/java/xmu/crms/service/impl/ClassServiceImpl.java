@@ -109,7 +109,7 @@ public class ClassServiceImpl implements ClassService{
 		 classDao.updateScoreRule(classId, proportions);
 	 }
 	@Override
-	 public BigInteger CallInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
+	 public BigInteger callInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
 			return classDao.CallInRollById(location);
 		}
 

@@ -60,32 +60,37 @@ public class TopicDaoImpl implements TopicDao{
      * @author aixing
      */
 	@Override
-	public void updateTopicByTopicId(BigInteger topicId, Topic topic)
+	public int updateTopicByTopicId(BigInteger topicId, Topic topic)
 			throws TopicNotFoundException, IllegalArgumentException {
 		// TODO about exception to fail to update
+		int update=0;
 		if(!(topicId instanceof BigInteger)) {
 			throw new IllegalArgumentException("topicId格式错误");
 		}else if(topicMapper.getTopicByTopicId(topicId)==null) {
 			throw new TopicNotFoundException("找不到topic或topicId错误");
 		}else {
-			int update = topicMapper.updateTopicByTopicId(topicId, topic);
+			update = topicMapper.updateTopicByTopicId(topicId, topic);
 			if(update == 0) {
 				//会有更新异常吗？
 			}
 		}
+		return update;
 	}
+	
 
     /**
      * 删除topic.
      * <p>删除topic表中相应讨论课的topic<br>
      * 
      * @param topicId 要删除的topic的topicId
+     * @return int
      * @throws IllegalArgumentException Id格式错误时抛出
      * @throws TopicNotFoundException 未找到该话题
      * @author xingb
      */
 	@Override
-	public void deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException, TopicNotFoundException {
+	public int deleteTopicByTopicId(BigInteger topicId) throws IllegalArgumentException, TopicNotFoundException {
+		int delete=0;
 		if(!(topicId instanceof BigInteger)) {
 			throw new IllegalArgumentException("topicId格式错误");
 		}else if(topicMapper.getTopicByTopicId(topicId)==null){
@@ -96,8 +101,9 @@ public class TopicDaoImpl implements TopicDao{
 				topicMapper.deleteStudentScoreGroupById(seminarGroupTopicIds);
 			}
 			topicMapper.deleteSeminarGroupTopicByTopicId(topicId);
-			topicMapper.deleteTopicByTopicId(topicId);
+			delete=topicMapper.deleteTopicByTopicId(topicId);
 		}
+		return delete;
 	}
 
 	/**
@@ -149,35 +155,41 @@ public class TopicDaoImpl implements TopicDao{
      *
      * @param groupId 小组Id
      * @param topicId 话题Id
+     * @return int
      * @throws IllegalArgumentException groupId格式错误或topicId格式错误时抛出
      * @author zhouzhongjun
      */
 	@Override
-	public void deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException {
+	public int deleteSeminarGroupTopicById(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException {
 		// TODO Auto-generated method stub
+		int delete=0;
 		if(!(groupId instanceof BigInteger)) {
 			throw new IllegalArgumentException("groupId格式错误");
 		}else if(!(topicId instanceof BigInteger)) {
 			throw new IllegalArgumentException("topicId格式错误");
 		}else {
-			topicMapper.deleteSeminarGroupTopicById(groupId, topicId);
+			delete=topicMapper.deleteSeminarGroupTopicById(groupId, topicId);
 		}
+		return delete;
 	}
 
 	/**
      * 按topicId删除SeminarGroupTopic表信息.
      * <p>删除seminar_group_topic表中选择了某个话题的全部记录<br>
      * @param topicId 讨论课Id
+     * @return int
      * @throws IllegalArgumentException topicId格式错误
      * @author zhouzhongjun
      */
 	@Override
-	public void deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException {
+	public int deleteSeminarGroupTopicByTopicId(BigInteger topicId) throws IllegalArgumentException {
+		int delete=0;
 		if(!(topicId instanceof BigInteger)) {
 			throw new IllegalArgumentException("topicId格式错误");
 		}else {
-			topicMapper.deleteSeminarGroupTopicByTopicId(topicId);
+			delete=topicMapper.deleteSeminarGroupTopicByTopicId(topicId);
 		}
+		return delete;
 	}
 
 	/**
@@ -213,7 +225,7 @@ public class TopicDaoImpl implements TopicDao{
      */
 	@Override
 	public List<SeminarGroupTopic> listSeminarGroupTopicByGroupId(BigInteger groupId) throws IllegalArgumentException {
-		List<SeminarGroupTopic> seminarGroupTopics=new ArrayList();
+		List<SeminarGroupTopic> seminarGroupTopics=new ArrayList<SeminarGroupTopic>();
 		if(!(groupId instanceof BigInteger)) {
 			throw new IllegalArgumentException("groupId格式错误");
 		}else {
@@ -228,6 +240,7 @@ public class TopicDaoImpl implements TopicDao{
      * <p>根据seminarId获得topic信息，然后再根据topic删除seninargrouptopic信息和根据seminarGroupTopicId删除StudentScoreGroup信息，最后再根据删除topic信息<br>
      *
      * @param seminarId 讨论课Id
+     * @return int
      * @throws IllegalArgumentException seminarId格式错误
      * @author zhouzhongjun
      * @see TopicService #listTopicBySeminarId(BigInteger seminarId)
@@ -235,22 +248,25 @@ public class TopicDaoImpl implements TopicDao{
      * @see GradeService   #deleteStudentScoreGroupByTopicId(BigInteger seminarGroupTopicId)
      */
 	@Override
-	public void deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
+	public int deleteTopicBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
+		int delete=0;
 		if(!(seminarId instanceof BigInteger)) {
-		throw new IllegalArgumentException("seminarId格式错误");
-	}else {
-		List<Topic> topics=topicMapper.listTopicBySeminarId(seminarId);
-		Iterator<Topic> it = topics.iterator();
-		while(it.hasNext()) {
-			BigInteger topicId=it.next().getId();
-			List<BigInteger> seminarGroupTopicIds = topicMapper.getSeminarGroupTopicIdByTopicId(topicId);
-			if(!seminarGroupTopicIds.isEmpty()) {
-				topicMapper.deleteStudentScoreGroupById(seminarGroupTopicIds);
+			throw new IllegalArgumentException("seminarId格式错误");
+		}else {
+			List<Topic> topics=topicMapper.listTopicBySeminarId(seminarId);
+			Iterator<Topic> it = topics.iterator();
+			while(it.hasNext()) {
+				BigInteger topicId=it.next().getId();
+				List<BigInteger> seminarGroupTopicIds = topicMapper.getSeminarGroupTopicIdByTopicId(topicId);
+				if(!seminarGroupTopicIds.isEmpty()) {
+					topicMapper.deleteStudentScoreGroupById(seminarGroupTopicIds);
+				}
+				topicMapper.deleteSeminarGroupTopicByTopicId(topicId);
+				int temp=topicMapper.deleteTopicByTopicId(topicId);
+				delete+=temp;
 			}
-			topicMapper.deleteSeminarGroupTopicByTopicId(topicId);
-			topicMapper.deleteTopicByTopicId(topicId);
 		}
-	}
+		return delete;
 	}
 	
 }
