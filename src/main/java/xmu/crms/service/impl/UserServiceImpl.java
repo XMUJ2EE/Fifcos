@@ -22,7 +22,7 @@ public class UserServiceImpl implements UserService {
     private UserMapper userMapper;
 
     @Override
-    public void insertAttendanceById(BigInteger classId, BigInteger seminarId, BigInteger userId, double longitude, double latitude) throws LocationNotFoundException, InvalidOperationException {
+    public BigInteger insertAttendanceById(BigInteger classId, BigInteger seminarId, BigInteger userId, double longitude, double latitude) throws LocationNotFoundException, InvalidOperationException {
         // 判断签到地点是否正确
         Location location = userMapper.getLocationById(classId, seminarId);
         if(location == null){
@@ -35,16 +35,14 @@ public class UserServiceImpl implements UserService {
         // Attendance有三种状态 PRESENT 0 正常签到 LATE 1 迟到 ABSENCE 2 缺勤
         if(location.getStatus().equals(Location.CALLING)){
             // 正常签到
-            userMapper.insertAttendanceById(classId, seminarId, userId, Attendance.PRESENT);
+            return userMapper.insertAttendanceById(classId, seminarId, userId, Attendance.PRESENT);
         }else if(location.getStatus().equals(Location.END)){
             // 迟到
-            userMapper.insertAttendanceById(classId, seminarId, userId, Attendance.LATE);
-        }else if(location.getStatus().equals(Location.BREAK)){
+            return userMapper.insertAttendanceById(classId, seminarId, userId, Attendance.LATE);
+        }else {
             // 缺勤
-            userMapper.insertAttendanceById(classId, seminarId, userId, Attendance.ABSENCE);
+            return userMapper.insertAttendanceById(classId, seminarId, userId, Attendance.ABSENCE);
         }
-
-
     }
 
     @Override

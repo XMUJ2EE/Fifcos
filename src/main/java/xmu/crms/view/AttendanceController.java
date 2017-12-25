@@ -10,17 +10,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import xmu.crms.entity.Attendance;
+import xmu.crms.entity.Location;
 import xmu.crms.entity.User;
-import xmu.crms.exception.InvalidOperationException;
-import xmu.crms.exception.LocationNotFoundException;
-import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.exception.*;
+import xmu.crms.service.ClassService;
 import xmu.crms.service.UserService;
+import xmu.crms.view.vo.AttendanceVO;
 import xmu.crms.view.vo.LocationVO;
 import xmu.crms.view.vo.UserVO;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 讨论课的签到状态Controller
@@ -33,16 +36,29 @@ public class AttendanceController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    ClassService classService;
 
     @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.GET)
     public ResponseEntity getStateByClassId(@PathVariable int seminarId, @PathVariable int classId){
         try {
+            Location location = classService.getCallStatusById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId));
             List<Attendance> list = userService.listAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId));
+            int numPresent = list.size();
+            int numStudent = userService.listUserByClassId(BigInteger.valueOf(classId), "", "").size();
+            AttendanceVO attendanceVO = new AttendanceVO(location, numPresent, numStudent);
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(attendanceVO);
         } catch (LocationNotFoundException e) {
             e.printStackTrace();
+            return ResponseEntity.status(404).build();
+        } catch (SeminarNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).build();
+        } catch (ClazzNotFoundException e) {
+            e.printStackTrace();
+            return ResponseEntity.status(404).build();
         }
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
     }
 
     @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
@@ -51,15 +67,15 @@ public class AttendanceController {
         List<UserVO> listAttdent = new ArrayList<UserVO>();
         try {
             List<User> listTotal = userService.listPresentStudent(BigInteger.valueOf(seminarId), BigInteger.valueOf(classId));
-            for (int i=0; i<listTotal.size(); i++) {
-                UserVO userVO = new UserVO(listTotal.get(i).getId(), listTotal.get(i).getName());
+            for (User aListTotal : listTotal) {
+                UserVO userVO = new UserVO(aListTotal.getId(), aListTotal.getName());
                 listAttdent.add(userVO);
             }
         } catch (LocationNotFoundException e) {
             e.printStackTrace();
         }
         if (listAttdent.isEmpty()) {
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).build();
         }else {
             return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listAttdent);
         }
@@ -71,9 +87,9 @@ public class AttendanceController {
         List<UserVO> listLate = new ArrayList<UserVO>();
         try {
             List<Attendance> listTotal = userService.listAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId));
-            for (int i=0; i<listTotal.size(); i++) {
-                if (listTotal.get(i).getAttendanceStatus() == 1) {
-                    UserVO userVO = new UserVO(listTotal.get(i).getStudent().getId(), listTotal.get(i).getStudent().getName());
+            for (Attendance aListTotal : listTotal) {
+                if (aListTotal.getAttendanceStatus() == 1) {
+                    UserVO userVO = new UserVO(aListTotal.getStudent().getId(), aListTotal.getStudent().getName());
                     listLate.add(userVO);
                 }
             }
@@ -81,7 +97,7 @@ public class AttendanceController {
             e.printStackTrace();
         }
         if (listLate.isEmpty()) {
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).build();
         }else {
             return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listLate);
         }
@@ -93,15 +109,15 @@ public class AttendanceController {
         List<UserVO> listAbsent = new ArrayList<UserVO>();
         try {
             List<User> listTotal = userService.listAbsenceStudent(BigInteger.valueOf(seminarId), BigInteger.valueOf(classId));
-            for (int i=0; i<listTotal.size(); i++) {
-                    UserVO userVO = new UserVO(listTotal.get(i).getId(), listTotal.get(i).getName());
-                    listAbsent.add(userVO);
+            for (User aListTotal : listTotal) {
+                UserVO userVO = new UserVO(aListTotal.getId(), aListTotal.getName());
+                listAbsent.add(userVO);
             }
         } catch (LocationNotFoundException e) {
             e.printStackTrace();
         }
         if (listAbsent.isEmpty()) {
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).build();
         }else {
             return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(listAbsent);
         }
@@ -113,35 +129,37 @@ public class AttendanceController {
         List<Attendance> list = new ArrayList<Attendance>();
         try {
             User user = userService.getUserByUserId(BigInteger.valueOf(studentId));
-            userService.insertAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId),
-                    BigInteger.valueOf(studentId), locationVO.getLongitude(), locationVO.getLatitude());
+            int id = userService.insertAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId),
+                    BigInteger.valueOf(studentId), locationVO.getLongitude(), locationVO.getLatitude()).intValue();
             list = userService.listAttendanceById(BigInteger.valueOf(classId), BigInteger.valueOf(seminarId));
+            Attendance attendance = new Attendance();
+            for (Attendance aList : list) {
+                if (aList.getId().intValue() == id) {
+                    attendance = aList;
+                    break;
+                }
+            }
+            String attend = "";
+            if (attendance.getAttendanceStatus() == 0) {
+                attend = "present";
+            }
+            else if (attendance.getAttendanceStatus() == 1) {
+                attend = "late";
+            }else {
+                attend = "absence";
+            }
+            Map<String, String> status = new HashMap<String, String>();
+            status.put("status", attend);
+            return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(status);
         } catch (LocationNotFoundException e) {
             e.printStackTrace();
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).build();
         } catch (InvalidOperationException e) {
             e.printStackTrace();
-            return ResponseEntity.status(403).body(null);
+            return ResponseEntity.status(403).build();
         } catch (UserNotFoundException e) {
             e.printStackTrace();
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).build();
         }
-        Attendance attendance = new Attendance();
-        for (Attendance aList : list) {
-            if (aList.getStudent().getId().equals(studentId))
-                attendance = aList;
-        }
-        String attend = "";
-        if (attendance.getAttendanceStatus() == 0) {
-            attend = "present";
-        }
-        else if (attendance.getAttendanceStatus() == 1) {
-            attend = "late";
-        }else {
-            attend = "absence";
-        }
-        String status = "{\"status\":\"" + attend + "\"}";
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(status);
     }
-
 }

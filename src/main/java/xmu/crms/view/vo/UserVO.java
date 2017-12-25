@@ -12,7 +12,9 @@ public class UserVO {
     private String name;
     private String number;
 
-    public UserVO() {
+    public UserVO(User user) {
+        this.id = user.getId();
+        this.name = user.getName();
     }
 
     public UserVO(User user) {
