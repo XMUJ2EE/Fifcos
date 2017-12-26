@@ -287,7 +287,7 @@ function selectclass(id1){//StudenCourseSelectPage selectclass
         contentType: "application/json;",
         data: JSON.stringify(ata),
         success: function (data,status,xhr){
-            if(xhr.status == 201){
+            if(xhr.status == 204){
                 alert("成功");
             }
         },
@@ -314,17 +314,17 @@ function classlistsearch(){//StudenCourseSelectPage classlist(searched)
         var teacher;
         console.log($("[name='teacher']").val());
         if($("[name='teacher']").val()== ""){
-            course = "*";
+            course = "";
         }
-        else course = $("[name='teacher']").val();
+        else course = 'courseName='+$("[name='teacher']").val();
         if($("[name='course']").val()== ""){
-            teacher = "*";
+            teacher = "";
         }
-        else teacher = $("[name='course']").val();
+        else teacher = 'teacherName='+$("[name='course']").val();
         console.log($("[name='course']").val());
         $.ajax({
         type:'get',
-        url: '/class?courseName='+course+'&teacherName='+teacher,
+        url: '/class?'+course+teacher,
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status,xhr){
