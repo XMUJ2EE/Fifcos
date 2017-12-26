@@ -9,11 +9,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import xmu.crms.entity.Attendance;
-import xmu.crms.entity.Location;
-import xmu.crms.entity.User;
+import xmu.crms.entity.*;
 import xmu.crms.exception.*;
 import xmu.crms.service.ClassService;
+import xmu.crms.service.SeminarService;
 import xmu.crms.service.UserService;
 import xmu.crms.view.vo.AttendanceVO;
 import xmu.crms.view.vo.LocationVO;
@@ -38,6 +37,26 @@ public class AttendanceController {
     UserService userService;
     @Autowired
     ClassService classService;
+    @Autowired
+    SeminarService seminarService;
+
+    @PreAuthorize("hasRole('TEACHER')")
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.POST)
+    public ResponseEntity invokeCallInRoll(@PathVariable BigInteger seminarId,
+                                           @PathVariable BigInteger classId,
+                                           @RequestBody LocationVO location){
+        try{
+            ClassInfo classInfo = classService.getClassByClassId(classId);
+            Seminar seminar = seminarService.getSeminarBySeminarId(seminarId);
+            Location locationNew = new Location(location, classInfo, seminar);
+            classService.callInRollById(locationNew);
+            return ResponseEntity.status(204).build();
+        }catch (ClazzNotFoundException e){
+            return ResponseEntity.status(404).build();
+        }catch (SeminarNotFoundException e){
+            return ResponseEntity.status(404).build();
+        }
+    }
 
     @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.GET)
