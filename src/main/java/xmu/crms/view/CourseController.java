@@ -137,7 +137,7 @@ public class CourseController {
 			List<Seminar> seminars = seminarService.listSeminarByCourseId(classInfo.getCourse().getId());
 			List<StudentSeminarBriefVO> studentSeminarBriefVOS = new ArrayList<>();
 			for(Seminar seminar:seminars){
-				studentSeminarBriefVOS.add(new StudentSeminarBriefVO(seminar.getId(),seminar.getName()));
+				studentSeminarBriefVOS.add(new StudentSeminarBriefVO(seminar.getId(),seminar.getName(), seminar.getFixed()==true?"fixed":"random"));
 			}
 			StudentCourseVO studentCourseVO = new StudentCourseVO(classInfo.getCourse().getId(),
 					classInfo.getCourse().getName(),

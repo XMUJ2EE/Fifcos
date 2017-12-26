@@ -36,7 +36,11 @@ public class UserDetailVO {
         this.phone = user.getPhone();
         this.email = user.getEmail();
         this.gender = (user.getGender() == null || user.getGender() == 0) ? "男" : "女";
-        this.school = new SchoolVO(user.getSchool().getId(), user.getSchool().getName());
+        if(user.getSchool()!=null){
+            this.school = new SchoolVO(user.getSchool().getId(), user.getSchool().getName());
+        }else{
+            this.school = new SchoolVO();
+        }
         this.title = (user.getTitle() == null || user.getTitle() == 0) ? "非教授" : "教授";
         this.avatar = user.getAvatar();
     }
