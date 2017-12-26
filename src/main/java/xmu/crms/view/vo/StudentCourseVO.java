@@ -31,12 +31,12 @@ public class StudentCourseVO {
         this.className = className;
     }
 
-    public String getCourName() {
+    public String getCourseName() {
         return courseName;
     }
 
-    public void setCourName(String courName) {
-        this.courseName = courName;
+    public void setCourseName(String courseName) {
+        this.courseName = courseName;
     }
 
     public BigInteger getCourseId() {
