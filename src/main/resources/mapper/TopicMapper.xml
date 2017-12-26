@@ -80,11 +80,11 @@
     	<set>
     		<if test="topic.id != null and topic.id != ''">id=#{topic.id},</if>
     		<if test="topic.serial != null and topic.serial != null">serial=#{topic.serial},</if>
-    		<if test="topic.name != null and topic.name != null">name=#{topic.name},</if>
+    		<if test="topic.name != null and topic.name != null">`name`=#{topic.name},</if>
     		<if test="topic.description != null and topic.description != ''">description=#{topic.description},</if>
     		<if test="topic.groupNumberLimit != null and topic.groupNumberLimit != ''">group_number_limit=#{topic.groupNumberLimit},</if>
     		<if test="topic.groupStudentLimit != null and topic.groupStudentLimit != ''">group_student_limit=#{topic.groupStudentLimit},</if>
-    		<if test="topic.seminar != null">seminar_id=#{topic.seminar.id},</if>
+    		<if test="topic.seminar.id != null">seminar_id=#{topic.seminar.id},</if>
     	</set>
     </sql>
     
@@ -120,7 +120,7 @@
     <insert id="insertTopicBySeminarId" parameterType="xmu.crms.entity.Topic" useGeneratedKeys="true" keyProperty="topic.id">
     	insert into topic(
     		serial,
-    		name,
+    		`name`,
     		description,
     		group_number_limit,
     		group_student_limit,

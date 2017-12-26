@@ -97,7 +97,7 @@
 		<if test="name!=null">`name` = #{name,jdbcType=VARCHAR},</if>
 		<if test="startDate!=null"> start_date = #{startDate,jdbcType=DATE},</if>
 		<if test="endDate!=null"> end_date = #{endDate,jdbcType=DATE},</if>
-		<if test="id!=null"> teacher_id = #{teacher.id,jdbcType=BIGINT},</if>
+		<if test="teacher!=null"> teacher_id = #{teacher.id,jdbcType=BIGINT},</if>
 		<if test="description!=null"> description = #{description,jdbcType=VARCHAR},</if>
 		<if test="reportPercentage!=null"> report_percentage = #{reportPercentage,jdbcType=INTEGER},</if>
 		<if test="presentationPercentage!=null"> presentation_percentage = #{presentationPercentage,jdbcType=INTEGER},</if>
