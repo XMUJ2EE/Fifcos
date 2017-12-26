@@ -8,62 +8,17 @@
                                      maximum-scale=1.0,
                                      user-scalable=no">
     <title>ClassManage</title>
-<link href="/css/common/RegisterPage.css" rel="stylesheet" type="text/css"/>
+    <link href="/css/common/RegisterPage.css" rel="stylesheet" type="text/css"/>
+	<script src ="/js/jquery-1.10.2.js"></script>
+    <script src ="/js/common.js"></script>
+    <script src ="/js/jwt.js"></script>
+	<script type="text/javascript" src="/js/common.js"></script>
 	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/lib/jquery.js"></script>
 	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/jquery.validate.min.js"></script>
 	<script src="http://static.runoob.com/assets/jquery-validation-1.14.0/dist/localization/messages_zh.js"></script>
-<script>
-        $.validator.setDefaults({
-            submitHandler: function() {
-                alert("绑定成功!");
-            }
-        });
-        $().ready(function() {
-            // 在键盘按下并释放及提交后验证提交表单
-            $("#signupForm").validate({
-                rules: {
-                    phoneNum: {
-                        required: true,
-                        maxlength: 11,
-                        minlength: 11
-                    },
-                    password: "required",
-                    name: "required",
-                    eMail: {
-                        required: true,
-                        email: true
-                    },
-                },
-                messages: {
-                    phoneNum: {
-                        required: "请输入",
-                        maxlength: "请输入11位手机号码",
-                        minlength: "请输入11位手机号码"
-                    },
-                    password: "请输入",
-                    name: "请输入",
-                    eMail: {
-                        required: "请输入",
-                        email: "请输入正确的邮箱"
-                    },
-                }
-            });
-        });
-    </script>
-<style>
-        .error {
-            position: absolute;
-            width: 130px;
-            height: 23px;
-            left: 300px;
-            top: 6px;
-            font-size: 15px;
-            color: red;
-        }
-</style>
 </head>
 
-<body>
+<body onload="registerload()">
 <div class="titleBackground"></div>
 <div class="title">课程管理系统</div>
 <div class="icon">
@@ -75,9 +30,9 @@
 <div class="phoneNum">手机号:<input type="text" name="phoneNum"/></div>
 <div class="password">密码:<input type="text" name="password"/></div>
 <div class="name">姓名:<input type="text" name="name"/></div>
-<div class="province">省:<select class="provinceSelect"></select></div>
-<div class="city">市:<select class="citySelect"></select></div>
-<div class="school">学校:<select class="schoolSelect"></select><div class="createSchool" onclick="window.location.href='/teacher/school/create'">创建学校</div></div>
+<div class="province">省:<select class="provinceSelect" id="pro" onclick="find_city();"></select></div>
+<div class="city">市:<select class="citySelect" id="city" onclick="find_school();"></select></div>
+<div class="school">学校:<select class="schoolSelect" id="school"></select><div class="createSchool" onclick="window.location.href='/teacher/school/create'">创建学校</div></div>
 <div class="gender">性别:</div>
 <div class="male">男<input type="radio" value="男" name="gender" checked="checked"/></div>
 <div class="female">女<input type="radio" value="女" name="gender"/></div>

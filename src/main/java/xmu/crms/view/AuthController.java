@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,8 +60,8 @@ public class AuthController {
         Map<String, Object> o = new ObjectMapper().readValue(wholeStr, Map.class);
 
         System.out.println("post登陆信息"+o.toString());
-
-        final String token = authService.login((String)o.get("phone"), (String)o.get("password"));
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        final String token = authService.login((String)o.get("phone"), encoder.encode((String)o.get("password")));
         UserDetailsImpl user = userMapper.getUserByPhone((String)o.get("phone"));
         // Return the token
         String type;
@@ -86,7 +87,7 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/register", method = RequestMethod.POST)
     public User register(@RequestBody User addedUser) throws AuthenticationException{
         return authService.register(addedUser);
     }

@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import xmu.crms.entity.School;
 import xmu.crms.service.SchoolService;
@@ -35,7 +36,7 @@ public class SchoolController {
 
     @RequestMapping(method = GET)
     @ResponseBody
-    public ResponseEntity getSchoolList(@PathParam("city") String city) {
+    public ResponseEntity getSchoolList(@RequestParam("city") String city) {
         List<School> schools = schoolService.listSchoolByCity(city);
 
         return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(schools);
@@ -67,7 +68,7 @@ public class SchoolController {
     }
     @RequestMapping(value = "/city", method = GET)
     @ResponseBody
-    public  ResponseEntity getCity(@PathParam("province") String province) {
+    public  ResponseEntity getCity(@RequestParam ("province") String province) {
         List<String> citys = new ArrayList<String>();
         citys = schoolService.listCity(province);
 

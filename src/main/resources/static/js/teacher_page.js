@@ -1048,11 +1048,10 @@ function getreportlist(){
                         "                    <td>"+data[i].reportGrade+"</td>\n" +
                         "                    <td>"+data[i].grade+"</td>\n" +
                         "                    <td>\n" +
-                        "                         <img src=\"/img/view.png\" alt=\"预览\" name='report' id=" + data[i].id + " onclick='jumpreportdetail(this.id)'>\n" +
-                        "                        <img src=\"/img/download.png\" alt=\"下载\" name='download' id=" + data[i].id + " onclick='jumpreportdetail(this.id)'>\n" +
+                        "                         <img src=\"/img/view.png\" alt=\"预览\" name='report' id=" + data[i].groupName + " onclick='jumpreportdetail(this.id)'>\n" +
+                        "                        <img src=\"/img/download.png\" alt=\"下载\" name='download' id=" + data[i].groupName + " onclick='jumpreportdetail(this.id)'>\n" +
                         "                    </td>\n" +
                         "                </tr>"
-                        //点击下载跳转到哪里去？
             }
             content.innerHTML=str;
         }
@@ -1080,7 +1079,7 @@ function find_groupinseminar(){
     contentType: "application/json;",
     success: function (data,textStatus,xhr) {
         if(xhr.status==200){
-            alert("获取成功");
+            // alert("获取成功");
             var content=document.getElementById("groupinseminar");
             var str="";
             for(var i=0;i<data.length;i++){
@@ -1099,6 +1098,36 @@ function find_groupinseminar(){
         },
         404: function () {
             alert("未找到话题");
+        }
+    }
+});
+}
+/*----------------------------teacher/report_score-------------------------------*/
+function score_report(){
+    var ata = {
+        reportGrade:$("#reportgrade").val(),
+    }
+    $.ajax({
+    type:'put',
+    url: '/group/'+getCookie("groupDetail")+'/grade/report',
+    data: JSON.stringify(ata),
+    dataType: "json",
+    contentType: "application/json;",
+    success: function (data,textStatus,xhr) {
+        if(xhr.status==204){
+            alert("打分成功");
+             window.location.href='/teacher/course/'+getCookie('courseDetail')+'/seminar/'+getCookie('seminarDetail')+'/score'
+        }
+    },
+    statusCode: {
+        400: function () {
+            alert("错误的ID格式");
+        },
+        403: function () {
+            alert("权限不足");
+        },
+        404: function () {
+            alert("未找到小组");
         }
     }
 });
