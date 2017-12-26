@@ -38,7 +38,7 @@ public class Topic {
 		this.description = addTopicVO.getDescription();
 		this.groupNumberLimit = addTopicVO.getGroupLimit();
 		this.groupStudentLimit = addTopicVO.getGroupMemberLimit();
-		this.seminar = null;
+		this.seminar = new Seminar();
 	}
 
 	public Topic(TopicDetailVO topicDetailVO) {
@@ -48,7 +48,7 @@ public class Topic {
 		this.description = topicDetailVO.getDescription();
 		this.groupNumberLimit = topicDetailVO.getGroupLimit();
 		this.groupStudentLimit = topicDetailVO.getGroupMemberLimit();
-		this.seminar = null;
+		this.seminar = new Seminar();
 	}
 
 	public Topic(BigInteger id, String serial, String name, String description, Integer groupNumberLimit, Integer groupStudentLimit, Seminar seminar) {

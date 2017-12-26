@@ -21,8 +21,8 @@ public class TopicUpdateVO {
         this.serial = null;
         this.name = (String) topic.get("name");
         this.description = (String) topic.get("description");
-        this.groupLimit = (Integer) topic.get("groupLimit");
-        this.groupMemberLimit = (Integer) topic.get("groupMemberLimit");
+        this.groupLimit = Integer.parseInt((String) topic.get("groupLimit"));
+        this.groupMemberLimit = Integer.parseInt((String) topic.get("groupMemberLimit"));
     }
 
     public TopicUpdateVO(String serial, String name, String description, int groupLimit, int groupMemberLimit) {

@@ -29,8 +29,8 @@ public class AddTopicVO {
         this.serial = (String) topic.get("serial");
         this.name = (String) topic.get("name");
         this.description = (String) topic.get("description");
-        this.groupLimit = (Integer) topic.get("groupLimit");
-        this.groupMemberLimit = (Integer) topic.get("groupMemberLimit");
+        this.groupLimit = Integer.parseInt((String) topic.get("groupLimit"));
+        this.groupMemberLimit = Integer.parseInt((String) topic.get("groupMemberLimit"));
     }
 
     public String getSerial() {
@@ -71,5 +71,16 @@ public class AddTopicVO {
 
     public void setGroupMemberLimit(int groupMemberLimit) {
         this.groupMemberLimit = groupMemberLimit;
+    }
+
+    @Override
+    public String toString() {
+        return "AddTopicVO{" +
+                "serial='" + serial + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", groupLimit=" + groupLimit +
+                ", groupMemberLimit=" + groupMemberLimit +
+                '}';
     }
 }

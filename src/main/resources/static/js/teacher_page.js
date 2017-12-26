@@ -239,7 +239,7 @@ function deletecourse(cid){
         success: function (data,textStatus,xhr){
             if(xhr.status == 204){
                 alert("成功");
-                // document.getElementById(cid).style.display = none;
+                document.fe
             }
         },
         statusCode: {
@@ -424,13 +424,13 @@ function classlist(){
 function seminarlist(){
     $.ajax({
     type:'get',
-    url: '/course/'+getCookie("courseDetail")+'/teacher/seminar',
+    url: '/course/'+getCookie("courseDetail")+'/seminar',
    // url: '/course/'+1+'/seminar',
     dataType: "json",
     contentType: "application/json;",
     success: function (data,textStatus,xhr) {
         if(xhr.status == 200){
-            // alert("获取成功");
+            alert("获取成功");
             var content=document.getElementById("seminarcontent");   //获取外围容器
             var str="";
             str+='<div class="title">讨论课</div><div class="line"></div><div class="blockBody">';
@@ -899,7 +899,7 @@ function topicinfo(){
                 $("#description").html(data.description);
                 $("#groupLimit").html(data.groupLimit);
                 $("#groupMemberLimit").html(data.groupMemberLimit);
-                $("#groupLeft").html(data.groupList+" ");
+                $("#groupLeft").html(data.groupLeft);
             }
     },
     statusCode: {
