@@ -52,8 +52,6 @@ public class SchoolController {
 
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(provinces);
     }
-
-    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/city", method = GET)
     @ResponseBody
     public  ResponseEntity getCity(@PathParam("province") String province) {

@@ -116,10 +116,10 @@ public class FixGroupDao {
         }
     }
 
-    public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException {
+    public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws IllegalArgumentException{
         FixGroup fixGroup=fixGroupMapper.getFixedGroupById(userId,classId);
         if(fixGroup==null) {
-            throw new ClazzNotFoundException("没有找到该学生在该班级的固定小组");
+            fixGroupMapper.insertFixGroupByClassId(classId, userId);
         }
         return fixGroup;
     }
