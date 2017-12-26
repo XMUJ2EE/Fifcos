@@ -93,12 +93,13 @@ public class CourseController {
 			List<ClassInfo> classInfoList = classService.listClassByUserId(userId);
 			List<StudentClassVO> studentClassVOS = new ArrayList<>();
 			for(ClassInfo classInfo:classInfoList){
+				System.out.println(classInfo.toString());
 				studentClassVOS.add(new StudentClassVO(classInfo));
 			}
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentClassVOS);
 		} catch (ClazzNotFoundException e) {
 			e.printStackTrace();
-			return ResponseEntity.status(403).build();
+			return ResponseEntity.status(404).build();
 		}
 	}
 
