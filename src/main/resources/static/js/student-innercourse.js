@@ -60,7 +60,7 @@ function courseinfo(){//show CourseInformation
                 $(".classInfo > .blockBody").html(str);
                 var fixg = '<div class="block" id="'+data.fixGroup+'" onclick="jumpGroup(this.id)""><div class="blockFont">固定分组</div></div>';
                 updateCookie("description",data.description);
-                updateCookie("coursename",data.name);
+                updateCookie("coursename",data.courseName);
             }
         },
         statusCode: {
@@ -74,32 +74,32 @@ function courseinfo(){//show CourseInformation
             }
         }
     });
-        $.ajax({
-        type:'get',
-        url: '/course/'+getCookie("coursecurrent")+'/seminar',
-        dataType: "json",
-        contentType: "application/json;",
-        success: function (data,status,xhr){
-            if(xhr.status == 200){
-                var seminar=document.getElementById("seminarinfo");
-                var contenthead = '<div class="title">讨论课</div>'+
-                                  '<div class="returnButton" onclick="window.location.href=\'/student/courses\'">返回上一页</div>'+
-                                  '<div class="line"></div>'+
-                                  '<div class="blockBody">';
-                var contenttail = '</div>';
-                var str="";
-                for(var i=0;i<data.length;i++){
-                        str += '<div class="block"><div class="blockFont" onclick="jumpSeminar(this.id)" id="'+data[i].id+';'+data[i].groupingMethod+'">'+data[i].name+'</div></div>';
-                }
-                seminar.innerHTML = contenthead+str+contenttail;
-            }
-        },
-        statusCode: {
-            401: function () {
-                alert("课程信息获取失败");
-            }
-        }
-    });
+    //     $.ajax({
+    //     type:'get',
+    //     url: '/course/'+getCookie("coursecurrent")+'/seminar',
+    //     dataType: "json",
+    //     contentType: "application/json;",
+    //     success: function (data,status,xhr){
+    //         if(xhr.status == 200){
+    //             var seminar=document.getElementById("seminarinfo");
+    //             var contenthead = '<div class="title">讨论课</div>'+
+    //                               '<div class="returnButton" onclick="window.location.href=\'/student/courses\'">返回上一页</div>'+
+    //                               '<div class="line"></div>'+
+    //                               '<div class="blockBody">';
+    //             var contenttail = '</div>';
+    //             var str="";
+    //             for(var i=0;i<data.length;i++){
+    //                     str += '<div class="block"><div class="blockFont" onclick="jumpSeminar(this.id)" id="'+data[i].id+';'+data[i].groupingMethod+'">'+data[i].name+'</div></div>';
+    //             }
+    //             seminar.innerHTML = contenthead+str+contenttail;
+    //         }
+    //     },
+    //     statusCode: {
+    //         401: function () {
+    //             alert("课程信息获取失败");
+    //         }
+    //     }
+    // });
 }
 
 // //-----------------------------StudentDiscussionClassPage(fixed)-------------------------------------
@@ -328,12 +328,12 @@ function groupinfo(){// showgroup list
                 var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th></tr>';
                 var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td></tr>';
                 if(data.member!=null) {
-                    for (var i = 0; i < data.members.length; i++)
+                    for (var i = 0; i < data.member.length; i++)
                         if (i % 2 != 0) {
-                            str += '<tr><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td></tr>';
+                            str += '<tr><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td></tr>';
                         }
                         else {
-                            str += '<tr class="alt"><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td></tr>';
+                            str += '<tr class="alt"><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td></tr>';
                         }
                 }
                 table.innerHTML = tablehead+leader+str;
@@ -368,12 +368,14 @@ function groupmodinfo(){// showgroup list
                 //var table = $("[name='table1']");
                 var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th><th>操作</th></tr>';
                 var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td><td><img src="/img/home.png" id = " '+data.leader.id+ '" onclick="return groupinforemove(this.id);"></td></tr>';
-                for(var i=0;i<data.members.length;i++){
-                    if(i%2!=0){
-                        str += '<tr><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td><td><img src="/img/home.png" id = " ' + data.members[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
-                    }
-                    else{
-                        str += '<tr class="alt"><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td><td><img src="/img/home.png" id = " ' + data.members[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
+                if(data.member!=null) {
+                    for (var i = 0; i < data.member.length; i++) {
+                        if (i % 2 != 0) {
+                            str += '<tr><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td><td><img src="/img/home.png" id = " ' + data.member[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td><td><img src="/img/home.png" id = " ' + data.member[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
+                        }
                     }
                 }
                 $("[name='table1']").html(tablehead+leader+str);
@@ -424,16 +426,16 @@ function groupinfosearch(){//search
     var name;
     var number;
     if($("#name").val()== ""){
-        name = "*";
+        name = "";
     }
-    else name = $("#name").val();
+    else name = 'nameBeginWith='+$("#name").val();
     if($("#num").val()== ""){
-        number = "*";
+        number = "";
     }
-    else number = $("#num").val();
+    else number = 'numberBeginWith='+$("#num").val();
     $.ajax({
         type:'get',
-        url: '/class/'+getCookie("classcurrent")+'/student?nameBeginWith='+name+'&numberBeginWith='+number,
+        url: '/class/'+getCookie("classcurrent")+'/student?'+name+number,
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status,xhr){
