@@ -91,18 +91,6 @@ function teainfo(){
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
                 $("#teaNum").html('教工号：'+'<span>'+data.number+'</span>');
                 $("#name").html('姓名：'+'<span>'+data.name+'</span>');
-                // if(data.gender=='0'){
-                //     Gender="男";
-                // }
-                // else {
-                //     Gender="女";
-                // }
-                // if(data.title=='1'){
-                //     Title="教授";
-                // }
-                // else{
-                //     Title="副教授";
-                // }
                 $("#gender").html ('性别：'+'<span>'+data.gender+'</span>');
                 $("#school").html('学校：'+'<span>'+data.school.name+'</span>');
                 $("#title").html ('职称：'+'<span>'+data.title+'</span>');
@@ -140,13 +128,15 @@ function getteainfo(){  //get techer information
         contentType: "application/json;",
         success: function (data,textStatus,xhr) {
             if(xhr.status==200){
+                $("#username").html(data.id);
+                $("#teaNum").html(data.number);
                 $("input[name='name']").val(data.name);
                 $("input[name='idnum']").val(data.number);
                 $("input[name='sex']").attr("value",data.gender);
                 $("input[name='school']").attr("value",data.school.name);
                 $("input[name='title']").attr("value",data.title);
                 $("input[name='e-mail']").attr("value",data.email);
-                $("input[name='phone']").attr("value",data.phone);
+                $("#phone").html(data.phone);
             }
         },
         statusCode:{
@@ -210,15 +200,15 @@ function courselist(){
                     if(i==0){
                         str+='<div class=\"title\">课程信息</div><hr class=\"line\"/>'
                     }
-                        str+='<div class=\"main_box_right_content\" id="data[i].id"><h3 class=\"classtitle\" id=\"name\">'
+                        str+='<div class=\"main_box_right_content\"><h3 class=\"classtitle\" id=\"name\">'
                               +' <span id="course">'+data[i].name
                               +'</span><button type=\"submit\"  onclick=\"deletecourse('+data[i].id+')\">删除课程</button>'
-                             // +'<button onclick="window.location.href=\'/teacher/course/'+data[i].id+'/update\'\" >修改课程</button></h3>'
-                            // +'<button onclick=\"getcourseinfo('+data[i].id+')  \" >修改课程</button></h3>'
                               +'<button id=\"'+data[i].id+'\"onclick=\"jumpcourse(this.id)  \" >修改课程</button></h3>'
                               +'<div class=\"divideline\"></div><div  class=\"classinfo\"  id=\"'+data[i].id+'\" onclick=\"jumpcoursedetail(this.id) \" ><table class=\"table\"> <tr>'
-                              +'<td class=\"tabletext\">班级数：<span id=\"numClass\">'+data[i].numClass+'</span></td>  <td class=\"tabletext\" id=\"numStudent\">学生人数'+data[i].numStudent
-                              +'</td></tr><tr><td class=\"tabletext\" id=\"startTime\">开始时间：'+data[i].startTime+'</td><td class=\"tabletext\" id=\"endTime\">结束时间:'+data[i].endTime
+                              // +'<td class=\"tabletext\">班级数：<span id=\"numClass\">'+data[i].numClass+'</span></td>  <td class=\"tabletext\" id=\"numStudent\">学生人数'+data[i].numStudent
+                              // +'</td></tr><tr><td class=\"tabletext\" id=\"startTime\">开始时间：'+data[i].startTime+'</td><td class=\"tabletext\" id=\"endTime\">结束时间:'+data[i].endTime
+                              +'<td class=\"tabletext\">班级数：<span id=\"numClass\">'+data[i].numClass+'</span></td> '
+                              +'</tr><tr><td class=\"tabletext\" id=\"startTime\">开始时间：'+data[i].startTime+'</td><td class=\"tabletext\" id=\"endTime\">结束时间:'+data[i].endTime
                               +'</td></tr></table></div></div>'
                         if(i==data.length-1)
                             str+='<div class=\"main_box_right_content\"  onclick=\"window.location.href=\'/teacher/courses/create\'\"><img class=\"addcourse\" src=\"/img/add.png\" ></div>'
@@ -315,7 +305,7 @@ function getcourseinfo(){  //get course information when updating it
         contentType: "application/json;",
         success: function (data,textStatus,xhr) {
             if(xhr.status==200){
-                document.cookie = 'username='+data.id; //store username in cookie
+                // document.cookie = 'username='+data.id; //store username in cookie
                 $("input[name='coursename']").attr("value",data.name);
                 $("input[name='courseinfo']").attr("value",data.description);
             }
@@ -448,7 +438,7 @@ function seminarlist(){
                     // if(i==0){
                     //  str+='<div class="title">讨论课</div><div class="line"></div><div class="blockBody">'
                     // }
-                   alert(data[i].name);
+                   // alert(data[i].name);
                     str+='<div class="block"  id=\"'+data[i].id+'\" onclick=\"jumpseminardetail(this.id)\"><div class="blockFont">'+data[i].name+'</div></div>'
                     // if(i==data.length-1){
                     //      str+=' <div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>\'
@@ -501,7 +491,7 @@ function createclass(){
         success: function (data,textStatus,xhr) {
             if(xhr.status== 201){
                 alert("创建成功!");
-               backtocourse();  //返回显示课程下的班级列表/讨论课列表
+                backtocourse();  //返回显示课程下的班级列表/讨论课列表
             }
         },
         statusCode: {
@@ -547,14 +537,7 @@ function createseminar(){
         description:$("#description").val(),
         groupingMethod:$("#groupingMethod").val(),
         startTime:$("#startTime").val(),
-        endTime:$("#endTime").val(),
-        proportions:{
-            report:$("#report").val(),
-            presentation:$("#presentation").val(),
-            c:$("#five").val(),
-            b:$("#four").val(),
-            a:$("#three").val()
-        }
+        endTime:$("#endTime").val()
 
       }
         $.ajax({
@@ -590,17 +573,14 @@ function classinfo(){
                 $("#classname").html(data.name);
                 $("#site").html(data.site);
                 $("#time").html(data.time);
-                $("#report").html(data.proportions.report+'%');
-                $("#presentation").html(data.proportions.presentation+'%');
-                $("#five").html(data.proportions.c+'%');
-                $("#four").html(data.proportions.b+'%');
-                $("#three").html(data.proportions.a+'%');
+                $("#report").html(data.reportPercentage+'%');
+                $("#presentation").html(data.presentationPercentage+'%');
+                $("#five").html(data.fivePointPercentage+'%');
+                $("#four").html(data.fourPointPercentage+'%');
+                $("#three").html(data.threePointPercentage+'%');
                 $("#numStudent").html(data.numStudent);
             }
     },
-    // error:function (data,textStatus,xhr) {
-    //     alert("获取失败");
-    // },
     statusCode: {
         400: function () {
             alert("错误的ID格式");
@@ -610,7 +590,7 @@ function classinfo(){
         }
     }
 });
-}
+} 
 function deleteclass(){
         var ata = {id:getCookie("classDetail")}
         $.ajax({
@@ -621,7 +601,7 @@ function deleteclass(){
         contentType: "application/json;",
         success: function (data,textStatus,xhr){
             if(xhr.status == 204){
-                alert("成功");
+                alert("删除成功");
                 backtocourse();  //页面跳转
             }
         },
@@ -726,6 +706,23 @@ function classinfomod(){
 }
 
 /*----------------------------teacher/seminar-------------------------------*/
+function judge_end(end_time){
+    // var end_time=new Date(end_time.replace("-", "/").replace("-", "/"));
+    alert(end_time);
+    // var my_date=new Date();
+    // var current_date=new Date(my_date.getFullYear()+my_date.getMonth()+my_date.getDate()); //获取当前年月日
+    var mydate = new Date();
+    var t=mydate.toLocaleString();
+    alert(t);
+    if(end_time>current_date){
+          $("#score").hide();
+          alert("讨论课还没结束");
+    }
+    else{
+         $("#viewtopic").hide();
+         alert("讨论课已经结束");
+    }
+}
 function seminarinfo(){
   $.ajax({
     type:'get',
@@ -740,6 +737,8 @@ function seminarinfo(){
                 $("#groupingMethod").html(data.groupingMethod);
                 $("#startTime").html(data.startTime);
                 $("#endTime").html(data.endTime);
+                judge_end(data.endTime);
+                $("#seminartitle").html(data.name);  //标题栏获取
             }
     },
     statusCode: {
@@ -764,14 +763,16 @@ function gettopiclist(){
             var content=document.getElementById("topiccontent");   //获取外围容器
             var str="";
             for(var i=0;i<data.length;i++){
-                    if(i==0){
-                     str+='   <div class="seminarInfo" id="topiccontent"><div class="title">话题</div><div class="line"></div><div class="topicBlockBody">'
-                    }
-                    str+='<div class="topicBlock" id=\"'+data[i].id+'\" onclick=\"jumptopic(this.id);\"><div class="topicBlockFont">话题'+data[i].serial+'</div></div>'
-                    if(i==data.length-1){
-                        str+=' <div class="topicBlock" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/topic/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加"></div></div>'
-                    }
+                    // if(i==0){
+                    //  str+='   <div class="seminarInfo" id="topiccontent"><div class="title">话题</div><div class="line"></div><div class="topicBlockBody">'
+                    // }
+                    // str+='<div class="topicBlock" id=\"'+data[i].id+'\" onclick=\"jumptopic(this.id);\"><div class="topicBlockFont">'+data[i].name+'</div></div>'
+                    // if(i==data.length-1){
+                    //     str+=' <div class="topicBlock" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/topic/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加"></div></div>'
+                    // }
+                    str+='<div class="topicBlock" id=\"'+data[i].id+'\" onclick=\"jumptopic(this.id);\"><div class="topicBlockFont">'+data[i].name+'</div></div>'
             }
+            str+=' <div class="topicBlock" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/topic/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加"></div></div>'
             content.innerHTML=str;
         }
     },
@@ -856,14 +857,7 @@ function seminarinfomod(){
         description:$("#description").val(),
         groupingMethod:$('#groupingMethod').val(),
         startTime:$("#begintime").val(),
-        endTime:$("#endtime").val(),
-        proportions:{
-            report:$("#reportscore").val(),
-            presentation:$("#seminarscore").val(),
-            c:$("#five").val(),
-            b:$("#four").val(),
-            a:$("#three").val()
-        }
+        endTime:s$("#endtime").val(),
 
     }
        $.ajax({
@@ -900,6 +894,7 @@ function topicinfo(){
     success: function (data,textStatus,xhr) {
         if(xhr.status == 200){
                 // alert("获取成功");
+                $('#topicserial').html(data.serial);
                 $("#topicname").html(data.name);
                 $("#description").html(data.description);
                 $("#groupLimit").html(data.groupLimit);
@@ -1017,7 +1012,7 @@ function updatetopic(){
 /*----------------------------teacher/topic_create-------------------------------*/
 function createtopic(){
      var ata = {
-        serial:"A",
+        serial:$("#topicserial").val(),
         name:$("#topicname").val(),
         description:$("#description").val(),
         groupLimit:$("#groupLimit").val(),
@@ -1085,4 +1080,51 @@ function getreportlist(){
 });
 }
 
-/*----------------------------teacher/report_score-------------------------------*/
+/*----------------------------teacher/topic_view-------------------------------*/
+function get_leader_name(gid){
+    $.ajax({
+    type:'get',
+    url: '/group/'+gid,
+    dataType: "json",
+    contentType: "application/json;",
+    success: function (data,textStatus,xhr) {
+        if(xhr.status==200){
+            // alert("获取成功");
+            var content=data.leader.name;
+            return content;
+            content.innerHTML=str;
+        }
+    }
+    });
+}
+function find_groupinseminar(){
+    $.ajax({
+    type:'get',
+    url: '/seminar/'+getCookie("seminarDetail")+'/group',
+    dataType: "json",
+    contentType: "application/json;",
+    success: function (data,textStatus,xhr) {
+        if(xhr.status==200){
+            // alert("获取成功");
+            var content=document.getElementById("groupinseminar");
+            var str="";
+            for(var i=0;i<data.length;i++){
+                    str+=" <tr>"+
+                           "<td>"+data[i].name[1]+"</td>"+
+                           "<td>"+data[i].name+"</td>"+
+                           "<td>"+get_leader_name(datap[i].id)+"</td>"+
+                           "</tr>"
+            }
+            content.innerHTML=str;
+        }
+    },
+    statusCode: {
+        400: function () {
+            alert("错误的ID格式");
+        },
+        404: function () {
+            alert("未找到话题");
+        }
+    }
+});
+}

@@ -58,17 +58,19 @@ public class ClassDaoImpl implements ClassDao{
 	public List<ClassInfo> listClassByName(String courseName, String teacherName)
 			throws UserNotFoundException, CourseNotFoundException {
 		List<ClassInfo> classInfos=new ArrayList<ClassInfo>();
-		List<BigInteger> courseIds=classMapper.getCourseIdByName(courseName);
-		if(courseIds.isEmpty()) {
-			throw new CourseNotFoundException("无此名称的课程");
-		}else {
-			List<BigInteger> userIds=classMapper.getUserIdByName(teacherName);
-			if(userIds.isEmpty()) {
-				throw new UserNotFoundException("无此姓名的教师");
-			}else {
-				classInfos=classMapper.listClassByName(courseName, teacherName);
+		if(courseName != null){
+			List<BigInteger> courseIds=classMapper.getCourseIdByName(courseName);
+			if(courseIds.isEmpty()) {
+				throw new CourseNotFoundException("无此名称的课程");
 			}
 		}
+		if(teacherName != null) {
+			List<BigInteger> userIds = classMapper.getUserIdByName(teacherName);
+			if (userIds.isEmpty()) {
+				throw new UserNotFoundException("无此姓名的教师");
+			}
+		}
+		classInfos=classMapper.listClassByName(courseName, teacherName);
 		return classInfos;
 	}
 
