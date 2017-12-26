@@ -15,7 +15,7 @@ import java.util.List;
  * UserService Impl
  * @author mads
  */
-@Service
+@Service("UserService")
 public class UserServiceImpl implements UserService {
 
     @Autowired(required = false)
