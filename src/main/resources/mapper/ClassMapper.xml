@@ -102,9 +102,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	</select>
 	
 	<select id="listClassByName" resultMap="ClassInfoResultMap">
-		select class_info.* from class_info,user_info,course 
-		where course.name=#{courseName}  and course.teacher_id=user_info.id 
-		and user_info.name=#{teacherName} and course.id=class_info.course_id;
+		select class_info.* from class_info,user_info,course
+		<trim prefix="WHERE" prefixOverrides="AND">
+			<if test="courseName!=null and courseName!=''">AND course.name=#{courseName}</if>
+			<if test="teacherName!=null and teacherName!=''">AND user_info.name=#{teacherName}</if>
+			and course.id=class_info.course_id
+			and course.teacher_id=user_info.id
+		</trim>
 	</select>
 	
 	<select id="listClassByCourseId" resultMap="ClassInfoResultMap">

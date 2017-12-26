@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import xmu.crms.entity.ClassInfo;
+import xmu.crms.entity.Course;
 import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.User;
 import xmu.crms.exception.*;
@@ -44,21 +45,36 @@ public class ClassController {
 	@Autowired
 	SeminarGroupService seminarGroupService;
 
-	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
+
+	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(method = GET)
 	@ResponseBody
-	public ResponseEntity getClassesByUserId(@RequestParam(value = "courseName", required = false) String courseName,
+	public ResponseEntity getAvailableClassesByUserId(@RequestParam(value = "courseName", required = false) String courseName,
 											 @RequestParam(value = "courseTeacher", required = false) String teacherName) {
 		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try{
-			List<ClassInfo> classInfos = classService.listClassByUserId(userId);
+			List<ClassInfo> allClassInfos = classService.listClassByName(courseName, teacherName);
+			List<ClassInfo> myClassInfos = classService.listClassByUserId(userId);
+			List<BigInteger> myClassCourseId = new ArrayList<>();
+			for(ClassInfo classInfo:myClassInfos){
+				myClassCourseId.add(classInfo.getCourse().getId());
+			}
 			List<UserClassVO> userClassVOS = new ArrayList<>();
-			for(ClassInfo classInfo:classInfos){
-				List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
-				userClassVOS.add(new UserClassVO(classInfo, users.size()));
+			for(ClassInfo classInfo:allClassInfos){
+				if(!myClassCourseId.contains(classInfo.getCourse().getId())){
+					List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
+					userClassVOS.add(new UserClassVO(classInfo, users.size()));
+				}
 			}
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userClassVOS);
+		}catch (UserNotFoundException e){
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}catch (CourseNotFoundException e){
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}catch (ClazzNotFoundException e){
+			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
 	}

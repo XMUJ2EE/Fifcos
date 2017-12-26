@@ -16,9 +16,15 @@ public class StudentClassVO {
     }
 
     public StudentClassVO(ClassInfo classInfo) {
-        this.courseName = classInfo.getCourse().getName();
-        this.courseId = classInfo.getCourse().getId();
-        this.courseTeacher = classInfo.getCourse().getTeacher().getName();
+        if(classInfo.getCourse() != null){
+            this.courseName = classInfo.getCourse().getName();
+            this.courseId = classInfo.getCourse().getId();
+            this.courseTeacher = classInfo.getCourse().getTeacher().getName();
+        }else{
+            this.className = null;
+            this.classId = null;
+            this.courseName = null;
+        }
         this.className = classInfo.getName();
         this.classId = classInfo.getId();
         this.site = classInfo.getSite();
