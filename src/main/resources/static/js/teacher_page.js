@@ -196,10 +196,8 @@ function courselist(){
             if(xhr.status == 200){
                 var content=document.getElementById("coursecontent");   //获取外围容器
                 var str="";
+                str+='<div class=\"title\">课程信息</div><hr class=\"line\"/>'
                 for(var i=0;i<data.length;i++){
-                    if(i==0){
-                        str+='<div class=\"title\">课程信息</div><hr class=\"line\"/>'
-                    }
                         str+='<div class=\"main_box_right_content\"><h3 class=\"classtitle\" id=\"name\">'
                               +' <span id="course">'+data[i].name
                               +'</span><button type=\"submit\"  onclick=\"deletecourse('+data[i].id+')\">删除课程</button>'
@@ -210,9 +208,8 @@ function courselist(){
                               +'<td class=\"tabletext\">班级数：<span id=\"numClass\">'+data[i].numClass+'</span></td> '
                               +'</tr><tr><td class=\"tabletext\" id=\"startTime\">开始时间：'+data[i].startTime+'</td><td class=\"tabletext\" id=\"endTime\">结束时间:'+data[i].endTime
                               +'</td></tr></table></div></div>'
-                        if(i==data.length-1)
-                            str+='<div class=\"main_box_right_content\"  onclick=\"window.location.href=\'/teacher/courses/create\'\"><img class=\"addcourse\" src=\"/img/add.png\" ></div>'
                 }
+                str+='<div class=\"main_box_right_content\"  onclick=\"window.location.href=\'/teacher/courses/create\'\"><img class=\"addcourse\" src=\"/img/add.png\" ></div>'
                 content.innerHTML=str;
             }
         },
@@ -254,7 +251,8 @@ function deletecourse(cid){
             }
         }
     });
-    courselist();  //删除完再加载
+    // courselist();  //删除完再加载
+    window.location.reload();
 }
 
 /*----------------------------teacher/course_create-------------------------------*/
