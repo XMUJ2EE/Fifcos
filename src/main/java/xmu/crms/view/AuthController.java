@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import xmu.crms.entity.School;
 import xmu.crms.exception.UserDuplicatedException;
+import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.security.FifcosAuthenticationToken;
 import xmu.crms.entity.JwtAuthenticationResponse;
 import xmu.crms.entity.User;
@@ -26,6 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.Map;
 
 /**
@@ -87,8 +90,20 @@ public class AuthController {
     }
 
     @RequestMapping(value = "/auth/register", method = RequestMethod.POST)
-    public User register(@RequestBody User addedUser) throws AuthenticationException{
-        return authService.register(addedUser);
+    public ResponseEntity register(HttpServletRequest request) throws AuthenticationException, IOException{
+        BufferedReader br = request.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        if(wholeStr == null){
+            return ResponseEntity.status(500).build();
+        }
+        Map<String, Object> o = new ObjectMapper().readValue(wholeStr, Map.class);
+
+        User user = new User(o);
+        System.out.println(user.toString());
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(authService.register(user));
     }
 
     @RequestMapping(value = "/auth/weChat", method = RequestMethod.POST)

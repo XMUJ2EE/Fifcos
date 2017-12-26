@@ -22,7 +22,7 @@ public class School {
 	}
 
 	public School(SchoolVO schoolVO) {
-		this.id = null;
+		this.id = schoolVO.getId();
 		this.name = schoolVO.getName();
 		this.province = null;
 		this.city = null;

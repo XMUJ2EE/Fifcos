@@ -87,24 +87,13 @@ function find_school(){
 }
 
 function submitregister(){
-    var gender, type;
- if($(".male > gender").attr("checked")){
-    gender = "男";
- }else{
-    gender = "女";
- }
- if($(".student > role").attr("checked")){
-    type= "student";
- }else{
-    type = "teacher";
- }
  var ata = {
     phone:$("#phone").val(),
     password:$("#password").val(),
-    name:$("name").val(),
+    name:$("#name").val(),
     school:$("#school").val(),
-    gender:gender,
-    type:type,
+    gender:$('.male > input:radio:checked').val(),
+    type:$('.student > input:radio:checked').val() == "student"?0:1,
     number:$("#number").val(),
     email:$("#eMail").val()
     }
@@ -116,6 +105,7 @@ function submitregister(){
         contentType: "application/json",
         success: function (data,textStatus,xhr) {
             if(xhr.status == 200){
+                alert("注册成功");
                 window.location.href="/login";
             }
         },

@@ -25,15 +25,20 @@ public class User {
 	public User() {
 	}
 	public User(Map<String,Object> jsonUser){
+		this.password = (String)jsonUser.get("password");
 		this.id = null;
 		this.type = (int)jsonUser.get("type");
 		this.name = (String)jsonUser.get("name");
 		this.number = (String)jsonUser.get("id");
 		this.phone = (String)jsonUser.get("phone");
 		this.email = (String)jsonUser.get("email");
-		this.gender = (((String)jsonUser.get("gender")).equals("男"))?0:1;
+		if(jsonUser.get("gender")!=null){
+			this.gender = (((String)jsonUser.get("gender")).equals("男"))?0:1;
+		}
 		this.school = new School(new SchoolVO(null, (String)jsonUser.get("school")));
-		this.title = ((String)jsonUser.get("title")).equals("教授")?1:0;
+		if(jsonUser.get("title")!=null){
+			this.title = ((String)jsonUser.get("title")).equals("教授")?1:0;
+		}
 		this.education = null;
 		this.avatar = (String)jsonUser.get("avatar");
 	}
