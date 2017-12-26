@@ -21,8 +21,8 @@ public class SchoolServiceImpl implements SchoolService{
 
    
     public BigInteger insertSchool(School school){
-
-    	return schoolMapper.insertSchool(school);
+        schoolMapper.insertSchool(school);
+    	return school.getId();
     }
 
    

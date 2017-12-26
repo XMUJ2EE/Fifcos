@@ -85,3 +85,44 @@ function find_school(){
         }
     });
 }
+
+function submitregister(){
+    var gender, type;
+ if($(".male > gender").attr("checked")){
+    gender = "男";
+ }else{
+    gender = "女";
+ }
+ if($(".student > role").attr("checked")){
+    type= "student";
+ }else{
+    type = "teacher";
+ }
+ var ata = {
+    phone:$("#phone").val(),
+    password:$("#password").val(),
+    name:$("name").val(),
+    school:$("#school").val(),
+    gender:gender,
+    type:type,
+    number:$("#number").val(),
+    email:$("#eMail").val()
+    }
+    $.ajax({
+        type:'post',
+        url: '/auth/register',
+        dataType: "json",
+        data: JSON.stringify(ata),
+        contentType: "application/json",
+        success: function (data,textStatus,xhr) {
+            if(xhr.status == 200){
+                window.location.href="/login";
+            }
+        },
+        statusCode:{
+            401: function () {
+                alert("无法注册！");
+            }
+        }
+    });
+}

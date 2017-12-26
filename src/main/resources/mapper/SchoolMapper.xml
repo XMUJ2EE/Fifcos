@@ -7,7 +7,7 @@
         select * from school WHERE city=#{city}
     </select>
     
-    <insert id="insertSchool" parameterType="School">
+    <insert id="insertSchool" parameterType="School" keyProperty="id" useGeneratedKeys="true">
     	insert into school (name,province,city) values(#{name},#{province},#{city})
     </insert>
     

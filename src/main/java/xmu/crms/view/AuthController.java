@@ -86,7 +86,7 @@ public class AuthController {
         }
     }
 
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
+    @RequestMapping(value = "/auth/register", method = RequestMethod.POST)
     public User register(@RequestBody User addedUser) throws AuthenticationException{
         return authService.register(addedUser);
     }

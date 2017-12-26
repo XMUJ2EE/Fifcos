@@ -57,7 +57,7 @@ function createSchoolsend(){
         success: function (data,textStatus,xhr) {
             if(xhr.status==201){
                 alert("修改成功!");
-                window.location.href='/teacher/register'
+                window.location.href='/register'
             }
         },
         statusCode: {
