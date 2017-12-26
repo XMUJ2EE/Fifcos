@@ -37,8 +37,8 @@ public class FixGroupServiceImplTest {
 
     @Test
     public void insertFixGroupByClassId() throws IllegalArgumentException, UserNotFoundException {
-        BigInteger integer=fixGroupService.insertFixGroupByClassId(new BigInteger("11"),new BigInteger("27"));
-        Assert.assertNotNull(integer);
+//        BigInteger integer=fixGroupService.insertFixGroupByClassId(new BigInteger("11"),new BigInteger("27"));
+//        Assert.assertNotNull(integer);
     }
 
     @Test

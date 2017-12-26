@@ -1,13 +1,14 @@
-package xmu.crms.service;
+package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.crms.dao.FixGroupDao;
-import xmu.crms.entity.FixGroup;
-import xmu.crms.entity.FixGroupMember;
-import xmu.crms.entity.Seminar;
-import xmu.crms.entity.User;
+import xmu.crms.entity.*;
 import xmu.crms.exception.*;
+import xmu.crms.service.ClassService;
+import xmu.crms.service.FixGroupService;
+import xmu.crms.service.SeminarService;
+import xmu.crms.service.UserService;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -25,13 +26,17 @@ public class FixGroupServiceImpl implements FixGroupService {
     @Autowired
     private SeminarService seminarService;
 
+    @Autowired
+    private ClassService classService;
+
     @Override
-    public BigInteger insertFixGroupByClassId(BigInteger classId, BigInteger userId) throws IllegalArgumentException, UserNotFoundException {
-        User user=userService.getUserByUserId(userId);
+    public BigInteger insertFixGroupByClassId(FixGroup fixGroup) throws IllegalArgumentException, UserNotFoundException {
+        User user=userService.getUserByUserId(fixGroup.getLeader().getId());
         if(user==null) {
             throw new UserNotFoundException("找不到该id对应的学生");
         }
-        return BigInteger.valueOf(fixGroupDao.insertFixGroupByClassId(classId,userId));
+        fixGroupDao.insertFixGroupByClassId(fixGroup);
+        return fixGroup.getId();
     }
 
     @Override
@@ -88,6 +93,10 @@ public class FixGroupServiceImpl implements FixGroupService {
         User user=userService.getUserByUserId(userId);
         if(user==null){
             throw new UserNotFoundException("找不到该id对应的学生");
+        }
+        ClassInfo classInfo = classService.getClassByClassId(classId);
+        if(classInfo == null){
+            throw new ClazzNotFoundException("未找到固定小组的班级");
         }
         return fixGroupDao.getFixedGroupById(userId,classId);
     }

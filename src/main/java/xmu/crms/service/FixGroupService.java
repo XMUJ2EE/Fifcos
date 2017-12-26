@@ -30,7 +30,7 @@ public interface FixGroupService {
      * @throws UserNotFoundException    不存在该学生
      * @author zhouzhongjun
      */
-    public BigInteger insertFixGroupByClassId(BigInteger classId, BigInteger userId) throws
+    public BigInteger insertFixGroupByClassId(FixGroup fixGroup) throws
             IllegalArgumentException, UserNotFoundException;
 
     /**

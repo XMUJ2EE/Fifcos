@@ -28,7 +28,7 @@ public interface FixGroupMapper {
      * @param leaderId  队长的Id
      * @return Integer 若创建成功返回该条记录的id，失败则返回-1
      */
-    Integer insertFixGroupByClassId(@Param("class_id") BigInteger classId,@Param("leader_id") BigInteger leaderId);
+    Integer insertFixGroupByClassId(FixGroup fixGroup);
 
 
     /**
