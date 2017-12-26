@@ -133,7 +133,8 @@ function getteainfo(){  //get techer information
                 $("input[name='name']").val(data.name);
                 $("input[name='idnum']").val(data.number);
                 $("input[name='sex']").attr("value",data.gender);
-                $("input[name='school']").attr("value",data.school.name);
+                // $("input[name='school']").attr("value",data.school.name);
+                $("#school").html(data.school.name);
                 $("input[name='title']").attr("value",data.title);
                 $("input[name='e-mail']").attr("value",data.email);
                 $("#phone").html(data.phone);
