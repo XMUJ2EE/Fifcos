@@ -5,6 +5,9 @@ public class LocationVO {
     private Double latitude;
     private Double elevation;
 
+    public LocationVO() {
+    }
+
     public LocationVO(Double longitude, Double latitude, Double elevation) {
         this.longitude = longitude;
         this.latitude = latitude;

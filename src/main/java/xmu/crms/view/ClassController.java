@@ -45,6 +45,7 @@ public class ClassController {
 	@Autowired
 	SeminarGroupService seminarGroupService;
 
+
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(method = GET)
 	@ResponseBody
