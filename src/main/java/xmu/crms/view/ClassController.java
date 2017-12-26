@@ -169,6 +169,7 @@ public class ClassController {
 		try{
 			FixGroup fixGroup = fixGroupService.getFixedGroupById(userId, classId);
 			List<User> members = fixGroupService.listFixGroupMemberByGroupId(fixGroup.getId());
+			System.out.println(members.toString());
 			FixGroupVO fixGroupVO = new FixGroupVO(fixGroup, members);
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(fixGroupVO);
 		}catch (UserNotFoundException e){

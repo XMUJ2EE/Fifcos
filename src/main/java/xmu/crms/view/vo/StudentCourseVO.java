@@ -5,7 +5,7 @@ import java.util.List;
 
 public class StudentCourseVO {
     private BigInteger courseId;
-    private String courName;
+    private String courseName;
     private String className;
     private String description;
     private BigInteger fixGroup;
@@ -16,7 +16,7 @@ public class StudentCourseVO {
 
     public StudentCourseVO(BigInteger courseId, String courName, String className, String description, BigInteger fixGroup, List<StudentSeminarBriefVO> seminarList) {
         this.courseId = courseId;
-        this.courName = courName;
+        this.courseName = courName;
         this.className = className;
         this.description = description;
         this.fixGroup = fixGroup;
@@ -32,11 +32,11 @@ public class StudentCourseVO {
     }
 
     public String getCourName() {
-        return courName;
+        return courseName;
     }
 
     public void setCourName(String courName) {
-        this.courName = courName;
+        this.courseName = courName;
     }
 
     public BigInteger getCourseId() {
@@ -75,7 +75,7 @@ public class StudentCourseVO {
     public String toString() {
         return "StudentCourseVO{" +
                 "courseId=" + courseId +
-                ", courName='" + courName + '\'' +
+                ", courseName='" + courseName + '\'' +
                 ", className='" + className + '\'' +
                 ", description='" + description + '\'' +
                 ", fixGroup=" + fixGroup +

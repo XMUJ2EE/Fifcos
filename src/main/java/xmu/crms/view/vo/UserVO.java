@@ -10,10 +10,15 @@ import java.math.BigInteger;
 public class UserVO {
     private BigInteger id;
     private String name;
+    private String number;
+
+    public UserVO() {
+    }
 
     public UserVO(User user) {
         this.id = user.getId();
         this.name = user.getName();
+        this.number = user.getNumber();
     }
 
 
@@ -30,6 +35,14 @@ public class UserVO {
         this.id = id;
     }
 
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
     public String getName() {
         return name;
     }
@@ -44,6 +57,7 @@ public class UserVO {
         return "UserVO{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
                 '}';
     }
 }
