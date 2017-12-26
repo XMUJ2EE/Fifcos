@@ -92,13 +92,13 @@ function stumodinfo(){//StudentInfoModifyPage getstuinfo
         success: function (data,status,xhr) {
             if(xhr.status == 200){
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
-                $("#stuffNum").val(data.number);
+                $("#stuffNum").html('学号：'+'<span>'+data.number+'</span>');
                 $("#name").val(data.name);
                 $("#gender").val(data.gender);
                 $("#school").val(data.school.name);
                 $("#title").val(data.title);
                 $("#email").val(data.email);
-                $("#phone").val(data.phone);
+                $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
         },
         statusCode:{
