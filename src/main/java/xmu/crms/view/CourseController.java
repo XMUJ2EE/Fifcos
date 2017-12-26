@@ -41,6 +41,7 @@ public class CourseController {
 
 	@Autowired(required = false)
 	TimerService timerService;
+
 	@Autowired(required = false)
 	GradeService gradeService;
 	@Autowired
@@ -51,6 +52,8 @@ public class CourseController {
 	SeminarService seminarService;
 	@Autowired
 	UserService userService;
+	@Autowired
+	FixGroupService fixGroupService;
 
 	@PreAuthorize("hasRole('TEACHER') ")
 	@RequestMapping(method = GET)
@@ -79,6 +82,7 @@ public class CourseController {
 			return ResponseEntity.status(403).build();
 		}
 	}
+
 	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(value = "/student",method = GET)
 	@ResponseBody
@@ -97,7 +101,6 @@ public class CourseController {
 			return ResponseEntity.status(403).build();
 		}
 	}
-
 
 	@PreAuthorize("hasRole('TEACHER')")
 	@RequestMapping(method = POST)
@@ -124,17 +127,35 @@ public class CourseController {
 	}
 
 	@PreAuthorize("hasRole('STUDENT')")
-	@RequestMapping(value = "/student/{courseId}", method = GET)
+	@RequestMapping(value = "/student/{classId}", method = GET)
 	@ResponseBody
-	public ResponseEntity getStudentCourseById(@PathVariable int courseId) {
+	public ResponseEntity getStudentCourseById(@PathVariable BigInteger classId) {
+		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try {
-			Course course = courseService.getCourseByCourseId(BigInteger.valueOf(courseId));
-			GetCourseVO getCourseVO = new GetCourseVO(course);
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(getCourseVO);
+			ClassInfo classInfo = classService.getClassByClassId(classId);
+			FixGroup fixGroup = fixGroupService.getFixedGroupById(userId,classId);
+			List<Seminar> seminars = seminarService.listSeminarByCourseId(classInfo.getCourse().getId());
+			List<StudentSeminarBriefVO> studentSeminarBriefVOS = new ArrayList<>();
+			for(Seminar seminar:seminars){
+				studentSeminarBriefVOS.add(new StudentSeminarBriefVO(seminar.getId(),seminar.getName()));
+			}
+			StudentCourseVO studentCourseVO = new StudentCourseVO(classInfo.getCourse().getId(),
+					classInfo.getCourse().getName(),
+					classInfo.getName(),
+					classInfo.getCourse().getDescription(),
+					fixGroup.getId(),
+					studentSeminarBriefVOS);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(studentCourseVO);
 		} catch (CourseNotFoundException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(400).build();
+		}catch (ClazzNotFoundException e){
+			e.printStackTrace();
+			return ResponseEntity.status(400).build();
+		}catch (UserNotFoundException e){
 			e.printStackTrace();
 			return ResponseEntity.status(400).build();
 		}

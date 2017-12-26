@@ -335,7 +335,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 		where class_id=#{classId} and seminar_id=#{seminarId}
 	</update>
 
-	<select id="listClassByUserId">
+	<select id="listClassByUserId" resultType="java.math.BigInteger">
 		select class_id from course_selection where student_id=#{id}
 	</select>
 	

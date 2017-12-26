@@ -28,7 +28,7 @@ public interface UserMapper {
      * @param id
      * @param user
      */
-    void updateUserByUserId(BigInteger id, User user);
+    void updateUserByUserId(@Param("id") BigInteger id, @Param("user") User user);
 
     /**
      * 新增用户

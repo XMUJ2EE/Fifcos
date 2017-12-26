@@ -1,8 +1,10 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.SchoolVO;
 import xmu.crms.view.vo.UserDetailVO;
 
 import java.math.BigInteger;
+import java.util.Map;
 
 public class User {
 	private BigInteger id;
@@ -22,7 +24,19 @@ public class User {
 
 	public User() {
 	}
-
+	public User(Map<String,Object> jsonUser){
+		this.id = null;
+		this.type = null;
+		this.name = (String)jsonUser.get("name");
+		this.number = null;
+		this.phone = null;
+		this.email = (String)jsonUser.get("email");
+		this.gender = (((String)jsonUser.get("gender")).equals("男"))?0:1;
+		this.school = new School(new SchoolVO(null, (String)jsonUser.get("school")));
+		this.title = ((String)jsonUser.get("title")).equals("教授")?1:0;
+		this.education = null;
+		this.avatar = (String)jsonUser.get("avatar");
+	}
 	public User(String openid, Integer type){
 		this.openid = openid;
 		this.type = type;
@@ -32,7 +46,7 @@ public class User {
 		this.phone = null;
 		this.wechatId = null;
 		this.openid = null;
-		this.avatar = userDetailVO.getAvator();
+		this.avatar = userDetailVO.getAvatar();
 		this.password = null;
 		this.name = userDetailVO.getName();
 		this.school = new School(userDetailVO.getSchool());
