@@ -111,11 +111,12 @@ public class ClassController {
 	@RequestMapping(value="/{classId}/student", method = GET)
 	@ResponseBody
 	public ResponseEntity getStudentListByClassId(@PathVariable BigInteger classId,
-										  @RequestParam(value = "numBeginWith",required = false) String numBeginWith,
+										  @RequestParam(value = "numberBeginWith",required = false) String numberBeginWith,
 										  @RequestParam(value = "nameBeginWith",required = false) String nameBeginWith) {
 		List<User> list = new ArrayList<User>();
 		try {
-			list = userService.listUserByClassId(classId, numBeginWith, nameBeginWith);
+			System.out.println(numberBeginWith+':'+nameBeginWith);
+			list = userService.listUserByClassId(classId, numberBeginWith, nameBeginWith);
 		} catch (ClazzNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -169,6 +170,7 @@ public class ClassController {
 		try{
 			FixGroup fixGroup = fixGroupService.getFixedGroupById(userId, classId);
 			List<User> members = fixGroupService.listFixGroupMemberByGroupId(fixGroup.getId());
+			System.out.println(members.toString());
 			FixGroupVO fixGroupVO = new FixGroupVO(fixGroup, members);
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(fixGroupVO);
 		}catch (UserNotFoundException e){

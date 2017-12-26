@@ -61,7 +61,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
                         userDetails = (UserDetailsImpl) userDetailsService.loadUserByUsername(username);
                     }
-                    if (jwtTokenUtil.validateToken(authToken, userDetails)) {
+                    if (jwtTokenUtil.validateToken(authToken, userDetails) || jwtTokenUtil.validateMiniToken(authToken,userDetails)) {
                         String type;
                         if (userDetails.getType() == 0) {
                             type = "student";
