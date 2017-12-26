@@ -25,7 +25,7 @@ public class User {
 	public User() {
 	}
 	public User(Map<String,Object> jsonUser){
-		this.password = (String)jsonUser.get("password");
+		this.password = (String)(jsonUser.get("password"));
 		this.id = null;
 		this.type = (int)jsonUser.get("type");
 		this.name = (String)jsonUser.get("name");

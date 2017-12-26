@@ -106,17 +106,14 @@ public class SeminarController {
 	@RequestMapping(value = "/{seminarId}/detail", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarDetail(@PathVariable int seminarId) {
-//		try {
-//			Seminar seminar = null;
-//			SeminarDetailVO seminarDetailVO = null;
-//			seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
-//
-//			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminar);
-//		} catch (SeminarNotFoundException e) {
-//			e.printStackTrace();
-//			return ResponseEntity.status(404).body(null);
-//		}
-		return ResponseEntity.status(404).build();
+		try {
+			Seminar seminar = seminarService.getSeminarBySeminarId(BigInteger.valueOf(seminarId));
+			SeminarDetailVO seminarDetailVO = new SeminarDetailVO(seminar);
+			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarDetailVO);
+		} catch (SeminarNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).body(null);
+		}
 	}
 
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")

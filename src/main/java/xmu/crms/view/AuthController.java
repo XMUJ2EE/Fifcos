@@ -2,12 +2,14 @@ package xmu.crms.view;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,7 @@ import xmu.crms.mapper.UserMapper;
 import xmu.crms.security.UserDetailsImpl;
 import xmu.crms.security.UserDetailsServiceImpl;
 import xmu.crms.service.security.AuthService;
+import xmu.crms.util.MD5Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,10 +63,10 @@ public class AuthController {
             return ResponseEntity.status(500).build();
         }
         Map<String, Object> o = new ObjectMapper().readValue(wholeStr, Map.class);
-
         System.out.println("post登陆信息"+o.toString());
+        final String password = (String)o.get("password");
 
-        final String token = authService.login((String)o.get("phone"), (String)o.get("password"));
+        final String token = authService.login((String)o.get("phone"), MD5Utils.MD5encode(password));
         UserDetailsImpl user = userMapper.getUserByPhone((String)o.get("phone"));
         // Return the token
         String type;

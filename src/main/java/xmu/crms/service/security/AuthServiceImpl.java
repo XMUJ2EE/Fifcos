@@ -24,6 +24,7 @@ import xmu.crms.exception.UserDuplicatedException;
 import xmu.crms.security.UserDetailsServiceImpl;
 import xmu.crms.service.UserService;
 import xmu.crms.util.JwtTokenUtil;
+import xmu.crms.util.MD5Utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -64,9 +65,8 @@ public class AuthServiceImpl implements AuthService {
     @Override
     public User register(User userToAdd) {
         final String username = userToAdd.getNumber();
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         final String rawPassword = userToAdd.getPassword();
-        userToAdd.setPassword(encoder.encode(rawPassword));
+        userToAdd.setPassword(MD5Utils.MD5encode(rawPassword));
         try{
             User user = userService.signUpPhone(userToAdd);
             return user;
