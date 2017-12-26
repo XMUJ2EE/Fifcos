@@ -55,7 +55,7 @@ function courseinfo(){//show CourseInformation
                 coursename.innerHTML = data.courseName + data.className;
                 var str = '';
                 for(var i=0; i< data.seminarList.length; i++){
-                    str+='<div class="block" id="'+data.seminarList[i].seminarId+';'+data[i].seminarList[i].groupingMethod+'" onclick="jumpSeminar(this.id)"><div class="blockFont">'+data.seminarList[i].name+'</div></div>';
+                    str+='<div class="block" id="'+data.seminarList[i].seminarId+';'+data.seminarList[i].groupingMethod+'" onclick="jumpSeminar(this.id)"><div class="blockFont">'+data.seminarList[i].name+'</div></div>';
                 }
                 $(".classInfo > .blockBody").html(str);
                 var fixg = '<div class="block" id="'+data.fixGroup+'" onclick="jumpGroup(this.id)""><div class="blockFont">固定分组</div></div>';
@@ -327,12 +327,14 @@ function groupinfo(){// showgroup list
                 var table = document.getElementById("studenttable");
                 var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th></tr>';
                 var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td></tr>';
-                for(var i=0;i<data.members.length;i++)
-                if(i%2!=0){
-                    str += '<tr><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
-                }
-                else{
-                    str += '<tr class="alt"><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
+                if(data.member!=null) {
+                    for (var i = 0; i < data.members.length; i++)
+                        if (i % 2 != 0) {
+                            str += '<tr><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td></tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td></tr>';
+                        }
                 }
                 table.innerHTML = tablehead+leader+str;
             }
