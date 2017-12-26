@@ -242,12 +242,20 @@ public class ClassController {
 			/*每个人一开始都是fixGroup的leader， 若插入的时候组内还只有一个人，
 			说明目前的组是个虚拟的组，要现在数据库里面插入一个fixGroup的记录
 			 */
+			BigInteger groupId = BigInteger.valueOf(0);
 			FixGroup fixGroup = fixGroupService.getFixedGroupById(userId, classId);
 			if(fixGroup == null){
-				fixGroupService.insertFixGroupByClassId(classId, userId);
+				ClassInfo classInfo = new ClassInfo();
+				classInfo.setId(classId);
+				User leader = new User();
+				leader.setId(userId);
+				FixGroup fixGroup1 = new FixGroup();
+				fixGroup1.setClassInfo(classInfo);
+				fixGroup1.setLeader(leader);
+				fixGroupService.insertFixGroupByClassId(fixGroup1);
 			}
-			FixGroup fixGroupNew = fixGroupService.getFixedGroupById(userId, classId);
-			fixGroupService.insertStudentIntoGroup(userId, fixGroupNew.getId());
+//			FixGroup fixGroupNew = fixGroupService.getFixedGroupById(userId, classId);
+			fixGroupService.insertStudentIntoGroup(userId, groupId);
 			return ResponseEntity.status(204).build();
 		}catch (UserNotFoundException e){
 			return ResponseEntity.status(404).build();

@@ -1,5 +1,6 @@
 package xmu.crms.view;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -23,10 +24,9 @@ import static org.springframework.web.bind.annotation.RequestMethod.POST;
 @Controller
 @RequestMapping("/school")
 public class SchoolController {
-   // @Autowired
+    @Autowired
     SchoolService schoolService;
 
-    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(method = GET)
     @ResponseBody
     public ResponseEntity getSchoolList(@PathParam("city") String city) {
@@ -35,7 +35,6 @@ public class SchoolController {
         return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(schools);
     }
 
-    @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(method = POST)
     @ResponseBody
     public ResponseEntity addSchool(@RequestBody AddSchoolVO addSchoolVO) {
@@ -45,7 +44,6 @@ public class SchoolController {
         return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(id);
     }
 
-    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/province", method = GET)
     @ResponseBody
     public ResponseEntity getProvince() {
@@ -54,8 +52,6 @@ public class SchoolController {
 
         return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(provinces);
     }
-
-    @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
     @RequestMapping(value = "/city", method = GET)
     @ResponseBody
     public  ResponseEntity getCity(@PathParam("province") String province) {

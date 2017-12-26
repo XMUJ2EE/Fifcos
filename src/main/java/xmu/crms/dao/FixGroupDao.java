@@ -19,8 +19,8 @@ public class FixGroupDao {
     @Autowired
     private FixGroupMapper fixGroupMapper;
 
-    public Integer insertFixGroupByClassId(BigInteger classId, BigInteger userId) throws IllegalArgumentException {
-         return fixGroupMapper.insertFixGroupByClassId(classId,userId);
+    public Integer insertFixGroupByClassId(FixGroup fixGroup) throws IllegalArgumentException {
+         return fixGroupMapper.insertFixGroupByClassId(fixGroup);
     }
 
     public void deleteFixGroupMemberByFixGroupId(BigInteger fixGroupId) throws IllegalArgumentException, FixGroupNotFoundException {
@@ -116,10 +116,21 @@ public class FixGroupDao {
         }
     }
 
-    public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException {
+    public FixGroup getFixedGroupById(BigInteger userId, BigInteger classId) throws IllegalArgumentException{
         FixGroup fixGroup=fixGroupMapper.getFixedGroupById(userId,classId);
-        if(fixGroup==null) {
-            throw new ClazzNotFoundException("没有找到该学生在该班级的固定小组");
+        if(fixGroup == null) {
+            ClassInfo classInfo = new ClassInfo();
+            classInfo.setId(classId);
+            User leader = new User();
+            leader.setId(userId);
+            FixGroup fixGroup1 = new FixGroup();
+            fixGroup1.setClassInfo(classInfo);
+            fixGroup1.setLeader(leader);
+            fixGroupMapper.insertFixGroupByClassId(fixGroup1);
+            System.out.println(fixGroup1.getId());
+            fixGroupMapper.insertStudentIntoGroup(userId, fixGroup1.getId());
+            fixGroup = fixGroupMapper.getFixedGroupById(userId, classId);
+            System.out.println(fixGroup.toString());
         }
         return fixGroup;
     }
