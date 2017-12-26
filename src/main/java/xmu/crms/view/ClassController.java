@@ -54,26 +54,47 @@ public class ClassController {
 		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try{
 			List<ClassInfo> allClassInfos = classService.listClassByName(courseName, teacherName);
-			List<ClassInfo> myClassInfos = classService.listClassByUserId(userId);
-			List<BigInteger> myClassCourseId = new ArrayList<>();
-			for(ClassInfo classInfo:myClassInfos){
-				myClassCourseId.add(classInfo.getCourse().getId());
-			}
-			List<UserClassVO> userClassVOS = new ArrayList<>();
-			for(ClassInfo classInfo:allClassInfos){
-				if(!myClassCourseId.contains(classInfo.getCourse().getId())){
-					List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
-					userClassVOS.add(new UserClassVO(classInfo, users.size()));
+			System.out.println(allClassInfos);
+			List<ClassInfo> myClassInfos = new ArrayList<>();
+			try{
+				myClassInfos = classService.listClassByUserId(userId);
+			}catch (ClazzNotFoundException e){
+
+			}finally {
+				List<UserClassVO> userClassVOS = new ArrayList<>();
+				if(myClassInfos != null){
+					System.out.println(myClassInfos);
+					List<BigInteger> myClassCourseId = new ArrayList<>();
+					for(ClassInfo classInfo:myClassInfos){
+						myClassCourseId.add(classInfo.getCourse().getId());
+					}
+
+					for(ClassInfo classInfo:allClassInfos) {
+						if (!myClassCourseId.contains(classInfo.getCourse().getId())) {
+							try{
+								List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
+								userClassVOS.add(new UserClassVO(classInfo, users.size()));
+							}catch (ClazzNotFoundException e){
+
+							}
+						}
+					}
+				}else{
+					for(ClassInfo classInfo:allClassInfos) {
+						try{
+							List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
+							userClassVOS.add(new UserClassVO(classInfo, users.size()));
+						}catch (ClazzNotFoundException e){
+						}
+					}
 				}
+				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userClassVOS);
 			}
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userClassVOS);
+
 		}catch (UserNotFoundException e){
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
-		}catch (CourseNotFoundException e){
-			e.printStackTrace();
-			return ResponseEntity.status(404).build();
-		}catch (ClazzNotFoundException e){
+		}catch (CourseNotFoundException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
