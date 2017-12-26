@@ -112,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
         }
         System.out.println(json.toString());
         Map<String, Object> auth = new ObjectMapper().readValue(json.toString(), Map.class);
-        if((String)auth.get("errcode") != null){
+        if(auth.get("errcode") != null){
             throw new IllegalArgumentException("参数错误");
         }
         User user = authMapper.getUserByOpenId((String)auth.get("openid"));
