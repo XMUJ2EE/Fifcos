@@ -92,13 +92,13 @@ function stumodinfo(){//StudentInfoModifyPage getstuinfo
         success: function (data,status,xhr) {
             if(xhr.status == 200){
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
-                $("#stuffNum").val(data.number);
+                $("#stuffNum").html('学号：'+'<span>'+data.number+'</span>');
                 $("#name").val(data.name);
                 $("#gender").val(data.gender);
                 $("#school").val(data.school.name);
                 $("#title").val(data.title);
                 $("#email").val(data.email);
-                $("#phone").val(data.phone);
+                $("#phone").html('联系方式：'+'<span>'+data.phone+'</span>');
             }
         },
         statusCode:{
@@ -143,10 +143,12 @@ function stuinfomod(){//StudentInfoModifyPage updatestuinfo
 var courseid = '';
 
 function jumpCourse(id){
-    var cid = document.getElementById("course").getAttribute("name")
-    updateCookie('classcurrent',cid);
-    updateCookie('coursecurrent',id);
-    window.location.href="/student/course/"+id;
+    var info = id;
+    var arr = info.split(";");
+    var classid = arr[0];var courseid = arr[1];
+    updateCookie('classcurrent',classid);
+    updateCookie('coursecurrent',courseid);
+    window.location.href="/student/course/"+courseid;
 }
 
 // function getcourseid(name){//StudentCourse_List store course id
@@ -186,8 +188,8 @@ function classinfo(){//StudentCourse_List showclassinfo
                 var str="";
                 str+='<div class="title">课程信息</div><hr class="line"/>'
                 for(var i=0;i<data.length;i++){
-                        str += '<div class="main_box_right_content" ><h3 class="classtitle"><span id="course" name="'+data[i].classId+'">'+data[i].courseName+
-                        '</span><button id="'+data[i].courseId+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo" onclick="jumpCourse(this.id)" id="'+data[i].courseId+'"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].className+
+                        str += '<div class="main_box_right_content" ><h3 class="classtitle"><span id="course">'+data[i].courseName+
+                        '</span><button id="'+data[i].classId+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo" onclick="jumpCourse(this.id)" id="'+data[i].classId+';'+data[i].courseId+'"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].className+
                         '</span></td><td class="tabletext" id="site">课程地点：'+data[i].site+
                         '</td></tr><tr><td class="tabletext" id="teacher">教师：'+data[i].courseTeacher+'</td><td class="tabletext"></td></tr></table></div></div>';
                 }
@@ -198,7 +200,11 @@ function classinfo(){//StudentCourse_List showclassinfo
             401: function () {
                 alert("classinfo查询失败！");
             }
-        }
+        },statusCode: {
+                404: function () {
+                    alert("查找不到班级！");
+                }
+            }
     });
 }
 
@@ -265,7 +271,11 @@ function classlist(){//StudenCourseSelectPage classlist
             401: function () {
                 alert("获取课程失败");
             }
-        }
+        },statusCode: {
+                404: function () {
+                    alert("查找不到班级！");
+                }
+            }
     });
 }
 
@@ -280,6 +290,7 @@ function selectclass(id1){//StudenCourseSelectPage selectclass
         success: function (data,status,xhr){
             if(xhr.status == 204){
                 alert("成功");
+                location.reload();
             }
         },
         statusCode: {
