@@ -23,6 +23,7 @@ public class FixGroupVO {
         for(User user:members){
             userVOS.add(new UserVO(user));
         }
+        this.member = userVOS;
     }
 
     public FixGroupVO(UserVO leader, List<UserVO> member) {
