@@ -57,7 +57,7 @@ public class AuthServiceImpl implements AuthService {
 
     private String tokenHead = "Bearer ";
 
-    private String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx0e1ff5086222b3e9&secret=a5903ceade04fcadcb39b3d23a3605d4&grant_type=authorization_code";
+    private String url = "https://api.weixin.qq.com/sns/jscode2session?appid=wx0e1ff5086222b3e9&secret=c0bc5f7ab3886cf2124e676b5c0df1b5&grant_type=authorization_code";
 
 
 
@@ -112,7 +112,7 @@ public class AuthServiceImpl implements AuthService {
         }
         System.out.println(json.toString());
         Map<String, Object> auth = new ObjectMapper().readValue(json.toString(), Map.class);
-        if((String)auth.get("errcode") != null){
+        if(auth.get("errcode") != null){
             throw new IllegalArgumentException("参数错误");
         }
         User user = authMapper.getUserByOpenId((String)auth.get("openid"));

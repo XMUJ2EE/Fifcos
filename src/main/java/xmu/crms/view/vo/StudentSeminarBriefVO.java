@@ -5,13 +5,23 @@ import java.math.BigInteger;
 public class StudentSeminarBriefVO {
     private BigInteger seminarId;
     private String name;
+    private String groupingMethod;
 
     public StudentSeminarBriefVO() {
     }
 
-    public StudentSeminarBriefVO(BigInteger seminarId, String name) {
+    public StudentSeminarBriefVO(BigInteger seminarId, String name, String groupingMethod) {
         this.seminarId = seminarId;
         this.name = name;
+        this.groupingMethod = groupingMethod;
+    }
+
+    public String getGroupingMethod() {
+        return groupingMethod;
+    }
+
+    public void setGroupingMethod(String groupingMethod) {
+        this.groupingMethod = groupingMethod;
     }
 
     public BigInteger getSeminarId() {

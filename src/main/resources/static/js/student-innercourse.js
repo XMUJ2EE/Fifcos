@@ -43,7 +43,7 @@ function logout(){
 function courseinfo(){//show CourseInformation
         $.ajax({
         type:'get',
-        url: '/course/student/'+getCookie("coursecurrent"),
+        url: '/course/student/'+getCookie("classcurrent"),
         dataType: "json",
         contentType: "application/json;",
             async:"false",
@@ -52,7 +52,13 @@ function courseinfo(){//show CourseInformation
                 var description=document.getElementById("description");
                 var coursename=document.getElementById("coursename");
                 description.innerHTML = data.description;
-                coursename.innerHTML = data.name;
+                coursename.innerHTML = data.courseName + data.className;
+                var str = '';
+                for(var i=0; i< data.seminarList.length; i++){
+                    str+='<div class="block" id="'+data.seminarList[i].seminarId+'" onclick="jumpSeminar(this.id)"><div class="blockFont">'+data.seminarList[i].name+'</div></div>';
+                }
+                $(".classInfo > .blockBody").html(str);
+                var fixg = '<div class="block" id="'+data.fixGroup+'" onclick="jumpGroup(this.id)""><div class="blockFont">固定分组</div></div>';
                 updateCookie("description",data.description);
                 updateCookie("coursename",data.name);
             }

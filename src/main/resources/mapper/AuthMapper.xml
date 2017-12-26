@@ -20,11 +20,14 @@
         </association>
     </resultMap>
 
-    <select id="getUserByOpenid" parameterType="java.lang.String" resultMap="userResultMap">
+    <select id="getUserByOpenId" parameterType="java.lang.String" resultMap="userResultMap">
         select id, phone, wechat_id, openid, avatar, password,
         school_id, `name`, gender, `type`, `number`, education, title, email
         from user_info
         where openid = #{openid}
+    </select>
+    <select id="getSchoolById" parameterType="java.math.BigInteger" resultType="School">
+        select id, `name`, province, city from school where id=#{id}
     </select>
 
 </mapper>

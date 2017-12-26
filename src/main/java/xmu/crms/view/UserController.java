@@ -2,6 +2,8 @@ package xmu.crms.view;
 
 import static org.springframework.web.bind.annotation.RequestMethod.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,6 +22,9 @@ import xmu.crms.view.vo.UserDetailVO;
 import xmu.crms.view.vo.UserUpdateVO;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.Map;
 
@@ -54,22 +59,33 @@ public class UserController {
 	}
 	
 	@RequestMapping(value = "/me", method = PUT)
-	public ResponseEntity updateCurrentUser(@RequestBody UserDetailVO userUpdateFrom) {
+	public ResponseEntity updateCurrentUser(HttpServletRequest request) {
 		BigInteger id = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try {
 			if (null == userService.getUserByUserId(id)) {
 				return ResponseEntity.status(404).build();
 			}else{
-				int gender = userUpdateFrom.getGender().equals("男") ? 0 : 1;
+				BufferedReader br = request.getReader();
+				String str, wholeStr = "";
+				while((str = br.readLine()) != null){
+					wholeStr += str;
+				}
+				if(wholeStr == null){
+					return ResponseEntity.status(500).build();
+				}
+				Map<String, Object> o = new ObjectMapper().readValue(wholeStr, Map.class);
 
-				User user = new User(userUpdateFrom);
+				User user = new User(o);
+				System.out.println(user.toString());
 				userService.updateUserByUserId(id, user);
-				return ResponseEntity.status(204).build();
 			}
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(400).build();
+		}catch (IOException e){
+			e.printStackTrace();
 		}
+		return ResponseEntity.status(204).build();
 	}
 
 }

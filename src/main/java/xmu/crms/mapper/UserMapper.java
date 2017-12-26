@@ -28,7 +28,7 @@ public interface UserMapper {
      * @param id
      * @param user
      */
-    void updateUserByUserId(BigInteger id, User user);
+    void updateUserByUserId(@Param("id") BigInteger id, @Param("user") User user);
 
     /**
      * 新增用户
@@ -90,7 +90,9 @@ public interface UserMapper {
      * @param classId
      * @return
      */
-    List<User> listUserByClassId(BigInteger classId);
+    List<User> listUserByClassId(@Param("classId") BigInteger classId,
+                                 @Param("numberBeginWith") String numberBeginWith,
+                                 @Param("nameBeginWith") String nameBeginWith);
 
     /**
      * 小程序： 学生签到

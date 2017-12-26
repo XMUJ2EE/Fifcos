@@ -122,9 +122,9 @@ function stuinfomod(){//StudentInfoModifyPage updatestuinfo
         var ata = {
             name:$("#name").val(),
             gender:$("#gender").val(),
+            school:$("#school").val(),
             title:$("#title").val(),
             email:$("#email").val(),
-            phone:$("#phone").val(),
             avatar:"/avatar/3486.png"
         }
         $.ajax({

@@ -1,0 +1,61 @@
+
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width,height=device-height,initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>查看选题情况</title>
+    <link rel="stylesheet" href="/css/common/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/teacher/content.css">
+    <script src ="/js/jquery-1.10.2.js"></script>
+    <script src ="/js/teacher_page.js"></script>
+    <script src ="/js/jwt.js"></script>
+</head>
+<body onload="find_groupinseminar(); return courseintroduce(); ">
+<div class="top">
+    <div class="font">
+        课堂管理系统
+    </div>
+    <div class="icon">
+       <img src="/img/home.png"><a href="/teacher/home">首页</a>
+       <img src="/img/help.png"><a>帮助</a>
+       <img src="/img/exit.png"><a href="#" onclick="logout();">退出</a>
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="body">
+    <div class="navigation">
+         <div class="courseName" id="courseName"></div>
+         <div class="line"></div>
+         <div class="courseIntroduction" id="courseIntroduction"></div>
+    </div>
+    <div class="content">
+    <div class="contentBlock">
+        <div class="title">选题情况</div>
+        <div class="returnButton"  onclick="return backtoseminar();">返回上一页</div>
+        <div class="line"></div>
+        <div class="itemBody">
+            <table class="table table-striped">
+                <thead class="tableTitle">
+                <tr>
+                    <th>Topic</th>
+                    <th>组名</th>
+                    <th>组长</th>
+                </tr>
+                </thead>
+                <tbody class="tableContent" id="groupinseminar">
+                <!--<tr>
+                    <td>A</td>
+                    <td>Bangalore</td>
+                    <td>xxx</td>
+                </tr> -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+    <div class="clear"></div>
+</div>
+</body>
+</html>

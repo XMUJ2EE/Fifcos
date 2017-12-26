@@ -4,6 +4,7 @@ package xmu.crms.view.vo;
 import xmu.crms.entity.User;
 
 import java.math.BigInteger;
+import java.util.Map;
 
 /**
  * @author mads
@@ -20,7 +21,9 @@ public class UserDetailVO {
     private SchoolVO school;
     private String title;
     private String education;
-    private String avator;
+    private String avatar;
+
+
 
     public UserDetailVO(User user) {
         this.education = user.getEducation() == null ? "未设置" :
@@ -33,12 +36,16 @@ public class UserDetailVO {
         this.phone = user.getPhone();
         this.email = user.getEmail();
         this.gender = (user.getGender() == null || user.getGender() == 0) ? "男" : "女";
-        this.school = new SchoolVO(user.getSchool().getId(), user.getSchool().getName());
+        if(user.getSchool()!=null){
+            this.school = new SchoolVO(user.getSchool().getId(), user.getSchool().getName());
+        }else{
+            this.school = new SchoolVO();
+        }
         this.title = (user.getTitle() == null || user.getTitle() == 0) ? "非教授" : "教授";
-        this.avator = user.getAvatar();
+        this.avatar = user.getAvatar();
     }
 
-    public UserDetailVO(BigInteger id, String type, String name, String number, String phone, String email, String gender, String school, String title, String education, String avator) {
+    public UserDetailVO(BigInteger id, String type, String name, String number, String phone, String email, String gender, String school, String title, String education, String avatar) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -49,10 +56,10 @@ public class UserDetailVO {
         this.school = new SchoolVO(null,school);
         this.title = title;
         this.education = education;
-        this.avator = avator;
+        this.avatar = avatar;
     }
 
-    public UserDetailVO(BigInteger id, String type, String name, String number, String phone, String email, String gender, SchoolVO school, String title, String education, String avator) {
+    public UserDetailVO(BigInteger id, String type, String name, String number, String phone, String email, String gender, SchoolVO school, String title, String education, String avatar) {
         this.id = id;
         this.type = type;
         this.name = name;
@@ -63,7 +70,7 @@ public class UserDetailVO {
         this.school = school;
         this.title = title;
         this.education = education;
-        this.avator = avator;
+        this.avatar = avatar;
     }
 
     public String getEducation() {
@@ -146,12 +153,12 @@ public class UserDetailVO {
         this.title = title;
     }
 
-    public String getAvator() {
-        return avator;
+    public String getAvatar() {
+        return avatar;
     }
 
-    public void setAvator(String avator) {
-        this.avator = avator;
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     @Override
@@ -166,7 +173,7 @@ public class UserDetailVO {
                 ", gender='" + gender + '\'' +
                 ", school=" + school +
                 ", title='" + title + '\'' +
-                ", avator='" + avator + '\'' +
+                ", avatar='" + avatar + '\'' +
                 '}';
     }
 }
