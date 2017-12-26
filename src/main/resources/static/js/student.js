@@ -187,7 +187,7 @@ function classinfo(){//StudentCourse_List showclassinfo
                 str+='<div class="title">课程信息</div><hr class="line"/>'
                 for(var i=0;i<data.length;i++){
                         str += '<div class="main_box_right_content" ><h3 class="classtitle"><span id="course" name="'+data[i].classId+'">'+data[i].courseName+
-                        '</span><button id="'+data[i].courseId+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo" onclick="jumpCourse(this.id)" id="'+data[i].courseId+'"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].className+
+                        '</span><button id="'+data[i].classId+'" onclick="dropclass(this.id)">退选课程</button></h3><div class="divideline"></div><div  class="classinfo" onclick="jumpCourse(this.id)" id="'+data[i].courseId+'"><table class="table"><tr><td class="tabletext">班级：<span id="name">'+data[i].className+
                         '</span></td><td class="tabletext" id="site">课程地点：'+data[i].site+
                         '</td></tr><tr><td class="tabletext" id="teacher">教师：'+data[i].courseTeacher+'</td><td class="tabletext"></td></tr></table></div></div>';
                 }
