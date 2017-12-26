@@ -11,6 +11,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import xmu.crms.entity.ClassInfo;
+import xmu.crms.entity.Course;
 import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.User;
 import xmu.crms.exception.*;
@@ -44,6 +45,7 @@ public class ClassController {
 	@Autowired
 	SeminarGroupService seminarGroupService;
 
+
 	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(method = GET)
 	@ResponseBody
@@ -51,14 +53,21 @@ public class ClassController {
 											 @RequestParam(value = "courseTeacher", required = false) String teacherName) {
 		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try{
-			List<ClassInfo> classInfos = classService.listClassByUserId(userId);
+			List<ClassInfo> classInfos = classService.listClassByName(courseName, teacherName);
 			List<UserClassVO> userClassVOS = new ArrayList<>();
 			for(ClassInfo classInfo:classInfos){
 				List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
 				userClassVOS.add(new UserClassVO(classInfo, users.size()));
 			}
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userClassVOS);
+		}catch (UserNotFoundException e){
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}catch (CourseNotFoundException e){
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
 		}catch (ClazzNotFoundException e){
+			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
 	}

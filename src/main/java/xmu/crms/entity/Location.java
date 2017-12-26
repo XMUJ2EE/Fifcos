@@ -1,5 +1,7 @@
 package xmu.crms.entity;
 
+import xmu.crms.view.vo.LocationVO;
+
 import java.math.BigInteger;
 
 public class Location {
@@ -14,6 +16,15 @@ public class Location {
 	public final static Integer BREAK=2;
 
 	public Location() {
+	}
+
+	public Location(LocationVO locationVO, ClassInfo classInfo, Seminar seminar){
+		this.id = null;
+		this.classInfo = classInfo;
+		this.seminar = seminar;
+		this.longitude = locationVO.getLongitude();
+		this.latitude = locationVO.getLatitude();
+		this.status = Location.CALLING;
 	}
 
 	public BigInteger getId() {

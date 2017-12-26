@@ -52,15 +52,15 @@ function courseinfo(){//show CourseInformation
                 var description=document.getElementById("description");
                 var coursename=document.getElementById("coursename");
                 description.innerHTML = data.description;
-                coursename.innerHTML = data.courseName + data.className;
+                coursename.innerHTML = data.courseName;
                 var str = '';
                 for(var i=0; i< data.seminarList.length; i++){
-                    str+='<div class="block" id="'+data.seminarList[i].seminarId+'" onclick="jumpSeminar(this.id)"><div class="blockFont">'+data.seminarList[i].name+'</div></div>';
+                    str+='<div class="block" id="'+data.seminarList[i].seminarId+';'+data.seminarList[i].groupingMethod+'" onclick="jumpSeminar(this.id)"><div class="blockFont">'+data.seminarList[i].name+'</div></div>';
                 }
                 $(".classInfo > .blockBody").html(str);
                 var fixg = '<div class="block" id="'+data.fixGroup+'" onclick="jumpGroup(this.id)""><div class="blockFont">固定分组</div></div>';
                 updateCookie("description",data.description);
-                updateCookie("coursename",data.name);
+                updateCookie("coursename",data.courseName);
             }
         },
         statusCode: {
@@ -74,32 +74,32 @@ function courseinfo(){//show CourseInformation
             }
         }
     });
-        $.ajax({
-        type:'get',
-        url: '/course/'+getCookie("coursecurrent")+'/seminar',
-        dataType: "json",
-        contentType: "application/json;",
-        success: function (data,status,xhr){
-            if(xhr.status == 200){
-                var seminar=document.getElementById("seminarinfo");
-                var contenthead = '<div class="title">讨论课</div>'+
-                                  '<div class="returnButton" onclick="window.location.href=\'/student/courses\'">返回上一页</div>'+
-                                  '<div class="line"></div>'+
-                                  '<div class="blockBody">';
-                var contenttail = '</div>';
-                var str="";
-                for(var i=0;i<data.length;i++){
-                        str += '<div class="block"><div class="blockFont" onclick="jumpSeminar(this.id)" id="'+data[i].id+';'+data[i].groupingMethod+'">'+data[i].name+'</div></div>';
-                }
-                seminar.innerHTML = contenthead+str+contenttail;
-            }
-        },
-        statusCode: {
-            401: function () {
-                alert("课程信息获取失败");
-            }
-        }
-    });
+    //     $.ajax({
+    //     type:'get',
+    //     url: '/course/'+getCookie("coursecurrent")+'/seminar',
+    //     dataType: "json",
+    //     contentType: "application/json;",
+    //     success: function (data,status,xhr){
+    //         if(xhr.status == 200){
+    //             var seminar=document.getElementById("seminarinfo");
+    //             var contenthead = '<div class="title">讨论课</div>'+
+    //                               '<div class="returnButton" onclick="window.location.href=\'/student/courses\'">返回上一页</div>'+
+    //                               '<div class="line"></div>'+
+    //                               '<div class="blockBody">';
+    //             var contenttail = '</div>';
+    //             var str="";
+    //             for(var i=0;i<data.length;i++){
+    //                     str += '<div class="block"><div class="blockFont" onclick="jumpSeminar(this.id)" id="'+data[i].id+';'+data[i].groupingMethod+'">'+data[i].name+'</div></div>';
+    //             }
+    //             seminar.innerHTML = contenthead+str+contenttail;
+    //         }
+    //     },
+    //     statusCode: {
+    //         401: function () {
+    //             alert("课程信息获取失败");
+    //         }
+    //     }
+    // });
 }
 
 // //-----------------------------StudentDiscussionClassPage(fixed)-------------------------------------
@@ -327,12 +327,14 @@ function groupinfo(){// showgroup list
                 var table = document.getElementById("studenttable");
                 var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th></tr>';
                 var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td></tr>';
-                for(var i=0;i<data.members.length;i++)
-                if(i%2!=0){
-                    str += '<tr><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
-                }
-                else{
-                    str += '<tr class="alt"><td>队员</td><td>'+data.members[i].number+'</td><td>'+data.members[i].name+'</td></tr>';
+                if(data.member!=null) {
+                    for (var i = 0; i < data.member.length; i++)
+                        if (i % 2 != 0) {
+                            str += '<tr><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td></tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td></tr>';
+                        }
                 }
                 table.innerHTML = tablehead+leader+str;
             }
@@ -349,6 +351,16 @@ function groupinfo(){// showgroup list
 }
 
 //-----------------------------StudentGroupUpdatePage--------------------------------------
+function isLeader(id) {
+    if (getCookie("username") == id){
+        updateCookie("isLeader",true);
+        return true;
+    }
+    else{
+        updateCookie("isLeader",false);
+        return false;
+    }
+}
 
 function groupmodinfo(){// showgroup list
         var description=document.getElementById("description");
@@ -363,15 +375,22 @@ function groupmodinfo(){// showgroup list
         success: function (data,status,xhr){
             if(xhr.status == 200){
                 var str = "";
-                //var table = $("[name='table1']");
-                var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th><th>操作</th></tr>';
-                var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td><td><img src="/img/home.png" id = " '+data.leader.id+ '" onclick="return groupinforemove(this.id);"></td></tr>';
-                for(var i=0;i<data.members.length;i++){
-                    if(i%2!=0){
-                        str += '<tr><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td><td><img src="/img/home.png" id = " ' + data.members[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
-                    }
-                    else{
-                        str += '<tr class="alt"><td>队员</td><td>' + data.members[i].number + '</td><td>' + data.members[i].name + '</td><td><img src="/img/home.png" id = " ' + data.members[i].id + '" onclick="return groupinforemove(this.id);"></td></tr>';
+                var opr = "";
+                var icon = "";
+                if(isLeader(data.leader.id)) {
+                    opr = "<th>操作</th>";
+                    icon = '<td><img src="/img/home.png" id = " '+data.leader.id+ '" onclick="return groupinforemove(this.id);"></td>';
+                }
+                var tablehead = '<tr><th>角色</th><th>学号</th><th>姓名</th>'+opr+'</tr>';
+                var leader = '<tr><td>队长</td><td>'+data.leader.number+'</td><td>'+data.leader.name+'</td>'+icon+'</tr>';
+                if(data.member!=null) {
+                    for (var i = 0; i < data.member.length; i++) {
+                        if (i % 2 != 0) {
+                            str += '<tr><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td>'+icon+'</tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>队员</td><td>' + data.member[i].number + '</td><td>' + data.member[i].name + '</td>'+icon+'</tr>';
+                        }
                     }
                 }
                 $("[name='table1']").html(tablehead+leader+str);
@@ -394,14 +413,27 @@ function groupmodinfo(){// showgroup list
         success: function (data,status,xhr){
             if(xhr.status == 200){
                 var str = "";
-                var table = $("[name='table2']");
-                var tablehead = '<tr><th>学号</th><th>姓名</th><th>操作</th></tr>';
+                var opr = "";
+                if(getCookie("isLeader")==true) {
+                    opr = "<th>操作</th>";
+                }
+                var tablehead = '<tr><th>学号</th><th>姓名</th>'+opr+'</tr>';
                 for(var i=0;i<data.length;i++){
-                    if(i%2==0){
-                        str += '<tr><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                    if(getCookie("isLeader")==true){
+                        if (i % 2 == 0) {
+                            str += '<tr><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                        }
                     }
-                    else{
-                        str += '<tr class="alt"><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                    else {
+                        if (i % 2 == 0) {
+                            str += '<tr><td>' + data[i].number + '</td><td>' + data[i].name + '</td></tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>' + data[i].number + '</td><td>' + data[i].name + '</td></tr>';
+                        }
                     }
                 }
                 $("[name='table2']").html(tablehead+str);
@@ -422,30 +454,42 @@ function groupinfosearch(){//search
     var name;
     var number;
     if($("#name").val()== ""){
-        name = "*";
+        name = "";
     }
-    else name = $("#name").val();
+    else name = 'nameBeginWith='+$("#name").val();
     if($("#num").val()== ""){
-        number = "*";
+        number = "";
     }
-    else number = $("#num").val();
+    else number = 'numberBeginWith='+$("#num").val();
     $.ajax({
         type:'get',
-        url: '/class/'+getCookie("classcurrent")+'/student?nameBeginWith='+name+'&numberBeginWith='+number,
+        url: '/class/'+getCookie("classcurrent")+'/student?'+name+number,
         dataType: "json",
         contentType: "application/json;",
         success: function (data,status,xhr){
             if(xhr.status == 200){
                 var str = "";
-                //var confirm = document.getElementById("confirm");
-                var tablehead = '<tr><th>学号</th><th>姓名</th><th>操作</th></tr>';
+                var opr = "";
+                if(getCookie("isLeader")==true) {
+                    opr = "<th>操作</th>";
+                }
+                var tablehead = '<tr><th>学号</th><th>姓名</th>'+opr+'</tr>';
                 for(var i=0;i<data.length;i++){
-                    //confirm.setAttribute('name',data[i].id);
-                    if(i%2==0){
-                        str += '<tr><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                    if(getCookie("isLeader")==true){
+                        if (i % 2 == 0) {
+                            str += '<tr><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>'+data[i].number+'</td><td>'+data[i].name+'<td><img src="/img/home.png" id = " '+data[i].id+'" onclick="return groupinfoadd(this.id);"></td></tr>';
+                        }
                     }
                     else {
-                        str += '<tr class="alt"><td>' + data[i].number + '</td><td>' + data[i].name + '<td><img src="/img/home.png" id = " ' + data[i].id + '" onclick="return groupinfoadd(this.id);"></td></tr>';
+                        if (i % 2 == 0) {
+                            str += '<tr><td>' + data[i].number + '</td><td>' + data[i].name + '</td></tr>';
+                        }
+                        else {
+                            str += '<tr class="alt"><td>' + data[i].number + '</td><td>' + data[i].name + '</td></tr>';
+                        }
                     }
                 }
                 $("[name='table2']").html(tablehead+str);
@@ -456,7 +500,7 @@ function groupinfosearch(){//search
             }
         }, statusCode: {
             404: function () {
-                alert("未找到该班级");
+                alert("未找到该学生");
             }
         }
     });
