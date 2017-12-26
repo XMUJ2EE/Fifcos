@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -13,11 +14,16 @@ import xmu.crms.entity.School;
 import xmu.crms.service.SchoolService;
 import xmu.crms.view.vo.AddSchoolVO;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.websocket.server.PathParam;
 
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static org.springframework.web.bind.annotation.RequestMethod.GET;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -38,11 +44,18 @@ public class SchoolController {
 
     @RequestMapping(method = POST)
     @ResponseBody
-    public ResponseEntity addSchool(@RequestBody AddSchoolVO addSchoolVO) {
-
-        School school = new School(null, addSchoolVO.getName(), addSchoolVO.getProvince(), addSchoolVO.getCity());
-        BigInteger id = schoolService.insertSchool(school);
-        return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(id);
+    public ResponseEntity addSchool(HttpServletRequest httpServletRequest) throws IOException {
+        BufferedReader br = httpServletRequest.getReader();
+        String str, wholeStr = "";
+        while((str = br.readLine()) != null){
+            wholeStr += str;
+        }
+        AddSchoolVO addSchoolVO = new AddSchoolVO(wholeStr);
+        School school = new School(addSchoolVO);
+        Map<String, Integer> result = new HashMap<String, Integer>();
+        int id = schoolService.insertSchool(school).intValue();
+        result.put("id", id);
+        return ResponseEntity.status(201).contentType(MediaType.APPLICATION_JSON_UTF8).body(result);
     }
 
     @RequestMapping(value = "/province", method = GET)

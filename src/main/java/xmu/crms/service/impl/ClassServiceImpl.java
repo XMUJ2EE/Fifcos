@@ -33,6 +33,8 @@ public class ClassServiceImpl implements ClassService{
 	private ClassDao classDao;
 	@Autowired
 	SeminarGroupServiceImpl seminarGroupService;
+	@Autowired
+	FixGroupService fixGroupService;
 	@Override
 	public int deleteClassSelectionByClassId(BigInteger classId) throws ClazzNotFoundException{
 		return classDao.deleteClassSelectionByClassId(classId);
@@ -73,6 +75,12 @@ public class ClassServiceImpl implements ClassService{
 	@Override
 	public int deleteCourseSelectionById(BigInteger userId, BigInteger classId)
 			throws UserNotFoundException, ClazzNotFoundException {
+		FixGroup fixGroup = fixGroupService.getFixedGroupById(userId, classId);
+		try{
+			fixGroupService.deleteFixGroupUserById(fixGroup.getId(), userId);
+		}catch (FixGroupNotFoundException e){
+			e.printStackTrace();
+		}
 		return classDao.deleteCourseSelectionById(userId, classId);
 	}
 
