@@ -708,20 +708,20 @@ function classinfomod(){
 /*----------------------------teacher/seminar-------------------------------*/
 function judge_end(end_time){
     // var end_time=new Date(end_time.replace("-", "/").replace("-", "/"));
-    alert(end_time);
+    // alert(end_time);
     // var my_date=new Date();
     // var current_date=new Date(my_date.getFullYear()+my_date.getMonth()+my_date.getDate()); //获取当前年月日
-    var mydate = new Date();
-    var t=mydate.toLocaleString();
-    alert(t);
-    if(end_time>current_date){
-          $("#score").hide();
-          alert("讨论课还没结束");
-    }
-    else{
-         $("#viewtopic").hide();
-         alert("讨论课已经结束");
-    }
+    // var mydate = new Date();
+    // var t=mydate.toLocaleString();
+    // alert(t);
+    // if(end_time>current_date){
+    //       $("#score").hide();
+    //       alert("讨论课还没结束");
+    // }
+    // else{
+    //      $("#viewtopic").hide();
+    //      alert("讨论课已经结束");
+    // }
 }
 function seminarinfo(){
   $.ajax({
@@ -855,11 +855,11 @@ function seminarinfomod(){
         var ata = {
         name:$("#seminarname").val(),
         description:$("#description").val(),
-        groupingMethod:$('#groupingMethod').val(),
+        groupingMethod:$("#groupingMethod").val(),
         startTime:$("#begintime").val(),
-        endTime:s$("#endtime").val(),
+        endTime:$("#endtime").val()
 
-    }
+      }
        $.ajax({
         type:'put',
         url: '/seminar/'+getCookie("seminarDetail"),
@@ -869,8 +869,6 @@ function seminarinfomod(){
         success: function (data,textStatus,xhr) {
             if(xhr.status==204){
                 alert("修改成功!");
-                // alert(getCookie("courseDetail"));
-                // alert(getCookie("seminarDetail"));
                 window.location.href='/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail");
             }
         },
@@ -1052,13 +1050,13 @@ function getreportlist(){
             var str="";
             for(var i=0;i<data.length;i++){
                     str+="  <tr>\n" +
-                        "                    <td>" + data[i].name[1] + "</td>\n" +
-                        "                    <td>" + data[i].name + "</td>\n" +
-                        "                    <td>XXX</td>\n" +
-                        "                    <td>5</td>\n" +
+                        "                    <td>" + data[i].seminarName + "</td>\n" +
+                        "                    <td>" + data[i].groupName + "</td>\n" +
+                        "                    <td>"+data[i].leaderName+"</td>\n" +
+                        "                    <td>"+data[i].presentationGrade+"</td>\n" +
                         "                    <td>已提交</td>\n" +
-                        "                    <td>5</td>\n" +
-                        "                    <td>5</td>\n" +
+                        "                    <td>"+data[i].reportGrade+"</td>\n" +
+                        "                    <td>"+data[i].grade+"</td>\n" +
                         "                    <td>\n" +
                         "                         <img src=\"/img/view.png\" alt=\"预览\" name='report' id=" + data[i].id + " onclick='jumpreportdetail(this.id)'>\n" +
                         "                        <img src=\"/img/download.png\" alt=\"下载\" name='download' id=" + data[i].id + " onclick='jumpreportdetail(this.id)'>\n" +
@@ -1069,6 +1067,9 @@ function getreportlist(){
             content.innerHTML=str;
         }
     },
+     error: function (data,textStatus,xhr) {
+          alert("错误");
+     },
     statusCode: {
         400: function () {
             alert("错误的ID格式");
