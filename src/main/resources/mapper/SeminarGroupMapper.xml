@@ -83,7 +83,7 @@
         <result property="reportGrade" column="report_grade"/>
         <result property="presentationGrade" column="presentation_grade"/>
         <result property="finalGrade" column="final_grade"/>
-        <association property="seminar" resultMap="Seminar"/>
+        <association property="seminar" column="seminar_id" select="getSeminarById" />
         <association property="classInfo" column="classInfo_id" select="getClassInfoById"/>
         <association property="leader" column="leader_id" select="getUserById"/>
     </resultMap>

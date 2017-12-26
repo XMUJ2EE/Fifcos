@@ -83,8 +83,8 @@ public class TopicController {
 				wholeStr += str;
 			}
 			TopicUpdateVO topicUpdateVO = new TopicUpdateVO(wholeStr);
-			Topic topic = topicService.getTopicByTopicId(topicId);
-			topicService.updateTopicByTopicId(topicId, new Topic(topicUpdateVO));
+			Topic topic = new Topic(topicUpdateVO);
+			topicService.updateTopicByTopicId(topicId, topic);
 			return ResponseEntity.status(204).build();
 		}catch (TopicNotFoundException e){
 			return ResponseEntity.status(404).build();

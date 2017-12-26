@@ -21,7 +21,7 @@ public class TopicDetailVO {
     public TopicDetailVO() {
     }
 
-    public TopicDetailVO(Topic topic, int groupLeft,List<String> groupList) {
+    public TopicDetailVO(Topic topic, int groupLeft, List<String> groupList) {
         this.id = topic.getId();
         this.name = topic.getName();
         this.serial = topic.getSerial();
@@ -98,5 +98,13 @@ public class TopicDetailVO {
 
     public void setGroupMemberLimit(int groupMemberLimit) {
         this.groupMemberLimit = groupMemberLimit;
+    }
+
+    public List<String> getGroupList() {
+        return groupList;
+    }
+
+    public void setGroupList(List<String> groupList) {
+        this.groupList = groupList;
     }
 }
