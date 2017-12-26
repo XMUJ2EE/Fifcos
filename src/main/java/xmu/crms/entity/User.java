@@ -26,10 +26,10 @@ public class User {
 	}
 	public User(Map<String,Object> jsonUser){
 		this.id = null;
-		this.type = null;
+		this.type = (int)jsonUser.get("type");
 		this.name = (String)jsonUser.get("name");
-		this.number = null;
-		this.phone = null;
+		this.number = (String)jsonUser.get("id");
+		this.phone = (String)jsonUser.get("phone");
 		this.email = (String)jsonUser.get("email");
 		this.gender = (((String)jsonUser.get("gender")).equals("男"))?0:1;
 		this.school = new School(new SchoolVO(null, (String)jsonUser.get("school")));
