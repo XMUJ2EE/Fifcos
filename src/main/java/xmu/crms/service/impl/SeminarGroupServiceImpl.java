@@ -200,7 +200,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
             BigInteger groupId = insertSeminarGroupBySeminarId(seminarId, seminarGroup);
             //add this student  in seminargroup member (set groupid for each student)
 //            for (int j = i * smallestlimit; (j < (i+1)*smallestlimit) && ((i * smallestlimit + j) < studentIdList.size()); j++) {
-            for (int j = 0; j < smallestlimit; j++) {
+            for (int j = 0; j < smallestlimit && (j+i*smallestlimit) < studentIdList.size(); j++) {
                 try {
                     insertSeminarGroupMemberById(studentIdList.get(j + i * smallestlimit), groupId);
                 } catch (GroupNotFoundException e) {
