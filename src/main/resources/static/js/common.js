@@ -13,7 +13,6 @@ $(function () {
                 if(xhr.status == 200){//状态码存疑
                     window.localStorage.setItem("jwt", data.jwt);
                     if(data.type == "student")
-
                         window.location.href="/student/profile";
                     else
                         window.location.href="/teacher/home";
@@ -28,80 +27,61 @@ $(function () {
         });
     });
 });
+/*------------------------Register---------------------------------*/
+function registerload(){
+     $.ajax({
+    type:'get',
+    url: '/school/province',
+    dataType: "json",
+    contentType: "application/json;",
+    success: function (data,textStatus,xhr) {
+        if(xhr.status == 200){
+            var content = document.getElementById("pro");
+            var str = "";
+            for(i=0;i<data.length;i++){
+                str = str +"<option>"+data[i]+"</option>"
+            }
+            content.innerHTML = str;
+            }
+    },
+    statusCode: {
+        400: function () {
+            alert("错误的ID格式");
+        },
+        404: function () {
+            alert("未找到话题");
+        }
+    }
+});
 
-// function register(){//RegisterPage
-//     window.location.href="login.html";
-//     // var Gender,Type;
-//     // if($("#male").prop('checked')){
-//     //     Gender = "male";
-//     // }
-//     // else{
-//     //     Gender = "female";
-//     // }
-//     // if($("#student").prop('checked')){
-//     //     Type = "student";
-//     // }
-//     // else{
-//     //     Type = "teacher";
-//     // }
-//     // var ata1 = {
-//     //     phone:$("#phoneNum").val(),
-//     //     password:$("#password").val(),
-//     // }
-//     // var ata2 = {
-//     //     name:$("#name").val(),
-//     //     type:Type,
-//     //     school:{
-//     //         id:"32",
-//     //         name:$("#schoolselect").val()
-//     //     },
-//     //     gender:Gender,
-//     //     number:$("#stuffNum").val(),
-//     //     email:$("#eMail").val(),
-//     // }
-//     // $.ajax({
-//     //     type:'post',
-//     //     url: '/register',
-//     //     dataType: "json",
-//     //     contentType: "application/json;",
-//     //     data: JSON.stringify(ata1),
-//     //     success: function (data,status) {
-//     //         //处理暂为空
-//     //         }
-//     // });
-//     // $.ajax({
-//     //     type:'put',
-//     //     url: '/me',
-//     //     dataType: "json",
-//     //     contentType: "application/json;",
-//     //     data: JSON.stringify(ata2),
-//     //     success: function (data,status) {
-//     //         if(status == "No Content"){
-//     //             alert("成功");
-//     //             window.location.href="login.html";
-//     //         }
-//     //         else{
-//     //             alert("信息不合法");
-//     //         }
-//     //     }
-//     // });
-// }
-//
-// function wechatlogin(){//WechatLoginPage
-//     window.location.href="../student/StudentHomePage.html";
-//     // $.ajax({
-//     //     type:"get",
-//     //     url:"/signin",
-//     //     success:function(data,status){
-//     //         if(status == "OK"){//状态码存疑
-//     //             if(data.type == "student")
-//     //                 window.location.href="StudentHomePage.html";
-//     //             else
-//     //                 window.location.href="TeacherHomePage.html";
-//     //         }
-//     //         else{
-//     //             alert("登录失败！");
-//     //         }
-//     //     }
-//     // });
-// }
+}
+
+function find_city(){
+    $.ajax({
+        type: "get",
+        url: "/school/city?province="+$("#pro").find("option:selected").text(),
+        success: function(data) {
+            var content = document.getElementById("city");
+            var str = "";
+            for(i=0;i<data.length;i++){
+                str = str +"<option>"+data[i]+"</option>"
+            }
+            content.innerHTML = str;
+        }
+    });
+}
+
+function find_school(){
+       $.ajax({
+        type: "get",
+        url: "/school?city="+$("#city").find("option:selected").text(),
+        success: function(data) {
+            var content = document.getElementById("school");
+            var str = "";
+            for(i=0;i<data.length;i++){
+                str = str +"<option>"+data[i].name+"</option>"
+            }
+            content.innerHTML = str;
+        }
+    });
+}
