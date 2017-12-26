@@ -12,6 +12,9 @@ public class SchoolVO {
     private String name;
 
 
+    public SchoolVO() {
+    }
+
     public SchoolVO(School school) {
         this.id = school.getId();
         this.name = school.getName();
