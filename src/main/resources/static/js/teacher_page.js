@@ -424,13 +424,13 @@ function classlist(){
 function seminarlist(){
     $.ajax({
     type:'get',
-    url: '/course/'+getCookie("courseDetail")+'/seminar',
+    url: '/course/'+getCookie("courseDetail")+'/teacher/seminar',
    // url: '/course/'+1+'/seminar',
     dataType: "json",
     contentType: "application/json;",
     success: function (data,textStatus,xhr) {
         if(xhr.status == 200){
-            alert("获取成功");
+            // alert("获取成功");
             var content=document.getElementById("seminarcontent");   //获取外围容器
             var str="";
             str+='<div class="title">讨论课</div><div class="line"></div><div class="blockBody">';
@@ -707,21 +707,16 @@ function classinfomod(){
 
 /*----------------------------teacher/seminar-------------------------------*/
 function judge_end(end_time){
-    // var end_time=new Date(end_time.replace("-", "/").replace("-", "/"));
-    // alert(end_time);
-    // var my_date=new Date();
-    // var current_date=new Date(my_date.getFullYear()+my_date.getMonth()+my_date.getDate()); //获取当前年月日
-    // var mydate = new Date();
-    // var t=mydate.toLocaleString();
-    // alert(t);
-    // if(end_time>current_date){
-    //       $("#score").hide();
-    //       alert("讨论课还没结束");
-    // }
-    // else{
-    //      $("#viewtopic").hide();
-    //      alert("讨论课已经结束");
-    // }
+   var endTime=new Date(end_time);  //把字符串转换成日期格式
+   var currentTime=new Date();  //获取系统时间
+    if(endTime>currentTime){
+          $("#score").hide();
+          // alert("讨论课还没结束");
+    }
+    else{
+         $("#viewtopic").hide();
+         // alert("讨论课已经结束");
+    }
 }
 function seminarinfo(){
   $.ajax({
@@ -763,14 +758,7 @@ function gettopiclist(){
             var content=document.getElementById("topiccontent");   //获取外围容器
             var str="";
             for(var i=0;i<data.length;i++){
-                    // if(i==0){
-                    //  str+='   <div class="seminarInfo" id="topiccontent"><div class="title">话题</div><div class="line"></div><div class="topicBlockBody">'
-                    // }
-                    // str+='<div class="topicBlock" id=\"'+data[i].id+'\" onclick=\"jumptopic(this.id);\"><div class="topicBlockFont">'+data[i].name+'</div></div>'
-                    // if(i==data.length-1){
-                    //     str+=' <div class="topicBlock" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/topic/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加"></div></div>'
-                    // }
-                    str+='<div class="topicBlock" id=\"'+data[i].id+'\" onclick=\"jumptopic(this.id);\"><div class="topicBlockFont">'+data[i].name+'</div></div>'
+                    str+='<div class="topicBlock" id=\"'+data[i].id+'\" onclick=\"jumptopic(this.id);\"><div class="topicBlockFont">'+data[i].serial+'</div></div>'
             }
             str+=' <div class="topicBlock" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/topic/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加"></div></div>'
             content.innerHTML=str;
@@ -813,9 +801,11 @@ function deleteseminar(){
     }
 });
 }
-
+function viewtopic(){
+    window.location.href='/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/status'
+}
 function score(){
-  window.location.href='/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/score'
+    window.location.href='/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/score'
 }
 function  updateseminar(){
      window.location.href='/teacher/course/'+getCookie("courseDetail")+'/seminar/'+getCookie("seminarDetail")+'/update'
@@ -897,7 +887,7 @@ function topicinfo(){
                 $("#description").html(data.description);
                 $("#groupLimit").html(data.groupLimit);
                 $("#groupMemberLimit").html(data.groupMemberLimit);
-                $("#groupLeft").html(data.groupLeft);
+                $("#groupLeft").html(data.groupList+" ");
             }
     },
     statusCode: {
@@ -1014,7 +1004,7 @@ function createtopic(){
         name:$("#topicname").val(),
         description:$("#description").val(),
         groupLimit:$("#groupLimit").val(),
-        groupMemberLimit:$("#groupMemberLimit").val(),
+        groupMemberLimit:$("#groupMemberLimit").val()
 
       }
         $.ajax({
@@ -1082,22 +1072,6 @@ function getreportlist(){
 }
 
 /*----------------------------teacher/topic_view-------------------------------*/
-function get_leader_name(gid){
-    $.ajax({
-    type:'get',
-    url: '/group/'+gid,
-    dataType: "json",
-    contentType: "application/json;",
-    success: function (data,textStatus,xhr) {
-        if(xhr.status==200){
-            // alert("获取成功");
-            var content=data.leader.name;
-            return content;
-            content.innerHTML=str;
-        }
-    }
-    });
-}
 function find_groupinseminar(){
     $.ajax({
     type:'get',
@@ -1106,14 +1080,14 @@ function find_groupinseminar(){
     contentType: "application/json;",
     success: function (data,textStatus,xhr) {
         if(xhr.status==200){
-            // alert("获取成功");
+            alert("获取成功");
             var content=document.getElementById("groupinseminar");
             var str="";
             for(var i=0;i<data.length;i++){
                     str+=" <tr>"+
-                           "<td>"+data[i].name[1]+"</td>"+
-                           "<td>"+data[i].name+"</td>"+
-                           "<td>"+get_leader_name(datap[i].id)+"</td>"+
+                           "<td>"+data[i].seminarName+"</td>"+
+                           "<td>"+data[i].groupName+"</td>"+
+                           "<td>"+data[i].leaderName+"</td>"+
                            "</tr>"
             }
             content.innerHTML=str;
