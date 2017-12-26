@@ -1,5 +1,10 @@
 package xmu.crms.view.vo;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import java.io.IOException;
+import java.util.Map;
+
 public class AddSchoolVO {
     private String name;
     private String province;
@@ -11,6 +16,16 @@ public class AddSchoolVO {
         this.city = city;
     }
 
+    public AddSchoolVO() {
+
+    }
+
+    public AddSchoolVO(String schoolJson) throws IOException {
+        Map<String, Object> school = new ObjectMapper().readValue(schoolJson, Map.class);
+        this.name = (String) school.get("name");
+        this.province = (String) school.get("province");
+        this.city = (String) school.get("city");
+    }
     public String getName() {
         return name;
     }
