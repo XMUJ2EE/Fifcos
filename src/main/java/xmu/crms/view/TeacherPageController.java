@@ -187,5 +187,9 @@ public class TeacherPageController {
         return "teacher/report_socre";
     }
 
+    @RequestMapping("/teacher/course/{courseId}/seminar/{seminarId}/status")
+    public String topicStatus(@PathVariable String courseId, @PathVariable String seminarId) {
+        return "teacher/topic_view";
+    }
 
 }

@@ -10,22 +10,23 @@
     <title>ClassManage</title>
 <link href="/css/teacher/TeacherCreateSchool.css" rel="stylesheet" type="text/css"/>
 <script src ="/js/jquery-1.10.2.js"></script>
-<script src ="/js/teacher_page.js"></script>
+<script src ="/js/teacher_page`.js"></script>
  <script src ="/js/jwt.js"></script>
+    <script src="/js/TeacherCreateSchool.js" type="text/javascript"></script>
 </head>
 
-<body>
+<body onload="createSchool()">
 <div class="titleBackground"></div>
 <div class="title">课程管理系统</div>
 <div class="icon">
-  			 	<img src="/img/home.png"><a href="/teacher/home">首页</a>
+  			 	<img src="/img/home.png"><a href="/login">首页</a>
              <img src="/img/help.png"><a>帮助</a>
-              <img src="/img/exit.png"><a href="#" onclick="logout();">退出</a>
+              <img src="/img/exit.png"><a href="/login">退出</a>
 </div>
-<div class="province">所在省份:<select class="provinceSelect"></select></div>
-<div class="city">所在城市:<select class="citySelect"></select></div>
-<div class="school">学校名称:<input type="text" name="school"/></div>
-<div class="submit">提交</div>
+<div class="province">所在省份:<select class="provinceSelect" id="pro"></select></div>
+<div class="city">所在城市:<select class="citySelect" id="city"></select></div>
+<div class="school">学校名称:<input type="text" name="school" id="name"/></div>
+<div class="submit" onclick="createSchoolsend()">提交</div>
 </body>
 
 </html>

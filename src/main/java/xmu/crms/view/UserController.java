@@ -46,6 +46,7 @@ public class UserController {
 		BigInteger id = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try{
 			User user = userService.getUserByUserId(id);
+			System.out.println(user.toString());
 			if(user != null){
 				UserDetailVO userDetailVO = new UserDetailVO(user);
 				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userDetailVO);
