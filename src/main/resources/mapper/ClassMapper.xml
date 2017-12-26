@@ -223,7 +223,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	
 	<!-- step:5 -->
 	<delete id="deleteAttendanceByClassId">
-		delete * from attendance where class_id=#{id}
+		delete from attendance where class_id=#{id}
 	</delete>
 	
 	<!-- step:6 -->
