@@ -111,11 +111,12 @@ public class ClassController {
 	@RequestMapping(value="/{classId}/student", method = GET)
 	@ResponseBody
 	public ResponseEntity getStudentListByClassId(@PathVariable BigInteger classId,
-										  @RequestParam(value = "numBeginWith",required = false) String numBeginWith,
+										  @RequestParam(value = "numberBeginWith",required = false) String numberBeginWith,
 										  @RequestParam(value = "nameBeginWith",required = false) String nameBeginWith) {
 		List<User> list = new ArrayList<User>();
 		try {
-			list = userService.listUserByClassId(classId, numBeginWith, nameBeginWith);
+			System.out.println(numberBeginWith+':'+nameBeginWith);
+			list = userService.listUserByClassId(classId, numberBeginWith, nameBeginWith);
 		} catch (ClazzNotFoundException e) {
 			e.printStackTrace();
 		}

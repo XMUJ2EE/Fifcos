@@ -134,6 +134,8 @@
         school_id, `name`, gender, `type`, `number`, education, title, email
         from user_info
         where id in (select student_id from course_selection where course_selection.class_id = #{classId})
+        <if test="numberBeginWith != null"> and number like CONCAT(#{numberBeginWith},'%')  </if>
+        <if test="nameBeginWith != null"> and name like CONCAT(#{nameBeginWith},'%')</if>
     </select>
 
     <select id="getLocationById" resultMap="locationResultMap">
