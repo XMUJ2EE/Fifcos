@@ -137,7 +137,7 @@ public class ClassController {
 	@ResponseBody
 	public ResponseEntity deleteClassById(@PathVariable BigInteger classId) {
 		try{
-			classService.getClassByClassId(classId);
+			classService.deleteClassByClassId(classId);
 			return ResponseEntity.status(204).build();
 		}catch (ClazzNotFoundException e){
 			return ResponseEntity.status(404).build();
