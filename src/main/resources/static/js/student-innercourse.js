@@ -55,7 +55,7 @@ function courseinfo(){//show CourseInformation
                 coursename.innerHTML = data.courseName + data.className;
                 var str = '';
                 for(var i=0; i< data.seminarList.length; i++){
-                    str+='<div class="block" id="'+data.seminarList[i].seminarId+'" onclick="jumpSeminar(this.id)"><div class="blockFont">'+data.seminarList[i].name+'</div></div>';
+                    str+='<div class="block" id="'+data.seminarList[i].seminarId+';'+data[i].seminarList[i].groupingMethod+'" onclick="jumpSeminar(this.id)"><div class="blockFont">'+data.seminarList[i].name+'</div></div>';
                 }
                 $(".classInfo > .blockBody").html(str);
                 var fixg = '<div class="block" id="'+data.fixGroup+'" onclick="jumpGroup(this.id)""><div class="blockFont">固定分组</div></div>';
