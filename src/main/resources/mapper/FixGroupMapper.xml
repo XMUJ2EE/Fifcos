@@ -71,7 +71,7 @@
 
     <!--添加固定分组（班级里）-->
     <insert id="insertFixGroupByClassId" useGeneratedKeys="true" keyProperty="id" >
-        INSERT INTO fix_group(class_id, leader_id) VALUES (#{class_id},#{leader_id})
+        INSERT INTO fix_group(class_id, leader_id) VALUES (#{classInfo.id},#{leader.id})
     </insert>
     <!--删除固定分组某个组的所有小组成员-->
     <delete id="deleteFixGroupMemberByFixGroupId" >

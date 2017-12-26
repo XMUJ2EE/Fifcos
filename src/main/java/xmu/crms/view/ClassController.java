@@ -46,27 +46,55 @@ public class ClassController {
 	SeminarGroupService seminarGroupService;
 
 
-	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
+	@PreAuthorize("hasRole('STUDENT')")
 	@RequestMapping(method = GET)
 	@ResponseBody
-	public ResponseEntity getClassesByUserId(@RequestParam(value = "courseName", required = false) String courseName,
+	public ResponseEntity getAvailableClassesByUserId(@RequestParam(value = "courseName", required = false) String courseName,
 											 @RequestParam(value = "courseTeacher", required = false) String teacherName) {
 		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		try{
-			List<ClassInfo> classInfos = classService.listClassByName(courseName, teacherName);
-			List<UserClassVO> userClassVOS = new ArrayList<>();
-			for(ClassInfo classInfo:classInfos){
-				List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
-				userClassVOS.add(new UserClassVO(classInfo, users.size()));
+			List<ClassInfo> allClassInfos = classService.listClassByName(courseName, teacherName);
+			System.out.println(allClassInfos);
+			List<ClassInfo> myClassInfos = new ArrayList<>();
+			try{
+				myClassInfos = classService.listClassByUserId(userId);
+			}catch (ClazzNotFoundException e){
+
+			}finally {
+				List<UserClassVO> userClassVOS = new ArrayList<>();
+				if(myClassInfos != null){
+					System.out.println(myClassInfos);
+					List<BigInteger> myClassCourseId = new ArrayList<>();
+					for(ClassInfo classInfo:myClassInfos){
+						myClassCourseId.add(classInfo.getCourse().getId());
+					}
+
+					for(ClassInfo classInfo:allClassInfos) {
+						if (!myClassCourseId.contains(classInfo.getCourse().getId())) {
+							try{
+								List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
+								userClassVOS.add(new UserClassVO(classInfo, users.size()));
+							}catch (ClazzNotFoundException e){
+
+							}
+						}
+					}
+				}else{
+					for(ClassInfo classInfo:allClassInfos) {
+						try{
+							List<User> users = userService.listUserByClassId(classInfo.getId(), null, null);
+							userClassVOS.add(new UserClassVO(classInfo, users.size()));
+						}catch (ClazzNotFoundException e){
+						}
+					}
+				}
+				return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userClassVOS);
 			}
-			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(userClassVOS);
+
 		}catch (UserNotFoundException e){
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
-		}catch (CourseNotFoundException e){
-			e.printStackTrace();
-			return ResponseEntity.status(404).build();
-		}catch (ClazzNotFoundException e){
+		}catch (CourseNotFoundException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}
@@ -235,12 +263,20 @@ public class ClassController {
 			/*每个人一开始都是fixGroup的leader， 若插入的时候组内还只有一个人，
 			说明目前的组是个虚拟的组，要现在数据库里面插入一个fixGroup的记录
 			 */
+			BigInteger groupId = BigInteger.valueOf(0);
 			FixGroup fixGroup = fixGroupService.getFixedGroupById(userId, classId);
 			if(fixGroup == null){
-				fixGroupService.insertFixGroupByClassId(classId, userId);
+				ClassInfo classInfo = new ClassInfo();
+				classInfo.setId(classId);
+				User leader = new User();
+				leader.setId(userId);
+				FixGroup fixGroup1 = new FixGroup();
+				fixGroup1.setClassInfo(classInfo);
+				fixGroup1.setLeader(leader);
+				fixGroupService.insertFixGroupByClassId(fixGroup1);
 			}
-			FixGroup fixGroupNew = fixGroupService.getFixedGroupById(userId, classId);
-			fixGroupService.insertStudentIntoGroup(userId, fixGroupNew.getId());
+//			FixGroup fixGroupNew = fixGroupService.getFixedGroupById(userId, classId);
+			fixGroupService.insertStudentIntoGroup(userId, groupId);
 			return ResponseEntity.status(204).build();
 		}catch (UserNotFoundException e){
 			return ResponseEntity.status(404).build();
