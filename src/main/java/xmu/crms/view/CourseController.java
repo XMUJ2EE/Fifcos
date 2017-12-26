@@ -15,6 +15,7 @@ import xmu.crms.dao.CourseDao;
 import xmu.crms.entity.*;
 import xmu.crms.exception.ClazzNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
+import xmu.crms.exception.TopicNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.security.FifcosAuthenticationToken;
 import xmu.crms.mapper.GradeMapper;
@@ -41,7 +42,8 @@ public class CourseController {
 
 	@Autowired(required = false)
 	TimerService timerService;
-
+	@Autowired
+	TopicService topicService;
 	@Autowired(required = false)
 	GradeService gradeService;
 	@Autowired
@@ -321,13 +323,22 @@ public class CourseController {
 	@RequestMapping(value = "/{courseId}/grade", method = GET)
 	@ResponseBody
 	public ResponseEntity getAllGradeByCourseId(@PathVariable int courseId){
-		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		try {
+			BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
 		List<SeminarGroup> seminarGroups = gradeService.listSeminarGradeByCourseId(userId, BigInteger.valueOf(courseId));
 		List<SeminarGradeVO> seminarGradeVOS = new ArrayList<SeminarGradeVO>();
 		for (SeminarGroup seminarGroup : seminarGroups) {
-			SeminarGradeVO seminarGradeVO = new SeminarGradeVO(seminarGroup);
-			seminarGradeVOS.add(seminarGradeVO);
+			List<SeminarGroupTopic> seminarGroupTopics = topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
+			for (SeminarGroupTopic seminarGroupTopic : seminarGroupTopics){
+				Topic topic = topicService.getTopicByTopicId(seminarGroupTopic.getTopic().getId());
+				SeminarGradeVO seminarGradeVO = new SeminarGradeVO(seminarGroup, topic);
+				seminarGradeVOS.add(seminarGradeVO);
+			}
 		}
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarGradeVOS);
+		} catch (TopicNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		}
 	}
 }

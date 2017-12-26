@@ -1,6 +1,7 @@
 package xmu.crms.view.vo;
 
 import xmu.crms.entity.SeminarGroup;
+import xmu.crms.entity.Topic;
 
 public class SeminarGradeVO {
     private String topicName;
@@ -10,8 +11,8 @@ public class SeminarGradeVO {
     private Integer reportGrade;
     private Integer grade;
 
-    public SeminarGradeVO(SeminarGroup seminarGroup) {
-        this.topicName = seminarGroup.getSeminar().getName();
+    public SeminarGradeVO(SeminarGroup seminarGroup, Topic topic) {
+        this.topicName = topic.getSerial();
         this.groupName = seminarGroup.getId().toString();
         this.leaderName = seminarGroup.getLeader().getName();
         this.presentationGrade = seminarGroup.getPresentationGrade();

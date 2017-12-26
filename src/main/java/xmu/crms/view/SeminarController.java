@@ -174,14 +174,19 @@ public class SeminarController {
 			List<SeminarGroup> seminarGroups = seminarGroupService.listSeminarGroupBySeminarId(BigInteger.valueOf(seminarId));
 			List<SeminarGradeVO> seminarGradeVOS = new ArrayList<SeminarGradeVO>();
 			for (SeminarGroup seminarGroup : seminarGroups) {
-				SeminarGradeVO seminarGradeVO = new SeminarGradeVO(seminarGroup);
-				//Topic topic = topicService
 				List<SeminarGroupTopic> seminarGroupTopics = topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
-				System.out.println(seminarGroupTopics.size());
-				seminarGradeVOS.add(seminarGradeVO);
+				System.out.println(seminarGroupTopics);
+				for (SeminarGroupTopic seminarGroupTopic : seminarGroupTopics) {
+					Topic topic = topicService.getTopicByTopicId(seminarGroupTopic.getTopic().getId());
+					SeminarGradeVO seminarGradeVO = new SeminarGradeVO(seminarGroup, topic);
+					seminarGradeVOS.add(seminarGradeVO);
+				}
 			}
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarGradeVOS);
 		} catch (SeminarNotFoundException e) {
+			e.printStackTrace();
+			return ResponseEntity.status(404).build();
+		} catch (TopicNotFoundException e) {
 			e.printStackTrace();
 			return ResponseEntity.status(404).build();
 		}

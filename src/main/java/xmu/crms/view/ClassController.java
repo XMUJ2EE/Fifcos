@@ -21,6 +21,9 @@ import xmu.crms.service.UserService;
 import xmu.crms.service.impl.ClassServiceImpl;
 import xmu.crms.view.vo.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.io.BufferedReader;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
@@ -121,8 +124,14 @@ public class ClassController {
 	@RequestMapping(value="/{classId}", method = PUT)
 	@ResponseBody
 	public ResponseEntity updateClassById(@PathVariable BigInteger classId,
-										  @PathVariable ClassCreateVO classCreateVO) {
-
+										  HttpServletRequest httpServletRequest) throws IOException {
+		BufferedReader br = httpServletRequest.getReader();
+		BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		String str, wholeStr = "";
+		while((str = br.readLine()) != null){
+			wholeStr += str;
+		}
+		ClassCreateVO classCreateVO = new ClassCreateVO(wholeStr);
 		ClassInfo classInfo = new ClassInfo(classCreateVO);
 		try{
 			classService.updateClassByClassId(classId, classInfo);

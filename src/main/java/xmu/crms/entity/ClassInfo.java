@@ -1,9 +1,12 @@
 package xmu.crms.entity;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import xmu.crms.view.vo.ClassCreateVO;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.Map;
 
 public class ClassInfo {
 	private BigInteger id;
@@ -34,6 +37,20 @@ public class ClassInfo {
 
 	public ClassInfo() {
 
+	}
+
+	public ClassInfo(String classJson) throws IOException {
+		Map<String, Object> classinfo = new ObjectMapper().readValue(classJson, Map.class);
+		this.id = null;
+		this.name = (String) classinfo.get("name");
+		this.course = null;
+		this.site = (String) classinfo.get("site");
+		this.classTime = (String) classinfo.get("classTime");
+		this.reportPercentage = Integer.parseInt((String) classinfo.get("reportPercentage"));
+		this.presentationPercentage = Integer.parseInt((String) classinfo.get("presentationPercentage"));
+		this.fivePointPercentage = Integer.parseInt((String) classinfo.get("fivePointPercentage"));
+		this.fourPointPercentage = Integer.parseInt((String) classinfo.get("fourPointPercentage"));
+		this.threePointPercentage = Integer.parseInt((String) classinfo.get("threePointPercentage"));
 	}
 
 	public ClassInfo(BigInteger id, String name, Course course, String site,
