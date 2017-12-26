@@ -28,7 +28,7 @@
             </div>
             <div class="content">
                 <div class="block">
-                    <div class="title">讨论课1</div>
+                    <div class="title" id="seminartitle"></div>
                     <div class="returnButton" onclick="return backtocourse();">返回上一页</div>
                     <div class="line"></div>
                     <div class="itemBody">
@@ -43,24 +43,26 @@
 						  <label class="itemName" id="startTime"></label><br/>
 						  <label class="itemName">结束时间：</label>
 						  <label class="itemName" id="endTime"></label><br/>
-                          <button class="leftButton" onclick="return score();">评分</button>
-                          <button class="middleButton" onclick="return updateseminar();">修改</button>
+                       <button class="leftButton" id="score" onclick="return score();">评分</button>
+                       <button class="leftButton" id="viewtopic" onclick="return viewtopic();">选题情况</button>
+                       <button class="middleButton" onclick="return updateseminar();">修改</button>
                <button class="rightButton" onclick="return deleteseminar();">删除讨论课</button>
 					</div>
                 </div>
                 </div>
 				 <div class="block">
-			         <div class="seminarInfo" id="topiccontent">
-                 <!--    <div class="title">话题</div>
+			         <div class="seminarInfo">
+                    <div class="title">话题</div>
                     <div class="line"></div>
-                   <div class="topicBlockBody">
-                     <div class="topicBlock"><div class="topicBlockFont">话题A</div></div>
+                   <div class="topicBlockBody"  id="topiccontent">
+                   <!--   <div class="topicBlock"><div class="topicBlockFont">话题A</div></div>
                       <div class="topicBlock"><div class="topicBlockFont">话题B</div></div>
-                       <div class="topicBlock"><div class="topicBlockFont">话题C</div></div>
-                      <div class="topicBlock">
+                       <div class="topicBlock"><div class="topicBlockFont">话题C</div></div> -->
+                   <!--    <div class="topicBlock">
                          <img class="addImg" src="/img/smalladd.png" alt="添加">
                       </div> -->
                    </div>
+                    </div>
                 </div>
                 </div>
             </div>
