@@ -91,18 +91,6 @@ function teainfo(){
                 $("#username").html('用户名：'+'<span>'+data.id+'</span>');
                 $("#teaNum").html('教工号：'+'<span>'+data.number+'</span>');
                 $("#name").html('姓名：'+'<span>'+data.name+'</span>');
-                // if(data.gender=='0'){
-                //     Gender="男";
-                // }
-                // else {
-                //     Gender="女";
-                // }
-                // if(data.title=='1'){
-                //     Title="教授";
-                // }
-                // else{
-                //     Title="副教授";
-                // }
                 $("#gender").html ('性别：'+'<span>'+data.gender+'</span>');
                 $("#school").html('学校：'+'<span>'+data.school.name+'</span>');
                 $("#title").html ('职称：'+'<span>'+data.title+'</span>');
@@ -140,13 +128,15 @@ function getteainfo(){  //get techer information
         contentType: "application/json;",
         success: function (data,textStatus,xhr) {
             if(xhr.status==200){
+                $("#username").html(data.id);
+                $("#teaNum").html(data.number);
                 $("input[name='name']").val(data.name);
                 $("input[name='idnum']").val(data.number);
                 $("input[name='sex']").attr("value",data.gender);
                 $("input[name='school']").attr("value",data.school.name);
                 $("input[name='title']").attr("value",data.title);
                 $("input[name='e-mail']").attr("value",data.email);
-                $("input[name='phone']").attr("value",data.phone);
+                $("#phone").html(data.phone);
             }
         },
         statusCode:{
@@ -315,7 +305,7 @@ function getcourseinfo(){  //get course information when updating it
         contentType: "application/json;",
         success: function (data,textStatus,xhr) {
             if(xhr.status==200){
-                document.cookie = 'username='+data.id; //store username in cookie
+                // document.cookie = 'username='+data.id; //store username in cookie
                 $("input[name='coursename']").attr("value",data.name);
                 $("input[name='courseinfo']").attr("value",data.description);
             }
@@ -448,7 +438,7 @@ function seminarlist(){
                     // if(i==0){
                     //  str+='<div class="title">讨论课</div><div class="line"></div><div class="blockBody">'
                     // }
-                   alert(data[i].name);
+                   // alert(data[i].name);
                     str+='<div class="block"  id=\"'+data[i].id+'\" onclick=\"jumpseminardetail(this.id)\"><div class="blockFont">'+data[i].name+'</div></div>'
                     // if(i==data.length-1){
                     //      str+=' <div class="block" onclick=\"window.location.href=\'/teacher/course/'+getCookie("courseDetail")+'/seminar/create\'\"><img class="addImg" src="/img/smalladd.png" alt="添加" ></div>\'
@@ -717,17 +707,21 @@ function classinfomod(){
 
 /*----------------------------teacher/seminar-------------------------------*/
 function judge_end(end_time){
-   var my_date=new Date();
-   var current_date=new Date(my_date.getFullYear()+my_date.getMonth()+my_date.getDate()+my_date.getHours()+my_date.getMinutes()); //获取当前年月日时分
-   var end_time2=new Date(end_time+"23:59");
-   if(current_date<=end_time2){  //如果当前时间早于讨论课结束时间
-         $("#score").hide();
-         // alert("早于讨论课时间");
-   }
-   else{
+    // var end_time=new Date(end_time.replace("-", "/").replace("-", "/"));
+    alert(end_time);
+    // var my_date=new Date();
+    // var current_date=new Date(my_date.getFullYear()+my_date.getMonth()+my_date.getDate()); //获取当前年月日
+    var mydate = new Date();
+    var t=mydate.toLocaleString();
+    alert(t);
+    if(end_time>current_date){
+          $("#score").hide();
+          alert("讨论课还没结束");
+    }
+    else{
          $("#viewtopic").hide();
-           // alert("迟于讨论课时间");
-   }
+         alert("讨论课已经结束");
+    }
 }
 function seminarinfo(){
   $.ajax({
