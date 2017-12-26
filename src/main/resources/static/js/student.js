@@ -4,19 +4,10 @@ function updateCookie(name,value){
     document.cookie=name+'='+value;
 }
 
-function getusername(){//getusername from cookie
-    var Cookie=document.cookie;
-    var arrCookie=Cookie.split(";"); //cookie split
-    var username;
-    for(var i=0;i<arrCookie.length;i++){
-        var arr=arrCookie[i].split("=");
-        if("username"==arr[0]){
-            username=arr[1];
-            break;
-        }
-    }
-    return username;
-}
+function getCookie(name) {
+    var arr = document.cookie.match(new RegExp("(^| )" + name + "=([^;]*)(;|$)"));
+    if (arr != null) return unescape(arr[2]); return null;
+};
 
 function logout(){
     if(localStorage.jwt){
@@ -158,30 +149,30 @@ function jumpCourse(id){
     window.location.href="/student/course/"+id;
 }
 
-function getcourseid(name){//StudentCourse_List store course id
-        $.ajax({
-        type:'get',
-        url: '/course',
-        dataType: "json",
-        contentType: "application/json;",
-        async:false,
-        success: function (data,status,xhr) {
-            if(xhr.status == 200){
-                for(var i=0;i<data.length;i++){
-                    if(data[i].name == name){
-                        courseid = data[i].id;
-                    }
-                }
-                return courseid;
-            }
-        },
-        statusCode: {
-            401: function () {
-                alert("courseid查询失败！");
-            }
-        }
-    });
-}
+// function getcourseid(name){//StudentCourse_List store course id
+//         $.ajax({
+//         type:'get',
+//         url: '/course',
+//         dataType: "json",
+//         contentType: "application/json;",
+//         async:false,
+//         success: function (data,status,xhr) {
+//             if(xhr.status == 200){
+//                 for(var i=0;i<data.length;i++){
+//                     if(data[i].name == name){
+//                         courseid = data[i].id;
+//                     }
+//                 }
+//                 return courseid;
+//             }
+//         },
+//         statusCode: {
+//             401: function () {
+//                 alert("courseid查询失败！");
+//             }
+//         }
+//     });
+// }
 
 function classinfo(){//StudentCourse_List showclassinfo
         $.ajax({
@@ -214,7 +205,7 @@ function classinfo(){//StudentCourse_List showclassinfo
 function dropclass(id){//StudentCourseHome dropclass();
         $.ajax({
         type:'delete',
-        url: '/class/'+id+'/student/'+getusername(),
+        url: '/class/'+id+'/student/'+getCookie("username"),
             error:function(){
             alert("请登录学生账户");
             },
@@ -252,7 +243,7 @@ function dropclass(id){//StudentCourseHome dropclass();
 function classlist(){//StudenCourseSelectPage classlist
         $.ajax({
         type:'get',
-        url: '/class?courseName=*&teacherName=*',
+        url: '/class',
         dataType: "json",
         contentType: "application/json;",
             async:false,
@@ -312,16 +303,15 @@ function selectclass(id1){//StudenCourseSelectPage selectclass
 function classlistsearch(){//StudenCourseSelectPage classlist(searched)
         var course;
         var teacher;
-        console.log($("[name='teacher']").val());
+        //console.log($("[name='teacher']").val());
         if($("[name='teacher']").val()== ""){
-            course = "";
-        }
-        else course = 'courseName='+$("[name='teacher']").val();
-        if($("[name='course']").val()== ""){
             teacher = "";
         }
-        else teacher = 'teacherName='+$("[name='course']").val();
-        console.log($("[name='course']").val());
+        else teacher = 'teacherName='+$("[name='teacher']").val();
+        if($("[name='course']").val()== ""){
+            course = "";
+        }
+        else course = 'courseName='+$("[name='course']").val();
         $.ajax({
         type:'get',
         url: '/class?'+course+teacher,
@@ -342,7 +332,7 @@ function classlistsearch(){//StudenCourseSelectPage classlist(searched)
             }
         },
         statusCode: {
-            401: function () {
+            404: function () {
                 alert("查询失败");
             }
         }
