@@ -90,7 +90,9 @@ public interface UserMapper {
      * @param classId
      * @return
      */
-    List<User> listUserByClassId(BigInteger classId);
+    List<User> listUserByClassId(@Param("classId") BigInteger classId,
+                                 @Param("numberBeginWith") String numberBeginWith,
+                                 @Param("nameBeginWith") String nameBeginWith);
 
     /**
      * 小程序： 学生签到
