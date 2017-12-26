@@ -176,6 +176,8 @@ public class SeminarController {
 			for (SeminarGroup seminarGroup : seminarGroups) {
 				SeminarGradeVO seminarGradeVO = new SeminarGradeVO(seminarGroup);
 				//Topic topic = topicService
+				List<SeminarGroupTopic> seminarGroupTopics = topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
+				System.out.println(seminarGroupTopics.size());
 				seminarGradeVOS.add(seminarGradeVO);
 			}
 			return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(seminarGradeVOS);
