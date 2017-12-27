@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import org.springframework.security.core.parameters.P;
 import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.CourseSelection;
@@ -86,4 +87,8 @@ public interface ClassMapper {
     public int endCallRollById(@Param("seminarId")BigInteger seminarId, @Param("classId")BigInteger classId);
     
     public List<BigInteger> listClassByUserId(BigInteger userId);
+
+    int getAttendanceById(@Param("seminarId") BigInteger seminarId,
+                          @Param("classId") BigInteger classId,
+                          @Param("userId") BigInteger userId);
 }

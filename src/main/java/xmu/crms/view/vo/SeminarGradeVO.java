@@ -3,6 +3,7 @@ package xmu.crms.view.vo;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.Topic;
 
+
 public class SeminarGradeVO {
     private String topicName;
     private String groupName;
@@ -11,13 +12,18 @@ public class SeminarGradeVO {
     private Integer reportGrade;
     private Integer grade;
 
+    public SeminarGradeVO() {
+    }
+
     public SeminarGradeVO(SeminarGroup seminarGroup, Topic topic) {
         this.topicName = topic.getSerial();
-        this.groupName = seminarGroup.getId().toString();
-        this.leaderName = seminarGroup.getLeader().getName();
-        this.presentationGrade = seminarGroup.getPresentationGrade();
-        this.reportGrade = seminarGroup.getReportGrade();
-        this.grade = seminarGroup.getFinalGrade();
+        if(seminarGroup != null){
+            this.groupName = seminarGroup.getId().toString();
+            this.leaderName = seminarGroup.getLeader().getName();
+            this.presentationGrade = seminarGroup.getPresentationGrade();
+            this.reportGrade = seminarGroup.getReportGrade();
+            this.grade = seminarGroup.getFinalGrade();
+        }
     }
 
     public SeminarGradeVO(String topicName, String groupName, String leaderName, Integer presentationGrade, Integer reportGrade, Integer grade) {
@@ -75,5 +81,17 @@ public class SeminarGradeVO {
 
     public void setGrade(Integer grade) {
         this.grade = grade;
+    }
+
+    @Override
+    public String toString() {
+        return "SeminarGradeVO{" +
+                "topicName='" + topicName + '\'' +
+                ", groupName='" + groupName + '\'' +
+                ", leaderName='" + leaderName + '\'' +
+                ", presentationGrade=" + presentationGrade +
+                ", reportGrade=" + reportGrade +
+                ", grade=" + grade +
+                '}';
     }
 }
