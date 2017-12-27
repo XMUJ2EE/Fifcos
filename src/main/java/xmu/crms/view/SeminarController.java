@@ -102,7 +102,7 @@ public class SeminarController {
 		return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(null);
 	}
 
-	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDNET')")
+	@PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
 	@RequestMapping(value = "/{seminarId}/detail", method = GET)
 	@ResponseBody
 	public ResponseEntity getSeminarDetail(@PathVariable int seminarId) {

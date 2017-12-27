@@ -30,7 +30,7 @@ public class SeminarVO {
         this.id = seminar.getId();
         this.name = seminar.getName();
         this.description = seminar.getDescription();
-        this.groupingMethod = seminar.getFixed()?"random":"fixed";
+        this.groupingMethod = seminar.getFixed()?"fixed":"random";
         this.startTime = simpleDateFormat.format(seminar.getStartTime());
         this.endTime = simpleDateFormat.format(seminar.getEndTime());
         List<TopicVO> topicVOS = new ArrayList<TopicVO>();

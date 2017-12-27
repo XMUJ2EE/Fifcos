@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -39,6 +40,30 @@ public class AttendanceController {
     ClassService classService;
     @Autowired
     SeminarService seminarService;
+
+    @PreAuthorize("hasRole('STUDENT')")
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/status",method = RequestMethod.GET)
+    public ResponseEntity getMyAttendance(@PathVariable BigInteger seminarId,
+                                          @PathVariable BigInteger classId){
+
+        BigInteger userId = (BigInteger) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        List<UserVO> listAttdent = new ArrayList<UserVO>();
+        try {
+            List<User> listTotal = userService.listPresentStudent(seminarId, classId);
+            if (listAttdent.isEmpty()) {
+                return ResponseEntity.status(404).build();
+            }
+            for (User aListTotal : listTotal) {
+                if(aListTotal.getId().equals(userId)){
+                    return ResponseEntity.status(200).build();
+                }
+            }
+            return ResponseEntity.status(404).build();
+        } catch (LocationNotFoundException e) {
+            e.printStackTrace();
+        }
+        return ResponseEntity.status(404).build();
+    }
 
     @PreAuthorize("hasRole('TEACHER')")
     @RequestMapping(value = "/{seminarId}/class/{classId}/attendance",method = RequestMethod.POST)

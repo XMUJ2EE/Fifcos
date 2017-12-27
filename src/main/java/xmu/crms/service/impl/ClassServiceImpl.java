@@ -140,5 +140,5 @@ public class ClassServiceImpl implements ClassService{
 			throws IllegalArgumentException, ClazzNotFoundException {
 		return classDao.listClassByUserId(userId);
 	}
-	
+
 }

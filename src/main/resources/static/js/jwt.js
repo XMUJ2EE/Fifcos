@@ -6,7 +6,7 @@ $.ajaxSetup({
         }
     },
     statusCode:{
-       401: function () {
+        401: function () {
             alert("未授权访问");
             window.location.href = "/login";
         } ,

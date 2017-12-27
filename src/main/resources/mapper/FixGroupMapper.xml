@@ -157,7 +157,7 @@
         SELECT id,class_id,leader_id
         FROM fix_group
         WHERE class_id=#{class_id}
-              AND id=(SELECT fix_group_id FROM fix_group_member
+              AND id in (SELECT fix_group_id FROM fix_group_member
                       WHERE student_id=#{student_id})
     </select>
 

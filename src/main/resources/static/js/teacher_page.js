@@ -534,7 +534,7 @@ function createseminar(){
      var ata = {
         name:$("#seminarname").val(),
         description:$("#description").val(),
-        groupingMethod:$("#groupingMethod").val(),
+        groupingMethod:$("#groupingMethod > option:selected").val(),
         startTime:$("#startTime").val(),
         endTime:$("#endTime").val()
 

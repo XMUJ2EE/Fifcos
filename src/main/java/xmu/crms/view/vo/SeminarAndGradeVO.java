@@ -15,13 +15,15 @@ public class SeminarAndGradeVO {
 
     public SeminarAndGradeVO(SeminarGroup seminarGroup) {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        this.id = seminarGroup.getId().intValue();
-        this.name = seminarGroup.getSeminar().getName();
-        this.description = seminarGroup.getSeminar().getDescription();
-        this.groupingMethod = seminarGroup.getSeminar().getFixed() ? "fixed" : "random";
-        this.startTime = simpleDateFormat.format(seminarGroup.getSeminar().getStartTime());
-        this.endTime = simpleDateFormat.format(seminarGroup.getSeminar().getEndTime());
-        this.grade = seminarGroup.getFinalGrade();
+        if(seminarGroup != null){
+            this.id = seminarGroup.getId().intValue();
+            this.name = seminarGroup.getSeminar().getName();
+            this.description = seminarGroup.getSeminar().getDescription();
+            this.groupingMethod = seminarGroup.getSeminar().getFixed() ? "fixed" : "random";
+            this.startTime = simpleDateFormat.format(seminarGroup.getSeminar().getStartTime());
+            this.endTime = simpleDateFormat.format(seminarGroup.getSeminar().getEndTime());
+            this.grade = seminarGroup.getFinalGrade();
+        }
     }
 
     public SeminarAndGradeVO(int id, String name, String description, String groupingMethod, String startTime, String endTime, int grade) {

@@ -93,7 +93,7 @@ function submitregister(){
     name:$("#name").val(),
     school:$("#school").val(),
     gender:$('.male > input:radio:checked').val(),
-    type:$('.student > input:radio:checked').val() == "student"?0:1,
+    type:($('.student > input:radio:checked').val() == "学生")?0:1,
     number:$("#number").val(),
     email:$("#eMail").val()
     }
