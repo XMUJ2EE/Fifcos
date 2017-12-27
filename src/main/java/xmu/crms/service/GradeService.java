@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * @author Yexiaona
  * @version 2.10
+ * @group 1-1
  */
 
 public interface GradeService {

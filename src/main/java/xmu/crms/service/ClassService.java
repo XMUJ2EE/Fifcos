@@ -16,6 +16,7 @@ import xmu.crms.exception.UserNotFoundException;
 /**
  * @author aixing
  * @version 2.20
+ * @group 3-1
  */
 public interface ClassService {
     /**

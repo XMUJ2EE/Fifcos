@@ -16,6 +16,7 @@ import java.util.TreeMap;
  *
  * @author qinlingyun liuaiqi
  * @version 2.10
+ * @group 1-10
  */
 public interface TimerService {
 

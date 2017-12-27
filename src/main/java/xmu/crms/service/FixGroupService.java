@@ -16,6 +16,7 @@ import xmu.crms.exception.SeminarNotFoundException;
 /**
  * @author ZhouChulun YeHongjie Heqi Aixing
  * @version 2.20
+ * @group 1-10
  */
 public interface FixGroupService {
 

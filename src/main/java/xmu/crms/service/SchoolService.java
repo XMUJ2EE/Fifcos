@@ -12,7 +12,7 @@ import xmu.crms.entity.*;
  * 
  * @author LiuAiqi
  * @version 2.00
- *
+ * @group 3-1
  */
 
 public interface SchoolService {

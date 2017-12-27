@@ -11,7 +11,7 @@ import xmu.crms.entity.*;
  *
  * @author zengnan
  * @version 2.00
- *
+ * @group 1-10
  */
 
 public interface CourseService {

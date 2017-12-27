@@ -12,7 +12,7 @@ import java.util.List;
  *
  * @author zhouzhongjun CaoXingmei YeHongjie
  * @version 2.00
- *
+ * @group 2-11
  */
 public interface SeminarService {
 

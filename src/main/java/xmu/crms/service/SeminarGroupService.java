@@ -12,6 +12,7 @@ import xmu.crms.exception.*;
 /**
  * @author zhouzhongjun
  * @version 2.10
+ * @group 2-11
  */
 public interface SeminarGroupService {
 

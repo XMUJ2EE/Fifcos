@@ -9,6 +9,7 @@ import java.util.Map;
 /**
  * @author mads
  * @date 2017/12/22 8:48
+ * @group 1-1
  */
 public interface AuthService {
     /**
