@@ -76,11 +76,67 @@
             </div>
             <div class="clear"></div>
         </div>
+
+        <div id="Idiv" class="smallblock" style="width:30%;height:30%;display:none; position:absolute; z-index:1000;background-color: rgb(11, 172, 225);text-align: center;">
+            <div class="itemName" id="mou_head" style="width:100%; height:20%;z-index:1001;border-radius: 24px;padding-top:5%;position:absolute;background-color:rgb(100,172,225);text-align: center;color:white;">上传</div>
+            <div class="itemName" style="width:20%; height:20%;z-index:1001;border-radius: 24px;padding-top:5%;position:absolute;background-color:rgb(200,100,100);text-align: center;color:white" onclick="closeDiv();">X</div>
+            <div style="width:100%; height:20%;z-index:1001;margin-top:20%;border-radius: 24px;background-color:rgb(100,172,225);text-align: center;border-width: 0px;"><input type="file" value="浏览" /></div>
+        </div>
+
     <!-- jquery.js-->
     <script src ="/js/jquery-1.10.2.js"></script>
     <!-- student-innercourse.js -->
     <script src ="/js/student-innercourse.js"></script>
     <!--jwt.js-->
     <script src="/js/jwt.js"></script>
+
+        <script>
+            function showDiv() {
+                var Idiv     = document.getElementById("Idiv");
+                var mou_head = document.getElementById('mou_head');
+                Idiv.style.display = "block";
+                Idiv.style.left=(document.documentElement.clientWidth-Idiv.clientWidth)/2+document.documentElement.scrollLeft+"px";
+                Idiv.style.top =(document.documentElement.clientHeight-Idiv.clientHeight)/2+document.documentElement.scrollTop-50+"px";
+                var procbg = document.createElement("div");
+                procbg.setAttribute("id","mybg");
+                procbg.style.background = "#000000";
+                procbg.style.width = "100%";
+                procbg.style.height = "100%";
+                procbg.style.position = "fixed";
+                procbg.style.top = "0";
+                procbg.style.left = "0";
+                procbg.style.zIndex = "500";
+                procbg.style.opacity = "0.6";
+                procbg.style.filter = "Alpha(opacity=70)";
+                document.body.appendChild(procbg);
+                document.body.style.overflow = "hidden";
+                var posX;
+                var posY;
+                mou_head.onmousedown=function(e) {
+                    if(!e) e = window.event; //IE
+                    posX = e.clientX - parseInt(Idiv.style.left);
+                    posY = e.clientY - parseInt(Idiv.style.top);
+                    document.onmousemove = mousemove;
+                }
+                document.onmouseup = function() {
+                    document.onmousemove = null;
+                }
+                function mousemove(ev) {
+                    if(ev==null) ev = window.event;//IE
+                    Idiv.style.left = (ev.clientX - posX) + "px";
+                    Idiv.style.top = (ev.clientY - posY) + "px";
+                }
+            }
+
+            function closeDiv() {
+                var Idiv=document.getElementById("Idiv");
+                Idiv.style.display="none";
+                document.body.style.overflow = "auto";
+                var body = document.getElementsByTagName("body");
+                var mybg = document.getElementById("mybg");
+                body[0].removeChild(mybg);
+            }
+        </script>
+
 </body>
 </html>
