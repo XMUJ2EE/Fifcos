@@ -71,6 +71,7 @@ public class SeminarController {
 			}
 			SeminarUpdateVO seminarUpdateVO = new SeminarUpdateVO(wholeStr);
 			Seminar seminar = new Seminar(seminarUpdateVO);
+			System.out.println(seminar);
 			seminarService.updateSeminarBySeminarId(BigInteger.valueOf(seminarId), seminar);
 			return ResponseEntity.status(204).build();
 		} catch (SeminarNotFoundException e) {
