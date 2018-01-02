@@ -167,7 +167,7 @@ public class AttendanceController {
         }
     }
     @PreAuthorize("hasRole('TEACHER') or hasRole('STUDENT')")
-    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/{studentId}",method = RequestMethod.GET)
+    @RequestMapping(value = "/{seminarId}/class/{classId}/attendance/{studentId}",method = RequestMethod.POST)
     public ResponseEntity callInRoll(@PathVariable int seminarId, @PathVariable int classId, @PathVariable int studentId,
                                      @RequestBody LocationVO locationVO) {
         List<Attendance> list = new ArrayList<Attendance>();

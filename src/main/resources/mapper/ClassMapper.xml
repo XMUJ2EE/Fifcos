@@ -65,7 +65,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     	<result column="end_time" property="endTime"/>
     	<association column="course_id" property="course" select="selectCourseByCourseId"></association>
 	</resultMap>
-
+	
 
     <select id="selectSeminarBySeminarId" resultMap="SeminarResultMap">
     	select * from seminar where id=#{id}

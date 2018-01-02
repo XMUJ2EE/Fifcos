@@ -235,7 +235,6 @@ public interface ClassService {
      * <p>老师结束签到,修改当前讨论课班级的签到状态为已结束<br>
      * 
      * @author qinlingyun
-     * @param location 当前讨论课班级的签到状态记录
      * @throws SeminarNotFoundException 讨论课没有找到
      * @throws ClazzNotFoundException   无此Id的班级
      */

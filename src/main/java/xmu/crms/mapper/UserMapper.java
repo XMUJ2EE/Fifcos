@@ -152,16 +152,10 @@ public interface UserMapper {
                                     @Param("classId") BigInteger classId);
 
     /**
-     * 根据手机号登陆用
-     * @param phone
-     * @return
-     */
-    UserDetailsImpl getUserByPhone(@Param("phone") String phone);
-
-    /**
-     * 根据openid登录用
+     * 根据openid拿用户
      * @param openid
      * @return
      */
-    UserDetailsImpl getUserByOpenId(@Param("openid") String openid);
+    User getUserByOpenId(String openid);
+
 }

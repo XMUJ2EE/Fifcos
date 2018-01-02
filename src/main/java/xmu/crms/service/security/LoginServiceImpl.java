@@ -2,26 +2,14 @@ package xmu.crms.service.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.security.AuthenticationManagerConfiguration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.stereotype.Service;
-import xmu.crms.mapper.AuthMapper;
+import xmu.crms.dao.UserDao;
 import xmu.crms.security.FifcosAuthenticationProvider;
 import xmu.crms.security.FifcosAuthenticationToken;
-import xmu.crms.security.UserDetailsImpl;
 import xmu.crms.entity.User;
 import xmu.crms.exception.UserDuplicatedException;
-import xmu.crms.security.UserDetailsServiceImpl;
 import xmu.crms.service.UserService;
 import xmu.crms.util.JwtTokenUtil;
 import xmu.crms.util.MD5Utils;
@@ -41,20 +29,18 @@ import java.util.Map;
  */
 
 @Service
-public class AuthServiceImpl implements AuthService {
+public class LoginServiceImpl implements LoginService {
 
     @Autowired
     FifcosAuthenticationProvider fifcosAuthenticationProvider;
 
-    @Autowired
-    private UserDetailsServiceImpl userDetailsService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
     private UserService userService;
 
     @Autowired(required = false)
-    private AuthMapper authMapper;
+    private UserDao userDao;
 
     private String tokenHead = "Bearer ";
 
@@ -115,7 +101,7 @@ public class AuthServiceImpl implements AuthService {
         if(auth.get("errcode") != null){
             throw new IllegalArgumentException("参数错误");
         }
-        User user = authMapper.getUserByOpenId((String)auth.get("openid"));
+        User user = userDao.getUserByOpenId((String)auth.get("openid"));
         // 用户还没有注册， 帮他注册一个只有openid的账号，小程序端跳到绑定页面，然后补全其他信息
         System.out.println((String)auth.get("openid"));
         User userNew = new User((String)auth.get("openid"), type);
@@ -124,7 +110,7 @@ public class AuthServiceImpl implements AuthService {
             userService.signUpPhone(userNew);
             auth.put("status", "unbind");
         }
-        User userF = authMapper.getUserByOpenId((String)auth.get("openid"));
+        User userF = userDao.getUserByOpenId((String)auth.get("openid"));
         BigInteger userId = userF.getId();
         auth.put("userId", userId);
 

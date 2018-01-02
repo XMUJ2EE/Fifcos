@@ -11,7 +11,7 @@ import java.util.Map;
  * @date 2017/12/22 8:48
  * @group 1-1
  */
-public interface AuthService {
+public interface LoginService {
     /**
      * web端注册用户
      * @param userToAdd

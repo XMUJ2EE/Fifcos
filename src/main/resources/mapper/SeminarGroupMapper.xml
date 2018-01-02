@@ -160,12 +160,11 @@
     <!--SeminarGroup getSeminarGroupIdBySeminarIdAndUserId(@Param("seminarId")BigInteger seminarId, @Param("userId")BigInteger userId)-->
     <!--throws IllegalArgumentException,GroupNotFoundException;-->
     <select id="getSeminarGroupIdBySeminarIdAndUserId"  resultType="java.math.BigInteger">
-        SELECT seminar_group_id
-        FROM seminar_group_member
-        WHERE id=#{seminarId,jdbcType=BIGINT}
-        <if test="userId != null">
-            AND student_id=#{userId,jdbcType=BIGINT}
-        </if>
+        SELECT id
+        FROM seminar_group
+        WHERE seminar_id=#{seminarId}
+        AND id in (SELECT seminar_group_id FROM seminar_group_member
+        WHERE student_id = #{userId})
     </select>
     <!--BigInteger getSeminarGroupLeaderByGroupId(@Param("groupId") BigInteger groupId)-->
     <!--throws IllegalArgumentException,GroupNotFoundException;-->

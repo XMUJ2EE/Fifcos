@@ -1,37 +1,26 @@
 package xmu.crms.view;
 
-import com.fasterxml.jackson.annotation.JsonValue;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.tomcat.util.security.MD5Encoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
-import xmu.crms.entity.School;
+import xmu.crms.dao.LoginDao;
 import xmu.crms.exception.UserDuplicatedException;
-import xmu.crms.exception.UserNotFoundException;
-import xmu.crms.security.FifcosAuthenticationToken;
 import xmu.crms.entity.JwtAuthenticationResponse;
 import xmu.crms.entity.User;
-import xmu.crms.mapper.UserMapper;
 import xmu.crms.security.UserDetailsImpl;
-import xmu.crms.security.UserDetailsServiceImpl;
-import xmu.crms.service.security.AuthService;
+import xmu.crms.service.security.LoginService;
 import xmu.crms.util.MD5Utils;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Map;
 
 /**
@@ -39,16 +28,16 @@ import java.util.Map;
  * @date 2017/12/22 9:18
  */
 @Controller
-public class AuthController {
+public class LoginController {
 
     @Value("${jwt.header}")
     private String tokenHeader;
 
     @Autowired(required = false)
-    private UserMapper userMapper;
+    private LoginDao loginDao;
 
     @Autowired
-    private AuthService authService;
+    private LoginService loginService;
 
     @RequestMapping(value = "/auth")
     public ResponseEntity createAuthenticationToken(HttpServletRequest httpServletRequest,
@@ -66,8 +55,8 @@ public class AuthController {
         System.out.println("post登陆信息"+o.toString());
         final String password = (String)o.get("password");
 
-        final String token = authService.login((String)o.get("phone"), MD5Utils.MD5encode(password));
-        UserDetailsImpl user = userMapper.getUserByPhone((String)o.get("phone"));
+        final String token = loginService.login((String)o.get("phone"), MD5Utils.MD5encode(password));
+        UserDetailsImpl user = loginDao.getUserByPhone((String)o.get("phone"));
         // Return the token
         String type;
         if(user.getType() == 0){
@@ -84,7 +73,7 @@ public class AuthController {
     public ResponseEntity<?> refreshAndGetAuthenticationToken(
             HttpServletRequest request) throws AuthenticationException{
         String token = request.getHeader(tokenHeader);
-        String refreshedToken = authService.refresh(token);
+        String refreshedToken = loginService.refresh(token);
         if(refreshedToken == null) {
             return ResponseEntity.badRequest().body(null);
         } else {
@@ -106,7 +95,7 @@ public class AuthController {
 
         User user = new User(o);
         System.out.println(user.toString());
-        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(authService.register(user));
+        return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(loginService.register(user));
     }
 
     @RequestMapping(value = "/auth/weChat", method = RequestMethod.POST)
@@ -118,7 +107,7 @@ public class AuthController {
         }
         Map<String, Object> o = new ObjectMapper().readValue(code, Map.class);
         try{
-            Map<String, Object> ne = authService.weChatLogin((String)o.get("code"), (Integer)o.get("type"));
+            Map<String, Object> ne = loginService.weChatLogin((String)o.get("code"), (Integer)o.get("type"));
             return ResponseEntity.status(200).contentType(MediaType.APPLICATION_JSON_UTF8).body(ne);
         }catch (UserDuplicatedException e){
             return ResponseEntity.status(403).build();

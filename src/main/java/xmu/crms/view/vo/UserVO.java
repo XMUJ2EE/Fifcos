@@ -16,9 +16,11 @@ public class UserVO {
     }
 
     public UserVO(User user) {
-        this.id = user.getId();
-        this.name = user.getName();
-        this.number = user.getNumber();
+        if(user != null){
+            this.id = user.getId();
+            this.name = user.getName();
+            this.number = user.getNumber();
+        }
     }
 
 

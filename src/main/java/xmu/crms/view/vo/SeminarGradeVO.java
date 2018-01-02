@@ -19,7 +19,9 @@ public class SeminarGradeVO {
         this.topicName = topic.getSerial();
         if(seminarGroup != null){
             this.groupName = seminarGroup.getId().toString();
-            this.leaderName = seminarGroup.getLeader().getName();
+            if(seminarGroup.getLeader() != null){
+                this.leaderName = seminarGroup.getLeader().getName();
+            }
             this.presentationGrade = seminarGroup.getPresentationGrade();
             this.reportGrade = seminarGroup.getReportGrade();
             this.grade = seminarGroup.getFinalGrade();

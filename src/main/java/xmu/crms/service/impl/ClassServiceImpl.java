@@ -125,8 +125,6 @@ public class ClassServiceImpl implements ClassService{
 	@Override
 	public BigInteger callInRollById(Location location) throws SeminarNotFoundException, ClazzNotFoundException {
 		 return classDao.callInRollById(location);
-
-
 	}
 	@Override
 	public int endCallRollById(BigInteger seminarId, BigInteger classId) throws SeminarNotFoundException, ClazzNotFoundException {

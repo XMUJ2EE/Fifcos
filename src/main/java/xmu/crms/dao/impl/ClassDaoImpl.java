@@ -303,7 +303,12 @@ public class ClassDaoImpl implements ClassDao{
 			if(classInfo==null) {
 				throw new ClazzNotFoundException("无此classId的班级");
 			}else {
-				classMapper.CallInRollById(location);
+				Location location1 = classMapper.getCallStatusById(location.getSeminar().getId(),
+						location.getClassInfo().getId());
+				if(location1 == null){
+					// TODO: 2017/12/29 没有Location重复的异常 
+					classMapper.CallInRollById(location);
+				}
 			}
 		}
 		return location.getId();
