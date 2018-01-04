@@ -1,4 +1,4 @@
-package xmu.crms.service.security;
+package xmu.crms.service;
 
 import xmu.crms.entity.User;
 import xmu.crms.exception.UserDuplicatedException;

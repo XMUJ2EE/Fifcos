@@ -14,7 +14,7 @@ import xmu.crms.exception.UserDuplicatedException;
 import xmu.crms.entity.JwtAuthenticationResponse;
 import xmu.crms.entity.User;
 import xmu.crms.security.UserDetailsImpl;
-import xmu.crms.service.security.LoginService;
+import xmu.crms.service.LoginService;
 import xmu.crms.util.MD5Utils;
 
 import javax.servlet.http.HttpServletRequest;
