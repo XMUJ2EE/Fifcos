@@ -1,0 +1,12 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.UploadMapper">
+    <update id="updateAvatar">
+        UPDATE user_info SET avatar = #{arg1} WHERE id = #{arg0}
+    </update>
+
+    <update id="updateReport">
+        UPDATE seminar_group SET report = #{filename} WHERE seminar_id = #{seminarId} AND leader_id = #{leaderId}
+    </update>
+</mapper>
