@@ -1,20 +1,16 @@
-package xmu.crms.mapper;
+package xmu.crms.dao;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import xmu.crms.entity.*;
-import xmu.crms.service.SeminarGroupService;
-import xmu.crms.view.vo.SeminarGradeDetail;
 
 import java.math.BigInteger;
 import java.util.List;
 
 /**
- * Grade Mapper
- * @author wang
+ * @author mads
+ * @date 2018/1/5 11:32
  */
-
-public interface GradeMapper {
+public interface GradeDao {
 
     /**
      * 删除学生打分表
@@ -44,17 +40,17 @@ public interface GradeMapper {
      * @param groupId
      * @return
      */
-    BigInteger getSeminarGroupTopicId(@Param("topicId")BigInteger topicId,
-                                      @Param("groupId")BigInteger groupId);
+    BigInteger getSeminarGroupTopicId(BigInteger topicId,
+                                      BigInteger groupId);
     /**
      * 插入学生打分表
      * @param userId
      * @param seminarGroupTopicId
      * @param grade
      */
-    void insertGroupGradeByUserId(@Param("userId")BigInteger userId,
-                                  @Param("seminarGroupTopicId")BigInteger seminarGroupTopicId,
-                                  @Param("grade")BigInteger grade);
+    void insertGroupGradeByUserId(BigInteger userId,
+                                  BigInteger seminarGroupTopicId,
+                                  BigInteger grade);
 
 
     /**
@@ -62,8 +58,8 @@ public interface GradeMapper {
      * @param seminarGroupId
      * @param grade
      */
-    void updateGroupByGroupId(@Param("seminarGroupId")BigInteger seminarGroupId,
-                              @Param("grade")BigInteger grade);
+    void updateGroupByGroupId(BigInteger seminarGroupId,
+                              BigInteger grade);
 
     /**
      * 获取SeminarGroupId
@@ -83,10 +79,11 @@ public interface GradeMapper {
     /**
      * 获取所有讨论课成绩
      * @param courseId
+     * @param userId
      * @return
      */
-    List<SeminarGroup> listSeminarGradeByCourseId(@Param("userId") BigInteger userId,
-                                                  @Param("courseId") BigInteger courseId);
+    List<SeminarGroup> listSeminarGradeByCourseId(BigInteger userId,
+                                                  BigInteger courseId);
 
     /**
      * 获取课程的所有讨论课
@@ -107,8 +104,8 @@ public interface GradeMapper {
      * @param seminarGroupId
      * @param grade
      */
-    void updatePresentationGradeByGroupId(@Param("seminarGroupId") BigInteger seminarGroupId,
-                                          @Param("grade") BigInteger grade);
+    void updatePresentationGradeByGroupId(BigInteger seminarGroupId,
+                                          BigInteger grade);
 
     /**
      * 获取ClassId
@@ -116,8 +113,8 @@ public interface GradeMapper {
      * @param seminarId
      * @return
      */
-    BigInteger getClassId(@Param("seminarGroupId") BigInteger seminarGroupId,
-                             @Param("seminarId") BigInteger seminarId);
+    BigInteger getClassId(BigInteger seminarGroupId,
+                          BigInteger seminarId);
 
     /**
      * 获取报告分百分比
@@ -143,9 +140,10 @@ public interface GradeMapper {
     /**
      * 更新最终成绩
      * @param seminarGroupId
+     * @param grade
      */
-    void updateFinalGrade(@Param("seminarGroupId") BigInteger seminarGroupId,
-                          @Param("grade") BigInteger grade);
+    void updateFinalGrade(BigInteger seminarGroupId,
+                          BigInteger grade);
 
     /**
      * 获取用户
@@ -188,14 +186,14 @@ public interface GradeMapper {
      * @param seminarId
      * @return
      */
-    String getSeminarNameBySeminarId(BigInteger seminarId);           //按courseId获取所有讨论课成绩
+    String getSeminarNameBySeminarId(BigInteger seminarId);
 
     /**
-     * 学生打分相关方法.
-     * 获取某个学生对某个队伍的某个话题的打分.
-     * @param groupId      小组ID
-     * @param topicId      话题ID
-     * @param studentId    学生用户ID
+     * 学生打分方法
+     * @param groupId
+     * @param topicId
+     * @param studentId
+     * @return
      */
-    Integer getGradeByGroupIdAndTopicIdAndStudentId(@Param("groupId") BigInteger groupId,@Param("topicId")BigInteger topicId,@Param("studentId")BigInteger studentId);
+    Integer getGradeByGroupIdAndTopicIdAndStudentId(BigInteger groupId,BigInteger topicId,BigInteger studentId);
 }

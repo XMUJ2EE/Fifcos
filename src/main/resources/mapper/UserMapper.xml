@@ -46,13 +46,6 @@
         <result property="attendanceStatus" column="attendance_status" />
         <association property="student" column="student_id" javaType="User" select="getUserByUserId" />
     </resultMap>
-
-    <resultMap id="userDetailResultMap" type="xmu.crms.security.UserDetailsImpl">
-        <result property="phone" column="phone"/>
-        <result property="password" column="password"/>
-        <result property="type" column="type" />
-        <result property="openid" column="openid" />
-    </resultMap>
     
     <sql id="setCondition">
         <set>
@@ -180,11 +173,10 @@
         where seminar_id=#{seminarId} and class_id=#{classId})
     </select>
 
-    <select id="getUserByPhone" parameterType="java.lang.String" resultMap="userDetailResultMap">
-        select `id`, `phone`, `password`, `type`, `name` from user_info where phone = #{phone}
-    </select>
-
-    <select id="getUserByOpenId" parameterType="java.lang.String" resultMap="userDetailResultMap">
-        select `id`, `phone`, `password`, `type`, `name`, `openid` from user_info where openid = #{openid}
+    <select id="getUserByOpenId" parameterType="java.lang.String" resultMap="userResultMap">
+        select id, phone, wechat_id, openid, avatar, password,
+        school_id, `name`, gender, `type`, `number`, education, title, email
+        from user_info
+        where openid = #{openid}
     </select>
 </mapper>

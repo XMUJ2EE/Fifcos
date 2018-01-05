@@ -38,14 +38,35 @@ public class UserServiceImpl implements UserService {
         // Location有三种状态， CALLING 1 表示正在签到 END 0 表示结束签到 BREAK 2 表示讨论课结束
         // Attendance有三种状态 PRESENT 0 正常签到 LATE 1 迟到 ABSENCE 2 缺勤
         if(location.getStatus().equals(Location.CALLING)){
-            // 正常签到
-            return userDao.insertAttendanceById(classId, seminarId, userId, Attendance.PRESENT);
+            BigInteger insert=userDao.insertAttendanceById(classId, seminarId, userId, Attendance.PRESENT);
+            List<Attendance> attendances=userDao.listAttendanceById(classId, seminarId);
+            BigInteger attendanceId=new BigInteger("0");
+            for(Attendance attendance:attendances){
+                if(attendance.getStudent().getId().equals(userId)){
+                    attendanceId=attendance.getId();
+                }
+            }
+            return attendanceId;
         }else if(location.getStatus().equals(Location.END)){
-            // 迟到
-            return userDao.insertAttendanceById(classId, seminarId, userId, Attendance.LATE);
+            BigInteger insert=userDao.insertAttendanceById(classId, seminarId, userId, Attendance.LATE);
+            List<Attendance> attendances=userDao.listAttendanceById(classId, seminarId);
+            BigInteger attendanceId=new BigInteger("0");
+            for(Attendance attendance:attendances){
+                if(attendance.getStudent().getId().equals(userId)){
+                    attendanceId=attendance.getId();
+                }
+            }
+            return attendanceId;
         }else {
-            // 缺勤
-            return userDao.insertAttendanceById(classId, seminarId, userId, Attendance.ABSENCE);
+            BigInteger insert=userDao.insertAttendanceById(classId, seminarId, userId, Attendance.ABSENCE);
+            List<Attendance> attendances=userDao.listAttendanceById(classId, seminarId);
+            BigInteger attendanceId=new BigInteger("0");
+            for(Attendance attendance:attendances){
+                if(attendance.getStudent().getId().equals(userId)){
+                    attendanceId=attendance.getId();
+                }
+            }
+            return attendanceId;
         }
     }
 

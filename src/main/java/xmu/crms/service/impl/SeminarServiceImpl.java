@@ -3,11 +3,12 @@ package xmu.crms.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.crms.dao.SeminarDao;
 import xmu.crms.entity.*;
 import xmu.crms.exception.*;
-import xmu.crms.mapper.SeminarMapper;
 import xmu.crms.service.SeminarGroupService;
 import xmu.crms.service.SeminarService;
+import xmu.crms.service.TimerService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -21,9 +22,10 @@ import java.util.List;
 public class SeminarServiceImpl implements SeminarService {
 
     @Autowired(required = false)
-    SeminarMapper seminarMapper;
-    @Autowired(required = false)
-    TimerServiceImpl timerService;
+    SeminarDao seminarDao;
+
+    @Autowired
+    TimerService timerService;
     /**
      * 按courseId获取Seminar.
      *
@@ -37,10 +39,10 @@ public class SeminarServiceImpl implements SeminarService {
     public List<Seminar> listSeminarByCourseId(BigInteger courseId)
             throws IllegalArgumentException, CourseNotFoundException {
         //未找到该课程
-        if (seminarMapper.getCourseById(courseId) == null) {
+        if (seminarDao.getCourseById(courseId) == null) {
             throw new CourseNotFoundException("未找到该课程");
         }
-        return seminarMapper.listSeminarByCourseId(courseId);
+        return seminarDao.listSeminarByCourseId(courseId);
     }
 
 
@@ -59,7 +61,7 @@ public class SeminarServiceImpl implements SeminarService {
             CourseNotFoundException {
 
         //未找到该课程
-        if (seminarMapper.getCourseById(courseId) == null) {
+        if (seminarDao.getCourseById(courseId) == null) {
             throw new CourseNotFoundException("未找到该课程");
         }
 
@@ -68,13 +70,13 @@ public class SeminarServiceImpl implements SeminarService {
 
         for (int i = 0; i < seminarList.size(); i++) {
             //根据seminar信息删除相关topic的记录
-            seminarMapper.deleteTopicBySeminarId(seminarList.get(i).getId());
+            seminarDao.deleteTopicBySeminarId(seminarList.get(i).getId());
             //根据SeminarId删除SeminarGroup表记录
-            seminarMapper.deleteSeminarGroupBySeminarId(seminarList.get(i).getId());
+            seminarDao.deleteSeminarGroupBySeminarId(seminarList.get(i).getId());
 
         }
         //将seminar的信息删除
-        seminarMapper.deleteSeminarByCourseId(courseId);
+        seminarDao.deleteSeminarByCourseId(courseId);
     }
 
     /**
@@ -91,10 +93,10 @@ public class SeminarServiceImpl implements SeminarService {
     public Seminar getSeminarBySeminarId(BigInteger seminarId) throws
             IllegalArgumentException, SeminarNotFoundException {
         //该讨论课不存在时抛出
-        if (seminarMapper.getSeminarBySeminarId(seminarId) == null) {
+        if (seminarDao.getSeminarBySeminarId(seminarId) == null) {
             throw new SeminarNotFoundException("该讨论课不存在");
         }
-        return seminarMapper.getSeminarBySeminarId(seminarId);
+        return seminarDao.getSeminarBySeminarId(seminarId);
     }
 
 
@@ -113,11 +115,11 @@ public class SeminarServiceImpl implements SeminarService {
     public void updateSeminarBySeminarId(BigInteger seminarId, Seminar seminar) throws
             IllegalArgumentException, SeminarNotFoundException {
         //该讨论课不存在时抛出
-        if (seminarMapper.getSeminarBySeminarId(seminarId) == null) {
+        if (seminarDao.getSeminarBySeminarId(seminarId) == null) {
             throw new SeminarNotFoundException("该讨论课不存在");
         }
         seminar.setId(seminarId);
-        seminarMapper.updateSeminarBySeminarId(seminar);
+        seminarDao.updateSeminarBySeminarId(seminar);
     }
 
 
@@ -134,14 +136,14 @@ public class SeminarServiceImpl implements SeminarService {
     public void deleteSeminarBySeminarId(BigInteger seminarId) throws
             IllegalArgumentException, SeminarNotFoundException {
         //该讨论课不存在时抛出
-        if (seminarMapper.getSeminarBySeminarId(seminarId) == null) {
+        if (seminarDao.getSeminarBySeminarId(seminarId) == null) {
             throw new SeminarNotFoundException("该讨论课不存在");
         }
         //删除讨论课包含的topic信息和小组信息
-        seminarMapper.deleteTopicBySeminarId(seminarId);
-        seminarMapper.deleteSeminarGroupBySeminarId(seminarId);
+        seminarDao.deleteTopicBySeminarId(seminarId);
+        seminarDao.deleteSeminarGroupBySeminarId(seminarId);
         //通过seminarId删除讨论课
-        seminarMapper.deleteSeminarById(seminarId);
+        seminarDao.deleteSeminarById(seminarId);
     }
 
 
@@ -161,15 +163,15 @@ public class SeminarServiceImpl implements SeminarService {
     public BigInteger insertSeminarByCourseId(BigInteger courseId, Seminar seminar) throws
             IllegalArgumentException, CourseNotFoundException {
         //未找到该课程
-        if (seminarMapper.getCourseById(courseId) == null) {
+        if (seminarDao.getCourseById(courseId) == null) {
             throw new CourseNotFoundException("未找到该课程");
         }
         Course course = new Course();
         course.setId(courseId);
         seminar.setCourse(course);
-        seminarMapper.insertSeminarByCourseId(seminar);
-        //return seminarMapper.insertSeminarByCourseId(seminar);
-        //return BigInteger.valueOf(seminarMapper.insertSeminarByCourseId(seminar));
+        seminarDao.insertSeminarByCourseId(seminar);
+        //return seminarDao.insertSeminarByCourseId(seminar);
+        //return BigInteger.valueOf(seminarDao.insertSeminarByCourseId(seminar));
 
         //如果是固定分组，在插入event计时器，随机分组在随机分组之后
 //        @Test

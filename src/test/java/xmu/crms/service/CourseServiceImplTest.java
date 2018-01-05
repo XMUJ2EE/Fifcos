@@ -5,7 +5,7 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
-import xmu.crms.dao.CourseDao;
+import xmu.crms.dao.impl.CourseDaoImpl;
 import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.User;
@@ -31,7 +31,7 @@ import java.util.List;
 @SpringBootTest
 public class CourseServiceImplTest {
     @Autowired
-    CourseDao courseDao;
+    CourseDaoImpl courseDao;
     @Autowired
     ClassServiceImpl classServiceImpl;
     @Autowired

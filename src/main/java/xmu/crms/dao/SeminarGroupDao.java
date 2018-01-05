@@ -1,4 +1,4 @@
-package xmu.crms.mapper;
+package xmu.crms.dao;
 
 import org.apache.ibatis.annotations.Param;
 import xmu.crms.entity.*;
@@ -8,19 +8,17 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- * @author zw
- * @date 2017/12/20 0020
- * @time 14:19
- * @email 493703217@qq.com
+ * @author mads
+ * @date 2018/1/5 11:50
  */
-public interface SeminarGroupMapper {
+public interface SeminarGroupDao {
 
     /**
      * 在某小组中添加某个学生成员
      * @param userId
      * @param groupId
      */
-    void insertSeminarGroupMemberById(@Param("userId") BigInteger userId, @Param("groupId") BigInteger groupId);
+    void insertSeminarGroupMemberById(BigInteger userId, BigInteger groupId);
 
     /**
      * 插入小组成员
@@ -28,7 +26,7 @@ public interface SeminarGroupMapper {
      * @param seminarGroupMember
      * @return
      */
-    int insertSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId, @Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
+    int insertSeminarGroupMemberByGroupId(BigInteger groupId, SeminarGroupMember seminarGroupMember);
 
 
     /**
@@ -38,7 +36,7 @@ public interface SeminarGroupMapper {
      * @throws IllegalArgumentException
      * @throws GroupNotFoundException
      */
-    List<SeminarGroupTopic> listGroupByTopicId(@Param("topicId") BigInteger topicId)
+    List<SeminarGroupTopic> listGroupByTopicId(BigInteger topicId)
             throws IllegalArgumentException,GroupNotFoundException;
 
     /**
@@ -49,7 +47,7 @@ public interface SeminarGroupMapper {
      * @throws IllegalArgumentException
      * @throws GroupNotFoundException
      */
-    String insertTopicByGroupId(@Param("groupId") BigInteger groupId, @Param("topicId") BigInteger topicId)
+    String insertTopicByGroupId(BigInteger groupId, BigInteger topicId)
             throws IllegalArgumentException,GroupNotFoundException;
 
     /**
@@ -60,7 +58,7 @@ public interface SeminarGroupMapper {
      * @throws IllegalArgumentException
      * @throws GroupNotFoundException
      */
-    boolean resignLeaderById(@Param("groupId") BigInteger groupId, @Param("userId") BigInteger userId)
+    boolean resignLeaderById(BigInteger groupId, BigInteger userId)
             throws IllegalArgumentException,GroupNotFoundException;
 
     /**
@@ -69,33 +67,33 @@ public interface SeminarGroupMapper {
      * @return
      * @throws GroupNotFoundException
      */
-    boolean deleteTopicByGroupId(@Param("groupId") BigInteger groupId) throws GroupNotFoundException;
+    boolean deleteTopicByGroupId(BigInteger groupId) throws GroupNotFoundException;
 
     /**
      * 组长辞职
      * @param groupId
      * @param userId
      */
-    void assignLeaderById(@Param("groupId") BigInteger groupId, @Param("userId") BigInteger userId);
+    void assignLeaderById(BigInteger groupId, BigInteger userId);
 
     /**
      * 自动分组
      * @param seminarId
      * @param classId
      */
-    void automaticallyGrouping(@Param("seminarId") BigInteger seminarId, @Param("classId") BigInteger classId);
+    void automaticallyGrouping(BigInteger seminarId, BigInteger classId);
 
     /**
      * 删除讨论课小组
      * @param seminarGroupId
      */
-    void deleteSeminarGroupByGroupId(@Param("seminarGroupId") BigInteger seminarGroupId);
+    void deleteSeminarGroupByGroupId(BigInteger seminarGroupId);
 
     /**
      * 删除讨论课小组
      * @param seminarId
      */
-    void deleteSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId);
+    void deleteSeminarGroupBySeminarId(BigInteger seminarId);
 
     /**
      * 删除讨论课小组成员
@@ -108,7 +106,7 @@ public interface SeminarGroupMapper {
      * @param groupId
      * @return
      */
-    SeminarGroup getSeminarGroupByGroupId(@Param("groupId") BigInteger groupId);
+    SeminarGroup getSeminarGroupByGroupId(BigInteger groupId);
 
     /**
      * 获得讨论课小组
@@ -116,21 +114,21 @@ public interface SeminarGroupMapper {
      * @param userId
      * @return
      */
-    BigInteger getSeminarGroupIdBySeminarIdAndUserId(@Param("seminarId") BigInteger seminarId, @Param("userId") BigInteger userId);
+    BigInteger getSeminarGroupIdBySeminarIdAndUserId(BigInteger seminarId,BigInteger userId);
 
     /**
      * 获得讨论课小组队长
      * @param groupId
      * @return
      */
-    BigInteger getSeminarGroupLeaderByGroupId(@Param("groupId") BigInteger groupId);
+    BigInteger getSeminarGroupLeaderByGroupId(BigInteger groupId);
 
     /**
      * 获得讨论课小组所有成员
      * @param groupId
      * @return
      */
-    List<SeminarGroupMember> listSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId);
+    List<SeminarGroupMember> listSeminarGroupMemberByGroupId(BigInteger groupId);
 
     /**
      * 创建讨论课小组
@@ -144,28 +142,28 @@ public interface SeminarGroupMapper {
      * @param seminarId
      * @return
      */
-    List<SeminarGroup> listSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId);
+    List<SeminarGroup> listSeminarGroupBySeminarId(BigInteger seminarId);
 
     /**
      * 获得User
      * @param userId
      * @return
      */
-    BigInteger getUserIdByUserId(@Param("userId") BigInteger userId);
+    BigInteger getUserIdByUserId(BigInteger userId);
 
     /**
      * 删除讨论课小组成员
      * @param grouId
      * @param userId
      */
-    void deleteSeminarGroupMemberByuId(@Param("groupId")BigInteger grouId, @Param("userId")BigInteger userId);
+    void deleteSeminarGroupMemberByuId(BigInteger grouId, BigInteger userId);
 
     /**
      * 获得讨论课id
      * @param seminarId
      * @return
      */
-    BigInteger getSeminarIdBySeminarId(@Param("seminarId") BigInteger seminarId);
+    BigInteger getSeminarIdBySeminarId(BigInteger seminarId);
 
     /**
      * 列出学生
@@ -173,7 +171,7 @@ public interface SeminarGroupMapper {
      * @param ClassId
      * @return
      */
-    List<BigInteger> listStudentIdBySeminarIdAndClassId(@Param("seminarId")BigInteger SeminarId,@Param("classId")BigInteger ClassId);
+    List<BigInteger> listStudentIdBySeminarIdAndClassId(BigInteger SeminarId,BigInteger ClassId);
     /**
      *获取某学生所有的讨论课小组.
      *
@@ -255,7 +253,7 @@ public interface SeminarGroupMapper {
      * @author: YellowPure
      * @date: 21:02 2017/12/22
      */
-    SeminarGroupMember getSeminarGroupMemberByStudentIdAndSeminarGroupId(@Param("studentId") BigInteger studentId, @Param("seminarGroupId") BigInteger seminarGroupId);
+    SeminarGroupMember getSeminarGroupMemberByStudentIdAndSeminarGroupId(BigInteger studentId, BigInteger seminarGroupId);
 
     /**
      *小组按id选择话题.
@@ -266,8 +264,5 @@ public interface SeminarGroupMapper {
      * @author: YellowPure
      * @date: 22:10 2017/12/22
      */
-    void insertSeminarGroupTopicByTopicIdAndSeminarGroupId(@Param("topicId") BigInteger topicId, @Param("seminarGroupId") BigInteger seminarGroupId);
-
-
-
+    void insertSeminarGroupTopicByTopicIdAndSeminarGroupId(BigInteger topicId, BigInteger seminarGroupId);
 }

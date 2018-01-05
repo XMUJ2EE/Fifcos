@@ -4,11 +4,11 @@ package xmu.crms.service.impl;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import xmu.crms.dao.SeminarDao;
+import xmu.crms.dao.SeminarGroupDao;
+import xmu.crms.dao.TopicDao;
 import xmu.crms.entity.*;
 import xmu.crms.exception.*;
-import xmu.crms.mapper.SeminarGroupMapper;
-import xmu.crms.mapper.SeminarMapper;
-import xmu.crms.mapper.TopicMapper;
 import xmu.crms.service.SeminarGroupService;
 
 import java.math.BigInteger;
@@ -25,52 +25,43 @@ import java.util.List;
 @Service
 public class SeminarGroupServiceImpl implements SeminarGroupService {
     @Autowired(required = false)
-    SeminarGroupMapper seminarGroupMapper;
+    SeminarGroupDao seminarGroupDao;
 
     @Autowired(required = false)
-    TopicMapper topicMapper;
+    TopicDao topicDao;
 
     @Autowired(required = false)
-    SeminarMapper seminarMapper;
+    SeminarDao seminarDao;
 
-    //
-//
     @Override
     public List<User> listSeminarGroupMemberByGroupId(BigInteger groupId) throws IllegalArgumentException, GroupNotFoundException {
         List<User> users = new ArrayList<User>();
-        List<SeminarGroupMember> seminarGroupMembers = seminarGroupMapper.listSeminarGroupMemberByGroupId(groupId);
+        List<SeminarGroupMember> seminarGroupMembers = seminarGroupDao.listSeminarGroupMemberByGroupId(groupId);
         for (SeminarGroupMember seminarGroupMember : seminarGroupMembers) {
             users.add(seminarGroupMember.getStudent());
         }
         return users;
     }
 
-    //
-//
-//
-//
     @Override
     public BigInteger insertSeminarGroupMemberByGroupId(BigInteger groupId, SeminarGroupMember seminarGroupMember) {
-        return BigInteger.valueOf(seminarGroupMapper.insertSeminarGroupMemberByGroupId(groupId, seminarGroupMember));
+        return BigInteger.valueOf(seminarGroupDao.insertSeminarGroupMemberByGroupId(groupId, seminarGroupMember));
     }
 
-    //
-//
-//
     @Override
     public SeminarGroup getSeminarGroupById(BigInteger seminarId, BigInteger userId) throws IllegalArgumentException, GroupNotFoundException {
         BigInteger group_id;
-        if ((group_id = seminarGroupMapper.getSeminarGroupIdBySeminarIdAndUserId(seminarId, userId)) == null) {
+        if ((group_id = seminarGroupDao.getSeminarGroupIdBySeminarIdAndUserId(seminarId, userId)) == null) {
             throw new GroupNotFoundException("未找到小组");
         }
-        return seminarGroupMapper.getSeminarGroupByGroupId(group_id);
+        return seminarGroupDao.getSeminarGroupByGroupId(group_id);
     }
 
     @Override
     public void automaticallyAllotTopic(BigInteger seminarId) throws IllegalArgumentException, SeminarNotFoundException, GroupNotFoundException {
         //获得seminar下所有topic （topic）
         List<Topic> topics = new ArrayList<Topic>();
-        topics = topicMapper.listTopicBySeminarId(seminarId);
+        topics = topicDao.listTopicBySeminarId(seminarId);
         //获得所有的选了话题的小组
         List<SeminarGroup> seminarGroupsHasTopic = new ArrayList<SeminarGroup>();
         for(Topic topic:topics)
@@ -89,7 +80,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
         System.out.println("seminarGroupsHasTopic:"+seminarGroupsHasTopic.size());
         //通过seminarid找到所有的seminargroup （seminar gourp）
         List<SeminarGroup> allSeminarGroups;
-        allSeminarGroups = seminarGroupMapper.listSeminarGroupBySeminarId(seminarId);
+        allSeminarGroups = seminarGroupDao.listSeminarGroupBySeminarId(seminarId);
         //通过seminargroupid找到所有的没有话题的组 （seminargourptopic）
         System.out.println("allSeminarGroups:"+allSeminarGroups.size());
         List<SeminarGroup> seminarGroupsHasNoTopic = new ArrayList<SeminarGroup>();
@@ -118,12 +109,12 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
 
             for(;j<topics.size();)
             {
-                if(seminarGroupMapper.listGroupIdByTopicId(topics.get(j).getId()).size()>=topics.get(j).getGroupNumberLimit())
+                if(seminarGroupDao.listGroupIdByTopicId(topics.get(j).getId()).size()>=topics.get(j).getGroupNumberLimit())
                 {
                     j=(j+1)%topics.size();
                 }
                 else{
-                    seminarGroupMapper.insertSeminarGroupTopicByTopicIdAndSeminarGroupId(topics.get(j).getId(),seminarGroupsHasNoTopic.get(i).getId());
+                    seminarGroupDao.insertSeminarGroupTopicByTopicIdAndSeminarGroupId(topics.get(j).getId(),seminarGroupsHasNoTopic.get(i).getId());
                     j=(j+1)%topics.size();
                     break;
                 }
@@ -131,10 +122,6 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
             }
 
     }
-//
-//
-//
-
 
     /**
      *
@@ -157,24 +144,24 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public void assignLeaderById(BigInteger groupId, BigInteger userId) throws IllegalArgumentException, UserNotFoundException, GroupNotFoundException, InvalidOperationException {
-        if (seminarGroupMapper.getSeminarGroupByGroupId(groupId) == null) {
+        if (seminarGroupDao.getSeminarGroupByGroupId(groupId) == null) {
             throw new GroupNotFoundException("未找到该课程");
         }
-        if (seminarGroupMapper.getUserIdByUserId(userId) == null) {
+        if (seminarGroupDao.getUserIdByUserId(userId) == null) {
             throw new UserNotFoundException("未找到该学生");
         }
-        if (seminarGroupMapper.getSeminarGroupLeaderByGroupId(groupId) != null) {
+        if (seminarGroupDao.getSeminarGroupLeaderByGroupId(groupId) != null) {
             throw new InvalidOperationException("已经有组长了");
         }
-        seminarGroupMapper.assignLeaderById(groupId, userId);
+        seminarGroupDao.assignLeaderById(groupId, userId);
     }
 
     @Override
     public void automaticallyGrouping(BigInteger seminarId, BigInteger classId) throws IllegalArgumentException, ClazzNotFoundException, SeminarNotFoundException {
         //get all studentid by seminarid and classid  <attendence>
-        List<BigInteger> studentIdList = seminarGroupMapper.listStudentIdBySeminarIdAndClassId(seminarId, classId);
+        List<BigInteger> studentIdList = seminarGroupDao.listStudentIdBySeminarIdAndClassId(seminarId, classId);
         //find the smallest groupnumber limit in topic
-        List<Topic> topics = topicMapper.listTopicBySeminarId(seminarId);
+        List<Topic> topics = topicDao.listTopicBySeminarId(seminarId);
         System.out.println(topics);
         int smallestlimit = 1000;
         int groupnumberlimit;
@@ -213,13 +200,13 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
             }
         }
         Seminar seminar = new Seminar();
-        seminar = seminarMapper.getSeminarBySeminarId(seminarId);
+        seminar = seminarDao.getSeminarBySeminarId(seminarId);
 
     }
 
     @Override
     public void deleteSeminarGroupMemberByuId(BigInteger grouId, BigInteger userId) {
-        seminarGroupMapper.deleteSeminarGroupMemberByuId(grouId, userId);
+        seminarGroupDao.deleteSeminarGroupMemberByuId(grouId, userId);
     }
 
     /**
@@ -233,7 +220,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public void deleteSeminarGroupByGroupId(BigInteger seminarGroupId) throws IllegalArgumentException {
-        seminarGroupMapper.deleteSeminarGroupByGroupId(seminarGroupId);
+        seminarGroupDao.deleteSeminarGroupByGroupId(seminarGroupId);
     }
 
     /**
@@ -248,11 +235,11 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public void deleteSeminarGroupBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
-        List<SeminarGroup> seminarGroups = seminarGroupMapper.listSeminarGroupBySeminarId(seminarId);
+        List<SeminarGroup> seminarGroups = seminarGroupDao.listSeminarGroupBySeminarId(seminarId);
         for (SeminarGroup seminarGroup : seminarGroups) {
-            seminarGroupMapper.deleteSeminarGroupMemberBySeminarGroupId(seminarGroup.getId());
+            seminarGroupDao.deleteSeminarGroupMemberBySeminarGroupId(seminarGroup.getId());
         }
-        seminarGroupMapper.deleteSeminarGroupBySeminarId(seminarId);
+        seminarGroupDao.deleteSeminarGroupBySeminarId(seminarId);
     }
 
     /**
@@ -264,7 +251,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public void deleteSeminarGroupMemberBySeminarGroupId(BigInteger seminarGroupId) {
-        seminarGroupMapper.deleteSeminarGroupMemberBySeminarGroupId(seminarGroupId);
+        seminarGroupDao.deleteSeminarGroupMemberBySeminarGroupId(seminarGroupId);
     }
 
     /**
@@ -280,10 +267,10 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public SeminarGroup getSeminarGroupByGroupId(BigInteger groupId) throws IllegalArgumentException, GroupNotFoundException {
-        if (seminarGroupMapper.getSeminarGroupByGroupId(groupId) == null) {
+        if (seminarGroupDao.getSeminarGroupByGroupId(groupId) == null) {
             throw new GroupNotFoundException("未找到小组");
         }
-        return seminarGroupMapper.getSeminarGroupByGroupId(groupId);
+        return seminarGroupDao.getSeminarGroupByGroupId(groupId);
     }
 
     /**
@@ -302,8 +289,8 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
     @Override
     public BigInteger getSeminarGroupLeaderById(BigInteger userId, BigInteger seminarId) throws IllegalArgumentException {
         BigInteger groupId;
-        groupId = seminarGroupMapper.getSeminarGroupIdBySeminarIdAndUserId(seminarId, userId);
-        return seminarGroupMapper.getSeminarGroupLeaderByGroupId(groupId);
+        groupId = seminarGroupDao.getSeminarGroupIdBySeminarIdAndUserId(seminarId, userId);
+        return seminarGroupDao.getSeminarGroupLeaderByGroupId(groupId);
     }
 
     /**
@@ -318,10 +305,10 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public BigInteger getSeminarGroupLeaderByGroupId(BigInteger groupId) throws IllegalArgumentException, GroupNotFoundException {
-        if (seminarGroupMapper.getSeminarGroupByGroupId(groupId) == null) {
+        if (seminarGroupDao.getSeminarGroupByGroupId(groupId) == null) {
             throw new GroupNotFoundException("未找到小组");
         }
-        return seminarGroupMapper.getSeminarGroupByGroupId(groupId).getLeader().getId();
+        return seminarGroupDao.getSeminarGroupByGroupId(groupId).getLeader().getId();
     }
 
     /**
@@ -340,7 +327,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
         Seminar seminar = new Seminar();
         seminar.setId(seminarId);
         seminarGroup.setSeminar(seminar);
-        seminarGroupMapper.insertSeminarGroupBySeminarId(seminarGroup);
+        seminarGroupDao.insertSeminarGroupBySeminarId(seminarGroup);
         System.out.println(seminarGroup.getId());
         return seminarGroup.getId();
     }
@@ -357,10 +344,10 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public List<SeminarGroup> listSeminarGroupBySeminarId(BigInteger seminarId) throws IllegalArgumentException, SeminarNotFoundException {
-        if (seminarGroupMapper.getSeminarIdBySeminarId(seminarId) == null) {
+        if (seminarGroupDao.getSeminarIdBySeminarId(seminarId) == null) {
             throw new SeminarNotFoundException("未找到讨论课");
         }
-        return seminarGroupMapper.listSeminarGroupBySeminarId(seminarId);
+        return seminarGroupDao.listSeminarGroupBySeminarId(seminarId);
     }
 
       /*chenjie*/
@@ -375,16 +362,16 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public void insertSeminarGroupMemberById(BigInteger userId, BigInteger groupId) throws IllegalArgumentException, GroupNotFoundException, UserNotFoundException, InvalidOperationException {
-        if (seminarGroupMapper.getSeminarGroupById(groupId) == null) {
+        if (seminarGroupDao.getSeminarGroupById(groupId) == null) {
             throw new GroupNotFoundException("未找到小组");
         }
-        if (seminarGroupMapper.getUserById(userId) == null) {
+        if (seminarGroupDao.getUserById(userId) == null) {
             throw new UserNotFoundException("不存在该学生");
         }
-        if (seminarGroupMapper.getSeminarGroupMemberByStudentIdAndSeminarGroupId(userId, groupId) != null) {
+        if (seminarGroupDao.getSeminarGroupMemberByStudentIdAndSeminarGroupId(userId, groupId) != null) {
             throw new InvalidOperationException("待添加学生已经在小组里了");
         }
-        seminarGroupMapper.insertSeminarGroupMemberById(userId, groupId);
+        seminarGroupDao.insertSeminarGroupMemberById(userId, groupId);
     }
 
 
@@ -398,7 +385,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public List<SeminarGroup> listSeminarGroupIdByStudentId(BigInteger userId) throws IllegalArgumentException {
-        List<SeminarGroupMember> seminarGroupMembers = seminarGroupMapper.listSeminarGroupIdByStudentId(userId);
+        List<SeminarGroupMember> seminarGroupMembers = seminarGroupDao.listSeminarGroupIdByStudentId(userId);
         List<SeminarGroup> seminarGroups = new ArrayList<>();
         for (SeminarGroupMember seminarGroupMember : seminarGroupMembers) {
             seminarGroups.add(seminarGroupMember.getSeminarGroup());
@@ -417,10 +404,10 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
 //      @Override
 //      public List<SeminarGroup> listSeminarGroupBySeminarId(BigInteger seminarId) throws IllegalArgumentException, SeminarNotFoundException {
-//            if(seminarGroupMapper.getSeminarById(seminarId)==null){
+//            if(seminarGroupDao.getSeminarById(seminarId)==null){
 //                  throw new SeminarNotFoundException("未找到讨论课");
 //            }
-//            return seminarGroupMapper.listSeminarGroupBySeminarId(seminarId);
+//            return seminarGroupDao.listSeminarGroupBySeminarId(seminarId);
 //      }
 
     /**
@@ -433,15 +420,15 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws IllegalArgumentException, TopicNotFoundException {
-        if (seminarGroupMapper.getTopicById(topicId) == null) {
+        if (seminarGroupDao.getTopicById(topicId) == null) {
             throw new TopicNotFoundException("未找到话题");
         }
         List<BigInteger> seminarGroupId = new ArrayList<>();
-        seminarGroupId = seminarGroupMapper.listGroupIdByTopicId(topicId);
+        seminarGroupId = seminarGroupDao.listGroupIdByTopicId(topicId);
         SeminarGroup seminarGroup = new SeminarGroup();
         List<SeminarGroup> seminarGroups = new ArrayList<>();
         for (int i = 0; i < seminarGroupId.size(); i++) {
-            seminarGroup = seminarGroupMapper.getSeminarGroupByGroupId(seminarGroupId.get(i));
+            seminarGroup = seminarGroupDao.getSeminarGroupByGroupId(seminarGroupId.get(i));
             seminarGroups.add(seminarGroup);
         }
         return seminarGroups;
@@ -457,10 +444,10 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public void insertTopicByGroupId(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException, GroupNotFoundException {
-        if (seminarGroupMapper.getSeminarGroupById(groupId) == null) {
+        if (seminarGroupDao.getSeminarGroupById(groupId) == null) {
             throw new GroupNotFoundException("该小组不存在时抛出");
         }
-        seminarGroupMapper.insertSeminarGroupTopicByTopicIdAndSeminarGroupId(topicId, groupId);
+        seminarGroupDao.insertSeminarGroupTopicByTopicIdAndSeminarGroupId(topicId, groupId);
     }
 
 
@@ -474,9 +461,9 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
      */
     @Override
     public void resignLeaderById(BigInteger groupId, BigInteger userId) throws IllegalArgumentException, GroupNotFoundException {
-        if (seminarGroupMapper.getSeminarGroupById(groupId) == null) {
+        if (seminarGroupDao.getSeminarGroupById(groupId) == null) {
             throw new GroupNotFoundException("GroupNotFoundException");
         }
-        seminarGroupMapper.resignLeaderById(groupId, userId);
+        seminarGroupDao.resignLeaderById(groupId, userId);
     }
 }

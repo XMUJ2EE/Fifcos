@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 import xmu.crms.dao.TimerServiceDao;
+import xmu.crms.dao.impl.TimerServiceDaoImpl;
 import xmu.crms.entity.Event;
-import xmu.crms.service.GradeService;
 import xmu.crms.service.TimerService;
 import xmu.crms.util.SpringContextsUtil;
 
@@ -23,7 +23,7 @@ import java.util.*;
  * @author YangYouran
  * @date 12.24
  */
-@Service("TimerService")
+@Service
 @Component
 @Lazy(false)
 public class TimerServiceImpl implements TimerService {

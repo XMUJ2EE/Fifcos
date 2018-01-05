@@ -1,114 +1,58 @@
 package xmu.crms.dao;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import xmu.crms.entity.Course;
 import xmu.crms.exception.CourseNotFoundException;
-import xmu.crms.mapper.CourseMapper;
 
 import java.math.BigInteger;
 import java.util.List;
 
 /**
- * @Author: ZengNan
- * @Description:
- * @Data: 2017/12/24 1:33
+ * @author mads
+ * @date 2018/1/5 11:16
  */
-@Component
-public class CourseDao {
-    @Autowired
-    CourseMapper courseMapper;
+public interface CourseDao {
 
-	public List<Course> listCourseByUserId(BigInteger userId)
-			throws IllegalArgumentException, CourseNotFoundException {
-		// TODO Auto-generated method stub
-		if(!(userId.intValue() > 0)) {
-            throw new IllegalArgumentException("用户ID格式错误！");
-        }
-		List<Course> courseList = courseMapper.listCourseByUserId(userId);
-		if(courseList == null) {
-            throw new CourseNotFoundException("没有找到课程！");
-        }
-		return courseList;
-	}
+    /**
+     * 根据 userId 获取course
+     * @param userId
+     * @return
+     */
+    List<Course> listCourseByUserId(BigInteger userId) throws IllegalArgumentException, CourseNotFoundException;
 
-    public BigInteger insertCourseByUserId(BigInteger userId, Course course)
-            throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        if(!(userId.intValue() > 0)) {
-            throw new IllegalArgumentException("用户ID格式错误！");
-        }
-        course.getTeacher().setId(userId);
-        courseMapper.insertCourseByUserId(course);
-        return BigInteger.valueOf(course.getId().intValue());
-    }
+    /**
+     * 根据userId 和 插入course
+     * @param userId
+     * @param course
+     * @return
+     */
+    BigInteger insertCourseByUserId(BigInteger userId, Course course);
 
-    public Course getCourseByCourseId(BigInteger courseId)
-            throws IllegalArgumentException, CourseNotFoundException {
-        // TODO Auto-generated method stub
-        if(!(courseId.intValue() > 0)) {
-            throw new IllegalArgumentException("课程ID格式错误！");
-        }
-        Course course = courseMapper.getCourseByCourseId(courseId);
-        if(course == null) {
-            throw new CourseNotFoundException("没有找到课程！");
-        }
-        return course;
-    }
+    /**
+     * 根据courseId获取course
+     * @param courseId
+     * @return
+     */
+    Course getCourseByCourseId(BigInteger courseId) throws IllegalArgumentException, CourseNotFoundException;
 
-    public int updateCourseByCourseId(BigInteger courseId, Course course)
-    {
-        // TODO Auto-generated method stub
-        course.setId(courseId);
-        int matchUpdateLines = courseMapper.updateCourseByCourseId(course);
-        return matchUpdateLines;
-    }
+    /**
+     * 根据courseId更新course
+     * @param courseId
+     * @param course
+     * @return
+     */
+    int updateCourseByCourseId(BigInteger courseId, Course course);
 
-    public int deleteCourseByCourseId(BigInteger courseId)
-            throws IllegalArgumentException {
-        // TODO Auto-generated method stub
-        if(!(courseId.intValue() > 0)) {
-            throw new IllegalArgumentException("用户ID格式错误！");
-        }
-        int matchDeleteLines = courseMapper.deleteCourseByCourseId(courseId);
-		/*if(matchDeleteLines == 0)
-			throw new CourseNotFoundException("没有找到课程！");*/
-        return matchDeleteLines;
-    }
+    /**
+     * 根据courseId 删除course
+     * @param courseId
+     * @return
+     */
+    int deleteCourseByCourseId(BigInteger courseId);
 
-    public List<Course> listCourseByCourseName(String courseName) {
-        // TODO Auto-generated method stub
-        List<Course> courseList = courseMapper.listCourseByCourseName(courseName);
-        return courseList;
-    }
-
-//    public List<ClassInfo> listClassByCourseName(String courseName)
-//            throws CourseNotFoundException {
-//        // TODO Auto-generated method stub
-//        List<ClassInfo> classInfoList = courseMapper.listClassByCourseName(courseName);
-//        return classInfoList;
-//    }
-//
-//    public List<ClassInfo> listClassByTeacherName(String teacherName)
-//            throws UserNotFoundException,ClazzNotFoundException {
-//        // TODO Auto-generated method stub
-//        List<ClassInfo> classInfoList = courseMapper.listClassByTeacherName(teacherName);
-//        return classInfoList;
-//    }
-
-//    public List<ClassInfo> listClassByUserId(BigInteger userId)
-//            throws IllegalArgumentException, CourseNotFoundException,
-//            ClassNotFoundException {
-//        // TODO Auto-generated method stub
-//        if(!(userId instanceof BigInteger)) {
-//            throw new IllegalArgumentException("用户ID格式错误！");
-//        }
-//        if(courseMapper.listCourseByUserId(userId) == null) {
-//            throw new CourseNotFoundException("没有找到课程！");
-//        }
-//        if(courseMapper.listClassByUserId(userId) == null) {
-//            throw new ClassNotFoundException("没有找到班级！");
-//        }
-//        return courseMapper.listClassByUserId(userId);
-//    }
+    /**
+     * 根据courseName列出course
+     * @param courseName
+     * @return
+     */
+    List<Course> listCourseByCourseName(String courseName);
 }

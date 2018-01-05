@@ -1,6 +1,7 @@
 package xmu.crms.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import xmu.crms.dao.UploadDao;
 import xmu.crms.mapper.UploadMapper;
 
@@ -10,6 +11,7 @@ import java.math.BigInteger;
  * @author mads
  * @date 2018/1/4 22:29
  */
+@Repository("UploadDao")
 public class UploadDaoImpl implements UploadDao {
 
     @Autowired

@@ -2,7 +2,7 @@ package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.crms.dao.CourseDao;
+import xmu.crms.dao.impl.CourseDaoImpl;
 import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.User;
@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class CourseServiceImpl implements CourseService {
 	@Autowired
-    CourseDao courseDao;
+	CourseDaoImpl courseDao;
 	@Autowired
     ClassServiceImpl classServiceImpl;
 	@Autowired

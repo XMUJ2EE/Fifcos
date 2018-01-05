@@ -1,6 +1,7 @@
 package xmu.crms.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 import xmu.crms.dao.UserDao;
 import xmu.crms.entity.*;
 import xmu.crms.mapper.UserMapper;
@@ -12,6 +13,7 @@ import java.util.List;
  * @author mads
  * @date 2017/12/30 22:24
  */
+@Repository("UserDao")
 public class UserDaoImpl implements UserDao {
 
     @Autowired(required = false)

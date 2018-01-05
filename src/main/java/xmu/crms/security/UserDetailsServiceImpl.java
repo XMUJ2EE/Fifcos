@@ -15,7 +15,7 @@ import xmu.crms.dao.LoginDao;
 public class UserDetailsServiceImpl implements UserDetailsService {
 
 
-    @Autowired(required = false)
+    @Autowired
     LoginDao authDao;
 
     @Override

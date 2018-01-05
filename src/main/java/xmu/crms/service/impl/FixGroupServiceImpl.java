@@ -2,7 +2,7 @@ package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import xmu.crms.dao.FixGroupDao;
+import xmu.crms.dao.impl.FixGroupDaoImpl;
 import xmu.crms.entity.*;
 import xmu.crms.exception.*;
 import xmu.crms.service.ClassService;
@@ -20,7 +20,7 @@ import java.util.List;
 @Service
 public class FixGroupServiceImpl implements FixGroupService {
     @Autowired
-    private FixGroupDao fixGroupDao;
+    private FixGroupDaoImpl fixGroupDao;
     @Autowired
     private UserService userService;
     @Autowired
